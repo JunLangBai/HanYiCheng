@@ -6,13 +6,13 @@ public class SpriteUpDownMovement : MonoBehaviour
        public float jumpDuration = 1f; // 跳跃持续时间
        public float rotationSpeed = 180f; // 左右旋转速度
        public float horizontalOffset = 1f; // 水平偏移量
-   
-       private Vector3 startPosition;
+       public Transform startPosition;
+       
        private float timer = 0f;
    
        void Start()
        {
-           startPosition = transform.position; // 记录初始位置
+           
        }
    
        void Update()
@@ -28,7 +28,7 @@ public class SpriteUpDownMovement : MonoBehaviour
            float horizontalMovement = Mathf.Sin(normalizedTime * Mathf.PI * 2) * horizontalOffset;
    
            // 更新物体的位置
-           transform.position = startPosition + new Vector3(horizontalMovement, height, 0);
+           transform.position = startPosition.position + new Vector3(horizontalMovement, height, 0);
    
            // 左右旋转
            float rotationAmount = rotationSpeed * Time.deltaTime;
