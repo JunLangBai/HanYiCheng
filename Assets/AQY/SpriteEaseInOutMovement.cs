@@ -2,33 +2,36 @@ using UnityEngine;
 
 public class SpriteUpDownMovement : MonoBehaviour
 {
-    // 基础移动速率
-    public float speed = 1.0f;
-
-    // 移动范围（上下移动的最大距离）
-    public float moveRange = 2.0f;
-
-    // 初始位置
-    private Vector3 startPosition;
-
-    void Start()
-    {
-        // 记录初始位置
-        startPosition = transform.position;
-    }
-
-    void Update()
-    {
-        // 更新时间变量
-        float t = Mathf.PingPong(Time.time * speed, 1f);
-
-        // 缓进急出的核心逻辑：使用 Mathf.SmoothStep
-        float smoothT = Mathf.SmoothStep(0f, 1f, t);
-
-        // 根据 smoothT 计算新的 Y 坐标
-        float newY = Mathf.Lerp(startPosition.y - moveRange / 2, startPosition.y + moveRange / 2, smoothT);
-
-        // 更新位置
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-    }
+   public float jumpHeight = 2f; // 跳跃高度
+       public float jumpDuration = 1f; // 跳跃持续时间
+       public float rotationSpeed = 180f; // 左右旋转速度
+       public float horizontalOffset = 1f; // 水平偏移量
+   
+       private Vector3 startPosition;
+       private float timer = 0f;
+   
+       void Start()
+       {
+           startPosition = transform.position; // 记录初始位置
+       }
+   
+       void Update()
+       {
+           // 更新计时器
+           timer += Time.deltaTime;
+   
+           // 计算跳跃的垂直高度（使用正弦函数模拟抛物线）
+           float normalizedTime = Mathf.PingPong(timer, jumpDuration) / jumpDuration; // [0, 1] 循环
+           float height = jumpHeight * Mathf.Sin(normalizedTime * Mathf.PI); // 抛物线高度
+   
+           // 计算水平偏移（使用正弦函数模拟左右摆动）
+           float horizontalMovement = Mathf.Sin(normalizedTime * Mathf.PI * 2) * horizontalOffset;
+   
+           // 更新物体的位置
+           transform.position = startPosition + new Vector3(horizontalMovement, height, 0);
+   
+           // 左右旋转
+           float rotationAmount = rotationSpeed * Time.deltaTime;
+           transform.Rotate(Vector3.up, rotationAmount);
+       }
 }
