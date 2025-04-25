@@ -12,6 +12,6 @@ public class Target : MonoBehaviour
         Vector3 direction = a.transform.position - transform.position;
 
         // 使UI图片的正面朝向目标物体
-        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
     }
 }
