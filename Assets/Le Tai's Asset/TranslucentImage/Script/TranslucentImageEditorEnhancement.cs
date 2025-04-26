@@ -1,29 +1,28 @@
 ﻿#if UNITY_EDITOR
-using UnityEditor;
 using UnityEngine;
 
 namespace LeTai.Asset.TranslucentImage
 {
-[ExecuteAlways]
-[AddComponentMenu("UI/Translucent Image", 2)]
-public partial class TranslucentImage
-{
-    protected override void Reset()
+    [ExecuteAlways]
+    [AddComponentMenu("UI/Translucent Image", 2)]
+    public partial class TranslucentImage
     {
-        base.Reset();
-        color = Color.white;
+        protected override void Reset()
+        {
+            base.Reset();
+            color = Color.white;
 
-        material = DefaultResources.Instance.material;
+            material = DefaultResources.Instance.material;
 
-        source = source ? source : Shims.FindObjectOfType<TranslucentImageSource>();
+            source = source ? source : Shims.FindObjectOfType<TranslucentImageSource>();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            SetVerticesDirty();
+        }
     }
-
-    protected override void OnValidate()
-    {
-        base.OnValidate();
-
-        SetVerticesDirty();
-    }
-}
 }
 #endif

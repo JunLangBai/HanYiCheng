@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Febucci.UI.Examples
 {
@@ -10,28 +11,25 @@ namespace Febucci.UI.Examples
 
 
         public Camera cam;
-
-
-        int lastBGIndex;
         public Color[] bgColors;
+
+
+        private int lastBGIndex;
 
         private void Awake()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(textAnimatorPlayer, $"Text Animator Player component is null in {gameObject.name}");
+            Assert.IsNotNull(textAnimatorPlayer, $"Text Animator Player component is null in {gameObject.name}");
             textAnimatorPlayer.textAnimator.onEvent += OnEvent;
         }
 
-        void OnEvent(string message)
+        private void OnEvent(string message)
         {
             switch (message)
             {
                 case "bg":
                     cam.backgroundColor = bgColors[lastBGIndex];
                     lastBGIndex++;
-                    if (lastBGIndex >= bgColors.Length)
-                    {
-                        lastBGIndex = 0;
-                    }
+                    if (lastBGIndex >= bgColors.Length) lastBGIndex = 0;
                     break;
             }
         }

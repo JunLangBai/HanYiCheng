@@ -8,7 +8,10 @@ Shader "Unlit/HSVInRect"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Opaque" "Queue"="Transparent"
+        }
 
         Pass
         {
@@ -42,12 +45,13 @@ Shader "Unlit/HSVInRect"
             {
                 return length(p) - r;
             }
+
             float opAnnular(float sdf, float r)
             {
                 return abs(sdf) - r;
             }
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -55,11 +59,11 @@ Shader "Unlit/HSVInRect"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col_S;
                 fixed4 col_V;
-                col_S.rgb = lerp(fixed3(1,1,1), _ColorSelected.rgb, i.uv.x);
+                col_S.rgb = lerp(fixed3(1, 1, 1), _ColorSelected.rgb, i.uv.x);
                 col_S.a = 1;
                 col_V.rgb = i.uv.yyy;
                 col_V.a = 1;
@@ -74,7 +78,9 @@ Shader "Unlit/HSVInRect"
                 fixed2 annularPos = i.uv;
                 annularPos.x -= _MousePos.x;
                 annularPos.y += _MousePos.y;
-                annularInAnnular = smoothstep(step, -step, opAnnular(sdCircle(annularPos, RADIUS_SELECTOR) , RADIUS_THICKNESS_SELECTOR));
+                annularInAnnular = smoothstep(step, -step,
+                                               opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
+                                                   RADIUS_THICKNESS_SELECTOR));
 
                 return saturate(col_V * col_S + annularInAnnular);
             }

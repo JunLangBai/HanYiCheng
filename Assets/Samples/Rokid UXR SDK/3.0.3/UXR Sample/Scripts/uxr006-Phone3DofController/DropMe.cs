@@ -1,4 +1,3 @@
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,8 +8,8 @@ namespace Rokid.UXR.Demo
     {
         public Image containerImage;
         public Image receivingImage;
-        private Color normalColor = Color.white;
         public Color highlightColor = Color.yellow;
+        private readonly Color normalColor = Color.white;
 
         public void OnDrop(PointerEventData data)
         {
@@ -19,7 +18,7 @@ namespace Rokid.UXR.Demo
             if (receivingImage == null)
                 return;
 
-            Image dropImage = GetDropSprite(data);
+            var dropImage = GetDropSprite(data);
             if (dropImage != null)
             {
                 receivingImage.overrideSprite = dropImage.sprite;
@@ -32,7 +31,7 @@ namespace Rokid.UXR.Demo
             if (containerImage == null)
                 return;
 
-            Sprite dropSprite = GetDropSprite(data)?.sprite;
+            var dropSprite = GetDropSprite(data)?.sprite;
             if (dropSprite != null)
                 containerImage.color = highlightColor;
         }
@@ -63,6 +62,4 @@ namespace Rokid.UXR.Demo
             return srcImage;
         }
     }
-
 }
-

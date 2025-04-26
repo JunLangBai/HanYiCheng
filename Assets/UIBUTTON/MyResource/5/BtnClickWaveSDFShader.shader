@@ -13,7 +13,10 @@ Shader "Unlit/BtnClickWaveSDFShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -41,7 +44,7 @@ Shader "Unlit/BtnClickWaveSDFShader"
             float4 _ColorLeft;
             float4 _ColorRight;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -49,7 +52,7 @@ Shader "Unlit/BtnClickWaveSDFShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 shape = tex2D(_MainTex, i.uv);
                 fixed4 col = fixed4(lerp(_ColorLeft, _ColorRight, i.uv.x).rgb, shape.a);
@@ -85,7 +88,7 @@ Shader "Unlit/BtnClickWaveSDFShader"
             float _RadiusThickness;
             float4 _WaveColor;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -97,32 +100,33 @@ Shader "Unlit/BtnClickWaveSDFShader"
             {
                 return length(p) - r;
             }
+
             float opAnnular(float sdf, float r)
             {
                 return abs(sdf) - r;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 shape = tex2D(_MainTex, i.uv);
-                // È«ÏóÏÞ
+                // È«ï¿½ï¿½ï¿½ï¿½
                 i.uv -= _CirclePosOffset.xy;
                 i.uv.y = 1.0 - i.uv.y;
                 i.uv = i.uv * 2 - 1;
-                // Ïû³ýÆÁÄ»À­ÉìÓ°Ïì
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½
                 float w = _ScreenParams.x;
                 float h = _ScreenParams.y;
-                half co = w/h * _CircleScaleOffset;
+                half co = w / h * _CircleScaleOffset;
                 i.uv = float2(i.uv.x * co, i.uv.y);
 
                 float step = 1.0 / w;
-                fixed4 circle = smoothstep(step, -step, opAnnular(sdCircle(i.uv, _Radius) , _RadiusThickness));
+                fixed4 circle = smoothstep(step, -step, opAnnular(sdCircle(i.uv, _Radius), _RadiusThickness));
 
                 fixed4 col = fixed4(circle.rgb, shape.a);
                 col.rgb = col.rgb * _WaveColor.rgb;
                 col.a *= col.r;
                 col.a = _WaveColor.a * col.a;
-                
+
                 return col;
             }
             ENDCG

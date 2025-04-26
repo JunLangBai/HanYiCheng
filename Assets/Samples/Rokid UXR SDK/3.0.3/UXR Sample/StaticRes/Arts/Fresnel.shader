@@ -1,4 +1,3 @@
-
 Shader "Rokid/Fresnel"
 {
     Properties
@@ -14,23 +13,26 @@ Shader "Rokid/Fresnel"
 
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Geometry+0" "IsEmissive" = "true" }
+        Tags
+        {
+            "RenderType" = "Transparent" "Queue" = "Geometry+0" "IsEmissive" = "true"
+        }
         ZWrite Off
         Blend SrcColor OneMinusSrcColor
         Cull Back
-        GrabPass { }
+        GrabPass {}
         CGINCLUDE
         #include "UnityPBSLighting.cginc"
         #include "Lighting.cginc"
         #pragma target 3.0
         #pragma multi_compile _ALPHAPREMULTIPLY_ON
         #ifdef UNITY_PASS_SHADOWCASTER
-            #undef INTERNAL_DATA
-            #undef WorldReflectionVector
-            #undef WorldNormalVector
-            #define INTERNAL_DATA half3 internalSurfaceTtoW0; half3 internalSurfaceTtoW1; half3 internalSurfaceTtoW2;
-            #define WorldReflectionVector(data, normal) reflect(data.worldRefl, half3(dot(data.internalSurfaceTtoW0, normal), dot(data.internalSurfaceTtoW1, normal), dot(data.internalSurfaceTtoW2, normal)))
-            #define WorldNormalVector(data, normal) half3(dot(data.internalSurfaceTtoW0, normal), dot(data.internalSurfaceTtoW1, normal), dot(data.internalSurfaceTtoW2, normal))
+        #undef INTERNAL_DATA
+        #undef WorldReflectionVector
+        #undef WorldNormalVector
+        #define INTERNAL_DATA half3 internalSurfaceTtoW0; half3 internalSurfaceTtoW1; half3 internalSurfaceTtoW2;
+        #define WorldReflectionVector(data, normal) reflect(data.worldRefl, half3(dot(data.internalSurfaceTtoW0, normal), dot(data.internalSurfaceTtoW1, normal), dot(data.internalSurfaceTtoW2, normal)))
+        #define WorldNormalVector(data, normal) half3(dot(data.internalSurfaceTtoW0, normal), dot(data.internalSurfaceTtoW1, normal), dot(data.internalSurfaceTtoW2, normal))
         #endif
         struct Input
         {
@@ -80,28 +82,30 @@ Shader "Rokid/Fresnel"
             #if defined(UNITY_PASS_DEFERRED) && UNITY_ENABLE_REFLECTION_BUFFERS
                 gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal);
             #else
-                UNITY_GLOSSY_ENV_FROM_SURFACE(g, s, data);
-                gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal, g);
+            UNITY_GLOSSY_ENV_FROM_SURFACE(g, s, data);
+            gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal, g);
             #endif
         }
 
-        inline float4 Refraction(Input i, SurfaceOutputStandardCustom o, float indexOfRefraction, float chomaticAberration)
+        inline float4 Refraction(Input i, SurfaceOutputStandardCustom o, float indexOfRefraction,
+ float chomaticAberration)
         {
             float3 worldNormal = o.Normal;
             float4 screenPos = i.screenPos;
             #if UNITY_UV_STARTS_AT_TOP
-                float scale = -1.0;
+            float scale = -1.0;
             #else
                 float scale = 1.0;
             #endif
             float halfPosW = screenPos.w * 0.5;
             screenPos.y = (screenPos.y - halfPosW) * _ProjectionParams.x * scale + halfPosW;
             #if SHADER_API_D3D9 || SHADER_API_D3D11
-                screenPos.w += 0.00000000001;
+            screenPos.w += 0.00000000001;
             #endif
             float2 projScreenPos = (screenPos / screenPos.w).xy;
             float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-            float3 refractionOffset = (indexOfRefraction - 1.0) * mul(UNITY_MATRIX_V, float4(worldNormal, 0.0)) * (1.0 - dot(worldNormal, worldViewDir));
+            float3 refractionOffset = (indexOfRefraction - 1.0) * mul(UNITY_MATRIX_V, float4(worldNormal, 0.0)) * (1.0 -
+                dot(worldNormal, worldViewDir));
             float2 cameraRefraction = float2(refractionOffset.x, refractionOffset.y);
             float4 redAlpha = tex2D(_GrabTexture, (projScreenPos + cameraRefraction));
             float green = tex2D(_GrabTexture, (projScreenPos + (cameraRefraction * (1.0 - chomaticAberration)))).g;
@@ -138,24 +142,23 @@ Shader "Rokid/Fresnel"
             o.Alpha = 1;
             o.Normal = o.Normal + 0.00001 * i.screenPos * i.worldPos;
         }
-
         ENDCG
 
 
         CGPROGRAM
-
         #pragma surface surf StandardCustom keepalpha finalcolor:RefractionF fullforwardshadows exclude_path:deferred
-
         ENDCG
 
         Pass
         {
             Name "ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster" }
+            Tags
+            {
+                "LightMode" = "ShadowCaster"
+            }
             ZWrite Off
             Blend SrcColor OneMinusSrcColor
             CGPROGRAM
-
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
@@ -164,11 +167,12 @@ Shader "Rokid/Fresnel"
             #pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
             #include "HLSLSupport.cginc"
             #if (SHADER_API_D3D11 || SHADER_API_GLCORE || SHADER_API_GLES || SHADER_API_GLES3 || SHADER_API_METAL || SHADER_API_VULKAN)
-                #define CAN_SKIP_VPOS
+            #define CAN_SKIP_VPOS
             #endif
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
             #include "UnityPBSLighting.cginc"
+
             struct v2f
             {
                 V2F_SHADOW_CASTER;
@@ -179,6 +183,7 @@ Shader "Rokid/Fresnel"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
+
             v2f vert(appdata_full v)
             {
                 v2f o;
@@ -198,6 +203,7 @@ Shader "Rokid/Fresnel"
                 o.screenPos = ComputeScreenPos(o.pos);
                 return o;
             }
+
             half4 frag(v2f IN): SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
@@ -215,7 +221,7 @@ Shader "Rokid/Fresnel"
                 UNITY_INITIALIZE_OUTPUT(SurfaceOutputStandardCustom, o)
                 surf(surfIN, o);
                 #if defined(CAN_SKIP_VPOS)
-                    float2 vpos = IN.pos;
+                float2 vpos = IN.pos;
                 #endif
                 SHADOW_CASTER_FRAGMENT(IN)
             }

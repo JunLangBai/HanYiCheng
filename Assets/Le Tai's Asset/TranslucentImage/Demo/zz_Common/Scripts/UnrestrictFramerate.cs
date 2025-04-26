@@ -2,12 +2,12 @@
 
 namespace LeTai.Asset.TranslucentImage.Demo
 {
-public class UnrestrictFramerate : MonoBehaviour
-{
-    void Start()
+    public class UnrestrictFramerate : MonoBehaviour
     {
-        if (Application.isMobilePlatform)
-            Application.targetFrameRate = 120;
+        private void Start()
+        {
+            if (Application.isMobilePlatform)
+                Application.targetFrameRate = 120;
+        }
     }
-}
 }

@@ -14,7 +14,10 @@ Shader "Unlit/BtnClickWaveShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -42,8 +45,8 @@ Shader "Unlit/BtnClickWaveShader"
             float4 _ColorLeft;
             float4 _ColorRight;
 
-           
-            v2f vert (appdata v)
+
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -51,7 +54,7 @@ Shader "Unlit/BtnClickWaveShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 shape = tex2D(_MainTex, i.uv);
                 fixed4 col = fixed4(lerp(_ColorLeft, _ColorRight, i.uv.x).rgb, shape.a);
@@ -92,19 +95,20 @@ Shader "Unlit/BtnClickWaveShader"
 
             fixed4 PixelColor(float2 uv)
             {
-                // ½«uvÔ­µãÒÆµ½ÖÐÐÄ
+                // ï¿½ï¿½uvÔ­ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½
                 uv -= _MouseUVPos.xy;
                 uv = uv * 2 - 1;
-                // Àëuv×ø±êÔ­µãµÄ¾àÀë£¬ÅÅ³ýÆÁÄ»³¤¿í±È¡¢Í¼Æ¬³¤¿í±ÈµÄÓ°Ïì
-                float2 dv = float2(uv.x, uv.y)* float2(_ScreenParams.x / _ScreenParams.y * _CircleScaleOffset, 1);
+                // ï¿½ï¿½uvï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½Ä¾ï¿½ï¿½ë£¬ï¿½Å³ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½Ó°ï¿½ï¿½
+                float2 dv = float2(uv.x, uv.y) * float2(_ScreenParams.x / _ScreenParams.y * _CircleScaleOffset, 1);
                 float d = sqrt(pow(dv.x, 2) + pow(dv.y, 2));
-                // ÓÃÐ¡Ô²¼õ´óÔ² µÃµ½Ô²»·
-                fixed3 c = smoothstep(_Radius-_RadiusThickness, _Radius, d) - smoothstep(_Radius, _Radius+_RadiusThickness, d);
+                // ï¿½ï¿½Ð¡Ô²ï¿½ï¿½ï¿½ï¿½Ô² ï¿½Ãµï¿½Ô²ï¿½ï¿½
+                fixed3 c = smoothstep(_Radius - _RadiusThickness, _Radius, d) - smoothstep(
+                    _Radius, _Radius + _RadiusThickness, d);
 
                 return fixed4(c * _WaveColor.rgb, saturate(c.g)); // -0.5
             }
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -112,7 +116,7 @@ Shader "Unlit/BtnClickWaveShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 shape = tex2D(_MainTex, i.uv);
                 fixed4 wave = PixelColor(i.uv);

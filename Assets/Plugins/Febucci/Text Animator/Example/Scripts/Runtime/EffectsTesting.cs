@@ -1,6 +1,6 @@
 ﻿using Febucci.UI.Core;
-using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Febucci.UI.Examples
 {
@@ -11,7 +11,7 @@ namespace Febucci.UI.Examples
 
         private void Awake()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(textAnimatorPlayer, $"Text Animator Player component is null in {gameObject.name}");
+            Assert.IsNotNull(textAnimatorPlayer, $"Text Animator Player component is null in {gameObject.name}");
 
             TAnimBuilder.InitializeGlobalDatabase();
         }
@@ -28,30 +28,23 @@ namespace Febucci.UI.Examples
 
         public static string AddAppearanceEffect(string tag)
         {
-            return "{" + tag + "}" + "<noparse>{" + tag +"}</noparse>{/" + tag + "}, "; //todo optimize
+            return "{" + tag + "}" + "<noparse>{" + tag + "}</noparse>{/" + tag + "}, "; //todo optimize
         }
 
         public void ShowText()
         {
-            string builtText = "Detected Behavior effects:\n";
+            var builtText = "Detected Behavior effects:\n";
 
-            string[] behaviors = TAnimBuilder.GetAllBehaviorsTags();
-            string[] appearances = TAnimBuilder.GetAllApppearancesTags();
+            var behaviors = TAnimBuilder.GetAllBehaviorsTags();
+            var appearances = TAnimBuilder.GetAllApppearancesTags();
 
-            for (int i = 0; i < behaviors.Length; i++)
-            {
-                builtText += AddEffect(behaviors[i]);
-            }
+            for (var i = 0; i < behaviors.Length; i++) builtText += AddEffect(behaviors[i]);
 
             builtText += "\n\nDetected Appearance effects:\n";
 
-            for (int i = 0; i < appearances.Length; i++)
-            {
-                builtText += AddAppearanceEffect(appearances[i]);
-            }
+            for (var i = 0; i < appearances.Length; i++) builtText += AddAppearanceEffect(appearances[i]);
 
             textAnimatorPlayer.ShowText(builtText);
         }
-
     }
 }

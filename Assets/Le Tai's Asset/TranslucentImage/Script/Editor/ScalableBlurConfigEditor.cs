@@ -4,108 +4,110 @@ using UnityEngine;
 
 namespace LeTai.Asset.TranslucentImage.Editor
 {
-[CustomEditor(typeof(ScalableBlurConfig))]
-[CanEditMultipleObjects]
-public class ScalableBlurConfigEditor : UnityEditor.Editor
-{
-    readonly AnimBool useAdvancedControl = new AnimBool(false);
-
-    int tab, previousTab;
-
-    EditorProperty radius;
-    EditorProperty iteration;
-    EditorProperty strength;
-
-    public void Awake()
+    [CustomEditor(typeof(ScalableBlurConfig))]
+    [CanEditMultipleObjects]
+    public class ScalableBlurConfigEditor : UnityEditor.Editor
     {
-        LoadTabSelection();
-        useAdvancedControl.value = tab > 0;
-    }
+        private readonly AnimBool useAdvancedControl = new(false);
+        private EditorProperty iteration;
 
-    public void OnEnable()
-    {
-        radius    = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Radius));
-        iteration = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Iteration));
-        strength  = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Strength));
+        private EditorProperty radius;
+        private EditorProperty strength;
 
-        // Without this editor will not Repaint automatically when animating
-        useAdvancedControl.valueChanged.AddListener(Repaint);
-    }
+        private int tab, previousTab;
 
-    public override void OnInspectorGUI()
-    {
-        Draw();
-    }
-
-    public void Draw()
-    {
-        using (new EditorGUILayout.VerticalScope())
+        public void Awake()
         {
-            DrawTabBar();
+            LoadTabSelection();
+            useAdvancedControl.value = tab > 0;
+        }
 
-            using (var changes = new EditorGUI.ChangeCheckScope())
+        public void OnEnable()
+        {
+            radius = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Radius));
+            iteration = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Iteration));
+            strength = new EditorProperty(serializedObject, nameof(ScalableBlurConfig.Strength));
+
+            // Without this editor will not Repaint automatically when animating
+            useAdvancedControl.valueChanged.AddListener(Repaint);
+        }
+
+        public override void OnInspectorGUI()
+        {
+            Draw();
+        }
+
+        public void Draw()
+        {
+            using (new EditorGUILayout.VerticalScope())
             {
-                serializedObject.Update();
-                DrawTabsContent();
-                if (changes.changed) serializedObject.ApplyModifiedProperties();
+                DrawTabBar();
+
+                using (var changes = new EditorGUI.ChangeCheckScope())
+                {
+                    serializedObject.Update();
+                    DrawTabsContent();
+                    if (changes.changed) serializedObject.ApplyModifiedProperties();
+                }
             }
         }
-    }
 
-    void DrawTabBar()
-    {
-        using (var h = new EditorGUILayout.HorizontalScope())
+        private void DrawTabBar()
         {
-            GUILayout.FlexibleSpace();
+            using (var h = new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.FlexibleSpace();
 
-            tab = GUILayout.Toolbar(
-                tab,
-                new[] { "Simple", "Advanced" },
-                GUILayout.MinWidth(0),
-                GUILayout.MaxWidth(EditorGUIUtility.pixelsPerPoint * 192)
-            );
+                tab = GUILayout.Toolbar(
+                    tab,
+                    new[] { "Simple", "Advanced" },
+                    GUILayout.MinWidth(0),
+                    GUILayout.MaxWidth(EditorGUIUtility.pixelsPerPoint * 192)
+                );
 
-            GUILayout.FlexibleSpace();
+                GUILayout.FlexibleSpace();
+            }
+
+            if (tab != previousTab)
+            {
+                GUI.FocusControl(""); // Defocus
+                SaveTabSelection();
+                previousTab = tab;
+            }
+
+            useAdvancedControl.target = tab == 1;
         }
 
-        if (tab != previousTab)
+        private void DrawTabsContent()
         {
-            GUI.FocusControl(""); // Defocus
-            SaveTabSelection();
-            previousTab = tab;
+            if (EditorGUILayout.BeginFadeGroup(1 - useAdvancedControl.faded))
+            {
+                // EditorProperty dooesn't invoke getter. Not needed anywhere else.
+                _ = ((ScalableBlurConfig)target).Strength;
+                strength.Draw();
+            }
+
+            EditorGUILayout.EndFadeGroup();
+
+            if (EditorGUILayout.BeginFadeGroup(useAdvancedControl.faded))
+            {
+                radius.Draw();
+                iteration.Draw();
+            }
+
+            EditorGUILayout.EndFadeGroup();
         }
 
-        useAdvancedControl.target = tab == 1;
-    }
-
-    void DrawTabsContent()
-    {
-        if (EditorGUILayout.BeginFadeGroup(1 - useAdvancedControl.faded))
+        //Persist selected tab between sessions and instances
+        private void SaveTabSelection()
         {
-            // EditorProperty dooesn't invoke getter. Not needed anywhere else.
-            _ = ((ScalableBlurConfig)target).Strength;
-            strength.Draw();
+            EditorPrefs.SetInt("LETAI_TRANSLUCENTIMAGE_TIS_TAB", tab);
         }
-        EditorGUILayout.EndFadeGroup();
 
-        if (EditorGUILayout.BeginFadeGroup(useAdvancedControl.faded))
+        private void LoadTabSelection()
         {
-            radius.Draw();
-            iteration.Draw();
+            if (EditorPrefs.HasKey("LETAI_TRANSLUCENTIMAGE_TIS_TAB"))
+                tab = EditorPrefs.GetInt("LETAI_TRANSLUCENTIMAGE_TIS_TAB");
         }
-        EditorGUILayout.EndFadeGroup();
     }
-
-    //Persist selected tab between sessions and instances
-    void SaveTabSelection()
-    {
-        EditorPrefs.SetInt("LETAI_TRANSLUCENTIMAGE_TIS_TAB", tab);
-    }
-
-    void LoadTabSelection()
-    {
-        if (EditorPrefs.HasKey("LETAI_TRANSLUCENTIMAGE_TIS_TAB"))
-            tab = EditorPrefs.GetInt("LETAI_TRANSLUCENTIMAGE_TIS_TAB");
-    }
-}
 }

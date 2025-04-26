@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Slide)]
-    class SlideBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Slide)]
+    internal class SlideBehavior : BehaviorSine
     {
-        float sin;
+        private float sin;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {

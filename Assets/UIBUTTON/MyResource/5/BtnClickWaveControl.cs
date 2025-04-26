@@ -1,23 +1,25 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class BtnClickWaveControl : MonoBehaviour
 {
-    private Material material;
-    private Button btn;
-    private Sequence sequence;
     [SerializeField] private float waveDuration = 2f;
-    private Vector2 mouseUVPos;
+
     // SDF
-    [SerializeField] private bool useSDF = false;
-    private Vector4 tmp_color;
+    [SerializeField] private bool useSDF;
+    private Button btn;
+    private Material material;
+    private Vector2 mouseUVPos;
+    private Sequence sequence;
     private Vector4 targetColor;
-    void Start()
+    private Vector4 tmp_color;
+
+    private void Start()
     {
         material = GetComponent<Image>().material = new Material(GetComponent<Image>().material);
         btn = GetComponent<Button>();
-        RectTransform rect = GetComponent<RectTransform>();
+        var rect = GetComponent<RectTransform>();
 
         material.SetFloat("_CircleScaleOffset", rect.sizeDelta.x / rect.sizeDelta.y);
         material.SetFloat("_Radius", -material.GetFloat("_RadiusThickness"));
@@ -30,7 +32,8 @@ public class BtnClickWaveControl : MonoBehaviour
         btn.onClick.AddListener(() =>
         {
             Vector2 uipos = Vector3.one;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent as RectTransform, Input.mousePosition, Camera.main, out uipos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent as RectTransform,
+                Input.mousePosition, Camera.main, out uipos);
             mouseUVPos = (uipos - (Vector2)rect.localPosition) / rect.sizeDelta;
             if (!useSDF)
             {
@@ -38,27 +41,23 @@ public class BtnClickWaveControl : MonoBehaviour
 
                 sequence?.Kill();
                 sequence = DOTween.Sequence().SetUpdate(true).SetId(transform)
-                .AppendCallback(() =>
-                {
-                    material.SetFloat("_Radius", -material.GetFloat("_RadiusThickness"));
-                })
-                .Append(material.DOFloat(10f, "_Radius", waveDuration));
+                    .AppendCallback(() => { material.SetFloat("_Radius", -material.GetFloat("_RadiusThickness")); })
+                    .Append(material.DOFloat(10f, "_Radius", waveDuration));
             }
             else
             {
                 material.SetVector("_CirclePosOffset", mouseUVPos);
-                
+
                 sequence?.Kill();
                 sequence = DOTween.Sequence().SetUpdate(true).SetId(transform)
-                .AppendCallback(() =>
-                {
-                    material.SetFloat("_Radius", -material.GetFloat("_RadiusThickness"));
-                    material.SetColor("_WaveColor", tmp_color);
-                })
-                .Append(material.DOFloat(6f, "_Radius", waveDuration))
-                .Join(material.DOColor(targetColor, "_WaveColor", waveDuration));
+                    .AppendCallback(() =>
+                    {
+                        material.SetFloat("_Radius", -material.GetFloat("_RadiusThickness"));
+                        material.SetColor("_WaveColor", tmp_color);
+                    })
+                    .Append(material.DOFloat(6f, "_Radius", waveDuration))
+                    .Join(material.DOColor(targetColor, "_WaveColor", waveDuration));
             }
-            
         });
     }
 

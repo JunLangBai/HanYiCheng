@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Pendulum)]
-    class PendulumBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Pendulum)]
+    internal class PendulumBehavior : BehaviorSine
     {
-        int targetVertex1;
-        int targetVertex2;
+        private int targetVertex1;
+        private int targetVertex2;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -33,9 +34,9 @@ namespace Febucci.UI.Core
         {
             data.vertices.RotateChar(
                 Mathf.Sin(-time.timeSinceStart * frequency + waveSize * charIndex) * amplitude,
-                (data.vertices[targetVertex1] + data.vertices[targetVertex2]) / 2 //bottom center as their rotation pivot
-                );
+                (data.vertices[targetVertex1] + data.vertices[targetVertex2]) /
+                2 //bottom center as their rotation pivot
+            );
         }
     }
-
 }

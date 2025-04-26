@@ -9,7 +9,10 @@ Shader "Unlit/DrawImgShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -40,7 +43,7 @@ Shader "Unlit/DrawImgShader"
             vector _Verts[1000];
             int _VertNum;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -48,7 +51,7 @@ Shader "Unlit/DrawImgShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 //fixed4 col = tex2D(_MainTex, i.uv);
                 fixed4 col = _MainColor;
@@ -60,13 +63,13 @@ Shader "Unlit/DrawImgShader"
                 //          col.a = 1;
                 //     }
                 //}
-                
+
                 for (int j = 0; j <= _VertNum; j++)
                 {
                     float dis = abs(distance(_Verts[j].xy, i.vertex.xy));
                     if (dis < _Size)
                     {
-                         col.a = 1;
+                        col.a = 1;
                     }
                 }
 

@@ -1,78 +1,67 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace LeTai.Asset.TranslucentImage.Demo
 {
-public class MainDemoViewController : MonoBehaviour
-{
-    public Toggle toggleLightMode;
-    public Toggle toggleDarkMode;
-
-    public Slider sliderBlurStrength;
-    public Slider sliderVibrancy;
-    public Slider sliderUpdateRate;
-
-    public TranslucentImage[] translucentImages;
-
-    TranslucentImageSource source;
-
-    float   backupBlurStrength;
-    float[] backupVibrancy;
-
-    void Start()
+    public class MainDemoViewController : MonoBehaviour
     {
-        source = Shims.FindObjectOfType<TranslucentImageSource>();
-        var colorSchemeManager = GetComponent<ColorSchemeManager>();
+        public Toggle toggleLightMode;
+        public Toggle toggleDarkMode;
 
-        BackupValues();
+        public Slider sliderBlurStrength;
+        public Slider sliderVibrancy;
+        public Slider sliderUpdateRate;
 
-        toggleLightMode.onValueChanged.AddListener(isOn =>
-        {
-            if (isOn) colorSchemeManager.SetColorScheme(ColorSchemeManager.DemoColorScheme.Light);
-        });
-        toggleDarkMode.onValueChanged.AddListener(isOn =>
-        {
-            if (isOn) colorSchemeManager.SetColorScheme(ColorSchemeManager.DemoColorScheme.Dark);
-        });
+        public TranslucentImage[] translucentImages;
 
-        sliderBlurStrength.onValueChanged.AddListener(value =>
+        private float backupBlurStrength;
+        private float[] backupVibrancy;
+
+        private TranslucentImageSource source;
+
+        private void Start()
         {
-            source.BlurConfig.Strength = value;
-        });
-        sliderVibrancy.onValueChanged.AddListener(value =>
-        {
-            for (int i = 0; i < translucentImages.Length; i++)
+            source = Shims.FindObjectOfType<TranslucentImageSource>();
+            var colorSchemeManager = GetComponent<ColorSchemeManager>();
+
+            BackupValues();
+
+            toggleLightMode.onValueChanged.AddListener(isOn =>
             {
-                translucentImages[i].materialForRendering.SetFloat(ShaderID.VIBRANCY, value);
-            }
-        });
-        sliderUpdateRate.onValueChanged.AddListener(value =>
-        {
-            source.MaxUpdateRate = Mathf.Approximately(value, sliderUpdateRate.maxValue) ? float.PositiveInfinity : value;
-        });
-    }
+                if (isOn) colorSchemeManager.SetColorScheme(ColorSchemeManager.DemoColorScheme.Light);
+            });
+            toggleDarkMode.onValueChanged.AddListener(isOn =>
+            {
+                if (isOn) colorSchemeManager.SetColorScheme(ColorSchemeManager.DemoColorScheme.Dark);
+            });
 
-    void BackupValues()
-    {
-        backupBlurStrength = source.BlurConfig.Strength;
-        backupVibrancy     = new float[translucentImages.Length];
-        for (int i = 0; i < translucentImages.Length; i++)
-        {
-            backupVibrancy[i] = translucentImages[i].materialForRendering.GetFloat(ShaderID.VIBRANCY);
+            sliderBlurStrength.onValueChanged.AddListener(value => { source.BlurConfig.Strength = value; });
+            sliderVibrancy.onValueChanged.AddListener(value =>
+            {
+                for (var i = 0; i < translucentImages.Length; i++)
+                    translucentImages[i].materialForRendering.SetFloat(ShaderID.VIBRANCY, value);
+            });
+            sliderUpdateRate.onValueChanged.AddListener(value =>
+            {
+                source.MaxUpdateRate = Mathf.Approximately(value, sliderUpdateRate.maxValue)
+                    ? float.PositiveInfinity
+                    : value;
+            });
         }
-    }
 
-    void OnDestroy()
-    {
-        source.BlurConfig.Strength = backupBlurStrength;
-        for (int i = 0; i < translucentImages.Length; i++)
+        private void OnDestroy()
         {
-            translucentImages[i].materialForRendering.SetFloat(ShaderID.VIBRANCY, backupVibrancy[i]);
+            source.BlurConfig.Strength = backupBlurStrength;
+            for (var i = 0; i < translucentImages.Length; i++)
+                translucentImages[i].materialForRendering.SetFloat(ShaderID.VIBRANCY, backupVibrancy[i]);
+        }
+
+        private void BackupValues()
+        {
+            backupBlurStrength = source.BlurConfig.Strength;
+            backupVibrancy = new float[translucentImages.Length];
+            for (var i = 0; i < translucentImages.Length; i++)
+                backupVibrancy[i] = translucentImages[i].materialForRendering.GetFloat(ShaderID.VIBRANCY);
         }
     }
 }
-};

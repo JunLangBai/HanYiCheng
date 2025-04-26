@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Febucci.UI.Examples.Editors
 {
     [CustomEditor(typeof(EffectsTesting))]
-    class EffectsTestingCustomEditor : Editor
+    internal class EffectsTestingCustomEditor : Editor
     {
         public override void OnInspectorGUI()
         {
@@ -24,13 +24,9 @@ namespace Febucci.UI.Examples.Editors
             }
         }
 
-        void ButtonSetText()
+        private void ButtonSetText()
         {
-            if (GUILayout.Button("Set Text again"))
-            {
-                ((EffectsTesting)target)?.ShowText();
-            }
+            if (GUILayout.Button("Set Text again")) ((EffectsTesting)target)?.ShowText();
         }
     }
-
 }

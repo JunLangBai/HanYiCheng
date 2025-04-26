@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Incr)]
-    sealed class SizeBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Incr)]
+    internal sealed class SizeBehavior : BehaviorSine
     {
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -17,7 +18,7 @@ namespace Febucci.UI.Core
         {
             data.vertices.LerpUnclamped(
                 data.vertices.GetMiddlePos(),
-                (Mathf.Cos(time.timeSinceStart* frequency + charIndex * waveSize) + 1) / 2f * amplitude);
+                (Mathf.Cos(time.timeSinceStart * frequency + charIndex * waveSize) + 1) / 2f * amplitude);
         }
     }
 }

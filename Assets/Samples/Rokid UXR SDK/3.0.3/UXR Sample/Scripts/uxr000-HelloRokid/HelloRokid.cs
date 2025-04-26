@@ -1,8 +1,8 @@
+using System;
+using Rokid.UXR.Module;
+using Rokid.UXR.Native;
 using UnityEngine;
 using UnityEngine.UI;
-using Rokid.UXR.Native;
-using Rokid.UXR.Module;
-using Rokid.UXR.Utility;
 
 namespace Rokid.UXR.Demo
 {
@@ -19,10 +19,10 @@ namespace Rokid.UXR.Demo
         public Text cameraRunTimeVFov;
         public Text cameraRunTimeProMatrix;
 
-        int brightness;
+        private int brightness;
 
 
-        void Start()
+        private void Start()
         {
             snText.text = "Glass SN: " + NativeInterface.NativeAPI.GetGlassSN();
             deviceNameText.text = "Glass Name: " + NativeInterface.NativeAPI.GetGlassName();
@@ -41,11 +41,6 @@ namespace Rokid.UXR.Demo
             NativeInterface.NativeAPI.SetGlassBrightness(brightness + 1);
         }
 
-        private void OnDestroy()
-        {
-            // NativeInterface.NativeAPI.UnregisterOnGlassBrightUpdate(OnGlassBrightUpdate);
-        }
-
         // private void OnGlassBrightUpdate(int brightness)
         // {
         //     Loom.QueueOnMainThread(() =>
@@ -55,10 +50,10 @@ namespace Rokid.UXR.Demo
         //     });
         // }
 
-        void Update()
+        private void Update()
         {
             //only for debug, do not call these get methods in update. low fps
-            foreach (KeyCode kcode in System.Enum.GetValues(typeof(KeyCode)))
+            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(kcode))
                 {
@@ -73,29 +68,29 @@ namespace Rokid.UXR.Demo
                 }
             }
 
-            foreach (RKStation2KeyEvent kcode in System.Enum.GetValues(typeof(RKStation2KeyEvent)))
-            {
+            foreach (RKStation2KeyEvent kcode in Enum.GetValues(typeof(RKStation2KeyEvent)))
                 if (RKNativeInput.Instance.GetStation2EventTrigger(kcode))
                 {
                     keycodeInfo.text = "Station2 Event Trigger: " + kcode;
                     RKLog.Info("-uxr- Station2 event trigger: " + kcode);
                 }
-            }
 
 
-            foreach (RKKeyEvent kcode in System.Enum.GetValues(typeof(RKKeyEvent)))
-            {
+            foreach (RKKeyEvent kcode in Enum.GetValues(typeof(RKKeyEvent)))
                 if (RKNativeInput.Instance.GetKeyDown(kcode))
                 {
                     keycodeInfo.text = "RKEvent Trigger: " + kcode;
                     RKLog.Info("-uxr- RKEvent trigger: " + kcode);
                 }
-            }
 
             brightness = NativeInterface.NativeAPI.GetGlassBrightness();
             //RKLog.Info("====HelloRokid==== brightness:" + brightness);
             brightnessText.text = "Glass Brightness: " + brightness;
+        }
 
+        private void OnDestroy()
+        {
+            // NativeInterface.NativeAPI.UnregisterOnGlassBrightUpdate(OnGlassBrightUpdate);
         }
     }
 }

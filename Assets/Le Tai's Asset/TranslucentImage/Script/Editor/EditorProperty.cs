@@ -5,77 +5,80 @@ using UnityEngine;
 
 namespace LeTai.Asset.TranslucentImage.Editor
 {
-public class EditorProperty
-{
-    public readonly SerializedProperty serializedProperty;
-
-    readonly SerializedObject   serializedObject;
-    readonly MethodInfo         propertySetter;
-    readonly SerializedProperty dirtyFlag;
-
-    public EditorProperty(SerializedObject obj, string name, string serializedName)
+    public class EditorProperty
     {
-        serializedObject   = obj;
-        serializedProperty = serializedObject.FindProperty(serializedName);
-        propertySetter     = serializedObject.targetObject.GetType().GetProperty(name).SetMethod;
-        dirtyFlag          = serializedObject.FindProperty("modifiedFromInspector");
-    }
+        private readonly SerializedProperty dirtyFlag;
+        private readonly MethodInfo propertySetter;
 
-    public EditorProperty(SerializedObject obj, string name) : this(obj,
-                                                                    name,
-                                                                    char.ToLowerInvariant(name[0]) + name.Substring(1)) { }
+        private readonly SerializedObject serializedObject;
+        public readonly SerializedProperty serializedProperty;
 
-    public void Draw(params GUILayoutOption[] options)
-    {
-        using (var scope = new EditorGUI.ChangeCheckScope())
+        public EditorProperty(SerializedObject obj, string name, string serializedName)
         {
-            EditorGUILayout.PropertyField(serializedProperty, options);
+            serializedObject = obj;
+            serializedProperty = serializedObject.FindProperty(serializedName);
+            propertySetter = serializedObject.targetObject.GetType().GetProperty(name).SetMethod;
+            dirtyFlag = serializedObject.FindProperty("modifiedFromInspector");
+        }
 
-            if (!scope.changed)
-                return;
+        public EditorProperty(SerializedObject obj, string name) : this(obj,
+            name,
+            char.ToLowerInvariant(name[0]) + name.Substring(1))
+        {
+        }
 
-            if (dirtyFlag != null)
-                dirtyFlag.boolValue = true;
-
-            serializedObject.ApplyModifiedProperties();
-
-            if (serializedProperty.propertyType != SerializedPropertyType.Generic) // Not needed for now
+        public void Draw(params GUILayoutOption[] options)
+        {
+            using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                var propertyValue = GetPropertyValue();
-                CallSetters(propertyValue);
+                EditorGUILayout.PropertyField(serializedProperty, options);
+
+                if (!scope.changed)
+                    return;
+
+                if (dirtyFlag != null)
+                    dirtyFlag.boolValue = true;
+
+                serializedObject.ApplyModifiedProperties();
+
+                if (serializedProperty.propertyType != SerializedPropertyType.Generic) // Not needed for now
+                {
+                    var propertyValue = GetPropertyValue();
+                    CallSetters(propertyValue);
+                }
+
+                // In case the setter changes any serialized data
+                serializedObject.Update();
             }
-
-            // In case the setter changes any serialized data
-            serializedObject.Update();
         }
-    }
 
-    public void CallSetters(object value)
-    {
-        foreach (var target in serializedObject.targetObjects)
-            propertySetter.Invoke(target, new[] { value });
-    }
-
-    object GetPropertyValue()
-    {
-        switch (serializedProperty.propertyType)
+        public void CallSetters(object value)
         {
-        case SerializedPropertyType.ObjectReference:
-            return serializedProperty.objectReferenceValue;
-        case SerializedPropertyType.Float:
-            return serializedProperty.floatValue;
-        case SerializedPropertyType.Integer:
-            return serializedProperty.intValue;
-        case SerializedPropertyType.Rect:
-            return serializedProperty.rectValue;
-        case SerializedPropertyType.Enum:
-            return serializedProperty.enumValueIndex;
-        case SerializedPropertyType.Boolean:
-            return serializedProperty.boolValue;
-        case SerializedPropertyType.Color:
-            return serializedProperty.colorValue;
-        default: throw new NotImplementedException($"Type {serializedProperty.propertyType} is not implemented");
+            foreach (var target in serializedObject.targetObjects)
+                propertySetter.Invoke(target, new[] { value });
+        }
+
+        private object GetPropertyValue()
+        {
+            switch (serializedProperty.propertyType)
+            {
+                case SerializedPropertyType.ObjectReference:
+                    return serializedProperty.objectReferenceValue;
+                case SerializedPropertyType.Float:
+                    return serializedProperty.floatValue;
+                case SerializedPropertyType.Integer:
+                    return serializedProperty.intValue;
+                case SerializedPropertyType.Rect:
+                    return serializedProperty.rectValue;
+                case SerializedPropertyType.Enum:
+                    return serializedProperty.enumValueIndex;
+                case SerializedPropertyType.Boolean:
+                    return serializedProperty.boolValue;
+                case SerializedPropertyType.Color:
+                    return serializedProperty.colorValue;
+                default:
+                    throw new NotImplementedException($"Type {serializedProperty.propertyType} is not implemented");
+            }
         }
     }
-}
 }

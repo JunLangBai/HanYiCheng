@@ -11,8 +11,8 @@ public class Unity2019ShaderCompilerBugWorkaround : ScriptableObject
     static void ReImport()
     {
         var guids = AssetDatabase.FindAssets("l:TranslucentImageEditorResources lib");
-        var path  = AssetDatabase.GUIDToAssetPath(guids[0]);
-        var text  = File.ReadAllText(path);
+        var path = AssetDatabase.GUIDToAssetPath(guids[0]);
+        var text = File.ReadAllText(path);
         File.WriteAllText(path, text + "//DELETE ME: Workaround shader not compiling in Unity 2019");
         AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
         File.WriteAllText(path, text);

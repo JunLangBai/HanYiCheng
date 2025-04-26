@@ -1,33 +1,30 @@
 using System.Collections.Generic;
-using UnityEngine;
 using Rokid.UXR.Interaction;
+using UnityEngine;
+
 namespace Rokid.UXR.Demo
 {
     public class RKHandInteractionDemo : MonoBehaviour
     {
-        [SerializeField]
-        private GrabInteractable[] interactableObjs;
+        [SerializeField] private GrabInteractable[] interactableObjs;
 
-        private List<Vector3> oriPositions = new List<Vector3>();
+        private readonly List<Vector3> oriPositions = new();
 
-        void Start()
+        private void Start()
         {
             interactableObjs = GetComponentsInChildren<GrabInteractable>();
-            for (int i = 0; i < interactableObjs.Length; i++)
-            {
+            for (var i = 0; i < interactableObjs.Length; i++)
                 oriPositions.Add(interactableObjs[i].transform.localPosition);
-            }
         }
 
-        void Update()
+        private void Update()
         {
             if (IsDoubleClick())
-            {
-                for (int i = 0; i < interactableObjs.Length; i++)
+                for (var i = 0; i < interactableObjs.Length; i++)
                 {
-                    Rigidbody rigidbody = interactableObjs[i].GetComponent<Rigidbody>();
+                    var rigidbody = interactableObjs[i].GetComponent<Rigidbody>();
                     rigidbody.angularVelocity = Vector3.zero;
-                    
+
 #if UNITY_6000_0_OR_NEWER
                     rigidbody.linearVelocity = Vector3.zero;
 #else
@@ -37,21 +34,19 @@ namespace Rokid.UXR.Demo
                     interactableObjs[i].transform.localRotation = Quaternion.identity;
                     interactableObjs[i].gameObject.SetActive(true);
                 }
-            }
         }
 
 
         #region IsDoubleClick
-        float doubleClickTime = 0.5f;
-        float clickTime = 0;
-        int clickCount = 0;
+
+        private readonly float doubleClickTime = 0.5f;
+        private float clickTime;
+        private int clickCount;
+
         private bool IsDoubleClick()
         {
             clickTime += Time.deltaTime;
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton0))
-            {
-                clickCount++;
-            }
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton0)) clickCount++;
             if (clickTime < doubleClickTime)
             {
                 if (clickCount == 2)
@@ -66,8 +61,10 @@ namespace Rokid.UXR.Demo
                 clickCount = 0;
                 clickTime = 0;
             }
+
             return false;
         }
+
         #endregion
     }
 }

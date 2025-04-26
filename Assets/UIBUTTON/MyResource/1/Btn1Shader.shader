@@ -13,7 +13,10 @@ Shader "Unlit/Btn1Shader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
         // Alpha0
         //Pass
@@ -87,7 +90,7 @@ Shader "Unlit/Btn1Shader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -95,7 +98,7 @@ Shader "Unlit/Btn1Shader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 return col;
@@ -114,7 +117,7 @@ Shader "Unlit/Btn1Shader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                // ԭͼ��״mask
+                // ԭͼ��״mask
                 float4 vert : POSITION;
                 float2 uv : TEXCOORD0;
             };
@@ -137,7 +140,7 @@ Shader "Unlit/Btn1Shader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -147,13 +150,13 @@ Shader "Unlit/Btn1Shader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 float dis = distance(_MousePos.xy, i.vertex.xy);
                 float4 addColor = _Color;
-                addColor.a = saturate(smoothstep(_ColorRedius, 0, dis) - _ColorOffset * sign(col.a-0.1));
-                addColor.a =  addColor.a * col.a * _ColorPow;
+                addColor.a = saturate(smoothstep(_ColorRedius, 0, dis) - _ColorOffset * sign(col.a - 0.1));
+                addColor.a = addColor.a * col.a * _ColorPow;
                 return addColor;
             }
             ENDCG
@@ -186,7 +189,7 @@ Shader "Unlit/Btn1Shader"
             fixed4 _Color;
             float _BorderColorMul;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertexBorder = UnityObjectToClipPos(v.vertexBorder);
@@ -194,12 +197,12 @@ Shader "Unlit/Btn1Shader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_BorderTex, i.uvBorder);
 
                 float dis = distance(_MousePos.xy, i.vertexBorder.xy);
-                
+
                 col = col + sign(col.a) * smoothstep(_ColorRedius, 0, dis) * _Color * _BorderColorMul;
                 return col;
             }

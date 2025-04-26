@@ -3,70 +3,67 @@ using UnityEngine.Rendering;
 
 namespace LeTai.Asset.TranslucentImage
 {
-public static class BlurExecutor
-{
-    static readonly int[] TEMP_RT = new int[14];
-
-    static BlurExecutor()
+    public static class BlurExecutor
     {
-        for (var i = 0; i < TEMP_RT.Length; i++)
+        private static readonly int[] TEMP_RT = new int[14];
+
+        static BlurExecutor()
         {
-            TEMP_RT[i] = Shader.PropertyToID($"TI_intermediate_rt_{i}");
-        }
-    }
-
-    public readonly struct BlurExecutionData
-    {
-        public readonly RenderTargetIdentifier sourceTex;
-        public readonly TranslucentImageSource blurSource;
-        public readonly IBlurAlgorithm         blurAlgorithm;
-
-        public BlurExecutionData(
-            RenderTargetIdentifier sourceTex,
-            TranslucentImageSource blurSource,
-            IBlurAlgorithm         blurAlgorithm
-        )
-        {
-            this.sourceTex     = sourceTex;
-            this.blurSource    = blurSource;
-            this.blurAlgorithm = blurAlgorithm;
-        }
-    }
-
-    public static void ExecuteBlurWithTempTextures(CommandBuffer cmd, ref BlurExecutionData data)
-    {
-        var scratchesCount = data.blurAlgorithm.GetScratchesCount();
-
-        var desc = data.blurSource.BlurredScreen.descriptor;
-        desc.msaaSamples     = 1;
-        desc.useMipMap       = false;
-        desc.depthBufferBits = 0;
-
-        for (int i = 0; i < scratchesCount; i++)
-        {
-            data.blurAlgorithm.GetScratchDescriptor(i, ref desc);
-            cmd.GetTemporaryRT(TEMP_RT[i], desc, FilterMode.Bilinear);
-            data.blurAlgorithm.SetScratch(i, TEMP_RT[i]);
+            for (var i = 0; i < TEMP_RT.Length; i++) TEMP_RT[i] = Shader.PropertyToID($"TI_intermediate_rt_{i}");
         }
 
+        public static void ExecuteBlurWithTempTextures(CommandBuffer cmd, ref BlurExecutionData data)
         {
-            ExecuteBlur(cmd, ref data);
+            var scratchesCount = data.blurAlgorithm.GetScratchesCount();
+
+            var desc = data.blurSource.BlurredScreen.descriptor;
+            desc.msaaSamples = 1;
+            desc.useMipMap = false;
+            desc.depthBufferBits = 0;
+
+            for (var i = 0; i < scratchesCount; i++)
+            {
+                data.blurAlgorithm.GetScratchDescriptor(i, ref desc);
+                cmd.GetTemporaryRT(TEMP_RT[i], desc, FilterMode.Bilinear);
+                data.blurAlgorithm.SetScratch(i, TEMP_RT[i]);
+            }
+
+            {
+                ExecuteBlur(cmd, ref data);
+            }
+
+            for (var i = 0; i < scratchesCount; i++)
+                cmd.ReleaseTemporaryRT(TEMP_RT[i]);
         }
 
-        for (int i = 0; i < scratchesCount; i++)
-            cmd.ReleaseTemporaryRT(TEMP_RT[i]);
-    }
+        public static void ExecuteBlur(CommandBuffer cmd, ref BlurExecutionData data)
+        {
+            var blurSource = data.blurSource;
 
-    public static void ExecuteBlur(CommandBuffer cmd, ref BlurExecutionData data)
-    {
-        var blurSource = data.blurSource;
+            data.blurAlgorithm.Blur(cmd,
+                data.sourceTex,
+                blurSource.BlurRegion,
+                blurSource.ActiveRegion,
+                blurSource.BackgroundFill,
+                blurSource.BlurredScreen);
+        }
 
-        data.blurAlgorithm.Blur(cmd,
-                                data.sourceTex,
-                                blurSource.BlurRegion,
-                                blurSource.ActiveRegion,
-                                blurSource.BackgroundFill,
-                                blurSource.BlurredScreen);
+        public readonly struct BlurExecutionData
+        {
+            public readonly RenderTargetIdentifier sourceTex;
+            public readonly TranslucentImageSource blurSource;
+            public readonly IBlurAlgorithm blurAlgorithm;
+
+            public BlurExecutionData(
+                RenderTargetIdentifier sourceTex,
+                TranslucentImageSource blurSource,
+                IBlurAlgorithm blurAlgorithm
+            )
+            {
+                this.sourceTex = sourceTex;
+                this.blurSource = blurSource;
+                this.blurAlgorithm = blurAlgorithm;
+            }
+        }
     }
-}
 }

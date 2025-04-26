@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Shake)]
-    class ShakeBehavior : BehaviorBase
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Shake)]
+    internal class ShakeBehavior : BehaviorBase
     {
-        public float shakeStrength;
+        private int lastRandomIndex;
+
+        private int randIndex;
         public float shakeDelay;
+        public float shakeStrength;
 
-        float timePassed;
-
-        int randIndex;
+        private float timePassed;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -20,7 +22,7 @@ namespace Febucci.UI.Core
             ClampValues();
         }
 
-        void ClampValues()
+        private void ClampValues()
         {
             shakeDelay = Mathf.Clamp(shakeDelay, 0.002f, 500);
         }
@@ -47,7 +49,6 @@ namespace Febucci.UI.Core
             ClampValues();
         }
 
-        int lastRandomIndex;
         public override void Calculate()
         {
             timePassed += time.deltaTime;
@@ -73,20 +74,19 @@ namespace Febucci.UI.Core
         public override void ApplyEffect(ref CharacterData data, int charIndex)
         {
             data.vertices.MoveChar
-                (
-                    TextUtilities.fakeRandoms[
-                                            Mathf.RoundToInt((charIndex + randIndex) % (TextUtilities.fakeRandomsCount - 1))
-                                            ] * shakeStrength * uniformIntensity
-                    );
+            (
+                TextUtilities.fakeRandoms[
+                    Mathf.RoundToInt((charIndex + randIndex) % (TextUtilities.fakeRandomsCount - 1))
+                ] * shakeStrength * uniformIntensity
+            );
         }
 
 
         public override string ToString()
         {
             return $"shake delay: {shakeDelay}\n" +
-                $"strength: {shakeStrength}" +
-                $"\n{ base.ToString()}";
+                   $"strength: {shakeStrength}" +
+                   $"\n{base.ToString()}";
         }
-
     }
 }

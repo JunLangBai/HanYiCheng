@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Febucci.UI.Core
 {
-    [System.Serializable]
+    [Serializable]
     internal class PresetBehaviorValues : PresetBaseValues
     {
 #pragma warning disable 0649 //disabling the error or unity will throw "field is never assigned" [..], because we actually assign the variables from the custom drawers
@@ -13,8 +14,6 @@ namespace Febucci.UI.Core
         {
             base.Initialize(isAppearance);
             emission.Initialize(GetMaxDuration());
-
         }
     }
-
 }

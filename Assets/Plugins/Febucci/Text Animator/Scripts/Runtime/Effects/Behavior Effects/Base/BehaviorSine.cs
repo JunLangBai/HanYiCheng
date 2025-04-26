@@ -1,13 +1,14 @@
-﻿using UnityEngine;
-
-namespace Febucci.UI.Core
+﻿namespace Febucci.UI.Core
 {
     /// <summary>
-    /// Behavior helper class that automatically manages the following modifiers: (a = <see cref="amplitude"/>), (f = <see cref="frequency"/>) and (w = <see cref="waveSize"/>).<br/><br/>
-    /// You can inerith from this class and use the modifiers as you prefer in your effects, without having to set up them inside the <see cref="SetModifier(string, string)"/> method.
+    ///     Behavior helper class that automatically manages the following modifiers: (a = <see cref="amplitude" />), (f =
+    ///     <see cref="frequency" />) and (w = <see cref="waveSize" />).<br /><br />
+    ///     You can inerith from this class and use the modifiers as you prefer in your effects, without having to set up them
+    ///     inside the <see cref="SetModifier(string, string)" /> method.
     /// </summary>
     /// <example>
-    /// All the TextAnimator effects that have 3 modifiers inerith from this class. You can check their source code to see how they are set up, example: <see cref="WiggleBehavior"/> or <see cref="WaveBehavior"/>
+    ///     All the TextAnimator effects that have 3 modifiers inerith from this class. You can check their source code to see
+    ///     how they are set up, example: <see cref="WiggleBehavior" /> or <see cref="WaveBehavior" />
     /// </example>
     public abstract class BehaviorSine : BehaviorBase
     {
@@ -31,9 +32,9 @@ namespace Febucci.UI.Core
         public override string ToString()
         {
             return $"freq: {frequency}\n" +
-                $"ampl: {amplitude}\n" +
-                $"waveSize: {waveSize}" +
-                $"\n{base.ToString()}";
+                   $"ampl: {amplitude}\n" +
+                   $"waveSize: {waveSize}" +
+                   $"\n{base.ToString()}";
         }
     }
 }

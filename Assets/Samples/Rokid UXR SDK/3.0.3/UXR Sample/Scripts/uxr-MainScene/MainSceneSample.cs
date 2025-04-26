@@ -1,17 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Android;
-using Rokid.UXR.Module;
-using Rokid.UXR.Native;
 
 namespace Rokid.UXR.Demo
 {
     public class MainSceneSample : MonoBehaviour
     {
-        private bool loadUI;
+        [SerializeField] private GameObject ui;
 
-        [SerializeField]
-        private GameObject ui;
+        private bool loadUI;
 
         private void Awake()
         {
@@ -26,22 +22,11 @@ namespace Rokid.UXR.Demo
         }
 
 
-        void Start()
+        private void Start()
         {
 #if UNITY_EDITOR
             ui.gameObject.SetActive(true);
 #endif
-        }
-
-        private void OnDestroy()
-        {
-
-        }
-
-
-        public void LoadScene(string sceneName)
-        {
-            SceneManager.LoadSceneAsync(sceneName);
         }
 
         private void Update()
@@ -60,6 +45,15 @@ namespace Rokid.UXR.Demo
             }
 #endif
         }
+
+        private void OnDestroy()
+        {
+        }
+
+
+        public void LoadScene(string sceneName)
+        {
+            SceneManager.LoadSceneAsync(sceneName);
+        }
     }
 }
-

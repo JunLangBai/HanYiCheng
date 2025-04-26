@@ -1,12 +1,14 @@
-﻿namespace Febucci.UI.Core
-{
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Rot)]
-    class RotationBehavior : BehaviorBase
-    {
+﻿using UnityEngine.Scripting;
 
-        float angleSpeed = 180;
-        float angleDiffBetweenChars = 10;
+namespace Febucci.UI.Core
+{
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Rot)]
+    internal class RotationBehavior : BehaviorBase
+    {
+        private float angleDiffBetweenChars = 10;
+
+        private float angleSpeed = 180;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -34,10 +36,8 @@
         public override string ToString()
         {
             return $"angleSpeed: {angleSpeed}\n" +
-                $"angleDiffBetweenChars: {angleDiffBetweenChars}" +
-                $"\n{base.ToString()}";
+                   $"angleDiffBetweenChars: {angleDiffBetweenChars}" +
+                   $"\n{base.ToString()}";
         }
-
     }
-
 }

@@ -7,7 +7,10 @@ Shader "Unlit/HSVInPolarCoordinate"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -41,7 +44,7 @@ Shader "Unlit/HSVInPolarCoordinate"
             float4 _MainTex_ST;
             float4 _MousePos;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -60,51 +63,55 @@ Shader "Unlit/HSVInPolarCoordinate"
             {
                 return length(p) - r;
             }
+
             float opAnnular(float sdf, float r)
             {
                 return abs(sdf) - r;
             }
+
             float sdRect(float2 p, float2 b)
             {
                 float2 d = abs(p) - b;
                 return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-
-                // ¼«×ø±êÏµHSV
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµHSV
                 fixed4 col_HSV;
-                // µÑ¿¨¶û×ø±êÏµ×ª»»µ½¼«×ø±êÏµ
+                // ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµ
                 float2 toCenter = float2(0.5, 0.5) - i.uv;
                 float angle = atan2(toCenter.y, toCenter.x);
                 float radius = length(toCenter) * 2.0;
-                // ½Ç¶È (-PI, PI) Ó³Éäµ½ (0, 1)
-                // ½Ç¶È¾ö¶¨É«Ïà£¬°ë¾¶¾ö¶¨±¥ºÍ¶È,ÁÁ¶È¹Ì¶¨
+                // ï¿½Ç¶ï¿½ (-PI, PI) Ó³ï¿½äµ½ (0, 1)
+                // ï¿½Ç¶È¾ï¿½ï¿½ï¿½É«ï¿½à£¬ï¿½ë¾¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½,ï¿½ï¿½ï¿½È¹Ì¶ï¿½
                 col_HSV.rgb = hsb2rgb(float3((angle / TWO_PI) + 0.5, radius, 1.0));
 
-                // ´óÔ²»·
+                // ï¿½ï¿½Ô²ï¿½ï¿½
                 fixed4 annular;
-                i.uv.y = 1.0 - i.uv.y; // uvµÄy·½ÏòÓëUnityÄ¬ÈÏµÄy·½ÏòÒ»ÖÂ // https://www.unishiki.cc/2023/11/04/Mathematical-Visualization-01/
-                i.uv = i.uv * 2 - 1; // È«ÏóÏÞ
-                // Ïû³ýÆÁÄ»À­ÉìÓ°Ïì
+                i.uv.y = 1.0 - i.uv.y;
+                // uvï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UnityÄ¬ï¿½Ïµï¿½yï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ // https://www.unishiki.cc/2023/11/04/Mathematical-Visualization-01/
+                i.uv = i.uv * 2 - 1; // È«ï¿½ï¿½ï¿½ï¿½
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½
                 float w = _ScreenParams.x;
                 float h = _ScreenParams.y;
                 float step = 1.0 / w;
-                annular = smoothstep(step, -step, opAnnular(sdCircle(i.uv, RADIUS) , RADIUS_THICKNESS));
-                // ½«Ô²»·µ±×öMask
+                annular = smoothstep(step, -step, opAnnular(sdCircle(i.uv, RADIUS), RADIUS_THICKNESS));
+                // ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mask
                 col_HSV.rgb *= sign(annular.r);
                 col_HSV.a = annular.r;
 
-                // Ð¡Ô²»· _MousePos
+                // Ð¡Ô²ï¿½ï¿½ _MousePos
                 fixed4 annularInAnnular;
                 fixed2 annularPos = i.uv;
                 annularPos.x -= _MousePos.x;
                 annularPos.y += _MousePos.y;
-                annularInAnnular = smoothstep(step, -step, opAnnular(sdCircle(annularPos, RADIUS_SELECTOR) , RADIUS_THICKNESS_SELECTOR));
+                annularInAnnular = smoothstep(step, -step,
+                                                            opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
+    RADIUS_THICKNESS_SELECTOR));
 
-                // UI±íÏÖ
-                return saturate(annularInAnnular + col_HSV) ;
+                // UIï¿½ï¿½ï¿½ï¿½
+                return saturate(annularInAnnular + col_HSV);
             }
             ENDCG
         }

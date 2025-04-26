@@ -6,42 +6,49 @@
 #define INTEGRATE_NANINOVEL
 #endif
 
-using Febucci.UI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Febucci.UI.Core;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Febucci.UI
 {
     /// <summary>
-    /// The main TextAnimator component. Add this near to a TextMeshPro component in order to enable effects. It can also be used in combination with a TextAnimatorPlayer in order to display letters dynamically (like a typewriter).<br/>
-    /// - See also: <seealso cref="TextAnimatorPlayer"/><br/>
-    /// - Manual: <see href="https://www.febucci.com/text-animator-unity/docs/how-to-add-effects-to-your-texts/">How to add effects to your texts</see><br/>
+    ///     The main TextAnimator component. Add this near to a TextMeshPro component in order to enable effects. It can also
+    ///     be used in combination with a TextAnimatorPlayer in order to display letters dynamically (like a typewriter).<br />
+    ///     - See also: <seealso cref="TextAnimatorPlayer" /><br />
+    ///     - Manual:
+    ///     <see href="https://www.febucci.com/text-animator-unity/docs/how-to-add-effects-to-your-texts/">
+    ///         How to add effects
+    ///         to your texts
+    ///     </see>
+    ///     <br />
     /// </summary>
     [HelpURL("https://www.febucci.com/text-animator-unity/docs/how-to-add-effects-to-your-texts/")]
     [AddComponentMenu("Febucci/TextAnimator/TextAnimator")]
-    [RequireComponent(typeof(TMP_Text)), DisallowMultipleComponent]
+    [RequireComponent(typeof(TMP_Text))]
+    [DisallowMultipleComponent]
     public class TextAnimator : MonoBehaviour
     {
-
         #region Types (Structs + Enums)
 
         /// <summary>
-        /// Contains TextAnimator's current time values.
+        ///     Contains TextAnimator's current time values.
         /// </summary>
-        [System.Serializable]
+        [Serializable]
         public struct TimeData
         {
             /// <summary>
-            /// Time passed since the textAnimator started showing the very first letter
+            ///     Time passed since the textAnimator started showing the very first letter
             /// </summary>
             public float timeSinceStart { get; private set; }
 
             /// <summary>
-            /// TextAnimator's Component delta time, could be Scaled or Unscaled
+            ///     TextAnimator's Component delta time, could be Scaled or Unscaled
             /// </summary>
             public float deltaTime { get; private set; }
 
@@ -65,15 +72,15 @@ namespace Febucci.UI
             }
         }
 
-        [System.Serializable]
-        class AppearancesContainer
+        [Serializable]
+        private class AppearancesContainer
         {
-            [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("tags")]
-            public string[] tagsFallback_Appearances = new string[] { TAnimTags.ap_Size };  //starts with a size effect by default
+            [SerializeField] [FormerlySerializedAs("tags")]
+            public string[] tagsFallback_Appearances = { TAnimTags.ap_Size }; //starts with a size effect by default
 
-            public string[] tagsFallback_Disappearances = new string[] { TAnimTags.ap_Size };  //starts with a size effect by default
+            public string[] tagsFallback_Disappearances = { TAnimTags.ap_Size }; //starts with a size effect by default
 
-            public AppearanceDefaultValues values = new AppearanceDefaultValues();
+            public AppearanceDefaultValues values = new();
         }
 
         internal struct InternalAction
@@ -86,7 +93,7 @@ namespace Febucci.UI
         }
 
 
-        enum ShowTextMode : byte
+        private enum ShowTextMode : byte
         {
             Hidden = 0,
             Shown = 1,
@@ -94,19 +101,19 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// TextAnimator's effects time scale, which could match unity's Time.deltaTime or Time.unscaledDeltaTime
+        ///     TextAnimator's effects time scale, which could match unity's Time.deltaTime or Time.unscaledDeltaTime
         /// </summary>
         public enum TimeScale
         {
             Scaled,
-            Unscaled,
+            Unscaled
         }
 
         #endregion
 
         private void Awake()
         {
-            Canvas[] canvases = new Canvas[0];
+            var canvases = new Canvas[0];
             canvases = gameObject.GetComponentsInParent<Canvas>(true);
 
             //-----
@@ -126,21 +133,19 @@ namespace Febucci.UI
 #endif
 
             //If we're checking text from TMPro, prevents its very first set text to appear for one frame and then disappear
-            if (triggerAnimPlayerOnChange)
-            {
-                tmproText.renderMode = TextRenderFlags.DontRender;
-            }
+            if (triggerAnimPlayerOnChange) tmproText.renderMode = TextRenderFlags.DontRender;
 
             m_time.UpdateDeltaTime(timeScale);
         }
 
         #region Variables
 
-        TAnimPlayerBase _tAnimPlayer;
+        private TAnimPlayerBase _tAnimPlayer;
+
         /// <summary>
-        /// Linked TAnimPlayer to this component
+        ///     Linked TAnimPlayer to this component
         /// </summary>
-        TAnimPlayerBase tAnimPlayer
+        private TAnimPlayerBase tAnimPlayer
         {
             get
             {
@@ -148,10 +153,8 @@ namespace Febucci.UI
                     return _tAnimPlayer;
 
 #if UNITY_2019_2_OR_NEWER
-                if(!TryGetComponent(out _tAnimPlayer))
-                {
+                if (!TryGetComponent(out _tAnimPlayer))
                     Debug.LogError($"Text Animator component is null on GameObject {gameObject.name}");
-                }
 #else
                 _tAnimPlayer = GetComponent<TAnimPlayerBase>();
                 Assert.IsNotNull(_tAnimPlayer, $"Text Animator Player component is null on GameObject {gameObject.name}");
@@ -163,37 +166,42 @@ namespace Febucci.UI
 
         #region Inspector
 
-        [SerializeField, Tooltip("If true, the typewriter is triggered automatically once the TMPro text changes (requires a TextAnimatorPlayer component). Otherwise, it shows the entire text instantly.")]
-        bool triggerAnimPlayerOnChange = false;
-
         [SerializeField]
-        float effectIntensityMultiplier = 50;
+        [Tooltip(
+            "If true, the typewriter is triggered automatically once the TMPro text changes (requires a TextAnimatorPlayer component). Otherwise, it shows the entire text instantly.")]
+        private bool triggerAnimPlayerOnChange;
 
-        [UnityEngine.Serialization.FormerlySerializedAs("defaultAppearance"), SerializeField, Header("Text Appearance")]
-        AppearancesContainer appearancesContainer = new AppearancesContainer();
+        [SerializeField] private float effectIntensityMultiplier = 50;
 
-        [SerializeField] string[] tags_fallbackBehaviors = new string[0];
-        [SerializeField] BehaviorDefaultValues behaviorValues = new BehaviorDefaultValues();
+        [FormerlySerializedAs("defaultAppearance")] [SerializeField] [Header("Text Appearance")]
+        private AppearancesContainer appearancesContainer = new();
+
+        [SerializeField] private string[] tags_fallbackBehaviors = new string[0];
+        [SerializeField] private BehaviorDefaultValues behaviorValues = new();
 
         //Global effect values
 #pragma warning disable 0649
-        [SerializeField] BuiltinBehaviorsDataScriptable scriptable_globalBehaviorsValues;
-        [SerializeField] BuiltinAppearancesDataScriptable scriptable_globalAppearancesValues;
+        [SerializeField] private BuiltinBehaviorsDataScriptable scriptable_globalBehaviorsValues;
+        [SerializeField] private BuiltinAppearancesDataScriptable scriptable_globalAppearancesValues;
 #pragma warning restore 0649
 
-        [SerializeField, Tooltip("True if you want effects to have the same intensities even if text is larger/smaller than default (example: when TMPro's AutoSize changes the size based on screen size)")]
-        bool useDynamicScaling = false;
-        [SerializeField, Tooltip("Used for scaling, represents the text's size where/when effects intensity behave like intended.")]
-        float referenceFontSize = -1;
+        [SerializeField]
+        [Tooltip(
+            "True if you want effects to have the same intensities even if text is larger/smaller than default (example: when TMPro's AutoSize changes the size based on screen size)")]
+        private bool useDynamicScaling;
+
+        [SerializeField]
+        [Tooltip("Used for scaling, represents the text's size where/when effects intensity behave like intended.")]
+        private float referenceFontSize = -1;
 
         #endregion
 
         #region Public Variables
 
-        TMP_Text _tmproText;
+        private TMP_Text _tmproText;
 
         /// <summary>
-        /// The TextMeshPro component linked to this TextAnimator
+        ///     The TextMeshPro component linked to this TextAnimator
         /// </summary>
         public TMP_Text tmproText
         {
@@ -203,10 +211,7 @@ namespace Febucci.UI
                     return _tmproText;
 
 #if UNITY_2019_2_OR_NEWER
-                if(!TryGetComponent(out _tmproText))
-                {
-                    Debug.LogError("TextAnimator: TMproText component is null.");
-                }
+                if (!TryGetComponent(out _tmproText)) Debug.LogError("TextAnimator: TMproText component is null.");
 #else
                 _tmproText = GetComponent<TMP_Text>();
                 Assert.IsNotNull(tmproText, $"TextMeshPro component is null on Object {gameObject.name}");
@@ -215,85 +220,101 @@ namespace Febucci.UI
                 return _tmproText;
             }
 
-            private set
-            {
-                _tmproText = value;
-            }
+            private set { _tmproText = value; }
         }
 
         #region Time
 
         /// <summary>
-        /// Effects timescale, you can set it to scaled or unscaled.
-        /// It also affects the TextAnimatorPlayer, if there is one linked to this TextAnimator.
+        ///     Effects timescale, you can set it to scaled or unscaled.
+        ///     It also affects the TextAnimatorPlayer, if there is one linked to this TextAnimator.
         /// </summary>
         public TimeScale timeScale = TimeScale.Scaled;
 
         #endregion
 
         #region Events
+
         /// <summary>
-        /// Delegate used for TextAnimator's events. Listeners can subscribe to: <see cref="onEvent"/>. <br/>
-        /// - Manual: <see href="https://www.febucci.com/text-animator-unity/docs/triggering-events-while-typing/">Triggering Events while typing</see>
+        ///     Delegate used for TextAnimator's events. Listeners can subscribe to: <see cref="onEvent" />. <br />
+        ///     - Manual:
+        ///     <see href="https://www.febucci.com/text-animator-unity/docs/triggering-events-while-typing/">
+        ///         Triggering Events
+        ///         while typing
+        ///     </see>
         /// </summary>
         /// <param name="message"></param>
         public delegate void MessageEvent(string message);
 
         /// <summary>
-        /// Invoked by the typewriter once it reaches a message tag while showing letters.<br/>
-        /// - Manual: <see href="https://www.febucci.com/text-animator-unity/docs/triggering-events-while-typing/">Triggering Events while typing</see>
+        ///     Invoked by the typewriter once it reaches a message tag while showing letters.<br />
+        ///     - Manual:
+        ///     <see href="https://www.febucci.com/text-animator-unity/docs/triggering-events-while-typing/">
+        ///         Triggering Events
+        ///         while typing
+        ///     </see>
         /// </summary>
         public event MessageEvent onEvent;
+
         #endregion
 
-        string latestText;
         /// <summary>
-        /// The text stored in the TextAnimator component, without TextAnimator's tags.
+        ///     The text stored in the TextAnimator component, without TextAnimator's tags.
         /// </summary>
-        public string text { get => latestText; private set => latestText = value; }
+        public string text { get; private set; }
 
         /// <summary>
-        /// <c>true</c> if the text is entirely visible.
+        ///     <c>true</c> if the text is entirely visible.
         /// </summary>
         /// <remarks>
-        /// You can use this to check if all the letters have been shown.
+        ///     You can use this to check if all the letters have been shown.
         /// </remarks>
         public bool allLettersShown => _maxVisibleCharacters >= tmproText.textInfo.characterCount;
 
         /// <summary>
-        /// The latest TextMeshPro character shown by the typewriter.
+        ///     The latest TextMeshPro character shown by the typewriter.
         /// </summary>
-        public TMP_CharacterInfo latestCharacterShown { get; private set; } //TODO rename in "latestCharacterVisible" for better clarity, since users can now "decrease" the max visible character visible as well
+        public TMP_CharacterInfo
+            latestCharacterShown
+        {
+            get;
+            private set;
+        } //TODO rename in "latestCharacterVisible" for better clarity, since users can now "decrease" the max visible character visible as well
 
         #endregion
 
         #region Managament variables
 
         /// <summary>
-        /// Contains TextAnimator's current time values.
+        ///     Contains TextAnimator's current time values.
         /// </summary>
         public TimeData time => m_time;
-        TimeData m_time;
+
+        private TimeData m_time;
 
 #if INTEGRATE_NANINOVEL //Naninovel integration
         bool isNaninovelPresent;
         Naninovel.UI.IRevealableText reveablelText;
 #endif
 
-        bool forceMeshRefresh;
-        bool skipAppearanceEffects;
+        private bool forceMeshRefresh;
+        private bool skipAppearanceEffects;
 
         //----- TMPro workaround -----
-        bool hasParentCanvas;
-        Canvas parentCanvas;
+        private bool hasParentCanvas;
+
+        private Canvas parentCanvas;
         //-----
 
         //----- TMPro values cache -----
-        bool autoSize;
-        Rect sourceRect;
-        Color sourceColor;
+        private bool autoSize;
+        private Rect sourceRect;
+
+        private Color sourceColor;
+
         //-----
-        int _maxVisibleCharacters = 0;
+        private int _maxVisibleCharacters;
+
         public int maxVisibleCharacters
         {
             get => _maxVisibleCharacters;
@@ -309,32 +330,28 @@ namespace Febucci.UI
 
                 //stores the latest character visible
                 if (hasText && _maxVisibleCharacters <= textInfo.characterCount && _maxVisibleCharacters > 0)
-                {
                     latestCharacterShown = textInfo.characterInfo[_maxVisibleCharacters - 1];
-                }
 
                 AssertCharacterTimes();
             }
         }
 
-        bool IsCharacterVisible(int i)
+        private bool IsCharacterVisible(int i)
         {
             return i <= textInfo.characterCount
-                && i >= _firstVisibleCharacter
-                && i < _maxVisibleCharacters;
+                   && i >= _firstVisibleCharacter
+                   && i < _maxVisibleCharacters;
         }
 
-        void AssertCharacterTimes()
+        private void AssertCharacterTimes()
         {
-            for (int i = 0; i < characters.Length; i++)
-            {
+            for (var i = 0; i < characters.Length; i++)
                 //P.S. Do not change characters' passed time here, since this method might be called by the user while the Update is already applying effects, and it could cause some glitches for that frame
-
                 characters[i].wantsToDisappear = !IsCharacterVisible(i);
-            }
         }
 
-        int _firstVisibleCharacter;
+        private int _firstVisibleCharacter;
+
         public int firstVisibleCharacter
         {
             get => _firstVisibleCharacter;
@@ -347,31 +364,31 @@ namespace Febucci.UI
             }
         }
 
-        bool hasText = false;
+        private bool hasText;
         internal bool hasActions { get; private set; }
 
 
-        int latestTriggeredEvent = 0;
-        int latestTriggeredAction = 0;
+        private int latestTriggeredEvent;
+        private int latestTriggeredAction;
 
         #endregion
 
         #region Text Elements
 
-        TMP_TextInfo textInfo;
+        private TMP_TextInfo textInfo;
 
-        Character[] characters = new Character[0];
+        private Character[] characters = new Character[0];
 
 
-        List<BehaviorBase> behaviorEffects = new List<BehaviorBase>();
-        List<AppearanceBase> appearanceEffects = new List<AppearanceBase>();
-        List<AppearanceBase> disappearanceEffects = new List<AppearanceBase>();
-        AppearanceBase[] fallbackAppearanceEffects;
-        AppearanceBase[] fallbackDisappearanceEffects;
-        BehaviorBase[] fallbackBehaviorEffects;
+        private readonly List<BehaviorBase> behaviorEffects = new();
+        private readonly List<AppearanceBase> appearanceEffects = new();
+        private readonly List<AppearanceBase> disappearanceEffects = new();
+        private AppearanceBase[] fallbackAppearanceEffects;
+        private AppearanceBase[] fallbackDisappearanceEffects;
+        private BehaviorBase[] fallbackBehaviorEffects;
 
-        List<InternalAction> typewriterActions = new List<InternalAction>();
-        List<EventMarker> eventMarkers = new List<EventMarker>();
+        private readonly List<InternalAction> typewriterActions = new();
+        private readonly List<EventMarker> eventMarkers = new();
 
         #endregion
 
@@ -380,23 +397,31 @@ namespace Febucci.UI
         #region Public Component Methods
 
         #region For setting the Text
+
         /// <summary>
-        /// Method to set the TextAnimator's text and apply its tags (effects/actions/tmpro/...).
+        ///     Method to set the TextAnimator's text and apply its tags (effects/actions/tmpro/...).
         /// </summary>
         /// <param name="text">Source text, including rich text tags</param>
-        /// <param name="hideText"><c>true</c> = sets the text but hides it (visible characters = 0). Mostly used to let the typewriter show letters after setting the text</param>
+        /// <param name="hideText">
+        ///     <c>true</c> = sets the text but hides it (visible characters = 0). Mostly used to let the
+        ///     typewriter show letters after setting the text
+        /// </param>
         public void SetText(string text, bool hideText)
         {
             _SetText(text, hideText ? ShowTextMode.Hidden : ShowTextMode.Shown);
         }
 
         /// <summary>
-        /// Appends the given text to the already existing TMPro's one, applying its tags etc.
+        ///     Appends the given text to the already existing TMPro's one, applying its tags etc.
         /// </summary>
         /// <param name="text">Text to append, including rich text tags</param>
-        /// <param name="hideText"><c>true</c> = appends the text but hides it. Mostly used to let the typewriter show the remaining letters.</param>
+        /// <param name="hideText">
+        ///     <c>true</c> = appends the text but hides it. Mostly used to let the typewriter show the
+        ///     remaining letters.
+        /// </param>
         /// <remarks>
-        /// If you're using the typewriter, you must manually start it from the code (after appending the text). See: <see cref="TAnimPlayerBase.StartShowingText(bool)"/>
+        ///     If you're using the typewriter, you must manually start it from the code (after appending the text). See:
+        ///     <see cref="TAnimPlayerBase.StartShowingText(bool)" />
         /// </remarks>
         public void AppendText(string text, bool hideText)
         {
@@ -418,14 +443,16 @@ namespace Febucci.UI
             DebugText();
 #endif
         }
+
         #endregion
 
         #region For the typewriter
+
         /// <summary>
-        /// Tries to return the next character in the text.
+        ///     Tries to return the next character in the text.
         /// </summary>
         /// <example>
-        /// <code>
+        ///     <code>
         /// if (textAnimatorComponent.TryGetNextCharacter(out TMP_CharacterInfo nextChar))
         /// {
         ///     ///[...]
@@ -446,7 +473,7 @@ namespace Febucci.UI
             return false;
         }
 
-        [System.Obsolete("Please use 'maxVisibleCharacter++' instead.")]
+        [Obsolete("Please use 'maxVisibleCharacter++' instead.")]
         public char IncreaseVisibleChars()
         {
             maxVisibleCharacters++;
@@ -454,9 +481,12 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// Turns all characters visible at the end of the frame (i.e. "a typewriter skip")
+        ///     Turns all characters visible at the end of the frame (i.e. "a typewriter skip")
         /// </summary>
-        /// <param name="skipAppearanceEffects">Set this to true if you want all letters to appear instantly (without any appearance effect)</param>
+        /// <param name="skipAppearanceEffects">
+        ///     Set this to true if you want all letters to appear instantly (without any
+        ///     appearance effect)
+        /// </param>
         public void ShowAllCharacters(bool skipAppearanceEffects)
         {
             maxVisibleCharacters = textInfo.characterCount;
@@ -464,29 +494,28 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// Triggers all the remaining TextAnimator's events.
+        ///     Triggers all the remaining TextAnimator's events.
         /// </summary>
         public void TriggerRemainingEvents()
         {
             if (eventMarkers.Count <= 0)
                 return;
 
-            for (int i = latestTriggeredEvent; i < eventMarkers.Count; i++)
-            {
+            for (var i = latestTriggeredEvent; i < eventMarkers.Count; i++)
                 if (!eventMarkers[i].triggered)
                 {
                     var _event = eventMarkers[i];
                     _event.triggered = true;
                     onEvent?.Invoke(eventMarkers[i].eventMessage);
                 }
-            }
 
             latestTriggeredEvent = eventMarkers.Count - 1;
         }
+
         #endregion
 
         /// <summary>
-        /// Forces refreshing the mesh at the end of the frame
+        ///     Forces refreshing the mesh at the end of the frame
         /// </summary>
         public void ForceMeshRefresh()
         {
@@ -494,40 +523,42 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// Triggers events that are currently visible
+        ///     Triggers events that are currently visible
         /// </summary>
         public void TriggerVisibleEvents()
         {
-            TryTriggeringEvent(int.MaxValue); //Invokes all events that are after the current letter (but on the same TMPro index)
+            TryTriggeringEvent(int
+                .MaxValue); //Invokes all events that are after the current letter (but on the same TMPro index)
         }
 
         /// <summary>
-        /// Resets the effects time, making them start from the start.
+        ///     Resets the effects time, making them start from the start.
         /// </summary>
-        /// <remarks>P.S. If you want to restart the typewriter, see <see cref="TAnimPlayerBase.StartShowingText(bool)"/> </remarks>
-        /// <param name="skipAppearances"><code>true</code> if you want the characters to reset mostly their behavior effects, staying on screen. <code>false</code> if you want all characters to disappear and play back from their appearance (all together).</param>
+        /// <remarks>
+        ///     P.S. If you want to restart the typewriter, see <see cref="TAnimPlayerBase.StartShowingText(bool)" />
+        /// </remarks>
+        /// <param name="skipAppearances">
+        ///     <code>true</code> if you want the characters to reset mostly their behavior effects,
+        ///     staying on screen. <code>false</code> if you want all characters to disappear and play back from their appearance
+        ///     (all together).
+        /// </param>
         public void ResetEffectsTime(bool skipAppearances)
         {
             if (skipAppearances)
-            {
-                for (int i = firstVisibleCharacter; i < maxVisibleCharacters; i++)
+                for (var i = firstVisibleCharacter; i < maxVisibleCharacters; i++)
                 {
                     characters[i].isDisappearing = false;
                     characters[i].data.passedTime = characters[i].appearancesMaxDuration;
                 }
-            }
             else
-            {
-                for (int i = firstVisibleCharacter; i < maxVisibleCharacters; i++)
+                for (var i = firstVisibleCharacter; i < maxVisibleCharacters; i++)
                 {
                     characters[i].isDisappearing = false;
                     characters[i].data.passedTime = 0;
                 }
-            }
 
             //resets text animator's internal time
             m_time.ResetData();
-
         }
 
         #endregion
@@ -535,26 +566,23 @@ namespace Febucci.UI
         #region Public Static Methods
 
         /// <summary>
-        /// <c>true</c> if behavior effects are enabled globally (in all TextAnimators).
+        ///     <c>true</c> if behavior effects are enabled globally (in all TextAnimators).
         /// </summary>
         /// <remarks>
-        /// To modify this value, invoke: <see cref="EnableBehaviors(bool)"/>
+        ///     To modify this value, invoke: <see cref="EnableBehaviors(bool)" />
         /// </remarks>
-        public static bool effectsBehaviorsEnabled => enabled_globalBehaviors;
+        public static bool effectsBehaviorsEnabled { get; private set; } = true;
 
         /// <summary>
-        /// <c>true</c> if appearance effects are enabled globally (in all TextAnimators).
+        ///     <c>true</c> if appearance effects are enabled globally (in all TextAnimators).
         /// </summary>
         /// <remarks>
-        /// To modify this value, invoke: <see cref="EnableAppearances(bool)(bool)"/>
+        ///     To modify this value, invoke: <see cref="EnableAppearances(bool)(bool)" />
         /// </remarks>
-        public static bool effectsAppearancesEnabled => enabled_globalAppearances;
-
-        static bool enabled_globalAppearances = true;
-        static bool enabled_globalBehaviors = true;
+        public static bool effectsAppearancesEnabled { get; private set; } = true;
 
         /// <summary>
-        /// Enables/Disables all effects for all TextAnimators.
+        ///     Enables/Disables all effects for all TextAnimators.
         /// </summary>
         public static void EnableAllEffects(bool enabled)
         {
@@ -563,35 +591,36 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// Enables/Disables Appearances effects globally (for all TextAnimators)
+        ///     Enables/Disables Appearances effects globally (for all TextAnimators)
         /// </summary>
         /// <param name="enabled"></param>
-        /// /// <remarks>To check if behaviors are enabled, refer to <see cref="effectsAppearancesEnabled"/></remarks>
+        /// ///
+        /// <remarks>To check if behaviors are enabled, refer to <see cref="effectsAppearancesEnabled" /></remarks>
         public static void EnableAppearances(bool enabled)
         {
-            enabled_globalAppearances = enabled;
+            effectsAppearancesEnabled = enabled;
         }
 
         /// <summary>
-        /// Enables/Disables Behavior effects globally (for all TextAnimators)
+        ///     Enables/Disables Behavior effects globally (for all TextAnimators)
         /// </summary>
         /// <param name="enabled"></param>
-        /// <remarks>To check if behaviors are enabled, refer to <see cref="effectsBehaviorsEnabled"/></remarks>
+        /// <remarks>To check if behaviors are enabled, refer to <see cref="effectsBehaviorsEnabled" /></remarks>
         public static void EnableBehaviors(bool enabled)
         {
-            enabled_globalBehaviors = enabled;
+            effectsBehaviorsEnabled = enabled;
         }
 
 
-        bool enabled_localBehaviors = true;
-        bool enabled_localAppearances = true;
+        private bool enabled_localBehaviors = true;
+        private bool enabled_localAppearances = true;
 
 
         /// <summary>
-        /// Enables/disables Behavior effects for this specific TextAnimator component.
+        ///     Enables/disables Behavior effects for this specific TextAnimator component.
         /// </summary>
         /// <remarks>
-        /// To disable effects on all TextAnimators, please see <see cref="EnableAppearances(bool)(bool)"></see>
+        ///     To disable effects on all TextAnimators, please see <see cref="EnableAppearances(bool)(bool)"></see>
         /// </remarks>
         /// <param name="value"></param>
         public void EnableBehaviorsLocally(bool value)
@@ -600,10 +629,10 @@ namespace Febucci.UI
         }
 
         /// <summary>
-        /// Enables/disables Appearance effects for this specific TextAnimator component.
+        ///     Enables/disables Appearance effects for this specific TextAnimator component.
         /// </summary>
         /// <remarks>
-        /// To disable effects on all TextAnimators, please see <see cref="EnableAppearances(bool)(bool)"></see>
+        ///     To disable effects on all TextAnimators, please see <see cref="EnableAppearances(bool)(bool)"></see>
         /// </remarks>
         /// <param name="value"></param>
         public void EnableAppearancesLocally(bool value)
@@ -614,13 +643,13 @@ namespace Febucci.UI
         #endregion
 
         #region Effects Database
-        bool databaseBuilt = false;
-        Dictionary<string, Type> localBehaviors = new Dictionary<string, Type>();
-        Dictionary<string, Type> localAppearances = new Dictionary<string, Type>();
 
-        void BuildTagsDatabase()
+        private bool databaseBuilt;
+        private Dictionary<string, Type> localBehaviors = new();
+        private Dictionary<string, Type> localAppearances = new();
+
+        private void BuildTagsDatabase()
         {
-
             if (databaseBuilt)
                 return;
 
@@ -632,28 +661,23 @@ namespace Febucci.UI
 
             //replaces local appearances data with global scriptable data
             if (scriptable_globalAppearancesValues)
-            {
                 appearancesContainer.values.defaults = scriptable_globalAppearancesValues.effectValues;
-            }
 
             //replaces local behavior data with global scriptable data
             if (scriptable_globalBehaviorsValues)
-            {
                 behaviorValues.defaults = scriptable_globalBehaviorsValues.effectValues;
-            }
+
             #endregion
 
             //adds local behavior presets
-            for (int i = 0; i < behaviorValues.presets.Length; i++)
-            {
-                TAnimBuilder.TryAddingPresetToDictionary(ref localBehaviors, behaviorValues.presets[i].effectTag, typeof(PresetBehavior));
-            }
+            for (var i = 0; i < behaviorValues.presets.Length; i++)
+                TAnimBuilder.TryAddingPresetToDictionary(ref localBehaviors, behaviorValues.presets[i].effectTag,
+                    typeof(PresetBehavior));
 
             //Adds local appearance presets
-            for (int i = 0; i < appearancesContainer.values.presets.Length; i++)
-            {
-                TAnimBuilder.TryAddingPresetToDictionary(ref localAppearances, appearancesContainer.values.presets[i].effectTag, typeof(PresetAppearance));
-            }
+            for (var i = 0; i < appearancesContainer.values.presets.Length; i++)
+                TAnimBuilder.TryAddingPresetToDictionary(ref localAppearances,
+                    appearancesContainer.values.presets[i].effectTag, typeof(PresetAppearance));
 
 
             #region Fallback appearing effects
@@ -665,19 +689,18 @@ namespace Febucci.UI
                 var temp_fallbackEffects = new List<AppearanceBase>();
 
                 //Default effects
-                for (int i = 0; i < tagsToConvert.Length; i++)
+                for (var i = 0; i < tagsToConvert.Length; i++)
                 {
                     if (tagsToConvert[i].Length <= 0) continue; //tag is empty
 
                     var tags = tagsToConvert[i].Split(' ');
-                    string actualEffect = tags[0]; //removes probable modifiers
+                    var actualEffect = tags[0]; //removes probable modifiers
 
-                    foreach(var effect in temp_fallbackEffects)
-                    {
-                        if (effect.regionManager.entireRichTextTag.Equals(tagsToConvert[i])) continue; //same effect has already been added
-                    }
+                    foreach (var effect in temp_fallbackEffects)
+                        if (effect.regionManager.entireRichTextTag.Equals(tagsToConvert[i]))
+                            continue; //same effect has already been added
 
-                    if (TryGetAppearingClassFromTag(actualEffect, tagsToConvert[i], 0, out AppearanceBase effectBase))
+                    if (TryGetAppearingClassFromTag(actualEffect, tagsToConvert[i], 0, out var effectBase))
                     {
                         effectBase.SetDefaultValues(appearancesContainer.values);
                         TryProcessingModifier(tags, ref effectBase);
@@ -687,34 +710,31 @@ namespace Febucci.UI
                     }
                     else
                     {
-                        Debug.LogError($"TextAnimator: Effect Tag '{tagsToConvert[i]}' is not recognized.", this.gameObject);
+                        Debug.LogError($"TextAnimator: Effect Tag '{tagsToConvert[i]}' is not recognized.", gameObject);
                     }
                 }
 
                 return temp_fallbackEffects.ToArray();
             }
 
-            this.fallbackAppearanceEffects = GetFallbackAppearancesFromTag(appearancesContainer.tagsFallback_Appearances);
-            this.fallbackDisappearanceEffects = GetFallbackAppearancesFromTag(appearancesContainer.tagsFallback_Disappearances);
+            fallbackAppearanceEffects = GetFallbackAppearancesFromTag(appearancesContainer.tagsFallback_Appearances);
+            fallbackDisappearanceEffects =
+                GetFallbackAppearancesFromTag(appearancesContainer.tagsFallback_Disappearances);
 
             var temp_fallbackBehaviorEffects = new List<BehaviorBase>();
             //Default behavior effects
-            for (int i = 0; i < tags_fallbackBehaviors.Length; i++)
+            for (var i = 0; i < tags_fallbackBehaviors.Length; i++)
             {
-                if (tags_fallbackBehaviors[i].Length <= 0)
-                {
-                    continue;
-                }
+                if (tags_fallbackBehaviors[i].Length <= 0) continue;
 
                 var tags = tags_fallbackBehaviors[i].Split(' ');
-                string actualEffect = tags[0]; //removes probable modifiers
+                var actualEffect = tags[0]; //removes probable modifiers
 
                 foreach (var effect in temp_fallbackBehaviorEffects)
-                {
-                    if (effect.regionManager.entireRichTextTag.Equals(tags_fallbackBehaviors[i])) continue; //same effect has already been added
-                }
+                    if (effect.regionManager.entireRichTextTag.Equals(tags_fallbackBehaviors[i]))
+                        continue; //same effect has already been added
 
-                if (TryGetBehaviorClassFromTag(actualEffect, tags_fallbackBehaviors[i], 0, out BehaviorBase effectBase))
+                if (TryGetBehaviorClassFromTag(actualEffect, tags_fallbackBehaviors[i], 0, out var effectBase))
                 {
                     effectBase.regionManager.AddRegion(0);
                     TryProcessingModifier(tags, ref effectBase);
@@ -722,21 +742,22 @@ namespace Febucci.UI
                 }
                 else
                 {
-                    Debug.LogError($"TextAnimator: Behavior Tag '{tags_fallbackBehaviors[i]}' is not recognized.", this.gameObject);
+                    Debug.LogError($"TextAnimator: Behavior Tag '{tags_fallbackBehaviors[i]}' is not recognized.",
+                        gameObject);
                 }
             }
 
-            this.fallbackBehaviorEffects = temp_fallbackBehaviorEffects.ToArray();
+            fallbackBehaviorEffects = temp_fallbackBehaviorEffects.ToArray();
 
             #endregion
-
-
         }
+
         #endregion
 
         #region Effects Creation/Instancing
 
-        bool TryGetBehaviorClassFromTag(string tag, string entireRichTextTag, int regionStartIndex, out BehaviorBase effectBase)
+        private bool TryGetBehaviorClassFromTag(string tag, string entireRichTextTag, int regionStartIndex,
+            out BehaviorBase effectBase)
         {
             //Global Tags
             if (TAnimBuilder.TryGetGlobalBehaviorFromTag(tag, entireRichTextTag, out effectBase))
@@ -756,10 +777,10 @@ namespace Febucci.UI
 
             effectBase = default;
             return false;
-
         }
 
-        bool TryGetAppearingClassFromTag(string tag, string entireRichTextTag, int startIndex, out AppearanceBase effectBase)
+        private bool TryGetAppearingClassFromTag(string tag, string entireRichTextTag, int startIndex,
+            out AppearanceBase effectBase)
         {
             //Global Tags
             if (TAnimBuilder.TryGetGlobalAppearanceFromTag(tag, entireRichTextTag, out effectBase))
@@ -784,79 +805,73 @@ namespace Febucci.UI
         #region Management Methods
 
         #region Tags Processing
-        const char m_closureSymbol = '/';
-        const char m_eventSymbol = '?';
-        const char m_disappearanceSymbol = '#';
 
-        bool TryProcessingAppearanceTag(string richTextTag, int realTextIndex)
+        private const char m_closureSymbol = '/';
+        private const char m_eventSymbol = '?';
+        private const char m_disappearanceSymbol = '#';
+
+        private bool TryProcessingAppearanceTag(string richTextTag, int realTextIndex)
         {
             //Closure tag, eg. '/'
             if (richTextTag[0] == m_closureSymbol)
             {
                 //Tries closing effect
                 if (richTextTag.Length > 1 && richTextTag[1] == m_disappearanceSymbol)
-                {
                     //disappearances, tag starts later (accounts for / and #)
-                    return disappearanceEffects.CloseSingleOrAllEffects(richTextTag.Substring(2, richTextTag.Length - 2), realTextIndex);
-                }
-                else
-                {
-                    //appearances
-                    return appearanceEffects.CloseSingleOrAllEffects(richTextTag.Substring(1, richTextTag.Length - 1), realTextIndex);
-                }
+                    return disappearanceEffects.CloseSingleOrAllEffects(
+                        richTextTag.Substring(2, richTextTag.Length - 2), realTextIndex);
 
+                //appearances
+                return appearanceEffects.CloseSingleOrAllEffects(richTextTag.Substring(1, richTextTag.Length - 1),
+                    realTextIndex);
             }
-            else
+
+            bool ProcessOpeningTag(List<AppearanceBase> effectsList)
             {
-                bool ProcessOpeningTag(List<AppearanceBase> effectsList)
-                {
-                    //Avoids creating a new class if the same effect has already been instanced
-                    for (int i = 0; i < effectsList.Count; i++)
-                    {
-                        if (effectsList[i].regionManager.TryReutilizingWithTag(richTextTag, realTextIndex))
-                        {
-                            return true;
-                        }
-                    }
-
-
-                    //All the tags inside the { } region (without the opening and ending chars, '{' and '}') separated by a space
-                    string[] tags = richTextTag.Split(' ');
-
-                    #region Tries adding effect
-                    if (TryGetAppearingClassFromTag(tags[0], richTextTag, realTextIndex, out AppearanceBase effectBase))
-                    {
-                        effectBase.SetDefaultValues(appearancesContainer.values);
-
-                        TryProcessingModifier(tags, ref effectBase);
-
-                        effectsList.TryAddingNewRegion(effectBase);
-
+                //Avoids creating a new class if the same effect has already been instanced
+                for (var i = 0; i < effectsList.Count; i++)
+                    if (effectsList[i].regionManager.TryReutilizingWithTag(richTextTag, realTextIndex))
                         return true;
-                    }
 
-                    #endregion
 
-                    return false;
-                }
+                //All the tags inside the { } region (without the opening and ending chars, '{' and '}') separated by a space
+                var tags = richTextTag.Split(' ');
 
-                if (richTextTag[0] == m_disappearanceSymbol) //disappearances
+                #region Tries adding effect
+
+                if (TryGetAppearingClassFromTag(tags[0], richTextTag, realTextIndex, out var effectBase))
                 {
-                    richTextTag = richTextTag.Substring(1, richTextTag.Length - 1); //removes the disappearance symbol, e.g. #fade becomes fade
-                    return ProcessOpeningTag(disappearanceEffects);
+                    effectBase.SetDefaultValues(appearancesContainer.values);
+
+                    TryProcessingModifier(tags, ref effectBase);
+
+                    effectsList.TryAddingNewRegion(effectBase);
+
+                    return true;
                 }
-                else //appearances
-                {
-                    return ProcessOpeningTag(appearanceEffects);
-                }
+
+                #endregion
+
+                return false;
             }
+
+            if (richTextTag[0] == m_disappearanceSymbol) //disappearances
+            {
+                richTextTag =
+                    richTextTag.Substring(1,
+                        richTextTag.Length - 1); //removes the disappearance symbol, e.g. #fade becomes fade
+                return ProcessOpeningTag(disappearanceEffects);
+            }
+
+            //appearances
+            return ProcessOpeningTag(appearanceEffects);
         }
 
-        void TryProcessingModifier<T>(string [] tags, ref T effect) where T : EffectsBase
+        private void TryProcessingModifier<T>(string[] tags, ref T effect) where T : EffectsBase
         {
             int equalsIndex;
             //Searches for modifiers inside the effect region (after the first tag, which we used to check the type of effect to add)
-            for (int tagIndex = 1; tagIndex < tags.Length; tagIndex++)
+            for (var tagIndex = 1; tagIndex < tags.Length; tagIndex++)
             {
                 equalsIndex = tags[tagIndex].IndexOf('=');
 
@@ -864,10 +879,10 @@ namespace Febucci.UI
                 if (equalsIndex >= 0)
                 {
                     //modifier name, from start to the equals symbol
-                    string modifierName = tags[tagIndex].Substring(0, equalsIndex);
+                    var modifierName = tags[tagIndex].Substring(0, equalsIndex);
 
                     //Numeric value of the modifier (the part after the equal symbol)
-                    string modifierValueName = tags[tagIndex].Substring(equalsIndex + 1);
+                    var modifierValueName = tags[tagIndex].Substring(equalsIndex + 1);
                     //modifierValueName = modifierValueName.Replace('.', ','); //replaces dots with commas
 
                     effect.SetModifier(modifierName, modifierValueName);
@@ -879,7 +894,8 @@ namespace Febucci.UI
             }
         }
 
-        bool TryProcessingBehaviorTag(string richTextTag, string loweredRichTextTag, int realTextIndex, ref int internalEventActionIndex)
+        private bool TryProcessingBehaviorTag(string richTextTag, string loweredRichTextTag, int realTextIndex,
+            ref int internalEventActionIndex)
         {
             if (loweredRichTextTag[0] == m_eventSymbol)
             {
@@ -894,7 +910,7 @@ namespace Febucci.UI
                 {
                     charIndex = realTextIndex,
                     eventMessage = richTextTag,
-                    internalOrder = internalEventActionIndex,
+                    internalOrder = internalEventActionIndex
                 });
 
                 internalEventActionIndex++; //increases internal events and features order
@@ -902,78 +918,65 @@ namespace Febucci.UI
 
                 #endregion
             }
-            else if (loweredRichTextTag[0] == m_closureSymbol)
+
+            if (loweredRichTextTag[0] == m_closureSymbol)
             {
                 loweredRichTextTag = loweredRichTextTag.Substring(1, loweredRichTextTag.Length - 1);
 
                 #region Tries closing effect
 
-                bool closedRegion = false;
+                var closedRegion = false;
 
                 //Closes all the regions
                 if (loweredRichTextTag.Length <= 0) //tag is </>
-                {
                     //Closes ALL the region opened until now
-                    for (int k = 0; k < behaviorEffects.Count; k++)
-                    {
+                    for (var k = 0; k < behaviorEffects.Count; k++)
                         closedRegion = behaviorEffects.CloseElement(k, realTextIndex);
-                    }
-                }
                 //Closes the current region
                 else
-                {
                     closedRegion = behaviorEffects.CloseRegionNamed(loweredRichTextTag, realTextIndex);
-                }
 
                 return closedRegion;
 
                 #endregion
             }
-            else
-            {
-                #region Tries adding effect
 
-                //Avoids creating a new effect if the same one has already been instanced
-                for (int i = 0; i < behaviorEffects.Count; i++)
-                {
-                    if (behaviorEffects[i].regionManager.TryReutilizingWithTag(loweredRichTextTag, realTextIndex))
-                        return true;
-                }
+            #region Tries adding effect
 
-                //All the tags inside the "< >" region (without the opening and ending chars, '<' and '>') separated by a space
-                string[] tags = loweredRichTextTag.Split(' ');
-
-                //Creates a behavior effect
-                if (TryGetBehaviorClassFromTag(tags[0], loweredRichTextTag, realTextIndex, out BehaviorBase behaviorEffect))
-                {
-                    behaviorEffect.SetDefaultValues(behaviorValues);
-
-                    TryProcessingModifier(tags, ref behaviorEffect);
-
-                    behaviorEffects.TryAddingNewRegion(behaviorEffect);
+            //Avoids creating a new effect if the same one has already been instanced
+            for (var i = 0; i < behaviorEffects.Count; i++)
+                if (behaviorEffects[i].regionManager.TryReutilizingWithTag(loweredRichTextTag, realTextIndex))
                     return true;
-                }
 
-                //No effect found
-                return false;
+            //All the tags inside the "< >" region (without the opening and ending chars, '<' and '>') separated by a space
+            var tags = loweredRichTextTag.Split(' ');
 
-                #endregion
+            //Creates a behavior effect
+            if (TryGetBehaviorClassFromTag(tags[0], loweredRichTextTag, realTextIndex, out var behaviorEffect))
+            {
+                behaviorEffect.SetDefaultValues(behaviorValues);
+
+                TryProcessingModifier(tags, ref behaviorEffect);
+
+                behaviorEffects.TryAddingNewRegion(behaviorEffect);
+                return true;
             }
 
+            //No effect found
+            return false;
+
+            #endregion
         }
 
-        bool TryProcessingActionTag(string entireTag, int realTextIndex, ref int internalEventActionIndex)
+        private bool TryProcessingActionTag(string entireTag, int realTextIndex, ref int internalEventActionIndex)
         {
             //First part of the tag, "<ciao>" becomes "ciao"
-            string firstPartTag = entireTag.Substring(1, entireTag.Length - 2);
+            var firstPartTag = entireTag.Substring(1, entireTag.Length - 2);
 
 
             //Trims from the equal symbol. If it's "<ciao=3>" it becomes "ciao"
-            int trimmeredIndex = entireTag.IndexOf('=');
-            if (trimmeredIndex >= 0)
-            {
-                firstPartTag = firstPartTag.Substring(0, trimmeredIndex - 1);
-            }
+            var trimmeredIndex = entireTag.IndexOf('=');
+            if (trimmeredIndex >= 0) firstPartTag = firstPartTag.Substring(0, trimmeredIndex - 1);
 
             //Checks if the tag is a recognized action
             if (TAnimBuilder.IsDefaultAction(firstPartTag) || TAnimBuilder.IsCustomAction(firstPartTag))
@@ -992,7 +995,7 @@ namespace Febucci.UI
                 {
                     //creates its parameters
 
-                    string finalPartTag = entireTag.Substring(firstPartTag.Length + 2);
+                    var finalPartTag = entireTag.Substring(firstPartTag.Length + 2);
 
                     finalPartTag = finalPartTag
                         .Substring(0, finalPartTag.Length - 1);
@@ -1009,18 +1012,17 @@ namespace Febucci.UI
             }
 
             return false;
-
         }
 
         #endregion
 
-        bool noparseEnabled = false;
-        int internalEventActionIndex = 0;
+        private bool noparseEnabled;
+        private int internalEventActionIndex;
 
-        List<int> temp_effectsToApply = new List<int>(); //temporary
+        private readonly List<int> temp_effectsToApply = new(); //temporary
 
 
-        void _SetText(string text, ShowTextMode showTextMode)
+        private void _SetText(string text, ShowTextMode showTextMode)
         {
             //Prevents to calculate everything for an empty text
             if (text.Length <= 0)
@@ -1055,20 +1057,13 @@ namespace Febucci.UI
             #region Adds Fallback Effects
 
             //fallback effects are added at the end of the list
-            for (int i = 0; i < fallbackAppearanceEffects.Length; i++)
-            {
+            for (var i = 0; i < fallbackAppearanceEffects.Length; i++)
                 appearanceEffects.Add(fallbackAppearanceEffects[i]);
-            }
 
-            for (int i = 0; i < fallbackDisappearanceEffects.Length; i++)
-            {
+            for (var i = 0; i < fallbackDisappearanceEffects.Length; i++)
                 disappearanceEffects.Add(fallbackDisappearanceEffects[i]);
-            }
 
-            for (int i = 0; i < fallbackBehaviorEffects.Length; i++)
-            {
-                behaviorEffects.Add(fallbackBehaviorEffects[i]);
-            }
+            for (var i = 0; i < fallbackBehaviorEffects.Length; i++) behaviorEffects.Add(fallbackBehaviorEffects[i]);
 
             #endregion
 
@@ -1090,16 +1085,9 @@ namespace Febucci.UI
             {
                 _maxVisibleCharacters = 0;
 
-                for (int i = 0; i < textInfo.characterCount; i++)
-                {
-                    HideCharacter(i);
-                }
+                for (var i = 0; i < textInfo.characterCount; i++) HideCharacter(i);
 
-                if (_maxVisibleCharacters <= 0 && characters.Length > 0)
-                {
-                    HideCharacter(0);
-                }
-
+                if (_maxVisibleCharacters <= 0 && characters.Length > 0) HideCharacter(0);
             }
 
             void ShowAllCharacters()
@@ -1107,7 +1095,7 @@ namespace Febucci.UI
                 _maxVisibleCharacters = textInfo.characterCount;
 
                 //resets letters time
-                for (int i = 0; i < textInfo.characterCount; i++)
+                for (var i = 0; i < textInfo.characterCount; i++)
                 {
                     characters[i].data.passedTime = 0;
                     characters[i].isDisappearing = false;
@@ -1150,7 +1138,7 @@ namespace Febucci.UI
 
         private string _FormatText(string text, int startCharacterIndex)
         {
-            System.Text.StringBuilder temp_realText = new System.Text.StringBuilder();
+            var temp_realText = new StringBuilder();
 
 #if CHECK_ERRORS
             EDITOR_CompatibilityCheck(text);
@@ -1169,6 +1157,7 @@ namespace Febucci.UI
             for (int i = 0, realTextIndex = startCharacterIndex; i < text.Length; i++)
             {
                 #region Local Methods
+
                 void AppendCurrentCharacterToText()
                 {
                     temp_realText.Append(text[i]);
@@ -1182,7 +1171,8 @@ namespace Febucci.UI
                         _closingCharacter = TAnimBuilder.tag_behaviors.charClosingTag;
                         return true;
                     }
-                    else if (text[i] == TAnimBuilder.tag_appearances.charOpeningTag)
+
+                    if (text[i] == TAnimBuilder.tag_appearances.charOpeningTag)
                     {
                         _closingCharacter = TAnimBuilder.tag_appearances.charClosingTag;
                         return true;
@@ -1201,26 +1191,28 @@ namespace Febucci.UI
 
                 #endregion
 
-                if (TryGetClosingCharacter(out char closingCharacter))
+                if (TryGetClosingCharacter(out var closingCharacter))
                 {
                     indexOfNextOpening = text.IndexOf(text[i], i + 1);
                     indexOfClosing = text.IndexOf(closingCharacter, i + 1);
 
                     //Checks if the tag is closed correctly and valid
                     if (
-                        indexOfClosing >= 0  //the tag ends somewhere
-                            && (
-                                indexOfNextOpening > indexOfClosing || //next opening char is further from the closing (example, at first pos "<hello> <" is ok, "<<hello>" is wrong)
-                                indexOfNextOpening < 0 //there isn't a next opening char
-                            )
+                        indexOfClosing >= 0 //the tag ends somewhere
+                        && (
+                            indexOfNextOpening >
+                            indexOfClosing || //next opening char is further from the closing (example, at first pos "<hello> <" is ok, "<<hello>" is wrong)
+                            indexOfNextOpening < 0 //there isn't a next opening char
                         )
+                    )
                     {
                         //entire tag found, including < and >
-                        entireTag = (text.Substring(i, indexOfClosing - i + 1));
+                        entireTag = text.Substring(i, indexOfClosing - i + 1);
                         richTextTag = entireTag.Substring(1, entireTag.Length - 2);
                         loweredRichTextTag = richTextTag.ToLower();
 
                         #region Processes Tags
+
                         if (loweredRichTextTag.Length < 1) //avoids an empty tag
                         {
                             AppendCurrentTagToText();
@@ -1230,17 +1222,21 @@ namespace Febucci.UI
                             if (closingCharacter == TAnimBuilder.tag_appearances.charClosingTag)
                             {
                                 if (noparseEnabled || !TryProcessingAppearanceTag(loweredRichTextTag, realTextIndex))
-                                {
                                     AppendCurrentTagToText();
-                                }
                             }
                             else //behavior effects
                             {
                                 switch (loweredRichTextTag)
                                 {
                                     //<noparse>
-                                    case "noparse": noparseEnabled = true; AppendCurrentTagToText(); break;
-                                    case "/noparse": noparseEnabled = false; AppendCurrentTagToText(); break;
+                                    case "noparse":
+                                        noparseEnabled = true;
+                                        AppendCurrentTagToText();
+                                        break;
+                                    case "/noparse":
+                                        noparseEnabled = false;
+                                        AppendCurrentTagToText();
+                                        break;
 
 
                                     default:
@@ -1251,25 +1247,22 @@ namespace Febucci.UI
                                         }
                                         else
                                         {
-                                            if (!TryProcessingBehaviorTag(richTextTag, loweredRichTextTag, realTextIndex, ref internalEventActionIndex))
-                                            {
-                                                if (!TryProcessingActionTag(entireTag, realTextIndex, ref internalEventActionIndex))
-                                                {
+                                            if (!TryProcessingBehaviorTag(richTextTag, loweredRichTextTag,
+                                                    realTextIndex, ref internalEventActionIndex))
+                                                if (!TryProcessingActionTag(entireTag, realTextIndex,
+                                                        ref internalEventActionIndex))
                                                     AppendCurrentTagToText();
-                                                }
-                                            }
                                         }
+
                                         break;
                                 }
-
-
                             }
                         }
+
                         #endregion
 
                         //"skips" all the characters inside the tag, so we'll go back adding letters again
                         i = indexOfClosing;
-
                     }
                     else //tag is not closed correctly - pastes the tag opening/closing character (eg. '<')
                     {
@@ -1285,7 +1278,7 @@ namespace Febucci.UI
             return temp_realText.ToString();
         }
 
-        void _ApplyTextToCharacters(string text)
+        private void _ApplyTextToCharacters(string text)
         {
             //Applies the formatted to the component in order to get the proper TextInfo
             {
@@ -1308,25 +1301,17 @@ namespace Febucci.UI
 
             SetupEffectsIntensity();
 
-            foreach (var effect in this.appearanceEffects)
-            {
-                effect.Initialize(characters.Length);
-            }
+            foreach (var effect in appearanceEffects) effect.Initialize(characters.Length);
 
-            foreach (var effect in this.disappearanceEffects)
-            {
-                effect.Initialize(characters.Length);
-            }
+            foreach (var effect in disappearanceEffects) effect.Initialize(characters.Length);
 
-            foreach (var effect in this.behaviorEffects)
-            {
-                effect.Initialize(characters.Length);
-            }
+            foreach (var effect in behaviorEffects) effect.Initialize(characters.Length);
 
             #endregion
 
             #region Characters Setup
-            for (int i = 0; i < textInfo.characterCount; i++)
+
+            for (var i = 0; i < textInfo.characterCount; i++)
             {
                 characters[i].data.tmp_CharInfo = textInfo.characterInfo[i];
 
@@ -1346,44 +1331,39 @@ namespace Febucci.UI
 
                 #endregion
 
-                void SetEffectsDependency<T>(ref int[] indexes, List<T> effects, int fallbackEffectsCount) where T : EffectsBase
+                void SetEffectsDependency<T>(ref int[] indexes, List<T> effects, int fallbackEffectsCount)
+                    where T : EffectsBase
                 {
                     temp_effectsToApply.Clear();
 
                     //Checks if the character is inside a region of any effect, if yes we add a pointer to it
-                    for (int l = fallbackEffectsCount; l < effects.Count; l++)
-                    {
+                    for (var l = fallbackEffectsCount; l < effects.Count; l++)
                         if (effects[l].regionManager.IsCharInsideRegion(textInfo.characterInfo[i].index))
-                        {
                             temp_effectsToApply.Add(l);
-                        }
-                    }
 
                     indexes = new int[temp_effectsToApply.Count];
-                    for (int x = 0; x < temp_effectsToApply.Count; x++)
-                    {
-                        indexes[x] = temp_effectsToApply[x];
-                    }
+                    for (var x = 0; x < temp_effectsToApply.Count; x++) indexes[x] = temp_effectsToApply[x];
                 }
 
                 //Assigns effects
-                SetEffectsDependency(ref characters[i].indexBehaviorEffects, behaviorEffects, fallbackBehaviorEffects.Length);
-                SetEffectsDependency(ref characters[i].indexAppearanceEffects, appearanceEffects, fallbackAppearanceEffects.Length);
-                SetEffectsDependency(ref characters[i].indexDisappearanceEffects, disappearanceEffects, fallbackDisappearanceEffects.Length);
+                SetEffectsDependency(ref characters[i].indexBehaviorEffects, behaviorEffects,
+                    fallbackBehaviorEffects.Length);
+                SetEffectsDependency(ref characters[i].indexAppearanceEffects, appearanceEffects,
+                    fallbackAppearanceEffects.Length);
+                SetEffectsDependency(ref characters[i].indexDisappearanceEffects, disappearanceEffects,
+                    fallbackDisappearanceEffects.Length);
 
                 #region Fallback Effects
 
                 void AssignFallbackEffect<T>(T[] effect, ref int[] indexes) where T : EffectsBase
                 {
-
                     //Assigns fallbacks appearances if there are no effects on the current characters
                     if (effect.Length > 0 && indexes.Length <= 0)
                     {
                         indexes = new int[effect.Length];
-                        for (int x = 0; x < effect.Length; x++)
-                        {
-                            indexes[x] = x; //fallback effects are added at the start of the array
-                        }
+                        for (var x = 0;
+                             x < effect.Length;
+                             x++) indexes[x] = x; //fallback effects are added at the start of the array
                     }
                 }
 
@@ -1399,34 +1379,36 @@ namespace Febucci.UI
                     float duration = 0;
                     //calculates disappearance duration
                     foreach (var index in effectsIndex)
-                    {
-                        if (effects[index].effectDuration > duration) duration = effects[index].effectDuration;
-                    }
+                        if (effects[index].effectDuration > duration)
+                            duration = effects[index].effectDuration;
 
                     return duration;
                 }
 
-                characters[i].disappearancesMaxDuration = CalculateAppearanceDuration(characters[i].indexDisappearanceEffects, disappearanceEffects);
-                characters[i].appearancesMaxDuration = CalculateAppearanceDuration(characters[i].indexAppearanceEffects, appearanceEffects);
-
+                characters[i].disappearancesMaxDuration =
+                    CalculateAppearanceDuration(characters[i].indexDisappearanceEffects, disappearanceEffects);
+                characters[i].appearancesMaxDuration =
+                    CalculateAppearanceDuration(characters[i].indexAppearanceEffects, appearanceEffects);
 
 
                 //Copies source data from the mesh info only if the character is valid, otherwise its vertices array will be null and tAnim will start throw errors
                 if (textInfo.characterInfo[i].isVisible)
-                {
                     for (byte k = 0; k < TextUtilities.verticesPerChar; k++)
                     {
                         //vertices
-                        characters[i].sources.vertices[k] = textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].vertices[textInfo.characterInfo[i].vertexIndex + k];
+                        characters[i].sources.vertices[k] = textInfo
+                            .meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                            .vertices[textInfo.characterInfo[i].vertexIndex + k];
 
                         //colors
-                        characters[i].sources.colors[k] = textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].colors32[textInfo.characterInfo[i].vertexIndex + k];
+                        characters[i].sources.colors[k] = textInfo
+                            .meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                            .colors32[textInfo.characterInfo[i].vertexIndex + k];
                     }
-                }
             }
 
             //makes sure the new characters start invisible, and do not have a disappearance effect applied
-            for (int i = maxVisibleCharacters; i < characters.Length; i++)
+            for (var i = maxVisibleCharacters; i < characters.Length; i++)
             {
                 characters[i].isDisappearing = true;
                 characters[i].data.passedTime = 0;
@@ -1435,9 +1417,11 @@ namespace Febucci.UI
             #endregion
 
             #region Updates variables
+
             hasText = text.Length > 0;
             autoSize = tmproText.enableAutoSizing;
             this.text = tmproText.text;
+
             #endregion
 
 
@@ -1448,15 +1432,16 @@ namespace Febucci.UI
             CopyMeshSources();
         }
 
-        void TryTriggeringEvent(int maxInternalOrder)
+        private void TryTriggeringEvent(int maxInternalOrder)
         {
             //Calls all events markers until the current shown visible character
-            for (int i = latestTriggeredEvent; i < eventMarkers.Count; i++)
-            {
+            for (var i = latestTriggeredEvent; i < eventMarkers.Count; i++)
                 if (!eventMarkers[i].triggered && //current event must not be triggered already
-                    eventMarkers[i].charIndex <= textInfo.characterInfo[_maxVisibleCharacters].index && //triggers any event until the current character
+                    eventMarkers[i].charIndex <=
+                    textInfo.characterInfo[_maxVisibleCharacters]
+                        .index && //triggers any event until the current character
                     eventMarkers[i].internalOrder < maxInternalOrder
-                    )
+                   )
                 {
                     var _event = eventMarkers[i];
                     _event.triggered = true;
@@ -1465,11 +1450,10 @@ namespace Febucci.UI
                     latestTriggeredEvent = i;
                     onEvent?.Invoke(eventMarkers[i].eventMessage);
                 }
-            }
         }
 
         /// <summary>
-        /// Tries to get an action in the current position of the text
+        ///     Tries to get an action in the current position of the text
         /// </summary>
         /// <param name="action">Initialized feature</param>
         /// <returns>True if we have found one action  in the current text position</returns>
@@ -1481,8 +1465,7 @@ namespace Febucci.UI
                 return false;
             }
 
-            for (int i = latestTriggeredAction; i < typewriterActions.Count; i++)
-            {
+            for (var i = latestTriggeredAction; i < typewriterActions.Count; i++)
                 if (typewriterActions[i].charIndex == textInfo.characterInfo[_maxVisibleCharacters].index &&
                     !typewriterActions[i].triggered)
                 {
@@ -1498,31 +1481,25 @@ namespace Febucci.UI
                     latestTriggeredAction = i;
                     return true;
                 }
-            }
 
             action = default;
             return false;
         }
 
         /// <summary>
-        /// Assigns intensity multiplier and effect values/parameters to effects
+        ///     Assigns intensity multiplier and effect values/parameters to effects
         /// </summary>
-        void SetupEffectsIntensity()
+        private void SetupEffectsIntensity()
         {
-            float intensity = effectIntensityMultiplier;
+            var intensity = effectIntensityMultiplier;
 
             if (useDynamicScaling)
-            {
                 //multiplies by font size
                 intensity *= tmproText.fontSize / referenceFontSize;
-            }
 
             void SetEffectsIntensity<T>(List<T> effects) where T : EffectsBase
             {
-                foreach (var effect in effects)
-                {
-                    effect.uniformIntensity = intensity;
-                }
+                foreach (var effect in effects) effect.uniformIntensity = intensity;
             }
 
             SetEffectsIntensity(behaviorEffects);
@@ -1534,8 +1511,9 @@ namespace Febucci.UI
 
         #region Mesh
 
-        int tmpFirstVisibleCharacter;
-        void CopyMeshSources()
+        private int tmpFirstVisibleCharacter;
+
+        private void CopyMeshSources()
         {
             forceMeshRefresh = false;
             autoSize = tmproText.enableAutoSizing;
@@ -1545,7 +1523,7 @@ namespace Febucci.UI
 
             SetupEffectsIntensity();
             //Updates the characters sources
-            for (int i = 0; i < textInfo.characterCount; i++)
+            for (var i = 0; i < textInfo.characterCount; i++)
             {
                 //Updates TMP char info
                 characters[i].data.tmp_CharInfo = textInfo.characterInfo[i];
@@ -1554,25 +1532,25 @@ namespace Febucci.UI
 
                 //Updates vertices
                 for (byte k = 0; k < TextUtilities.verticesPerChar; k++)
-                {
-                    characters[i].sources.vertices[k] = textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].vertices[textInfo.characterInfo[i].vertexIndex + k];
-                }
+                    characters[i].sources.vertices[k] = textInfo
+                        .meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                        .vertices[textInfo.characterInfo[i].vertexIndex + k];
 
                 //Updates colors
                 for (byte k = 0; k < TextUtilities.verticesPerChar; k++)
-                {
-                    characters[i].sources.colors[k] = textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].colors32[textInfo.characterInfo[i].vertexIndex + k];
-                }
+                    characters[i].sources.colors[k] = textInfo
+                        .meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                        .colors32[textInfo.characterInfo[i].vertexIndex + k];
             }
         }
 
         /// <summary>
-        /// Applies the changes to the text component
+        ///     Applies the changes to the text component
         /// </summary>
-        void UpdateMesh()
+        private void UpdateMesh()
         {
             //Updates the mesh
-            for (int i = 0; i < textInfo.characterCount; i++)
+            for (var i = 0; i < textInfo.characterCount; i++)
             {
                 //Avoids updating if we're on an invisible character, like a spacebar
                 //Do not switch this with "i<visibleCharacters", since the plugin has to update not yet visible characters
@@ -1583,15 +1561,13 @@ namespace Febucci.UI
 
                 //Updates vertices
                 for (byte k = 0; k < TextUtilities.verticesPerChar; k++)
-                {
-                    textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].vertices[textInfo.characterInfo[i].vertexIndex + k] = characters[i].data.vertices[k];
-                }
+                    textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                        .vertices[textInfo.characterInfo[i].vertexIndex + k] = characters[i].data.vertices[k];
 
                 //Updates colors
                 for (byte k = 0; k < TextUtilities.verticesPerChar; k++)
-                {
-                    textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex].colors32[textInfo.characterInfo[i].vertexIndex + k] = characters[i].data.colors[k];
-                }
+                    textInfo.meshInfo[textInfo.characterInfo[i].materialReferenceIndex]
+                        .colors32[textInfo.characterInfo[i].vertexIndex + k] = characters[i].data.colors[k];
             }
 
             tmproText.UpdateVertexData();
@@ -1722,7 +1698,6 @@ namespace Febucci.UI
                 //trigers anim player
                 if (triggerAnimPlayerOnChange && tAnimPlayer != null)
                 {
-
 #if TA_NoTempFix
                     tAnimPlayer.ShowText(tmproText.text);
 #else
@@ -1730,12 +1705,12 @@ namespace Febucci.UI
                     //temp fix, opening and closing this TMPro tag (which won't be showed in the text, acting like they aren't there) because otherwise
                     //there isn't any way to trigger that the text has changed, if it's actually the same as the previous one.
 
-                    if (tmproText.text.Length <= 0) //forces clearing the mesh during the tempFix, without the <noparse> tags
+                    if (tmproText.text.Length <=
+                        0) //forces clearing the mesh during the tempFix, without the <noparse> tags
                         tAnimPlayer.ShowText("");
                     else
                         tAnimPlayer.ShowText($"<noparse></noparse>{tmproText.text}");
 #endif
-
                 }
                 else //user is typing from TMPro
                 {
@@ -1754,26 +1729,20 @@ namespace Febucci.UI
 
             #region Effects Calculation
 
-            for (int i = 0; i < behaviorEffects.Count; i++)
+            for (var i = 0; i < behaviorEffects.Count; i++)
             {
                 behaviorEffects[i].SetAnimatorData(m_time);
                 behaviorEffects[i].Calculate();
             }
 
-            for (int i = 0; i < appearanceEffects.Count; i++)
-            {
-                appearanceEffects[i].Calculate();
-            }
+            for (var i = 0; i < appearanceEffects.Count; i++) appearanceEffects[i].Calculate();
 
-            for (int i = 0; i < disappearanceEffects.Count; i++)
-            {
-                disappearanceEffects[i].Calculate();
-            }
+            for (var i = 0; i < disappearanceEffects.Count; i++) disappearanceEffects[i].Calculate();
+
             #endregion
 
-            for (int i = 0; i < textInfo.characterCount; i++)
+            for (var i = 0; i < textInfo.characterCount; i++)
             {
-
 #if INTEGRATE_NANINOVEL
                 //If we're integrating naninovels, shows characters based on its reveal component
                 if (isNaninovelPresent)
@@ -1795,13 +1764,9 @@ namespace Febucci.UI
 
                 void TryApplyingBehaviors()
                 {
-                    if (enabled_globalBehaviors && enabled_localBehaviors)
-                    {
-                        foreach (int behaviorIndex in characters[i].indexBehaviorEffects)
-                        {
+                    if (effectsBehaviorsEnabled && enabled_localBehaviors)
+                        foreach (var behaviorIndex in characters[i].indexBehaviorEffects)
                             behaviorEffects[behaviorIndex].ApplyEffect(ref characters[i].data, i);
-                        }
-                    }
                 }
 
 
@@ -1809,7 +1774,8 @@ namespace Febucci.UI
                 if (characters[i].isDisappearing != characters[i].wantsToDisappear)
                 {
                     characters[i].isDisappearing = characters[i].wantsToDisappear;
-                    characters[i].data.passedTime = characters[i].isDisappearing ? characters[i].disappearancesMaxDuration : 0;
+                    characters[i].data.passedTime =
+                        characters[i].isDisappearing ? characters[i].disappearancesMaxDuration : 0;
                 }
 
                 characters[i].ResetColors();
@@ -1822,19 +1788,12 @@ namespace Febucci.UI
                     TryApplyingBehaviors();
 
                     //appearances
-                    if (enabled_globalAppearances && enabled_localAppearances && !skipAppearanceEffects)
-                    {
-                        foreach (int appearanceIndex in characters[i].indexAppearanceEffects)
-                        {
+                    if (effectsAppearancesEnabled && enabled_localAppearances && !skipAppearanceEffects)
+                        foreach (var appearanceIndex in characters[i].indexAppearanceEffects)
                             if (appearanceEffects[appearanceIndex].CanShowAppearanceOn(characters[i].data.passedTime))
-                            {
                                 appearanceEffects[appearanceIndex].ApplyEffect(ref characters[i].data, i);
-                            }
-                        }
-                    }
 
                     characters[i].data.passedTime += m_time.deltaTime;
-
                 }
                 else //tries to apply disappearance effects
                 {
@@ -1850,19 +1809,13 @@ namespace Febucci.UI
                     TryApplyingBehaviors();
 
                     //disappearances
-                    if (enabled_globalAppearances && enabled_localAppearances)
-                    {
-                        foreach (int disappearanceIndex in characters[i].indexDisappearanceEffects)
-                        {
-                            if (disappearanceEffects[disappearanceIndex].CanShowAppearanceOn(characters[i].data.passedTime))
-                            {
+                    if (effectsAppearancesEnabled && enabled_localAppearances)
+                        foreach (var disappearanceIndex in characters[i].indexDisappearanceEffects)
+                            if (disappearanceEffects[disappearanceIndex]
+                                .CanShowAppearanceOn(characters[i].data.passedTime))
                                 disappearanceEffects[disappearanceIndex].ApplyEffect(ref characters[i].data, i);
-                            }
-                        }
-                    }
 
                     characters[i].data.passedTime -= m_time.deltaTime;
-
                 }
             }
 
@@ -1878,12 +1831,11 @@ namespace Febucci.UI
                 || tmproText.rectTransform.rect != sourceRect
                 || tmproText.color != sourceColor
                 || tmproText.firstVisibleCharacter != tmpFirstVisibleCharacter
-                )
+               )
             {
                 tmproText.ForceMeshUpdate();
                 CopyMeshSources();
             }
-
         }
 
         private void OnEnable()
@@ -1891,51 +1843,52 @@ namespace Febucci.UI
             //The mesh might have changed when the gameObject was disabled (eg. change of "autoSize")
             forceMeshRefresh = true;
             Update();
-            
+
 #if UNITY_EDITOR
             TAnim_EditorHelper.onChangesApplied += EDITORONLY_ResetEffects;
 #endif
         }
 
 #if UNITY_EDITOR
+
         #region Editor
+
 #if CHECK_ERRORS
-        void EDITOR_CompatibilityCheck(string text)
+        private void EDITOR_CompatibilityCheck(string text)
         {
             #region Text
-            string textLower = text.ToLower();
-            string errorsLog = "";
+
+            var textLower = text.ToLower();
+            var errorsLog = "";
 
             //page
-            if ((textLower.Contains("<page=")))
-            {
-                errorsLog += "- Tag <page> is not compatible\n";
-            }
+            if (textLower.Contains("<page=")) errorsLog += "- Tag <page> is not compatible\n";
 
             if (errorsLog.Length > 0)
-            {
-                Debug.LogError($"TextAnimator: Given text not accepted [expand for more details]\n\nText:'{text}'\n\nErrors:\n{errorsLog}", this.gameObject);
-            }
+                Debug.LogError(
+                    $"TextAnimator: Given text not accepted [expand for more details]\n\nText:'{text}'\n\nErrors:\n{errorsLog}",
+                    gameObject);
+
             #endregion
         }
 #endif
 
         [ContextMenu("Toggle Appearances (all scripts)")]
-        void EDITORONLY_ToggleAppearances()
+        private void EDITORONLY_ToggleAppearances()
         {
             if (!Application.isPlaying)
                 return;
 
-            EnableAppearances(!enabled_globalAppearances);
+            EnableAppearances(!effectsAppearancesEnabled);
         }
 
         [ContextMenu("Toggle Behaviors (all scripts)")]
-        void EDITORONLY_ToggleBehaviors()
+        private void EDITORONLY_ToggleBehaviors()
         {
             if (!Application.isPlaying)
                 return;
 
-            EnableBehaviors(!enabled_globalBehaviors);
+            EnableBehaviors(!effectsBehaviorsEnabled);
         }
 
         private void OnDisable()
@@ -1943,49 +1896,34 @@ namespace Febucci.UI
             TAnim_EditorHelper.onChangesApplied -= EDITORONLY_ResetEffects;
         }
 
-        void EDITORONLY_ResetEffects()
+        private void EDITORONLY_ResetEffects()
         {
             if (!Application.isPlaying)
                 return;
 
-            if (behaviorEffects != null && appearanceEffects != null && disappearanceEffects != null) 
+            if (behaviorEffects != null && appearanceEffects != null && disappearanceEffects != null)
             {
                 //---sets intensity---
-                for (int i = 0; i < behaviorEffects.Count; i++)
-                {
-                    behaviorEffects[i].SetDefaultValues(behaviorValues);
-                }
+                for (var i = 0; i < behaviorEffects.Count; i++) behaviorEffects[i].SetDefaultValues(behaviorValues);
 
-                for (int i = 0; i < appearanceEffects.Count; i++)
-                {
+                for (var i = 0; i < appearanceEffects.Count; i++)
                     appearanceEffects[i].SetDefaultValues(appearancesContainer.values);
-                }
 
-                for (int i = 0; i < disappearanceEffects.Count; i++)
-                {
+                for (var i = 0; i < disappearanceEffects.Count; i++)
                     disappearanceEffects[i].SetDefaultValues(appearancesContainer.values);
-                }
 
                 SetupEffectsIntensity();
 
-                for (int i = 0; i < behaviorEffects.Count; i++)
-                {
-                    behaviorEffects[i].EDITOR_ApplyModifiers();
-                }
+                for (var i = 0; i < behaviorEffects.Count; i++) behaviorEffects[i].EDITOR_ApplyModifiers();
 
-                for (int i = 0; i < appearanceEffects.Count; i++)
-                {
-                    appearanceEffects[i].EDITOR_ApplyModifiers();
-                }
+                for (var i = 0; i < appearanceEffects.Count; i++) appearanceEffects[i].EDITOR_ApplyModifiers();
 
-                for (int i = 0; i < disappearanceEffects.Count; i++)
-                {
-                    disappearanceEffects[i].EDITOR_ApplyModifiers();
-                }
-
+                for (var i = 0; i < disappearanceEffects.Count; i++) disappearanceEffects[i].EDITOR_ApplyModifiers();
             }
         }
+
         #endregion
+
 #endif
     }
 }

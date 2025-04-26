@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Swing)]
-    class SwingBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Swing)]
+    internal class SwingBehavior : BehaviorSine
     {
-
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
             amplitude = data.defaults.swingAmplitude;

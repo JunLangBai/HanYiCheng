@@ -1,16 +1,42 @@
-using UnityEngine;
-using UnityEngine.UI;
 using Rokid.UXR.Native;
 using Rokid.UXR.Utility;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Rokid.UXR.Demo
 {
     public class CameraPreview : MonoBehaviour
     {
+        public RawImage rawImage;
         private bool isInit;
         private Texture2D previewTex;
-        public RawImage rawImage;
         private int width, height;
+
+        private void Awake()
+        {
+#if !UNITY_EDITOR
+	        rawImage.color = Color.white;
+#endif
+            NativeInterface.NativeAPI.StartCameraPreview();
+        }
+
+        private void Update()
+        {
+            if (isInit == false && NativeInterface.NativeAPI.IsPreviewing()) Init();
+        }
+
+        private void OnDestroy()
+        {
+            Release();
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+                Release();
+            else
+                NativeInterface.NativeAPI.StartCameraPreview();
+        }
 
 
         public void Init()
@@ -27,6 +53,7 @@ namespace Rokid.UXR.Demo
                 NativeInterface.NativeAPI.SetCameraPreviewDataType(1);
                 previewTex = new Texture2D(width, height, TextureFormat.BGRA32, false);
             }
+
             NativeInterface.NativeAPI.OnCameraDataUpdate += OnCameraDataUpdate;
             isInit = true;
         }
@@ -41,14 +68,6 @@ namespace Rokid.UXR.Demo
             });
         }
 
-        private void Awake()
-        {
-#if !UNITY_EDITOR
-	        rawImage.color = Color.white;
-#endif
-            NativeInterface.NativeAPI.StartCameraPreview();
-        }
-
         public void Release()
         {
             if (isInit)
@@ -57,31 +76,6 @@ namespace Rokid.UXR.Demo
                 NativeInterface.NativeAPI.StopCameraPreview();
                 NativeInterface.NativeAPI.ClearCameraDataUpdate();
                 isInit = false;
-            }
-        }
-
-        private void OnDestroy()
-        {
-            Release();
-        }
-
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus)
-            {
-                Release();
-            }
-            else
-            {
-                NativeInterface.NativeAPI.StartCameraPreview();
-            }
-        }
-
-        private void Update()
-        {
-            if (isInit == false && NativeInterface.NativeAPI.IsPreviewing())
-            {
-                Init();
             }
         }
     }

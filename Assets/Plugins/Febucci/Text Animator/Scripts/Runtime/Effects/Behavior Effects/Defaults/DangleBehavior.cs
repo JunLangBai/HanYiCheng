@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Dangle)]
-    class DangleBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Dangle)]
+    internal class DangleBehavior : BehaviorSine
     {
-        float sin;
+        private float sin;
 
-        int targetIndex1;
-        int targetIndex2;
+        private int targetIndex1;
+        private int targetIndex2;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -28,7 +29,6 @@ namespace Febucci.UI.Core
                 targetIndex1 = 0;
                 targetIndex2 = 3;
             }
-
         }
 
         public override void ApplyEffect(ref CharacterData data, int charIndex)

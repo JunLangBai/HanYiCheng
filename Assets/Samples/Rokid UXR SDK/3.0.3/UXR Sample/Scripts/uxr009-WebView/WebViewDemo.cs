@@ -1,6 +1,6 @@
+using Rokid.UXR.Module;
 using UnityEngine;
 using UnityEngine.UI;
-using Rokid.UXR.Module;
 
 namespace Rokid.UXR.Demo
 {
@@ -16,5 +16,4 @@ namespace Rokid.UXR.Demo
             });
         }
     }
-
 }

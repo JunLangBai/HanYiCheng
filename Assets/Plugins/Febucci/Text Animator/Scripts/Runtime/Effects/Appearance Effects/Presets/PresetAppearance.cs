@@ -1,27 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
+
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: "")]
-    class PresetAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo("")]
+    internal class PresetAppearance : AppearanceBase
     {
+        private Color32 color;
+        private ColorCurve colorCurve;
 
-        bool enabled;
+        private bool enabled;
+
+        private bool hasTransformEffects;
 
         //management
-        Matrix4x4 matrix;
-        Vector3 offset;
-        Quaternion rotationQua;
+        private Matrix4x4 matrix;
 
-        bool hasTransformEffects;
+        private ThreeAxisEffector movement;
+        private Vector3 offset;
+        private ThreeAxisEffector rotation;
+        private Quaternion rotationQua;
+        private TwoAxisEffector scale;
 
-        ThreeAxisEffector movement;
-        ThreeAxisEffector rotation;
-        TwoAxisEffector scale;
-
-        bool setColor;
-        Color32 color;
-        ColorCurve colorCurve;
+        private bool setColor;
 
         public override void SetDefaultValues(AppearanceDefaultValues data)
         {
@@ -54,68 +56,8 @@ namespace Febucci.UI.Core
             }
 
             //global presets
-            if (TAnimBuilder.TryGetGlobalPresetAppearance(effectTag, out values))
-            {
-                AssignValues(values);
-                return;
-            }
-
+            if (TAnimBuilder.TryGetGlobalPresetAppearance(effectTag, out values)) AssignValues(values);
         }
-
-        #region Effector classes
-        internal abstract class Effector
-        {
-            protected abstract Vector3 _EvaluateEffect(float passedTime, int charInde);
-            public Vector3 EvaluateEffect(float passedTime, int charIndex)
-            {
-                return _EvaluateEffect(passedTime, charIndex);
-            }
-        }
-
-        internal sealed class ThreeAxisEffector : Effector
-        {
-            EffectEvaluator x;
-            EffectEvaluator y;
-            EffectEvaluator z;
-
-            public ThreeAxisEffector(EffectEvaluator x, EffectEvaluator y, EffectEvaluator z)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-            }
-
-            protected override Vector3 _EvaluateEffect(float passedTime, int charIndex)
-            {
-                return new Vector3(
-                    x.Evaluate(passedTime, charIndex),
-                    y.Evaluate(passedTime, charIndex),
-                    z.Evaluate(passedTime, charIndex)
-                    );
-            }
-        }
-
-        internal sealed class TwoAxisEffector : Effector
-        {
-            EffectEvaluator x;
-            EffectEvaluator y;
-
-            public TwoAxisEffector(EffectEvaluator x, EffectEvaluator y)
-            {
-                this.x = x;
-                this.y = y;
-            }
-
-            protected override Vector3 _EvaluateEffect(float passedTime, int charIndex)
-            {
-                return new Vector3(
-                    x.Evaluate(passedTime, charIndex),
-                    y.Evaluate(passedTime, charIndex),
-                    1
-                    );
-            }
-        }
-        #endregion
 
         public static bool SetPreset<T>(
             bool isAppearance,
@@ -128,9 +70,8 @@ namespace Febucci.UI.Core
             ref bool hasTransformEffects,
             ref bool setColor,
             ref ColorCurve colorCurve
-            ) where T : PresetBaseValues
+        ) where T : PresetBaseValues
         {
-
             values.Initialize(isAppearance);
             showDuration = values.GetMaxDuration();
 
@@ -143,19 +84,19 @@ namespace Febucci.UI.Core
             scale = new TwoAxisEffector(
                 values.scaleX,
                 values.scaleY
-                );
+            );
 
             rotation = new ThreeAxisEffector(
                 values.rotX,
                 values.rotY,
                 values.rotZ
-                );
+            );
 
             rotationQua = Quaternion.identity;
 
             hasTransformEffects = values.movementX.enabled || values.movementY.enabled || values.movementZ.enabled
-                || values.rotX.enabled || values.rotY.enabled || values.rotZ.enabled 
-                || values.scaleX.enabled || values.scaleY.enabled;
+                                  || values.rotX.enabled || values.rotY.enabled || values.rotZ.enabled
+                                  || values.scaleX.enabled || values.scaleY.enabled;
 
             setColor = values.color.enabled;
             if (setColor)
@@ -166,7 +107,6 @@ namespace Febucci.UI.Core
 
             return hasTransformEffects || setColor;
         }
-
 
 
         public override void ApplyEffect(ref CharacterData data, int charIndex)
@@ -200,7 +140,64 @@ namespace Febucci.UI.Core
                 color = colorCurve.GetColor(data.passedTime, charIndex);
                 data.colors.LerpUnclamped(color, 1 - data.passedTime / effectDuration);
             }
-
         }
+
+        #region Effector classes
+
+        internal abstract class Effector
+        {
+            protected abstract Vector3 _EvaluateEffect(float passedTime, int charInde);
+
+            public Vector3 EvaluateEffect(float passedTime, int charIndex)
+            {
+                return _EvaluateEffect(passedTime, charIndex);
+            }
+        }
+
+        internal sealed class ThreeAxisEffector : Effector
+        {
+            private readonly EffectEvaluator x;
+            private readonly EffectEvaluator y;
+            private readonly EffectEvaluator z;
+
+            public ThreeAxisEffector(EffectEvaluator x, EffectEvaluator y, EffectEvaluator z)
+            {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
+
+            protected override Vector3 _EvaluateEffect(float passedTime, int charIndex)
+            {
+                return new Vector3(
+                    x.Evaluate(passedTime, charIndex),
+                    y.Evaluate(passedTime, charIndex),
+                    z.Evaluate(passedTime, charIndex)
+                );
+            }
+        }
+
+        internal sealed class TwoAxisEffector : Effector
+        {
+            private readonly EffectEvaluator x;
+            private readonly EffectEvaluator y;
+
+            public TwoAxisEffector(EffectEvaluator x, EffectEvaluator y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+
+            protected override Vector3 _EvaluateEffect(float passedTime, int charIndex)
+            {
+                return new Vector3(
+                    x.Evaluate(passedTime, charIndex),
+                    y.Evaluate(passedTime, charIndex),
+                    1
+                );
+            }
+        }
+
+        #endregion
     }
 }

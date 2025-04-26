@@ -1,16 +1,17 @@
 using TMPro;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class DMandTransitionM  : MonoBehaviour
+public class DMandTransitionM : MonoBehaviour
 {
-    [Header("UI组件绑定")]
-    public TextMeshProUGUI chatText;  // 对应Chat/welcome文本组件
-    public Button continueButton;    // 继续按钮组件
+    [Header("UI组件绑定")] public TextMeshProUGUI chatText; // 对应Chat/welcome文本组件
 
-    [Header("对话配置")]
-    public string[] dialogueLines = {
+    public Button continueButton; // 继续按钮组件
+
+    [Header("对话配置")] public string[] dialogueLines =
+    {
         "欢迎来到神秘的新世界！",
         "我是你的向导韩易成",
         "在这个世界你会学到韩语",
@@ -18,19 +19,20 @@ public class DMandTransitionM  : MonoBehaviour
         "让我们开始冒险吧！"
     };
 
-    [Header("场景设置")]
-    [Tooltip("在Build Settings中确认场景顺序")]
+    [Header("场景设置")] [Tooltip("在Build Settings中确认场景顺序")]
     public int targetSceneIndex = 1; // 要转场的场景序号
 
-    private int currentLine = 0;
+    private int currentLine;
 
-    void Start()
+    private bool IsLastLine => currentLine >= dialogueLines.Length - 1;
+
+    private void Start()
     {
         continueButton.onClick.AddListener(OnContinueClicked);
         UpdateUI();
     }
 
-    void OnContinueClicked()
+    private void OnContinueClicked()
     {
         if (currentLine < dialogueLines.Length - 1)
         {
@@ -44,37 +46,26 @@ public class DMandTransitionM  : MonoBehaviour
         }
     }
 
-    void UpdateUI()
+    private void UpdateUI()
     {
         // 更新对话文本
-        if (chatText != null && currentLine < dialogueLines.Length)
-        {
-            chatText.text = dialogueLines[currentLine];
-        }
+        if (chatText != null && currentLine < dialogueLines.Length) chatText.text = dialogueLines[currentLine];
 
         // 更新按钮文字（根据截图中的"继续"按钮适配）
-        TextMeshProUGUI btnText = continueButton.GetComponentInChildren<TextMeshProUGUI>();
-        if (btnText != null)
-        {
-            btnText.text = IsLastLine ? "开始学习！" : "继续";
-        }
+        var btnText = continueButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (btnText != null) btnText.text = IsLastLine ? "开始学习！" : "继续";
     }
-
-    bool IsLastLine => currentLine >= dialogueLines.Length - 1;
 
     // 场景安全验证（编辑器模式下）
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (!SceneExists(targetSceneIndex))
-        {
-            Debug.LogError($"场景索引{targetSceneIndex}未添加到Build Settings！");
-        }
+        if (!SceneExists(targetSceneIndex)) Debug.LogError($"场景索引{targetSceneIndex}未添加到Build Settings！");
     }
 
-    bool SceneExists(int index)
+    private bool SceneExists(int index)
     {
-        return index >= 0 && index < UnityEditor.EditorBuildSettings.scenes.Length;
+        return index >= 0 && index < EditorBuildSettings.scenes.Length;
     }
 #endif
 }

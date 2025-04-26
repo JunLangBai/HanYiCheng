@@ -10,7 +10,10 @@
 
     SubShader
     {
-        Tags { "Queue" = "Overlay" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+        Tags
+        {
+            "Queue" = "Overlay" "IgnoreProjector" = "True" "RenderType" = "Transparent"
+        }
         Pass
         {
             // Blend SrcAlpha OneMinusSrcAlpha, OneMinusDstAlpha One
@@ -25,7 +28,6 @@
                 Mode Off
             }
             CGPROGRAM
-
             #pragma vertex vert
             #pragma fragment frag
 
@@ -62,7 +64,6 @@
                 fixed4 ret = _Color;
                 return ret;
             }
-
             ENDCG
 
         }

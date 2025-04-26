@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Febucci.UI.Examples
 {
     /// <summary>
-    /// Starts the textAnimator once this object is active
-    /// Disables it once it's deactivated
+    ///     Starts the textAnimator once this object is active
+    ///     Disables it once it's deactivated
     /// </summary>
     [AddComponentMenu("Febucci/TextAnimator/Utilities/SetTextOnEnable")]
     public class SetTextOnEnable : MonoBehaviour
     {
         public TextAnimatorPlayer tanimPlayer;
 
-        string textToSet;
+        private string textToSet;
 
         private void Awake()
         {
-            UnityEngine.Assertions.Assert.IsNotNull("TextAnimator: The object 'SetTextOnEnable' has no TextAnimatorPlayer component reference.");
+            Assert.IsNotNull(
+                "TextAnimator: The object 'SetTextOnEnable' has no TextAnimatorPlayer component reference.");
 
             textToSet = tanimPlayer.textAnimator.tmproText.text;
             tanimPlayer.ShowText("");
@@ -36,5 +38,4 @@ namespace Febucci.UI.Examples
             }
         }
     }
-
 }

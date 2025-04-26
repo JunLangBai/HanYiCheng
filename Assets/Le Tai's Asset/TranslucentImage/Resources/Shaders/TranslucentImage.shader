@@ -64,36 +64,36 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                half4  color : COLOR;
+                half4 color : COLOR;
                 float2 texcoord : TEXCOORD0;
-                half2  extraData : TEXCOORD1;
+                half2 extraData : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                half4  color : COLOR;
+                half4 color : COLOR;
                 float2 texcoord : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
                 float4 screenPos : TEXCOORD2;
-                half2  extraData : TEXCOORD3;
+                half2 extraData : TEXCOORD3;
                 float4 mask : TEXCOORD4;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
             sampler2D _MainTex;
-            fixed4    _TextureSampleAdd;
-            float4    _ClipRect;
-            float4    _MainTex_ST;
-            float     _UIMaskSoftnessX;
-            float     _UIMaskSoftnessY;
-            int       _UIVertexColorAlwaysGammaSpace;
+            fixed4 _TextureSampleAdd;
+            float4 _ClipRect;
+            float4 _MainTex_ST;
+            float _UIMaskSoftnessX;
+            float _UIMaskSoftnessY;
+            int _UIVertexColorAlwaysGammaSpace;
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_BlurTex);
             uniform half _Vibrancy;
             uniform half _Flatten;
             uniform half _Brightness;
-            float4       _CropRegion; //xMin, yMin, xMax, yMax
+            float4 _CropRegion; //xMin, yMin, xMax, yMax
 
             v2f vert(appdata IN)
             {
@@ -122,7 +122,8 @@
                 float2 pixelSize = OUT.vertex.w;
                 pixelSize /= float2(1, 1) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
                 float4 clampedRect = clamp(_ClipRect, -2e10, 2e10);
-                OUT.mask = float4(IN.vertex.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_UIMaskSoftnessX, _UIMaskSoftnessY) + abs(pixelSize.xy)));
+                OUT.mask = float4(IN.vertex.xy * 2 - clampedRect.xy - clampedRect.zw,
+ 0.25 / (0.25 * half2(_UIMaskSoftnessX, _UIMaskSoftnessY) + abs(pixelSize.xy)));
 
                 return OUT;
             }

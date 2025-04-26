@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.ap_DiagExp)]
-    class DiagonalExpandAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo(TAnimTags.ap_DiagExp)]
+    internal class DiagonalExpandAppearance : AppearanceBase
     {
-        int targetA;
-        int targetB;
-        
         //--Temp variables--
-        Vector3 middlePos;
-        float pct;
+        private Vector3 middlePos;
+        private float pct;
+        private int targetA;
+        private int targetB;
 
         public override void SetDefaultValues(AppearanceDefaultValues data)
         {
@@ -20,7 +20,7 @@ namespace Febucci.UI.Core
             SetOrientation(data.defaults.diagonalFromBttmLeft);
         }
 
-        void SetOrientation(bool btmLeft)
+        private void SetOrientation(bool btmLeft)
         {
             if (btmLeft) //expands bottom left and top right
             {
@@ -53,5 +53,4 @@ namespace Febucci.UI.Core
             }
         }
     }
-
 }

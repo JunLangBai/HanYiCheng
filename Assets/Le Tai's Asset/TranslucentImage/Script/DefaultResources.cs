@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace LeTai.Asset.TranslucentImage
 {
-[CreateAssetMenu(menuName = "Translucent Image/Default Resources")]
-public class DefaultResources : ScriptableObject
-{
-    static DefaultResources instance;
-
-    public static DefaultResources Instance
+    [CreateAssetMenu(menuName = "Translucent Image/Default Resources")]
+    public class DefaultResources : ScriptableObject
     {
-        get
+        private static DefaultResources instance;
+
+        public Material material;
+
+        public static DefaultResources Instance
         {
-            if (!instance)
-                instance = Resources.Load<DefaultResources>("Translucent Image Default Resources");
-            return instance;
+            get
+            {
+                if (!instance)
+                    instance = Resources.Load<DefaultResources>("Translucent Image Default Resources");
+                return instance;
+            }
         }
     }
-
-    public Material material;
-}
 }
 #endif

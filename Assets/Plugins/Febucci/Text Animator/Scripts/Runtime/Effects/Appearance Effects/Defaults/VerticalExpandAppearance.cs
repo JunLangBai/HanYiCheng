@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.ap_VertExp)]
-    class VerticalExpandAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo(TAnimTags.ap_VertExp)]
+    internal class VerticalExpandAppearance : AppearanceBase
     {
-
-        int startA, targetA;
-        int startB, targetB;
-
         //--Temp variables--
-        float pct;
+        private float pct;
+
+        private int startA, targetA;
+        private int startB, targetB;
 
         public override void SetDefaultValues(AppearanceDefaultValues data)
         {
@@ -19,11 +19,10 @@ namespace Febucci.UI.Core
             SetOrientation(data.defaults.verticalFromBottom);
         }
 
-        void SetOrientation(bool fromBottom)
+        private void SetOrientation(bool fromBottom)
         {
             if (fromBottom) //From bottom to top 
             {
-
                 //top left copies bottom left
                 startA = 0;
                 targetA = 1;
@@ -34,7 +33,6 @@ namespace Febucci.UI.Core
             }
             else //from top to bottom
             {
-
                 //bottom left copies top left
                 startA = 1;
                 targetA = 0;
@@ -62,5 +60,4 @@ namespace Febucci.UI.Core
             }
         }
     }
-
 }

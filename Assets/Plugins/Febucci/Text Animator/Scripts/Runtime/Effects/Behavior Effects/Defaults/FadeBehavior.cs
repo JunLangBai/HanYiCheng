@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Fade)]
-    class FadeBehavior : BehaviorBase
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Fade)]
+    internal class FadeBehavior : BehaviorBase
     {
-        float delay = .3f;
-
-        float[] charPCTs;
+        private float[] charPCTs;
+        private float delay = .3f;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -38,22 +38,16 @@ namespace Febucci.UI.Core
             charPCTs[charIndex] += time.deltaTime;
             //Lerps
             if (charPCTs[charIndex] <= 1 && charPCTs[charIndex] >= 0)
-            {
                 data.colors.LerpUnclamped(Color.clear, Tween.EaseInOut(Mathf.Clamp01(charPCTs[charIndex])));
-            }
             else //Keeps them hidden
-            {
                 data.colors.SetColor(Color.clear);
-            }
-
         }
 
 
         public override string ToString()
         {
             return $"delay: {delay}\n" +
-                $"\n{ base.ToString()}";
+                   $"\n{base.ToString()}";
         }
-
     }
 }

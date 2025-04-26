@@ -2,9 +2,9 @@
 #include "./fullscreen.hlsl"
 
 float4 _MainTex_TexelSize;
-half   _Radius;
+half _Radius;
 float4 _CropRegion;
-half3  _BackgroundColor;
+half3 _BackgroundColor;
 
 #define BlurVertexInput FullScreenVertexInput
 

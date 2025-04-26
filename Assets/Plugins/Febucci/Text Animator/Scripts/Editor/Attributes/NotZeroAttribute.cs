@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Febucci.Attributes
 {
@@ -8,18 +8,17 @@ namespace Febucci.Attributes
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-
             switch (property.propertyType)
             {
                 case SerializedPropertyType.Integer:
-                    int intValue = property.intValue;
+                    var intValue = property.intValue;
                     intValue = EditorGUI.IntField(position, label, intValue);
                     if (intValue != 0)
                         property.intValue = intValue;
                     break;
 
                 case SerializedPropertyType.Float:
-                    float floatValue = property.floatValue;
+                    var floatValue = property.floatValue;
                     floatValue = EditorGUI.FloatField(position, label, floatValue);
 
                     if (floatValue != 0)
@@ -28,12 +27,12 @@ namespace Febucci.Attributes
                     break;
 
                 case SerializedPropertyType.Vector2:
-                    Vector2 vecValue = property.vector2Value;
+                    var vecValue = property.vector2Value;
                     vecValue = EditorGUI.Vector2Field(position, label, vecValue);
 
                     property.vector2Value = new Vector2(
-                        (vecValue.x != 0 || vecValue.y!=0) ? vecValue.x : property.vector2Value.x,
-                        (vecValue.y != 0 || vecValue.x!=0) ? vecValue.y : property.vector2Value.y);
+                        vecValue.x != 0 || vecValue.y != 0 ? vecValue.x : property.vector2Value.x,
+                        vecValue.y != 0 || vecValue.x != 0 ? vecValue.y : property.vector2Value.y);
 
                     break;
 
@@ -42,8 +41,6 @@ namespace Febucci.Attributes
                     base.OnGUI(position, property, label);
                     break;
             }
-
         }
     }
-
 }

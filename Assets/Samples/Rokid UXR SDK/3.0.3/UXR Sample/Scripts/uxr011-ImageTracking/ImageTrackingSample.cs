@@ -1,6 +1,4 @@
-using Rokid.UXR.Interaction;
 using Rokid.UXR.Module;
-using Rokid.UXR.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,19 +6,19 @@ namespace Rokid.UXR.Demo
 {
     public class ImageTrackingSample : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject leftUpAnchor;
-        [SerializeField]
-        private GameObject rightUpAnchor;
-        [SerializeField]
-        private GameObject leftBottomAnchor;
-        [SerializeField]
-        private GameObject rightBottomAnchor;
-        [SerializeField]
-        private GameObject quad;
+        [SerializeField] private GameObject leftUpAnchor;
 
-        private bool isInitialize = false;
-        void Start()
+        [SerializeField] private GameObject rightUpAnchor;
+
+        [SerializeField] private GameObject leftBottomAnchor;
+
+        [SerializeField] private GameObject rightBottomAnchor;
+
+        [SerializeField] private GameObject quad;
+
+        private bool isInitialize;
+
+        private void Start()
         {
             Assert.IsNotNull(leftUpAnchor);
             Assert.IsNotNull(rightUpAnchor);
@@ -50,16 +48,29 @@ namespace Rokid.UXR.Demo
             quad.gameObject.SetActive(true);
             OnTrackedImageUpdated(trackedImage);
         }
+
         public void OnTrackedImageUpdated(ARTrackedImageObj trackedImageObj)
         {
-            leftUpAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation * new Vector3(-trackedImageObj.trackedImage.bounds.extents.x, trackedImageObj.trackedImage.bounds.extents.y, 0);
-            rightUpAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation * new Vector3(trackedImageObj.trackedImage.bounds.extents.x, trackedImageObj.trackedImage.bounds.extents.y, 0);
-            leftBottomAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation * new Vector3(-trackedImageObj.trackedImage.bounds.extents.x, -trackedImageObj.trackedImage.bounds.extents.y, 0);
-            rightBottomAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation * new Vector3(trackedImageObj.trackedImage.bounds.extents.x, -trackedImageObj.trackedImage.bounds.extents.y, 0);
-            quad.transform.localScale = new Vector3(trackedImageObj.trackedImage.size.x / transform.parent.localScale.x, trackedImageObj.trackedImage.size.y / transform.parent.localScale.y, 1);
+            leftUpAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation *
+                new Vector3(-trackedImageObj.trackedImage.bounds.extents.x,
+                    trackedImageObj.trackedImage.bounds.extents.y, 0);
+            rightUpAnchor.transform.position = trackedImageObj.transform.position + trackedImageObj.transform.rotation *
+                new Vector3(trackedImageObj.trackedImage.bounds.extents.x,
+                    trackedImageObj.trackedImage.bounds.extents.y, 0);
+            leftBottomAnchor.transform.position = trackedImageObj.transform.position +
+                                                  trackedImageObj.transform.rotation *
+                                                  new Vector3(-trackedImageObj.trackedImage.bounds.extents.x,
+                                                      -trackedImageObj.trackedImage.bounds.extents.y, 0);
+            rightBottomAnchor.transform.position = trackedImageObj.transform.position +
+                                                   trackedImageObj.transform.rotation *
+                                                   new Vector3(trackedImageObj.trackedImage.bounds.extents.x,
+                                                       -trackedImageObj.trackedImage.bounds.extents.y, 0);
+            quad.transform.localScale = new Vector3(trackedImageObj.trackedImage.size.x / transform.parent.localScale.x,
+                trackedImageObj.trackedImage.size.y / transform.parent.localScale.y, 1);
             quad.transform.position = trackedImageObj.transform.position;
             quad.transform.rotation = trackedImageObj.transform.rotation;
         }
+
         public void OnTrackedImageRemoved(ARTrackedImageObj trackedImage)
         {
             leftUpAnchor.gameObject.SetActive(false);
@@ -69,5 +80,4 @@ namespace Rokid.UXR.Demo
             quad.gameObject.SetActive(false);
         }
     }
-
 }

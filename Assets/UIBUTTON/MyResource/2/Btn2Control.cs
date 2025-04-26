@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Btn2Control : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private Material mat;
     [SerializeField] private float speed = .3f;
-    private float offsetValue;
     private bool flag;
+    private Material mat;
+    private float offsetValue;
 
     private void Start()
     {
@@ -15,6 +15,13 @@ public class Btn2Control : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         mat = GetComponent<Image>().material;
         offsetValue = 0;
         flag = false;
+    }
+
+    private void Update()
+    {
+        if (flag)
+            offsetValue += Time.deltaTime * speed;
+        mat.SetFloat("_OffsetX", offsetValue);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -25,12 +32,5 @@ public class Btn2Control : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerExit(PointerEventData eventData)
     {
         flag = false;
-    }
-
-    private void Update()
-    {
-        if (flag)
-            offsetValue += Time.deltaTime * speed;
-        mat.SetFloat("_OffsetX", offsetValue);
     }
 }

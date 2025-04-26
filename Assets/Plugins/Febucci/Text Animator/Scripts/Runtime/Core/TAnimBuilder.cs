@@ -1,89 +1,77 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace Febucci.UI.Core
 {
 #if UNITY_EDITOR
     public static class TAnim_EditorHelper
     {
-        internal delegate void VoidCallback();
         internal static event VoidCallback onChangesApplied;
 
         public static void TriggerEvent()
         {
-            if (Application.isPlaying)
-            {
-                onChangesApplied?.Invoke();
-            }
+            if (Application.isPlaying) onChangesApplied?.Invoke();
         }
+
+        internal delegate void VoidCallback();
     }
 #endif
 
 
     public static class TAnimBuilder
     {
+        internal static TagFormatting tag_behaviors = new('<', '>');
+        internal static TagFormatting tag_appearances = new('{', '}');
 
-        [System.Serializable]
+        private static bool hasData;
+
+        internal static TAnimGlobalDataScriptable data { get; private set; }
+
+        [Serializable]
         internal struct TagFormatting
         {
             public TagFormatting(char openingChar, char closingChar)
             {
-                this.charOpeningTag = openingChar;
-                this.charClosingTag = closingChar;
+                charOpeningTag = openingChar;
+                charClosingTag = closingChar;
             }
 
             public char charOpeningTag;
             public char charClosingTag;
         }
 
-        internal static TagFormatting tag_behaviors = new TagFormatting('<', '>');
-        internal static TagFormatting tag_appearances = new TagFormatting('{', '}');
-
-        static TAnimGlobalDataScriptable _data;
-        static bool hasData;
-        internal static TAnimGlobalDataScriptable data
-        {
-            get => _data;
-        }
-
 
         #region Static Controller
 
-        static Dictionary<string, Type> behaviorsData = new Dictionary<string, Type>();
-        static Dictionary<string, Type> appearancesData = new Dictionary<string, Type>();
+        private static Dictionary<string, Type> behaviorsData = new();
+        private static Dictionary<string, Type> appearancesData = new();
 
-        static HashSet<string> globalDefaultActions = new HashSet<string>();
-        static HashSet<string> globalCustomActions = new HashSet<string>();
+        private static readonly HashSet<string> globalDefaultActions = new();
+        private static readonly HashSet<string> globalCustomActions = new();
 
-        static bool globalDatabaseInitialized;
+        private static bool globalDatabaseInitialized;
 
         public static string[] GetAllBehaviorsTags()
         {
-            List<string> tags = new List<string>();
-            for (int i = 0; i < behaviorsData.Count; i++)
-            {
-                tags.Add(behaviorsData.Keys.ElementAt(i));
-            }
+            var tags = new List<string>();
+            for (var i = 0; i < behaviorsData.Count; i++) tags.Add(behaviorsData.Keys.ElementAt(i));
 
             return tags.ToArray();
         }
 
         public static string[] GetAllApppearancesTags()
         {
-            List<string> tags = new List<string>();
-            for (int i = 0; i < appearancesData.Count; i++)
-            {
-                tags.Add(appearancesData.Keys.ElementAt(i));
-            }
+            var tags = new List<string>();
+            for (var i = 0; i < appearancesData.Count; i++) tags.Add(appearancesData.Keys.ElementAt(i));
 
             return tags.ToArray();
         }
 
         /// <summary>
-        /// Initializes and Load TextAnimator's effects and global settings, in case it has not been loaded already.
+        ///     Initializes and Load TextAnimator's effects and global settings, in case it has not been loaded already.
         /// </summary>
         public static void InitializeGlobalDatabase()
         {
@@ -102,17 +90,17 @@ namespace Febucci.UI.Core
                 List<Type> GetAssemblyClasses()
                 {
                     return (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                            from assemblyType in domainAssembly.GetTypes()
-                            where assemblyType.IsSubclassOf(typeof(T))
-                            where !assemblyType.IsAbstract
-                            select assemblyType).ToList();
+                        from assemblyType in domainAssembly.GetTypes()
+                        where assemblyType.IsSubclassOf(typeof(T))
+                        where !assemblyType.IsAbstract
+                        select assemblyType).ToList();
                 }
 
                 var effectsInAssembly = GetAssemblyClasses();
                 EffectInfoAttribute attribute;
                 string effectTag;
 
-                for (int i = 0; i < effectsInAssembly.Count; i++)
+                for (var i = 0; i < effectsInAssembly.Count; i++)
                 {
                     effectTag = string.Empty;
                     attribute = effectsInAssembly[i].GetCustomAttribute<EffectInfoAttribute>();
@@ -123,23 +111,18 @@ namespace Febucci.UI.Core
                     }
                     else
                     {
-                        Debug.LogError($"TextAnimator: skipping class {effectsInAssembly[i].Name}. Please add a 'EffectInfoAttribute' on top of it.");
+                        Debug.LogError(
+                            $"TextAnimator: skipping class {effectsInAssembly[i].Name}. Please add a 'EffectInfoAttribute' on top of it.");
                         continue;
                     }
 
-                    if (string.IsNullOrEmpty(effectTag))
-                    {
-                        continue;
-                    }
+                    if (string.IsNullOrEmpty(effectTag)) continue;
 
                     if (!effectsList.ContainsKey(effectTag))
-                    {
                         effectsList.Add(effectTag, effectsInAssembly[i]);
-                    }
                     else
-                    {
-                        Debug.LogError($"TextAnimator: not adding effect <{effectTag}> (from class '{effectsInAssembly[i].Name}') to the database because an effect with the same tag has already been added (by class '{effectsList[effectTag].Name}')");
-                    }
+                        Debug.LogError(
+                            $"TextAnimator: not adding effect <{effectTag}> (from class '{effectsInAssembly[i].Name}') to the database because an effect with the same tag has already been added (by class '{effectsList[effectTag].Name}')");
                 }
             }
 
@@ -157,7 +140,7 @@ namespace Febucci.UI.Core
             #endregion
 
             hasData = false;
-            _data = Resources.Load(TAnimGlobalDataScriptable.resourcesPath) as TAnimGlobalDataScriptable;
+            data = Resources.Load(TAnimGlobalDataScriptable.resourcesPath) as TAnimGlobalDataScriptable;
 
             if (data != null)
             {
@@ -182,25 +165,23 @@ namespace Febucci.UI.Core
                 #endregion
 
                 #region Global Effects
-                //Adds global effects
-                for (int i = 0; i < data.globalBehaviorPresets.Length; i++)
-                {
-                    TryAddingPresetToDictionary(ref behaviorsData, data.globalBehaviorPresets[i].effectTag, typeof(PresetBehavior));
-                }
 
                 //Adds global effects
-                for (int i = 0; i < data.globalAppearancePresets.Length; i++)
-                {
-                    TryAddingPresetToDictionary(ref appearancesData, data.globalAppearancePresets[i].effectTag, typeof(PresetAppearance));
-                }
+                for (var i = 0; i < data.globalBehaviorPresets.Length; i++)
+                    TryAddingPresetToDictionary(ref behaviorsData, data.globalBehaviorPresets[i].effectTag,
+                        typeof(PresetBehavior));
+
+                //Adds global effects
+                for (var i = 0; i < data.globalAppearancePresets.Length; i++)
+                    TryAddingPresetToDictionary(ref appearancesData, data.globalAppearancePresets[i].effectTag,
+                        typeof(PresetAppearance));
 
                 #endregion
 
                 #region Custom Actions
 
                 if (data.customActions != null && data.customActions.Length > 0)
-                {
-                    for (int i = 0; i < data.customActions.Length; i++)
+                    for (var i = 0; i < data.customActions.Length; i++)
                     {
                         if (data.customActions[i].Length <= 0)
                         {
@@ -210,17 +191,16 @@ namespace Febucci.UI.Core
 
                         if (globalCustomActions.Contains(data.customActions[i]))
                         {
-                            Debug.LogError($"TextAnimator: Custom feature with tag '{data.customActions[i]}' is already present, it won't be added to the database.");
+                            Debug.LogError(
+                                $"TextAnimator: Custom feature with tag '{data.customActions[i]}' is already present, it won't be added to the database.");
                             continue;
                         }
 
                         globalCustomActions.Add(data.customActions[i]);
                     }
-                }
 
                 #endregion
             }
-
         }
 
 
@@ -237,7 +217,7 @@ namespace Febucci.UI.Core
 
         internal static bool TryGetGlobalPresetAppearance(string tag, out PresetAppearanceValues result)
         {
-            if (!hasData)  //avoids searching if data is null
+            if (!hasData) //avoids searching if data is null
             {
                 result = default;
                 return false;
@@ -249,16 +229,12 @@ namespace Febucci.UI.Core
         internal static bool GetPresetFromArray<T>(string tag, T[] presets, out T result) where T : PresetBaseValues
         {
             if (presets.Length > 0)
-            {
-                for (int i = 0; i < presets.Length; i++)
-                {
+                for (var i = 0; i < presets.Length; i++)
                     if (tag.Equals(presets[i].effectTag))
                     {
                         result = presets[i];
                         return true;
                     }
-                }
-            }
 
             result = default;
             return false;
@@ -267,35 +243,32 @@ namespace Febucci.UI.Core
 
         internal static bool IsDefaultAction(string tag)
         {
-            if (globalDefaultActions.Count > 0 && globalDefaultActions.Contains(tag))
-            {
-                return true;
-            }
+            if (globalDefaultActions.Count > 0 && globalDefaultActions.Contains(tag)) return true;
 
             return false;
         }
 
         internal static bool IsCustomAction(string tag)
         {
-            if (globalCustomActions.Count > 0 && globalCustomActions.Contains(tag))
-            {
-                return true;
-            }
+            if (globalCustomActions.Count > 0 && globalCustomActions.Contains(tag)) return true;
 
             return false;
         }
 
-        internal static bool TryGetGlobalBehaviorFromTag(string effectTag, string entireRichTextTag, out BehaviorBase effectClass)
+        internal static bool TryGetGlobalBehaviorFromTag(string effectTag, string entireRichTextTag,
+            out BehaviorBase effectClass)
         {
-            return TryGetEffectClassFromTag<BehaviorBase>(behaviorsData, effectTag, entireRichTextTag, out effectClass);
+            return TryGetEffectClassFromTag(behaviorsData, effectTag, entireRichTextTag, out effectClass);
         }
 
-        internal static bool TryGetGlobalAppearanceFromTag(string effectTag, string entireRichTextTag, out AppearanceBase effectClass)
+        internal static bool TryGetGlobalAppearanceFromTag(string effectTag, string entireRichTextTag,
+            out AppearanceBase effectClass)
         {
             return TryGetEffectClassFromTag(appearancesData, effectTag, entireRichTextTag, out effectClass);
         }
 
-        internal static bool TryGetEffectClassFromTag<T>(Dictionary<string, Type> dictionary, string effectTag, string entireRichTextTag, out T effectClass) where T : EffectsBase
+        internal static bool TryGetEffectClassFromTag<T>(Dictionary<string, Type> dictionary, string effectTag,
+            string entireRichTextTag, out T effectClass) where T : EffectsBase
         {
             if (dictionary.ContainsKey(effectTag))
             {
@@ -310,7 +283,6 @@ namespace Febucci.UI.Core
 
         internal static void TryAddingPresetToDictionary(ref Dictionary<string, Type> database, string tag, Type type)
         {
-
             if (string.IsNullOrEmpty(tag))
             {
                 Debug.LogWarning($"TextAnimator: Preset has a null or empty tag '{tag}'");
@@ -325,15 +297,14 @@ namespace Febucci.UI.Core
 
             if (database.ContainsKey(tag))
             {
-                Debug.LogWarning($"TextAnimator: A Preset has tag '{tag}' that's already present, it won't be added to the database.");
+                Debug.LogWarning(
+                    $"TextAnimator: A Preset has tag '{tag}' that's already present, it won't be added to the database.");
                 return;
             }
 
             database.Add(tag, type);
         }
 
-
         #endregion
-
     }
 }

@@ -10,7 +10,10 @@ Shader "Unlit/SliderShader01"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -42,7 +45,7 @@ Shader "Unlit/SliderShader01"
             float _UVScale;
             float _OffsetX;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -51,7 +54,7 @@ Shader "Unlit/SliderShader01"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 i.uv *= _UVScale;
                 i.uv.x = i.uv.x + _OffsetX;

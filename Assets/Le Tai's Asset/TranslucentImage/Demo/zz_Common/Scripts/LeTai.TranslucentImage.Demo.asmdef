@@ -1,8 +1,8 @@
 {
-    "name": "LeTai.TranslucentImage.Demo",
-    "references": [
-        "LeTai.TranslucentImage"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": []
+  "name": "LeTai.TranslucentImage.Demo",
+  "references": [
+    "LeTai.TranslucentImage"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
 }

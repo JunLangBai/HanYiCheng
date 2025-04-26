@@ -1,32 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
 using Febucci.Attributes;
+using UnityEngine;
 
 namespace Febucci.UI.Core
 {
-
-    [System.Serializable]
+    [Serializable]
     //Do not touch this script
     public class AppearanceDefaultValues
     {
+        [SerializeField] [Header("Preset Effects")]
+        internal PresetAppearanceValues[] presets = new PresetAppearanceValues[0];
+
         #region Default Effects' values
+
         private const float defDuration = .3f;
-        [System.Serializable]
+
+        [Serializable]
         public class Defaults
         {
-
             [PositiveValue] public float sizeDuration = defDuration;
-            [Attributes.MinValue(0)] public float sizeAmplitude = 2;
+            [MinValue(0)] public float sizeAmplitude = 2;
 
             [PositiveValue] public float fadeDuration = defDuration;
 
             [PositiveValue] public float verticalExpandDuration = defDuration;
-            public bool verticalFromBottom = false;
+            public bool verticalFromBottom;
 
             [PositiveValue] public float horizontalExpandDuration = defDuration;
-            [SerializeField] internal HorizontalExpandAppearance.ExpType horizontalExpandStart = HorizontalExpandAppearance.ExpType.Left;
+
+            [SerializeField]
+            internal HorizontalExpandAppearance.ExpType horizontalExpandStart = HorizontalExpandAppearance.ExpType.Left;
 
             [PositiveValue] public float diagonalExpandDuration = defDuration;
-            public bool diagonalFromBttmLeft = false;
+            public bool diagonalFromBttmLeft;
 
             [NotZero] public Vector2 offsetDir = Vector2.one;
             [PositiveValue] public float offsetDuration = defDuration;
@@ -37,22 +43,22 @@ namespace Febucci.UI.Core
         }
 
 
-        [SerializeField, Header("Default Appearances")]
-        public Defaults defaults = new Defaults();
+        [SerializeField] [Header("Default Appearances")]
+        public Defaults defaults = new();
 
         #endregion
-
-        [SerializeField, Header("Preset Effects")]
-        internal PresetAppearanceValues[] presets = new PresetAppearanceValues[0];
     }
 
-    [System.Serializable]
+    [Serializable]
     //Do not touch this script
     public class BehaviorDefaultValues
     {
+        [SerializeField] [Header("Preset Effects")]
+        internal PresetBehaviorValues[] presets = new PresetBehaviorValues[0];
+
         #region Default Effects' values
 
-        [System.Serializable]
+        [Serializable]
         public class Defaults
         {
             //wiggle
@@ -71,7 +77,7 @@ namespace Febucci.UI.Core
             //swing
             [NotZero] public float swingAmplitude = 27.5f;
             [NotZero] public float swingFrequency = 5f;
-            public float swingWaveSize = 0;
+            public float swingWaveSize;
 
             //shake
             [NotZero] public float shakeStrength = 0.085f;
@@ -85,7 +91,7 @@ namespace Febucci.UI.Core
             //slide
             [NotZero] public float slideAmplitude = 0.12f;
             [NotZero] public float slideFrequency = 5;
-            public float slideWaveSize = 0;
+            public float slideWaveSize;
 
             //bounce
             [NotZero] public float bounceAmplitude = .08f;
@@ -103,22 +109,18 @@ namespace Febucci.UI.Core
             [NotZero] public float dangleAmplitude = .13f;
             [NotZero] public float dangleFrequency = 2.41f;
             public float dangleWaveSize = 0.18f;
-            public bool dangleAnchorBottom = false;
+            public bool dangleAnchorBottom;
 
             //pendulum
             [NotZero] public float pendAmplitude = 25;
             [NotZero] public float pendFrequency = 3;
             public float pendWaveSize = .2f;
-            public bool pendInverted = false;
+            public bool pendInverted;
         }
 
-        [SerializeField, Header("Default Behaviors")]
-        public Defaults defaults = new Defaults();
+        [SerializeField] [Header("Default Behaviors")]
+        public Defaults defaults = new();
 
         #endregion
-
-        [SerializeField, Header("Preset Effects")]
-        internal PresetBehaviorValues[] presets = new PresetBehaviorValues[0];
     }
-
 }

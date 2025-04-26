@@ -1,96 +1,96 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Febucci.UI.Core.Editors
 {
     [CustomEditor(typeof(TextAnimator))]
-    class TextAnimatorDrawer : Editor
+    internal class TextAnimatorDrawer : Editor
     {
         #region Utilties
 
-        const string menuParent = "Tools/Febucci/TextAnimator/";
-        const string linksCategory = "Links/";
-        const string utilsCategory = "Utils/";
+        private const string menuParent = "Tools/Febucci/TextAnimator/";
+        private const string linksCategory = "Links/";
+        private const string utilsCategory = "Utils/";
 
         [MenuItem(menuParent + utilsCategory + "Locate Global Data", false, 0)]
-        static void LocateGlobalData()
+        private static void LocateGlobalData()
         {
             var foundData = Resources.Load(TAnimGlobalDataScriptable.resourcesPath);
             if (foundData != null)
-            {
                 Selection.activeObject = foundData;
-            }
             else
-            {
-                Debug.LogWarning($"Text Animator: No Scriptable data found, please create one in path {TAnimGlobalDataScriptable.resourcesPath}");
-            }
+                Debug.LogWarning(
+                    $"Text Animator: No Scriptable data found, please create one in path {TAnimGlobalDataScriptable.resourcesPath}");
         }
 
         [MenuItem(menuParent + linksCategory + "📄 Documentation", false, 0)]
-        static void Documentation()
+        private static void Documentation()
         {
             Application.OpenURL("https://www.febucci.com/text-animator-unity/docs/");
         }
 
         [MenuItem(menuParent + linksCategory + "📅 Roadmap", false, 50)]
-        static void Roadmap()
+        private static void Roadmap()
         {
             Application.OpenURL("https://www.febucci.com/text-animator-unity/roadmap/");
         }
 
         [MenuItem(menuParent + linksCategory + "📝 Changelog", false, 51)]
-        static void Changelog()
+        private static void Changelog()
         {
             Application.OpenURL("https://www.febucci.com/text-animator-unity/changelog/");
         }
 
         [MenuItem(menuParent + linksCategory + "🆘 Support", false, 52)]
-        static void Support()
+        private static void Support()
         {
             Application.OpenURL("https://www.febucci.com/text-animator-unity/support/");
         }
 
-
         #endregion
 
-        const string alertTextSizeDep = "This effect's strength changes with different sizes and fonts.";
+        private const string alertTextSizeDep = "This effect's strength changes with different sizes and fonts.";
 
 #if UNITY_2018
         static readonly Color expandedColor = Color.white * .85f;
         static readonly Color notExpandedColor = Color.white * .7f;
 #else
-        static readonly Color expandedColor = Color.white * 1.3f;
-        static readonly Color notExpandedColor = Color.white;
+        private static readonly Color expandedColor = Color.white * 1.3f;
+        private static readonly Color notExpandedColor = Color.white;
 #endif
 
-        static readonly Color errorColor = new Color(1, .6f, .6f);
-        static readonly Color selectedShowColor = new Color(.7f, 1, .7f);
-        static readonly Color sectionsColor = new Color(.95f, .95f, .95f);
+        private static readonly Color errorColor = new(1, .6f, .6f);
+        private static readonly Color selectedShowColor = new(.7f, 1, .7f);
+        private static readonly Color sectionsColor = new(.95f, .95f, .95f);
 
-        static GUIStyle boldFoldout = new GUIStyle();
+        private static GUIStyle boldFoldout = new();
 
-        static string availableAppBuiltinTagsLongText;
+        private static string availableAppBuiltinTagsLongText;
 
-        struct EffectValuePair
+        private struct EffectValuePair
         {
             public string label;
             public string valueName;
         }
 
         #region Structs
-        struct Effect
+
+        private struct Effect
         {
-            bool show;
-            bool dependant; //if effect changes based on size
-            string effectName;
+            private bool show;
+            private readonly bool dependant; //if effect changes based on size
+            private readonly string effectName;
             public string effectTag { get; private set; }
 
-            List<SerializedProperty> properties;
-            List<GUIContent> propLabels;
+            private readonly List<SerializedProperty> properties;
+            private readonly List<GUIContent> propLabels;
 
-            public Effect(string effectName, string effectTag, bool dependant, SerializedProperty parentProperty, bool isAppearance, params EffectValuePair[] values)
+            public Effect(string effectName, string effectTag, bool dependant, SerializedProperty parentProperty,
+                bool isAppearance, params EffectValuePair[] values)
             {
                 this.dependant = dependant;
                 //this.effectName = (dependant ? "[!] " : "") + effectName + ", <" + effectTag + '>';
@@ -101,7 +101,7 @@ namespace Febucci.UI.Core.Editors
                 properties = new List<SerializedProperty>();
                 propLabels = new List<GUIContent>();
 
-                for (int i = 0; i < values.Length; i++)
+                for (var i = 0; i < values.Length; i++)
                 {
                     properties.Add(parentProperty.FindPropertyRelative(values[i].valueName));
                     propLabels.Add(new GUIContent(values[i].label));
@@ -121,15 +121,10 @@ namespace Febucci.UI.Core.Editors
 
                 if (show)
                 {
-                    if (dependant)
-                    {
-                        EditorGUILayout.LabelField(alertTextSizeDep, EditorStyles.centeredGreyMiniLabel);
-                    }
+                    if (dependant) EditorGUILayout.LabelField(alertTextSizeDep, EditorStyles.centeredGreyMiniLabel);
 
-                    for (int i = 0; i < properties.Count; i++)
-                    {
+                    for (var i = 0; i < properties.Count; i++)
                         EditorGUILayout.PropertyField(properties[i], propLabels[i]);
-                    }
                 }
 
                 EndToggleGroup(show);
@@ -138,16 +133,18 @@ namespace Febucci.UI.Core.Editors
             }
         }
 
-        const string docs_builtinEffects = "https://www.febucci.com/text-animator-unity/docs/built-in-effects-list/";
-        const string docs_customInspectorPage = "https://www.febucci.com/text-animator-unity/docs/creating-effects-in-the-inspector/";
+        private const string docs_builtinEffects =
+            "https://www.febucci.com/text-animator-unity/docs/built-in-effects-list/";
+
+        private const string docs_customInspectorPage =
+            "https://www.febucci.com/text-animator-unity/docs/creating-effects-in-the-inspector/";
 
         internal abstract class BuiltinVariablesDrawer
         {
-            string docsLink;
-            string toggleLabel;
+            private readonly string docsLink;
 
-            bool draw;
-            public bool isDrawing => draw;
+            private bool draw;
+            private readonly string toggleLabel;
 
             public BuiltinVariablesDrawer(string toggleLabel, string docsLink)
             {
@@ -155,6 +152,8 @@ namespace Febucci.UI.Core.Editors
                 this.toggleLabel = toggleLabel;
                 draw = false;
             }
+
+            public bool isDrawing => draw;
 
             internal abstract void DrawBody();
 
@@ -165,7 +164,6 @@ namespace Febucci.UI.Core.Editors
 
             public void StopShowing()
             {
-
                 //show default toggle
                 //GUI.backgroundColor = sectionsColor;
                 //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -178,29 +176,27 @@ namespace Febucci.UI.Core.Editors
             {
                 StartShowing();
 
-                if (draw)
-                {
-                    DrawBody();
-                }
+                if (draw) DrawBody();
 
                 StopShowing();
             }
         }
 
         /// <summary>
-        /// Class that draws the component's default appearance effects
+        ///     Class that draws the component's default appearance effects
         /// </summary>
         internal class AppearanceDefaultEffects : BuiltinVariablesDrawer
         {
-            Effect appSize;
-            Effect appFade;
-            Effect appVertExp;
-            Effect appHoriExp;
-            Effect appDiagExp;
-            Effect appOffset;
-            Effect appRot;
+            private Effect appDiagExp;
+            private Effect appFade;
+            private Effect appHoriExp;
+            private Effect appOffset;
+            private Effect appRot;
+            private Effect appSize;
+            private Effect appVertExp;
 
-            public AppearanceDefaultEffects(SerializedProperty defaults) : base("Built-in appearances/disappearances", docs_builtinEffects + "#appearances-and-disappearances")
+            public AppearanceDefaultEffects(SerializedProperty defaults) : base("Built-in appearances/disappearances",
+                docs_builtinEffects + "#appearances-and-disappearances")
             {
                 appSize = new Effect(
                     "Size",
@@ -210,7 +206,7 @@ namespace Febucci.UI.Core.Editors
                     true,
                     new EffectValuePair { valueName = "sizeDuration", label = "Duration" },
                     new EffectValuePair { valueName = "sizeAmplitude", label = "Amplitude" }
-                    );
+                );
 
                 appFade = new Effect(
                     "Fade",
@@ -219,7 +215,7 @@ namespace Febucci.UI.Core.Editors
                     defaults,
                     true,
                     new EffectValuePair { valueName = "fadeDuration", label = "Duration" }
-                    );
+                );
 
                 appVertExp = new Effect(
                     "Vertical Expand",
@@ -229,7 +225,7 @@ namespace Febucci.UI.Core.Editors
                     true,
                     new EffectValuePair { valueName = "verticalExpandDuration", label = "Duration" },
                     new EffectValuePair { valueName = "verticalFromBottom", label = "FromBottom" }
-                    );
+                );
 
                 appHoriExp = new Effect(
                     "Horizontal Expand",
@@ -239,7 +235,7 @@ namespace Febucci.UI.Core.Editors
                     true,
                     new EffectValuePair { valueName = "horizontalExpandDuration", label = "Duration" },
                     new EffectValuePair { valueName = "horizontalExpandStart", label = "Start" }
-                    );
+                );
 
                 appDiagExp = new Effect(
                     "Diagonal Expand",
@@ -249,7 +245,7 @@ namespace Febucci.UI.Core.Editors
                     true,
                     new EffectValuePair { valueName = "diagonalExpandDuration", label = "Duration" },
                     new EffectValuePair { valueName = "diagonalFromBttmLeft", label = "FromBottomLeft" }
-                    );
+                );
 
                 appOffset = new Effect(
                     "Offset",
@@ -260,7 +256,7 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "offsetDuration", label = "Duration" },
                     new EffectValuePair { valueName = "offsetDir", label = "Direction" },
                     new EffectValuePair { valueName = "offsetAmplitude", label = "Amplitude" }
-                    );
+                );
 
                 appRot = new Effect(
                     "Rotation",
@@ -270,7 +266,7 @@ namespace Febucci.UI.Core.Editors
                     true,
                     new EffectValuePair { valueName = "rotationDuration", label = "Duration" },
                     new EffectValuePair { valueName = "rotationStartAngle", label = "StartAngle" }
-                    );
+                );
             }
 
             internal override void DrawBody()
@@ -286,26 +282,26 @@ namespace Febucci.UI.Core.Editors
         }
 
         /// <summary>
-        /// Draws default behavior effects
+        ///     Draws default behavior effects
         /// </summary>
         internal class BehaviorDefaultEffects : BuiltinVariablesDrawer
         {
-            Effect behWiggle;
-            Effect behWave;
-            Effect behRotation;
-            Effect behSwing;
-            Effect behShake;
-            Effect behSize;
-            Effect behSlide;
-            Effect behBounce;
-            Effect behRainbow;
-            Effect behFade;
-            Effect behDangle;
-            Effect behPendulum;
+            private Effect behBounce;
+            private Effect behDangle;
+            private Effect behFade;
+            private Effect behPendulum;
+            private Effect behRainbow;
+            private Effect behRotation;
+            private Effect behShake;
+            private Effect behSize;
+            private Effect behSlide;
+            private Effect behSwing;
+            private Effect behWave;
+            private Effect behWiggle;
 
-            public BehaviorDefaultEffects(SerializedProperty defaultValues) : base("Built-in behaviors", docs_builtinEffects + "#behavior-effects")
+            public BehaviorDefaultEffects(SerializedProperty defaultValues) : base("Built-in behaviors",
+                docs_builtinEffects + "#behavior-effects")
             {
-
                 behWiggle = new Effect(
                     "Wiggle",
                     TAnimTags.bh_Wiggle,
@@ -314,7 +310,8 @@ namespace Febucci.UI.Core.Editors
                     false,
                     new EffectValuePair { valueName = "wiggleAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "wiggleFrequency", label = "Frequency" }
-                    ); ;
+                );
+                ;
 
                 behWave = new Effect(
                     "Wave",
@@ -325,7 +322,8 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "waveAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "waveFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "waveWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behRotation = new Effect(
                     "Rotation",
@@ -335,7 +333,8 @@ namespace Febucci.UI.Core.Editors
                     false,
                     new EffectValuePair { valueName = "angleSpeed", label = "Speed" },
                     new EffectValuePair { valueName = "angleDiffBetweenChars", label = "AngleDiff" }
-                    ); ;
+                );
+                ;
 
                 behSwing = new Effect(
                     "Swing",
@@ -346,7 +345,8 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "swingAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "swingFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "swingWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behShake = new Effect(
                     "Shake",
@@ -356,7 +356,8 @@ namespace Febucci.UI.Core.Editors
                     false,
                     new EffectValuePair { valueName = "shakeStrength", label = "Amplitude" },
                     new EffectValuePair { valueName = "shakeDelay", label = "Delay" }
-                    ); ;
+                );
+                ;
 
                 behSize = new Effect(
                     "Increase",
@@ -367,7 +368,8 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "sizeAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "sizeFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "sizeWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behSlide = new Effect(
                     "Slide",
@@ -378,7 +380,8 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "slideAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "slideFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "slideWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behBounce = new Effect(
                     "Bounce",
@@ -389,7 +392,8 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "bounceAmplitude", label = "Amplitude" },
                     new EffectValuePair { valueName = "bounceFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "bounceWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behRainbow = new Effect(
                     "Rainbow",
@@ -399,7 +403,8 @@ namespace Febucci.UI.Core.Editors
                     false,
                     new EffectValuePair { valueName = "hueShiftSpeed", label = "HueShiftSpeed" },
                     new EffectValuePair { valueName = "hueShiftWaveSize", label = "WaveSize" }
-                    ); ;
+                );
+                ;
 
                 behFade = new Effect(
                     "Fade",
@@ -408,7 +413,7 @@ namespace Febucci.UI.Core.Editors
                     defaultValues,
                     false,
                     new EffectValuePair { valueName = "fadeDelay", label = "Delay" }
-                    );
+                );
 
                 behDangle = new Effect(
                     "Dangle",
@@ -420,7 +425,7 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "dangleFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "dangleWaveSize", label = "Wave Size" },
                     new EffectValuePair { valueName = "dangleAnchorBottom", label = "Anchor Bottom" }
-                    );
+                );
 
                 behPendulum = new Effect(
                     "Pendulum",
@@ -432,7 +437,7 @@ namespace Febucci.UI.Core.Editors
                     new EffectValuePair { valueName = "pendFrequency", label = "Frequency" },
                     new EffectValuePair { valueName = "pendWaveSize", label = "Wave Size" },
                     new EffectValuePair { valueName = "pendInverted", label = "Inverted" }
-                    );
+                );
             }
 
             internal override void DrawBody()
@@ -450,75 +455,76 @@ namespace Febucci.UI.Core.Editors
                 behFade.Show();
                 behDangle.Show();
                 behPendulum.Show();
-
             }
         }
 
         /// <summary>
-        /// Manages a single preset (behavior or appearance) 
+        ///     Manages a single preset (behavior or appearance)
         /// </summary>
-
         internal class UserPresetDrawer
         {
+            private readonly ColorCurveDrawer color;
+
+            private readonly SerializedProperty effectTag;
+
+            private readonly EmissionCurveDrawer emission;
+            private readonly bool isAppearance;
+
+            private readonly FloatCurveDrawer movementX;
+            private readonly FloatCurveDrawer movementY;
+            private readonly FloatCurveDrawer movementZ;
+
+            private readonly FloatCurveDrawer rotX;
+            private readonly FloatCurveDrawer rotY;
+            private readonly FloatCurveDrawer rotZ;
+
+            private readonly FloatCurveDrawer scaleX;
+            private readonly FloatCurveDrawer scaleY;
             public bool show;
             public bool wantsToRemove;
-            bool isAppearance;
-            public string getName => isAppearance ? ('{' + effectTag.stringValue + '}') : ('<' + effectTag.stringValue + '>');
-
-            SerializedProperty effectTag;
-
-            EmissionCurveDrawer emission;
-
-            FloatCurveDrawer movementX;
-            FloatCurveDrawer movementY;
-            FloatCurveDrawer movementZ;
-
-            FloatCurveDrawer scaleX;
-            FloatCurveDrawer scaleY;
-
-            FloatCurveDrawer rotX;
-            FloatCurveDrawer rotY;
-            FloatCurveDrawer rotZ;
-
-            ColorCurveDrawer color;
 
             public UserPresetDrawer(SerializedProperty parent, bool isAppearance)
             {
                 effectTag = parent.FindPropertyRelative("effectTag");
 
                 this.isAppearance = isAppearance;
-                this.show = false;
-                this.wantsToRemove = false;
+                show = false;
+                wantsToRemove = false;
 
-                if (!isAppearance)
-                {
-                    emission = new EmissionCurveDrawer(parent.FindPropertyRelative("emission"));
-                }
+                if (!isAppearance) emission = new EmissionCurveDrawer(parent.FindPropertyRelative("emission"));
 
-                movementX = new FloatCurveDrawer(parent.FindPropertyRelative("movementX"), "Movement X", true, isAppearance, Color.red);
-                movementY = new FloatCurveDrawer(parent.FindPropertyRelative("movementY"), "Movement Y", true, isAppearance, Color.green);
-                movementZ = new FloatCurveDrawer(parent.FindPropertyRelative("movementZ"), "Movement Z", true, isAppearance, Color.cyan);
+                movementX = new FloatCurveDrawer(parent.FindPropertyRelative("movementX"), "Movement X", true,
+                    isAppearance, Color.red);
+                movementY = new FloatCurveDrawer(parent.FindPropertyRelative("movementY"), "Movement Y", true,
+                    isAppearance, Color.green);
+                movementZ = new FloatCurveDrawer(parent.FindPropertyRelative("movementZ"), "Movement Z", true,
+                    isAppearance, Color.cyan);
 
-                scaleX = new FloatCurveDrawer(parent.FindPropertyRelative("scaleX"), "Scale X", false, isAppearance, Color.red);
-                scaleY = new FloatCurveDrawer(parent.FindPropertyRelative("scaleY"), "Scale Y", false, isAppearance, Color.green);
+                scaleX = new FloatCurveDrawer(parent.FindPropertyRelative("scaleX"), "Scale X", false, isAppearance,
+                    Color.red);
+                scaleY = new FloatCurveDrawer(parent.FindPropertyRelative("scaleY"), "Scale Y", false, isAppearance,
+                    Color.green);
 
-                rotX = new FloatCurveDrawer(parent.FindPropertyRelative("rotX"), "Rotation X", false, isAppearance, Color.red);
-                rotY = new FloatCurveDrawer(parent.FindPropertyRelative("rotY"), "Rotation Y", false, isAppearance, Color.green);
-                rotZ = new FloatCurveDrawer(parent.FindPropertyRelative("rotZ"), "Rotation Z", false, isAppearance, Color.cyan);
+                rotX = new FloatCurveDrawer(parent.FindPropertyRelative("rotX"), "Rotation X", false, isAppearance,
+                    Color.red);
+                rotY = new FloatCurveDrawer(parent.FindPropertyRelative("rotY"), "Rotation Y", false, isAppearance,
+                    Color.green);
+                rotZ = new FloatCurveDrawer(parent.FindPropertyRelative("rotZ"), "Rotation Z", false, isAppearance,
+                    Color.cyan);
 
                 color = new ColorCurveDrawer(parent.FindPropertyRelative("color"), "Color");
             }
+
+            public string getName =>
+                isAppearance ? '{' + effectTag.stringValue + '}' : '<' + effectTag.stringValue + '>';
 
             public void ResetValues()
             {
                 effectTag.stringValue = string.Empty;
 
-                int appearanceOffset = isAppearance ? 3 : 0;
+                var appearanceOffset = isAppearance ? 3 : 0;
 
-                if (!isAppearance)
-                {
-                    emission.ResetValues();
-                }
+                if (!isAppearance) emission.ResetValues();
 
                 movementY.ResetValues(0 + appearanceOffset);
                 movementZ.ResetValues(0 + appearanceOffset);
@@ -537,36 +543,25 @@ namespace Febucci.UI.Core.Editors
             public void Show()
             {
                 //EditorGUILayout.BeginVertical("box");
-                bool notLongEnough = !TextUtilities.IsTagLongEnough(effectTag.stringValue);
+                var notLongEnough = !TextUtilities.IsTagLongEnough(effectTag.stringValue);
                 //tag is short
-                if (notLongEnough)
-                {
-                    GUI.backgroundColor = errorColor;
-                }
+                if (notLongEnough) GUI.backgroundColor = errorColor;
 
                 EditorGUI.BeginChangeCheck();
-                if (Application.isPlaying)
-                {
-                    GUI.enabled = false;
-                }
+                if (Application.isPlaying) GUI.enabled = false;
                 EditorGUILayout.PropertyField(effectTag);
-                if (notLongEnough)
-                {
-                    EditorGUILayout.LabelField("[!] This tag is too short.", EditorStyles.miniLabel);
-                }
+                if (notLongEnough) EditorGUILayout.LabelField("[!] This tag is too short.", EditorStyles.miniLabel);
 
                 if (Application.isPlaying)
                 {
-                    EditorGUILayout.LabelField("(You can't edit the tag IDs while in playmode.)", EditorStyles.centeredGreyMiniLabel);
+                    EditorGUILayout.LabelField("(You can't edit the tag IDs while in playmode.)",
+                        EditorStyles.centeredGreyMiniLabel);
                     GUI.enabled = true;
                 }
 
                 GUI.backgroundColor = Color.white;
 
-                if (EditorGUI.EndChangeCheck())
-                {
-                    effectTag.stringValue = effectTag.stringValue.Replace(" ", "");
-                }
+                if (EditorGUI.EndChangeCheck()) effectTag.stringValue = effectTag.stringValue.Replace(" ", "");
 
                 if (!isAppearance)
                 {
@@ -578,7 +573,8 @@ namespace Febucci.UI.Core.Editors
 
                 EditorGUILayout.Space();
                 GUI.enabled = false;
-                EditorGUILayout.LabelField("Enable or disable effect modules in order to modify letters", EditorStyles.wordWrappedMiniLabel);
+                EditorGUILayout.LabelField("Enable or disable effect modules in order to modify letters",
+                    EditorStyles.wordWrappedMiniLabel);
                 GUI.enabled = true;
 
                 //EditorGUILayout.BeginVertical("box");
@@ -611,20 +607,21 @@ namespace Febucci.UI.Core.Editors
             }
         }
 
-        class FloatCurveDrawer
+        private class FloatCurveDrawer
         {
-            string name;
-            bool sizeDependant;
-            SerializedProperty enabled;
-            SerializedProperty amplitude;
-            SerializedProperty curve;
-            SerializedProperty charsTimeOffset;
-            GUIContent curveLabel;
-            Color curveColor;
+            private readonly SerializedProperty amplitude;
+            private readonly SerializedProperty charsTimeOffset;
+            private readonly SerializedProperty curve;
+            private readonly Color curveColor;
 
-            string curveDescription;
+            private string curveDescription;
+            private readonly GUIContent curveLabel;
+            private readonly SerializedProperty enabled;
+            private readonly string name;
+            private readonly bool sizeDependant;
 
-            public FloatCurveDrawer(SerializedProperty parent, string name, bool sizeDependant, bool isAppearance, Color curveColor)
+            public FloatCurveDrawer(SerializedProperty parent, string name, bool sizeDependant, bool isAppearance,
+                Color curveColor)
             {
                 curveLabel = new GUIContent(isAppearance ? "Decay over time" : "Intensity over time");
                 this.sizeDependant = sizeDependant;
@@ -640,7 +637,7 @@ namespace Febucci.UI.Core.Editors
 
             public void ResetValues(int type)
             {
-                bool isAppearance = type >= 3;
+                var isAppearance = type >= 3;
 
                 switch (type)
                 {
@@ -651,13 +648,13 @@ namespace Febucci.UI.Core.Editors
                         amplitude.floatValue = 1;
 
                         curve.animationCurveValue = new AnimationCurve(
-                                new Keyframe(0, 0, -5.4f, -5.4f),
-                                new Keyframe(.25f, -1, -1, -1),
-                                new Keyframe(.75f, 1, -1, -1),
-                                new Keyframe(1, 0, -5.4f, -5.4f)
-                            )
+                            new Keyframe(0, 0, -5.4f, -5.4f),
+                            new Keyframe(.25f, -1, -1, -1),
+                            new Keyframe(.75f, 1, -1, -1),
+                            new Keyframe(1, 0, -5.4f, -5.4f)
+                        )
                         {
-                            postWrapMode = WrapMode.Loop,
+                            postWrapMode = WrapMode.Loop
                         };
                         break;
 
@@ -671,7 +668,7 @@ namespace Febucci.UI.Core.Editors
                             new Keyframe(1, .5f)
                         )
                         {
-                            postWrapMode = WrapMode.Loop,
+                            postWrapMode = WrapMode.Loop
                         };
 
                         break;
@@ -732,16 +729,15 @@ namespace Febucci.UI.Core.Editors
                             postWrapMode = WrapMode.Once
                         };
                         break;
-
                 }
 
                 charsTimeOffset.floatValue = 0;
             }
 
-            void CalculateCurveStats()
+            private void CalculateCurveStats()
             {
-                curveDescription = $"Duration: {curve.animationCurveValue.CalculateCurveDuration()}\n{curve.animationCurveValue.preWrapMode} - {curve.animationCurveValue.postWrapMode}";
-
+                curveDescription =
+                    $"Duration: {curve.animationCurveValue.CalculateCurveDuration()}\n{curve.animationCurveValue.preWrapMode} - {curve.animationCurveValue.postWrapMode}";
             }
 
             public void Show()
@@ -751,10 +747,7 @@ namespace Febucci.UI.Core.Editors
                 if (enabled.boolValue)
                 {
                     //EditorGUI.indentLevel++;
-                    if (sizeDependant)
-                    {
-                        EditorGUILayout.LabelField(alertTextSizeDep, EditorStyles.centeredGreyMiniLabel);
-                    }
+                    if (sizeDependant) EditorGUILayout.LabelField(alertTextSizeDep, EditorStyles.centeredGreyMiniLabel);
 
                     EditorStyles.wordWrappedMiniLabel.alignment = TextAnchor.MiddleCenter;
                     EditorGUILayout.LabelField(curveDescription, EditorStyles.wordWrappedMiniLabel);
@@ -763,7 +756,8 @@ namespace Febucci.UI.Core.Editors
                     CalculateCurveStats(); //alyways calculating, because user may Undo and the duration could change
 
 
-                    curve.animationCurveValue = EditorGUILayout.CurveField(curveLabel, curve.animationCurveValue, curveColor, Rect.zero);
+                    curve.animationCurveValue =
+                        EditorGUILayout.CurveField(curveLabel, curve.animationCurveValue, curveColor, Rect.zero);
                     //EditorGUILayout.PropertyField(curve, curveLabel);
 
                     EditorGUILayout.PropertyField(amplitude);
@@ -775,15 +769,16 @@ namespace Febucci.UI.Core.Editors
                 }
             }
         }
-        [System.Serializable]
-        class ColorCurveDrawer
-        {
 
-            string name;
-            SerializedProperty enabled;
-            SerializedProperty gradient;
-            SerializedProperty duration;
-            SerializedProperty charsTimeOffset;
+        [Serializable]
+        private class ColorCurveDrawer
+        {
+            private SerializedProperty charsTimeOffset;
+            private SerializedProperty duration;
+            private SerializedProperty enabled;
+            private SerializedProperty gradient;
+
+            private string name;
 
             public ColorCurveDrawer(SerializedProperty parent, string name)
             {
@@ -793,12 +788,12 @@ namespace Febucci.UI.Core.Editors
                 duration = parent.FindPropertyRelative("duration");
                 charsTimeOffset = parent.FindPropertyRelative("charsTimeOffset");
             }
+
             public void ResetValues(bool isAppearance)
             {
                 //TODO Find a way to show serialized property gradients
 
                 if (isAppearance)
-                {
                     /*
                     gradient = new GradientColorKey[] {
                         new GradientColorKey(Color.cyan, 0),
@@ -810,11 +805,9 @@ namespace Febucci.UI.Core.Editors
                         new GradientAlphaKey(1, 1)
                     };
                     */
-
                     duration.floatValue = 1;
-                }
                 else
-                {/*
+                    /*
                     gradient.colorKeys = new GradientColorKey[] {
                     new GradientColorKey(Color.black, 0),
                     new GradientColorKey(Color.red, .5f),
@@ -827,7 +820,6 @@ namespace Febucci.UI.Core.Editors
                 };
                 */
                     duration.floatValue = 1;
-                }
 
                 charsTimeOffset.floatValue = 0;
             }
@@ -844,22 +836,21 @@ namespace Febucci.UI.Core.Editors
                     EditorGUILayout.Space();
                 }
             }
-
         }
 
-        class EmissionCurveDrawer
+        private class EmissionCurveDrawer
         {
-            string infoText;
+            private readonly SerializedProperty attackCurve;
+            private readonly SerializedProperty continueForever;
 
-            SerializedProperty cycles;
-            SerializedProperty overrideDuration;
-            SerializedProperty attackCurve;
-            SerializedProperty decayCurve;
-            SerializedProperty continueForever;
+            private readonly SerializedProperty cycles;
+            private readonly SerializedProperty decayCurve;
+            private string infoText;
+            private readonly SerializedProperty overrideDuration;
 
             public EmissionCurveDrawer(SerializedProperty parent)
             {
-                this.infoText = string.Empty;
+                infoText = string.Empty;
                 attackCurve = parent.FindPropertyRelative("attackCurve");
                 decayCurve = parent.FindPropertyRelative("decayCurve");
                 cycles = parent.FindPropertyRelative("cycles");
@@ -882,11 +873,13 @@ namespace Febucci.UI.Core.Editors
 
             public void Show()
             {
-                infoText = $"Repeats { ((continueForever.boolValue || cycles.intValue <= 0) ? "forever" : (cycles.intValue + " time(s)"))}";
+                infoText =
+                    $"Repeats {(continueForever.boolValue || cycles.intValue <= 0 ? "forever" : cycles.intValue + " time(s)")}";
 
                 GUI.enabled = false;
                 EditorGUILayout.LabelField(infoText, EditorStyles.wordWrappedMiniLabel);
-                EditorGUILayout.LabelField("Pro tip: Set the 'attack curve' keys to 1 to start the effect immediately", EditorStyles.wordWrappedMiniLabel);
+                EditorGUILayout.LabelField("Pro tip: Set the 'attack curve' keys to 1 to start the effect immediately",
+                    EditorStyles.wordWrappedMiniLabel);
                 GUI.enabled = true;
 
                 EditorGUILayout.CurveField(attackCurve, Color.yellow, Rect.zero);
@@ -898,7 +891,6 @@ namespace Febucci.UI.Core.Editors
                     EditorGUILayout.CurveField(decayCurve, Color.yellow, Rect.zero);
                     EditorGUILayout.PropertyField(cycles);
                 }
-
             }
         }
 
@@ -906,48 +898,48 @@ namespace Febucci.UI.Core.Editors
 
         #region Variables
 
-        GUIContent easyIntegrationLabel = new GUIContent("Use Easy Integration");
-        SerializedProperty triggerTypeWriter;
-        SerializedProperty timeScale;
-        SerializedProperty tags_fallbackBehaviors;
-        SerializedProperty tags_fallbackAppearances;
-        SerializedProperty tags_fallbackDisappearances;
+        private readonly GUIContent easyIntegrationLabel = new("Use Easy Integration");
+        private SerializedProperty triggerTypeWriter;
+        private SerializedProperty timeScale;
+        private SerializedProperty tags_fallbackBehaviors;
+        private SerializedProperty tags_fallbackAppearances;
+        private SerializedProperty tags_fallbackDisappearances;
 
-        SerializedProperty behaviorValues;
-        SerializedProperty behavDef;
-        SerializedProperty behLocalPresetsArray;
+        private SerializedProperty behaviorValues;
+        private SerializedProperty behavDef;
+        private SerializedProperty behLocalPresetsArray;
 
-        SerializedProperty appLocalPresetsArray;
-
-
-        SerializedProperty scriptable_globalBehaviorsValues;
-        SerializedProperty scriptable_globalAppearancesValues;
-        GUIContent scriptableBuiltin_GUI = new GUIContent("Shared Values");
+        private SerializedProperty appLocalPresetsArray;
 
 
-        SerializedProperty effectIntensity;
-        SerializedProperty useDynamicScaling;
-        SerializedProperty referenceFontSize;
+        private SerializedProperty scriptable_globalBehaviorsValues;
+        private SerializedProperty scriptable_globalAppearancesValues;
+        private readonly GUIContent scriptableBuiltin_GUI = new("Shared Values");
 
-        SerializedProperty appearanceValues;
 
-        UserPresetDrawer[] behPresets = new UserPresetDrawer[0];
-        UserPresetDrawer[] appPresets = new UserPresetDrawer[0];
+        private SerializedProperty effectIntensity;
+        private SerializedProperty useDynamicScaling;
+        private SerializedProperty referenceFontSize;
 
-        AppearanceDefaultEffects appDefaultPreset;
-        BehaviorDefaultEffects behDefaultDrawer;
+        private SerializedProperty appearanceValues;
 
-        bool behShowPresets;
-        bool appShowPresets;
+        private UserPresetDrawer[] behPresets = new UserPresetDrawer[0];
+        private UserPresetDrawer[] appPresets = new UserPresetDrawer[0];
 
-        bool panel_editEffects;
-        bool panel_editSettings;
+        private AppearanceDefaultEffects appDefaultPreset;
+        private BehaviorDefaultEffects behDefaultDrawer;
 
-        bool panel_editBehaviors;
-        bool panel_editDefaultAppearances;
-        bool panel_editDefaultBehaviors;
-        bool panel_editDefaultDisappearances;
-        bool panel_editAppearances;
+        private bool behShowPresets;
+        private bool appShowPresets;
+
+        private bool panel_editEffects;
+        private bool panel_editSettings;
+
+        private bool panel_editBehaviors;
+        private bool panel_editDefaultAppearances;
+        private bool panel_editDefaultBehaviors;
+        private bool panel_editDefaultDisappearances;
+        private bool panel_editAppearances;
 
 
 #if TA_DEBUG
@@ -963,32 +955,33 @@ namespace Febucci.UI.Core.Editors
             Appearances
         }
 
-        void MatchPresetsDrawersWithComponent()
+        private void MatchPresetsDrawersWithComponent()
         {
             MatchPresetsDrawersWithComponent(ref behPresets, behLocalPresetsArray, false);
             MatchPresetsDrawersWithComponent(ref appPresets, appLocalPresetsArray, true);
         }
 
-        static void MatchPresetsDrawersWithComponent(ref UserPresetDrawer[] drawers, SerializedProperty arrayProperty, bool isAppearance)
+        private static void MatchPresetsDrawersWithComponent(ref UserPresetDrawer[] drawers,
+            SerializedProperty arrayProperty, bool isAppearance)
         {
             if (drawers.Length != arrayProperty.arraySize)
             {
                 drawers = new UserPresetDrawer[arrayProperty.arraySize];
 
-                for (int i = 0; i < arrayProperty.arraySize; i++)
-                {
+                for (var i = 0; i < arrayProperty.arraySize; i++)
                     drawers[i] = new UserPresetDrawer(arrayProperty.GetArrayElementAtIndex(i), isAppearance);
-                }
             }
         }
 
-        static void EditFallbackEffects(ref SerializedProperty tagsContainer, bool isAppearance)
+        private static void EditFallbackEffects(ref SerializedProperty tagsContainer, bool isAppearance)
         {
             //avaiable tags
 
             GUI.enabled = false;
 
-            EditorGUILayout.LabelField("How many of these effects will be applied to a letter if there aren't any of the same category already?", EditorStyles.wordWrappedMiniLabel);
+            EditorGUILayout.LabelField(
+                "How many of these effects will be applied to a letter if there aren't any of the same category already?",
+                EditorStyles.wordWrappedMiniLabel);
 
             GUI.enabled = true;
 
@@ -1002,7 +995,9 @@ namespace Febucci.UI.Core.Editors
             if (tagsContainer.arraySize > 0)
             {
                 GUI.enabled = false;
-                EditorGUILayout.LabelField($"Write one {(isAppearance ? "Appearance/Disappearance" : "Behavior")} tag per array element. (built-in or custom effects tags are both accepted, eg. 'fade')", EditorStyles.wordWrappedMiniLabel);
+                EditorGUILayout.LabelField(
+                    $"Write one {(isAppearance ? "Appearance/Disappearance" : "Behavior")} tag per array element. (built-in or custom effects tags are both accepted, eg. 'fade')",
+                    EditorStyles.wordWrappedMiniLabel);
                 GUI.enabled = true;
                 EditorGUI.indentLevel++;
 
@@ -1011,7 +1006,7 @@ namespace Febucci.UI.Core.Editors
                 if (Application.isPlaying)
                     GUI.enabled = false;
 
-                for (int i = 0; i < tagsContainer.arraySize; i++)
+                for (var i = 0; i < tagsContainer.arraySize; i++)
                 {
                     temp = tagsContainer.GetArrayElementAtIndex(i);
 
@@ -1019,10 +1014,9 @@ namespace Febucci.UI.Core.Editors
                     EditorGUILayout.PropertyField(temp, new GUIContent($"Effect #{i}"));
 
                     if (EditorGUI.EndChangeCheck() && temp.stringValue.Length > 0)
-                    {
                         temp.stringValue = temp.stringValue.Replace("{", "").Replace("}", "");
-                    }
                 }
+
                 GUI.enabled = true;
 
                 EditorGUI.indentLevel--;
@@ -1049,25 +1043,26 @@ namespace Febucci.UI.Core.Editors
             scriptable_globalBehaviorsValues = serializedObject.FindProperty("scriptable_globalBehaviorsValues");
 
             availableAppBuiltinTagsLongText = string.Empty;
-            for (int i = 0; i < TAnimTags.defaultAppearances.Length; i++)
-            {
+            for (var i = 0; i < TAnimTags.defaultAppearances.Length; i++)
                 availableAppBuiltinTagsLongText += TAnimTags.defaultAppearances[i] + ", ";
-            }
 
             behaviorValues = serializedObject.FindProperty("behaviorValues");
 
             #region Default Behaviors
+
             behavDef = behaviorValues.FindPropertyRelative("defaults");
             behDefaultDrawer = new BehaviorDefaultEffects(behavDef);
-
 
             #endregion
 
             #region Default Appearances
+
             appearanceValues = serializedObject.FindProperty("appearancesContainer");
             tags_fallbackAppearances = appearanceValues.FindPropertyRelative("tagsFallback_Appearances");
             tags_fallbackDisappearances = appearanceValues.FindPropertyRelative("tagsFallback_Disappearances");
-            appDefaultPreset = new AppearanceDefaultEffects(appearanceValues.FindPropertyRelative("values").FindPropertyRelative("defaults"));
+            appDefaultPreset =
+                new AppearanceDefaultEffects(appearanceValues.FindPropertyRelative("values")
+                    .FindPropertyRelative("defaults"));
 
             #endregion
 
@@ -1076,24 +1071,21 @@ namespace Febucci.UI.Core.Editors
 
             appLocalPresetsArray = appearanceValues.FindPropertyRelative("values").FindPropertyRelative("presets");
             MatchPresetsDrawersWithComponent();
-
         }
 
         #region Styles Methods
+
         public static void WhatToShowButton(ref Show currentPanel)
         {
             void ShowButtonFor(ref Show panel, Show target)
             {
-                string name = target == Show.Appearances ? "Edit Appearances/Disappearances" : "Edit Behaviors";
+                var name = target == Show.Appearances ? "Edit Appearances/Disappearances" : "Edit Behaviors";
                 if (panel == target)
                     GUI.backgroundColor = selectedShowColor;
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Height(30));
 
-                if (GUILayout.Button(name, EditorStyles.boldLabel))
-                {
-                    panel = target;
-                }
+                if (GUILayout.Button(name, EditorStyles.boldLabel)) panel = target;
 
                 EditorGUILayout.EndVertical();
 
@@ -1106,13 +1098,14 @@ namespace Febucci.UI.Core.Editors
             EditorGUILayout.EndHorizontal();
         }
 
-        void WhatToShowTitle(string content)
+        private void WhatToShowTitle(string content)
         {
             EditorGUILayout.LabelField(content, EditorStyles.centeredGreyMiniLabel);
         }
+
         #endregion
 
-        static void StartVerticalToggleGroup(ref bool value, string label, string documentationLink)
+        private static void StartVerticalToggleGroup(ref bool value, string label, string documentationLink)
         {
             GUI.backgroundColor = value ? expandedColor : notExpandedColor;
             EditorGUILayout.BeginVertical("box");
@@ -1121,27 +1114,21 @@ namespace Febucci.UI.Core.Editors
             StartToggleGroup(ref value, label);
 
             if (documentationLink.Length > 0 && value)
-            {
                 if (GUILayout.Button(EditorGUIUtility.IconContent("_Help"), EditorStyles.label, GUILayout.Width(24)))
-                {
                     Application.OpenURL(documentationLink);
-                }
-            }
 
             EditorGUILayout.EndHorizontal();
 
             GUI.backgroundColor = Color.white;
-
-
         }
 
-        static void EndVerticalToggleGroup(bool value)
+        private static void EndVerticalToggleGroup(bool value)
         {
             EndToggleGroup(value);
             EditorGUILayout.EndVertical();
         }
 
-        static void StartToggleGroup(ref bool value, string label, GUIStyle style)
+        private static void StartToggleGroup(ref bool value, string label, GUIStyle style)
         {
             //GUI.backgroundColor = currentGroupLevel % 2 == 0 ? notExpandedColor : expandedColor;
             //GUI.backgroundColor = Color.white;
@@ -1152,17 +1139,18 @@ namespace Febucci.UI.Core.Editors
         }
 
 
-        static void StartToggleGroup(ref bool value, string label)
+        private static void StartToggleGroup(ref bool value, string label)
         {
             StartToggleGroup(ref value, label, EditorStyles.foldout);
         }
 
-        static void EndToggleGroup(bool value)
+        private static void EndToggleGroup(bool value)
         {
             EditorGUI.indentLevel--;
         }
 
-        internal static void ShowPresets(ref UserPresetDrawer[] userPresets, ref bool canShow, ref SerializedProperty arrayProperty, bool isAppearance, bool isGlobal)
+        internal static void ShowPresets(ref UserPresetDrawer[] userPresets, ref bool canShow,
+            ref SerializedProperty arrayProperty, bool isAppearance, bool isGlobal)
         {
             Assert.IsNotNull(userPresets, "User presets array is null");
             Assert.IsNotNull(arrayProperty, "Array property is null");
@@ -1170,29 +1158,30 @@ namespace Febucci.UI.Core.Editors
             EditorGUI.BeginChangeCheck();
 
 
-            StartVerticalToggleGroup(ref canShow, $"Create/edit {(isGlobal ? "global" : "local")} {(isAppearance ? "appearances" : "behaviors")} [{arrayProperty.arraySize} created]", docs_customInspectorPage);
+            StartVerticalToggleGroup(ref canShow,
+                $"Create/edit {(isGlobal ? "global" : "local")} {(isAppearance ? "appearances" : "behaviors")} [{arrayProperty.arraySize} created]",
+                docs_customInspectorPage);
 
             #region CanShow variable changed
+
             if (EditorGUI.EndChangeCheck())
-            {
                 //Resets "confirmation to delete effect" button
-                for (int i = 0; i < userPresets.Length; i++)
-                {
+                for (var i = 0; i < userPresets.Length; i++)
                     userPresets[i].wantsToRemove = false;
-                }
-            }
+
             #endregion
 
             #region Shows Preset
+
             if (canShow)
             {
                 //Checks for error
                 MatchPresetsDrawersWithComponent(ref userPresets, arrayProperty, isAppearance);
 
-                for (int i = 0; i < userPresets.Length; i++)
+                for (var i = 0; i < userPresets.Length; i++)
                 {
-
                     #region Header
+
                     if (userPresets[i].show)
                         GUI.backgroundColor = expandedColor;
                     else
@@ -1202,15 +1191,13 @@ namespace Febucci.UI.Core.Editors
 
                     GUI.backgroundColor = Color.white;
 
-                    if (userPresets[i].show)
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                    }
-
+                    if (userPresets[i].show) EditorGUILayout.BeginHorizontal();
 
                     #endregion
 
-                    StartToggleGroup(ref userPresets[i].show, $"{userPresets[i].getName}", userPresets[i].show ? boldFoldout : EditorStyles.foldout);
+                    StartToggleGroup(ref userPresets[i].show, $"{userPresets[i].getName}",
+                        userPresets[i].show ? boldFoldout : EditorStyles.foldout);
+
                     #region Body
 
                     if (userPresets[i].show)
@@ -1218,7 +1205,8 @@ namespace Febucci.UI.Core.Editors
                         if (Application.isPlaying)
                             GUI.enabled = false;
 
-                        if (GUILayout.Button(userPresets[i].wantsToRemove ? "Confirm?" : "Remove?", EditorStyles.miniButtonRight, GUILayout.Width(85)))
+                        if (GUILayout.Button(userPresets[i].wantsToRemove ? "Confirm?" : "Remove?",
+                                EditorStyles.miniButtonRight, GUILayout.Width(85)))
                         {
                             //Confirms remove
                             if (userPresets[i].wantsToRemove)
@@ -1227,10 +1215,9 @@ namespace Febucci.UI.Core.Editors
                                 MatchPresetsDrawersWithComponent(ref userPresets, arrayProperty, isAppearance);
                                 break;
                             }
-                            else //asks for remove
-                            {
-                                userPresets[i].wantsToRemove = true;
-                            }
+
+                            //asks for remove
+                            userPresets[i].wantsToRemove = true;
                         }
 
                         GUI.enabled = true;
@@ -1249,18 +1236,22 @@ namespace Febucci.UI.Core.Editors
                 }
 
                 #region Add New
+
                 if (Application.isPlaying) //prevents adding new preset if in play mode
                     GUI.enabled = false;
 
-                bool foldout = false;
-                if (EditorGUILayout.Foldout(foldout, $"[+ Add new {(isAppearance ? "appearance" : "behavior")} effect]", true) && !Application.isPlaying)
+                var foldout = false;
+                if (EditorGUILayout.Foldout(foldout, $"[+ Add new {(isAppearance ? "appearance" : "behavior")} effect]",
+                        true) && !Application.isPlaying)
                 {
-                    arrayProperty.InsertArrayElementAtIndex(Mathf.Clamp(arrayProperty.arraySize - 1, 0, arrayProperty.arraySize));
+                    arrayProperty.InsertArrayElementAtIndex(Mathf.Clamp(arrayProperty.arraySize - 1, 0,
+                        arrayProperty.arraySize));
                     MatchPresetsDrawersWithComponent(ref userPresets, arrayProperty, isAppearance);
                     userPresets[userPresets.Length - 1].ResetValues();
                 }
 
                 GUI.enabled = true;
+
                 #endregion
             }
 
@@ -1269,7 +1260,8 @@ namespace Febucci.UI.Core.Editors
             EndVerticalToggleGroup(canShow);
         }
 
-        bool boldFoldoutInitialized = false;
+        private bool boldFoldoutInitialized;
+
         public override void OnInspectorGUI()
         {
             if (!boldFoldoutInitialized)
@@ -1299,15 +1291,12 @@ namespace Febucci.UI.Core.Editors
                 EditorGUI.indentLevel++;
 
                 {
-
                     //Easy Integration
                     {
                         EditorGUILayout.PropertyField(triggerTypeWriter, easyIntegrationLabel);
 
                         if (triggerTypeWriter.boolValue)
-                        {
                             EditorGUILayout.HelpBox("Be sure to add a TextAnimatorPlayer component", MessageType.None);
-                        }
                     }
 
                     //Dynamic Scaling
@@ -1315,19 +1304,12 @@ namespace Febucci.UI.Core.Editors
                         EditorGUI.BeginChangeCheck();
                         EditorGUILayout.PropertyField(useDynamicScaling);
                         if (EditorGUI.EndChangeCheck())
-                        {
                             if (useDynamicScaling.boolValue)
-                            {
                                 if (referenceFontSize.floatValue <= 0)
                                 {
-                                    var tmproText = (target as TextAnimator)?.GetComponent<TMPro.TMP_Text>();
-                                    if (tmproText.text != null)
-                                    {
-                                        referenceFontSize.floatValue = tmproText.fontSize;
-                                    }
+                                    var tmproText = (target as TextAnimator)?.GetComponent<TMP_Text>();
+                                    if (tmproText.text != null) referenceFontSize.floatValue = tmproText.fontSize;
                                 }
-                            }
-                        }
 
                         if (useDynamicScaling.boolValue)
                             EditorGUILayout.PropertyField(referenceFontSize);
@@ -1336,7 +1318,6 @@ namespace Febucci.UI.Core.Editors
                     EditorGUILayout.PropertyField(timeScale);
 
                     EditorGUILayout.PropertyField(effectIntensity);
-
                 }
 
                 EditorGUI.indentLevel--;
@@ -1353,7 +1334,8 @@ namespace Febucci.UI.Core.Editors
                 EditorGUI.indentLevel++;
                 //Fallback Appearances
                 {
-                    StartToggleGroup(ref panel_editDefaultAppearances, $"Default Appearances [{tags_fallbackAppearances.arraySize} enabled]", boldFoldout);
+                    StartToggleGroup(ref panel_editDefaultAppearances,
+                        $"Default Appearances [{tags_fallbackAppearances.arraySize} enabled]", boldFoldout);
                     if (panel_editDefaultAppearances)
                     {
                         EditFallbackEffects(ref tags_fallbackAppearances, true);
@@ -1364,7 +1346,8 @@ namespace Febucci.UI.Core.Editors
 
                     //Fallback Behaviors
                     {
-                        StartToggleGroup(ref panel_editDefaultBehaviors, $"Default Behaviors [{tags_fallbackBehaviors.arraySize} enabled]", boldFoldout);
+                        StartToggleGroup(ref panel_editDefaultBehaviors,
+                            $"Default Behaviors [{tags_fallbackBehaviors.arraySize} enabled]", boldFoldout);
                         if (panel_editDefaultBehaviors)
                         {
                             EditFallbackEffects(ref tags_fallbackBehaviors, false);
@@ -1373,11 +1356,11 @@ namespace Febucci.UI.Core.Editors
 
                         EndToggleGroup(panel_editDefaultBehaviors);
                     }
-
                 }
                 //Fallback Disappearances
                 {
-                    StartToggleGroup(ref panel_editDefaultDisappearances, $"Default Disappearances [{tags_fallbackDisappearances.arraySize} enabled]", boldFoldout);
+                    StartToggleGroup(ref panel_editDefaultDisappearances,
+                        $"Default Disappearances [{tags_fallbackDisappearances.arraySize} enabled]", boldFoldout);
                     if (panel_editDefaultDisappearances)
                     {
                         EditFallbackEffects(ref tags_fallbackDisappearances, true);
@@ -1395,7 +1378,6 @@ namespace Febucci.UI.Core.Editors
 
             //Effects
             {
-
                 void ShowBuiltinEffect(BuiltinVariablesDrawer builtinDrawer, SerializedProperty scriptableProperty)
                 {
                     builtinDrawer.StartShowing();
@@ -1413,22 +1395,24 @@ namespace Febucci.UI.Core.Editors
                         else
                         {
                             GUI.enabled = false;
-                            EditorGUILayout.LabelField("Built-in effects will use and share the values set in the scriptable object.", EditorStyles.wordWrappedMiniLabel);
+                            EditorGUILayout.LabelField(
+                                "Built-in effects will use and share the values set in the scriptable object.",
+                                EditorStyles.wordWrappedMiniLabel);
                             GUI.enabled = true;
                         }
 
                         //Scriptable Data
-                        bool prevGui = GUI.enabled;
+                        var prevGui = GUI.enabled;
                         GUI.enabled = !EditorApplication.isPlaying;
 
                         if (Application.isPlaying)
-                            EditorGUILayout.LabelField("[!] You can't change this scriptable object during Play Mode.", EditorStyles.wordWrappedMiniLabel);
+                            EditorGUILayout.LabelField("[!] You can't change this scriptable object during Play Mode.",
+                                EditorStyles.wordWrappedMiniLabel);
                         EditorGUILayout.PropertyField(scriptableProperty, scriptableBuiltin_GUI);
                         GUI.enabled = prevGui;
                     }
 
                     builtinDrawer.StopShowing();
-
                 }
 
                 EditorGUILayout.LabelField("Edit Effects", EditorStyles.boldLabel);
@@ -1454,14 +1438,12 @@ namespace Febucci.UI.Core.Editors
 
                     if (panel_editBehaviors)
                     {
-
                         ShowBuiltinEffect(behDefaultDrawer, scriptable_globalBehaviorsValues);
 
                         ShowPresets(ref behPresets, ref behShowPresets, ref behLocalPresetsArray, false, false);
 
 
                         EditorGUILayout.Space();
-
                     }
 
                     EndToggleGroup(panel_editAppearances);
@@ -1472,7 +1454,6 @@ namespace Febucci.UI.Core.Editors
             }
 
             EditorGUILayout.Space();
-
 
 
 #if TA_DEBUG
@@ -1486,7 +1467,8 @@ namespace Febucci.UI.Core.Editors
 
                     propDebug_firstVisibleChar = script.firstVisibleCharacter;
                     EditorGUI.BeginChangeCheck();
-                    propDebug_firstVisibleChar = EditorGUILayout.IntField("First visible character:", propDebug_firstVisibleChar);
+                    propDebug_firstVisibleChar =
+ EditorGUILayout.IntField("First visible character:", propDebug_firstVisibleChar);
                     if (EditorGUI.EndChangeCheck())
                     {
                         script.firstVisibleCharacter = propDebug_firstVisibleChar;
@@ -1495,7 +1477,8 @@ namespace Febucci.UI.Core.Editors
 
                     propDebug_maxVisibleChars = script.maxVisibleCharacters;
                     EditorGUI.BeginChangeCheck();
-                    propDebug_maxVisibleChars = EditorGUILayout.IntField("Max visible characters:", propDebug_maxVisibleChars);
+                    propDebug_maxVisibleChars =
+ EditorGUILayout.IntField("Max visible characters:", propDebug_maxVisibleChars);
                     if (EditorGUI.EndChangeCheck())
                     {
                         script.maxVisibleCharacters = propDebug_maxVisibleChars;
@@ -1517,7 +1500,8 @@ namespace Febucci.UI.Core.Editors
 
             void ResetEffects()
             {
-                ((TextAnimator)target)?.SendMessage("EDITORONLY_ResetEffects", SendMessageOptions.RequireReceiver); //Resets effects on the target script
+                ((TextAnimator)target)?.SendMessage("EDITORONLY_ResetEffects",
+                    SendMessageOptions.RequireReceiver); //Resets effects on the target script
             }
 
             if (serializedObject.hasModifiedProperties)
@@ -1527,7 +1511,6 @@ namespace Febucci.UI.Core.Editors
                 if (Application.isPlaying)
                     ResetEffects();
             }
-
         }
 
 #if TA_DEBUG
@@ -1537,5 +1520,4 @@ namespace Febucci.UI.Core.Editors
         }
 #endif
     }
-
 }

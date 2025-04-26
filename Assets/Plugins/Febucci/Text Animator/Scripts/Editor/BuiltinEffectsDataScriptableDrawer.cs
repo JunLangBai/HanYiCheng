@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace Febucci.UI.Core.Editors
 {
-    abstract class BuiltinDataScriptableDrawer : Editor
+    internal abstract class BuiltinDataScriptableDrawer : Editor
     {
-        SerializedProperty scriptable;
-        TextAnimatorDrawer.BuiltinVariablesDrawer effectsDrawer;
+        private TextAnimatorDrawer.BuiltinVariablesDrawer effectsDrawer;
+        private SerializedProperty scriptable;
+
         protected virtual void OnEnable()
         {
             scriptable = serializedObject.FindProperty("effectValues");
@@ -22,13 +23,15 @@ namespace Febucci.UI.Core.Editors
 
             GUI.enabled = false;
 
-            EditorGUILayout.LabelField("TextAnimators that reference this asset will use and share these built-in effect values.", EditorStyles.wordWrappedLabel);
+            EditorGUILayout.LabelField(
+                "TextAnimators that reference this asset will use and share these built-in effect values.",
+                EditorStyles.wordWrappedLabel);
             GUI.enabled = true;
 
             if (Application.isPlaying)
-            {
-                EditorGUILayout.LabelField("[!] Remember: Changes will be saved when you exit playmode (since you are editing a Scriptable Object).", EditorStyles.wordWrappedLabel);
-            }
+                EditorGUILayout.LabelField(
+                    "[!] Remember: Changes will be saved when you exit playmode (since you are editing a Scriptable Object).",
+                    EditorStyles.wordWrappedLabel);
 
             EditorGUILayout.Space();
 
@@ -40,7 +43,7 @@ namespace Febucci.UI.Core.Editors
     }
 
     [CustomEditor(typeof(BuiltinAppearancesDataScriptable))]
-    class BuiltinAppearancesDrawer : BuiltinDataScriptableDrawer
+    internal class BuiltinAppearancesDrawer : BuiltinDataScriptableDrawer
     {
         protected override TextAnimatorDrawer.BuiltinVariablesDrawer InitializeDrawer(SerializedProperty property)
         {
@@ -49,7 +52,7 @@ namespace Febucci.UI.Core.Editors
     }
 
     [CustomEditor(typeof(BuiltinBehaviorsDataScriptable))]
-    class BuiltinBehaviorsDrawer : BuiltinDataScriptableDrawer
+    internal class BuiltinBehaviorsDrawer : BuiltinDataScriptableDrawer
     {
         protected override TextAnimatorDrawer.BuiltinVariablesDrawer InitializeDrawer(SerializedProperty property)
         {

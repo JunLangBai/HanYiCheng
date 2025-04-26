@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.bh_Bounce)]
-    class BounceBehavior : BehaviorSine
+    [Preserve]
+    [EffectInfo(TAnimTags.bh_Bounce)]
+    internal class BounceBehavior : BehaviorSine
     {
-
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
             amplitude = data.defaults.bounceAmplitude;
@@ -16,7 +16,6 @@ namespace Febucci.UI.Core
 
         public override void ApplyEffect(ref CharacterData data, int charIndex)
         {
-
             //Calculates the tween percentage
             float BounceTween(float t)
             {
@@ -34,8 +33,9 @@ namespace Febucci.UI.Core
                 return 0;
             }
 
-            data.vertices.MoveChar(Vector3.up * uniformIntensity * BounceTween((Mathf.Repeat(time.timeSinceStart * frequency - waveSize * charIndex, 1))) * amplitude);
+            data.vertices.MoveChar(Vector3.up * uniformIntensity *
+                                   BounceTween(Mathf.Repeat(time.timeSinceStart * frequency - waveSize * charIndex,
+                                       1)) * amplitude);
         }
     }
-
 }

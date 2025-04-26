@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Rokid.UXR.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Rokid.UXR.Interaction;
 
 namespace Rokid.UXR.Demo
 {
@@ -11,11 +11,10 @@ namespace Rokid.UXR.Demo
     {
         public bool dragOnSurfaces = true;
 
-        private Dictionary<int, GameObject> m_DraggingIcons = new Dictionary<int, GameObject>();
-        private Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
+        [SerializeField] private int pointerId;
 
-        [SerializeField]
-        private int pointerId;
+        private readonly Dictionary<int, GameObject> m_DraggingIcons = new();
+        private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new();
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -27,7 +26,7 @@ namespace Rokid.UXR.Demo
             if (pointerId != 0)
                 return;
 
-            this.pointerId = eventData.pointerId;
+            pointerId = eventData.pointerId;
 
 
             // We have clicked something that can be dragged.
@@ -62,9 +61,19 @@ namespace Rokid.UXR.Demo
                 SetDraggedPosition(eventData);
         }
 
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (m_DraggingIcons[eventData.pointerId] != null)
+                Destroy(m_DraggingIcons[eventData.pointerId]);
+
+            m_DraggingIcons[eventData.pointerId] = null;
+            pointerId = 0;
+        }
+
         private void SetDraggedPosition(PointerEventData eventData)
         {
-            if (dragOnSurfaces && eventData.pointerEnter != null && eventData.pointerEnter.transform as RectTransform != null)
+            if (dragOnSurfaces && eventData.pointerEnter != null &&
+                eventData.pointerEnter.transform as RectTransform != null)
                 m_DraggingPlanes[eventData.pointerId] = eventData.pointerEnter.transform as RectTransform;
 
             var rt = m_DraggingIcons[eventData.pointerId].GetComponent<RectTransform>();
@@ -80,29 +89,17 @@ namespace Rokid.UXR.Demo
         {
             worldPoint = Vector2.zero;
 
-            Ray ray = RayInteractor.GetRayByIdentifier(pointerId);
+            var ray = RayInteractor.GetRayByIdentifier(pointerId);
 
-            Plane plane = new Plane(rect.rotation * Vector3.back, rect.position);
-            float enter = 0f;
-            float num = Vector3.Dot(Vector3.Normalize(rect.position - ray.origin), plane.normal);
-            if (num != 0f && !plane.Raycast(ray, out enter))
-            {
-                return false;
-            }
+            var plane = new Plane(rect.rotation * Vector3.back, rect.position);
+            var enter = 0f;
+            var num = Vector3.Dot(Vector3.Normalize(rect.position - ray.origin), plane.normal);
+            if (num != 0f && !plane.Raycast(ray, out enter)) return false;
             worldPoint = ray.GetPoint(enter);
             return true;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            if (m_DraggingIcons[eventData.pointerId] != null)
-                Destroy(m_DraggingIcons[eventData.pointerId]);
-
-            m_DraggingIcons[eventData.pointerId] = null;
-            this.pointerId = 0;
-        }
-
-        static public T FindInParents<T>(GameObject go) where T : Component
+        public static T FindInParents<T>(GameObject go) where T : Component
         {
             if (go == null) return null;
             var comp = go.GetComponent<T>();
@@ -116,8 +113,8 @@ namespace Rokid.UXR.Demo
                 comp = t.gameObject.GetComponent<T>();
                 t = t.parent;
             }
+
             return comp;
         }
     }
-
 }

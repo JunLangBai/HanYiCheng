@@ -2,8 +2,8 @@ Shader "Unlit/SDFIcon"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {} // iconÍ¼±ê
-        [hideInInspector] _EdgeTex ("EdgeTexture", 2D) = "white" {} // ±ßÔµsdfÍ¼ÐÎ
+        _MainTex ("Texture", 2D) = "white" {} // iconÍ¼ï¿½ï¿½
+        [hideInInspector] _EdgeTex ("EdgeTexture", 2D) = "white" {} // ï¿½ï¿½ÔµsdfÍ¼ï¿½ï¿½
         [HDR] _ColorEdge ("ColorEdge", Color) = (1,1,1,1)
         [HDR] _ColorMain ("ColorMain", Color) = (1,1,1,1)
         _WidthOuter ("WidthOuter", Range(0.01, 0.08)) = 0.01
@@ -16,7 +16,10 @@ Shader "Unlit/SDFIcon"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -54,56 +57,62 @@ Shader "Unlit/SDFIcon"
             float _MainTexScale;
             float _uvScale;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
-                // ×ÜÌåuvÖÐÐÄËõ·Å
+                // ï¿½ï¿½ï¿½ï¿½uvï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 float2 centerUV1 = float2(0.5, 0.5);
                 float2 uvOffset1 = v.uv - centerUV1;
                 v.uv = centerUV1 + uvOffset1 * _uvScale;
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                // iconÍ¼±ê uvÖÐÐÄËõ·Å
+                // iconÍ¼ï¿½ï¿½ uvï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 float2 centerUV = float2(0.5, 0.5);
                 float2 uvOffset = v.uv - centerUV;
                 o.uv = centerUV + uvOffset * _MainTexScale;
-                // È«ÏóÏÞ
+                // È«ï¿½ï¿½ï¿½ï¿½
                 v.uv = v.uv * 2 - 1;
                 o.uvEdge = TRANSFORM_TEX(v.uv, _EdgeTex);
-                
+
                 return o;
             }
-            // ¾ØÐÎsdf
+
+            // ï¿½ï¿½ï¿½ï¿½sdf
             float sdRect(float2 p, float2 b)
             {
                 float2 d = abs(p) - b;
                 return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
             }
-            
-            // ÁâÐÎsdf
-            float ndot(float2 a, float2 b) 
+
+            // ï¿½ï¿½ï¿½ï¿½sdf
+            float ndot(float2 a, float2 b)
             {
-                return a.x * b.x - a.y * b.y; 
+                return a.x * b.x - a.y * b.y;
             }
-            float sdRhombus(float2 p, in float2 b) 
+
+            float sdRhombus(float2 p, in float2 b)
             {
                 p = abs(p);
                 float h = clamp(ndot(b - 2.0 * p, b) / dot(b, b), -1.0, 1.0);
-                float d = length(p- 0.5 * b * float2(1.0 - _ScreenParams.y, 1.0 + _ScreenParams.y));
+                float d = length(p - 0.5 * b * float2(1.0 - _ScreenParams.y, 1.0 + _ScreenParams.y));
                 return d * sign(p.x * b.y + p.y * b.x - b.x * b.y);
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 c = fixed4(0, 0, 0, 0);
                 float w = _ScreenParams.x, h = _ScreenParams.y;
                 float step = 1.0 / w;
-                // ¶¨Òåº¯Êý
-                float rect = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusInner, _RadiusInner))) - smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusInner - _WidthInner, _RadiusInner - _WidthInner)));
-                float rect2 = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusOuter, _RadiusOuter))) - smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusOuter - _WidthOuter, _RadiusOuter - _WidthOuter)));
+                // ï¿½ï¿½ï¿½åº¯ï¿½ï¿½
+                float rect = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusInner, _RadiusInner))) -
+                    smoothstep(step, -step,
+                        sdRect(i.uvEdge * _Step, float2(_RadiusInner - _WidthInner, _RadiusInner - _WidthInner)));
+                float rect2 = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusOuter, _RadiusOuter))) -
+                    smoothstep(step, -step,
+                        sdRect(i.uvEdge * _Step, float2(_RadiusOuter - _WidthOuter, _RadiusOuter - _WidthOuter)));
                 float rhombus = smoothstep(step, -step, sdRhombus(i.uvEdge * (2 - _Step), float2(0.4, 0.4)));
                 float final = rect + rect2;
-                // »æÖÆ
+                // ï¿½ï¿½ï¿½ï¿½
                 // Edge
                 c = lerp(c, 1, final);
                 c.a = c.r * (1 - rhombus.r);

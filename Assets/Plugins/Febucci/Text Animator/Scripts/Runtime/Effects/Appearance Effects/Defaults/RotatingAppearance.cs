@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.ap_Rot)]
-    class RotatingAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo(TAnimTags.ap_Rot)]
+    internal class RotatingAppearance : AppearanceBase
     {
+        private float targetAngle;
 
-        float targetAngle;
         public override void SetDefaultValues(AppearanceDefaultValues data)
         {
             effectDuration = data.defaults.rotationDuration;
@@ -16,14 +17,13 @@ namespace Febucci.UI.Core
 
         public override void ApplyEffect(ref CharacterData data, int charIndex)
         {
-
             data.vertices.RotateChar(
                 Mathf.Lerp(
                     targetAngle,
                     0,
                     Tween.EaseInOut(data.passedTime / effectDuration)
-                    )
-                );
+                )
+            );
         }
 
         public override void SetModifier(string modifierName, string modifierValue)
@@ -34,7 +34,5 @@ namespace Febucci.UI.Core
                 case "a": ApplyModifierTo(ref targetAngle, modifierValue); break;
             }
         }
-
     }
-
 }

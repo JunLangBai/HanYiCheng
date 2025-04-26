@@ -1,24 +1,26 @@
-﻿namespace Febucci.UI.Core
+﻿using System;
+
+namespace Febucci.UI.Core
 {
     /// <summary>
-    /// Base class for all appearance effects. <br/>
-    /// Inherit from this class if you want to create your own Appearance Effect in C#.
+    ///     Base class for all appearance effects. <br />
+    ///     Inherit from this class if you want to create your own Appearance Effect in C#.
     /// </summary>
     public abstract class AppearanceBase : EffectsBase
     {
         public float effectDuration = .3f;
 
-        [System.Obsolete("This variable will be removed from next versions. Please use 'effectDuration' instead")]
+        [Obsolete("This variable will be removed from next versions. Please use 'effectDuration' instead")]
         protected float showDuration => effectDuration;
 
         /// <summary>
-        /// Initializes the effect's default values. It is called before the effect is applied to letters.
+        ///     Initializes the effect's default values. It is called before the effect is applied to letters.
         /// </summary>
         /// <remarks>
-        /// Use this to assign values to your effect.
+        ///     Use this to assign values to your effect.
         /// </remarks>
         /// <example>
-        /// <code>
+        ///     <code>
         /// effectDuration = data.defaults.sizeDuration;
         /// amplitude = data.defaults.sizeAmplitude;
         /// </code>

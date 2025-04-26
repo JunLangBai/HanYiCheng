@@ -6,20 +6,23 @@ namespace Febucci.UI.Core.Editors
 #if UNITY_EDITOR
 
     [CustomEditor(typeof(TAnimGlobalDataScriptable))]
-    class TAnimGlobalDataScriptableDrawer : Editor
+    internal class TAnimGlobalDataScriptableDrawer : Editor
     {
-        TAnimGlobalDataScriptable script;
+        private TextAnimatorDrawer.UserPresetDrawer[] appearancesDrawers = new TextAnimatorDrawer.UserPresetDrawer[0];
+        private SerializedProperty appearancesPresets;
 
-        SerializedProperty behaviorPresets;
-        SerializedProperty appearancesPresets;
-        SerializedProperty customActionsArray;
+        private TextAnimatorDrawer.UserPresetDrawer[] behaviorDrawers = new TextAnimatorDrawer.UserPresetDrawer[0];
 
-        SerializedProperty customTagsFormatting;
-        SerializedProperty tagInfo_behaviors;
-        SerializedProperty tagInfo_appearances;
+        private SerializedProperty behaviorPresets;
+        private SerializedProperty customActionsArray;
 
-        TextAnimatorDrawer.UserPresetDrawer[] behaviorDrawers = new TextAnimatorDrawer.UserPresetDrawer[0];
-        TextAnimatorDrawer.UserPresetDrawer[] appearancesDrawers = new TextAnimatorDrawer.UserPresetDrawer[0];
+        private SerializedProperty customTagsFormatting;
+        private TAnimGlobalDataScriptable script;
+        private bool showAppearances;
+
+        private bool showBehaviors;
+        private SerializedProperty tagInfo_appearances;
+        private SerializedProperty tagInfo_behaviors;
 
         protected virtual void OnEnable()
         {
@@ -35,7 +38,6 @@ namespace Febucci.UI.Core.Editors
 
 
             Undo.undoRedoPerformed += Redo;
-
         }
 
         private void OnDisable()
@@ -43,27 +45,27 @@ namespace Febucci.UI.Core.Editors
             Undo.undoRedoPerformed -= Redo;
         }
 
-        void Redo()
+        private void Redo()
         {
             serializedObject.UpdateIfRequiredOrScript(); //I have spent too much searching this method... :(
             Repaint();
             TryResettingTextAnimators();
         }
 
-        bool showBehaviors = false;
-        bool showAppearances = false;
         public override void OnInspectorGUI()
         {
             if (Application.isPlaying)
-                EditorGUILayout.LabelField($"[!!] Remember: Saves are applied in play mode.");
+                EditorGUILayout.LabelField("[!!] Remember: Saves are applied in play mode.");
 
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.LabelField("Effects", EditorStyles.boldLabel);
 
-                TextAnimatorDrawer.ShowPresets(ref behaviorDrawers, ref showBehaviors, ref behaviorPresets, false, true);
+                TextAnimatorDrawer.ShowPresets(ref behaviorDrawers, ref showBehaviors, ref behaviorPresets, false,
+                    true);
 
-                TextAnimatorDrawer.ShowPresets(ref appearancesDrawers, ref showAppearances, ref appearancesPresets, true, true);
+                TextAnimatorDrawer.ShowPresets(ref appearancesDrawers, ref showAppearances, ref appearancesPresets,
+                    true, true);
 
 
                 EditorGUI.indentLevel--;
@@ -111,19 +113,13 @@ namespace Febucci.UI.Core.Editors
                 Repaint();
                 TryResettingTextAnimators();
             }
-
         }
 
-        void TryResettingTextAnimators()
+        private void TryResettingTextAnimators()
         {
-            if (EditorApplication.isPlaying)
-            {
-                TAnim_EditorHelper.TriggerEvent();
-            }
+            if (EditorApplication.isPlaying) TAnim_EditorHelper.TriggerEvent();
         }
     }
 
 #endif
-
-
 }

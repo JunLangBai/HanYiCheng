@@ -13,7 +13,10 @@ Shader "Unlit/TwoImageShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         // Alpha0
@@ -43,7 +46,7 @@ Shader "Unlit/TwoImageShader"
             float _Redius;
             float _Offset;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -51,11 +54,11 @@ Shader "Unlit/TwoImageShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 float dis = distance(_MousePos.xy, i.vertex.xy);
-                col.a = saturate(col.a - smoothstep(_Redius, 0, dis) + _Offset * sign(col.a-0.1));
+                col.a = saturate(col.a - smoothstep(_Redius, 0, dis) + _Offset * sign(col.a - 0.1));
                 return col;
             }
             ENDCG
@@ -90,7 +93,7 @@ Shader "Unlit/TwoImageShader"
             sampler2D _TwoTex;
             float4 _TwoTex_ST;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -98,12 +101,12 @@ Shader "Unlit/TwoImageShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_TwoTex, i.uv);
                 float dis = distance(_MousePos.xy, i.vertex.xy);
                 col.a = saturate(smoothstep(_Redius, 0, dis) - _Offset) * _ColorAmount;
-                col.a =  col.a * _Pow;
+                col.a = col.a * _Pow;
                 return col;
             }
             ENDCG
@@ -138,7 +141,7 @@ Shader "Unlit/TwoImageShader"
             float4 _TwoTex_ST;
             float _ColorAmount;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -146,7 +149,7 @@ Shader "Unlit/TwoImageShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = _Color;
                 float dis = distance(_MousePos.xy, i.vertex.xy);

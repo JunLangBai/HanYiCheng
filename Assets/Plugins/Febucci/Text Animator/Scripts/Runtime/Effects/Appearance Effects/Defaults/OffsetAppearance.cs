@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.ap_Offset)]
-    class OffsetAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo(TAnimTags.ap_Offset)]
+    internal class OffsetAppearance : AppearanceBase
     {
-
-        float amount;
-        Vector2 direction;
+        private float amount;
+        private Vector2 direction;
 
         public override void SetDefaultValues(AppearanceDefaultValues data)
         {
@@ -32,5 +32,4 @@ namespace Febucci.UI.Core
             }
         }
     }
-
 }

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Febucci.Attributes
 {
@@ -12,19 +12,19 @@ namespace Febucci.Attributes
             switch (property.propertyType)
             {
                 case SerializedPropertyType.Integer:
-                    property.intValue = Mathf.Clamp(property.intValue, (int)(attribute as MinValueAttribute).min, int.MaxValue);
+                    property.intValue = Mathf.Clamp(property.intValue, (int)(attribute as MinValueAttribute).min,
+                        int.MaxValue);
                     break;
 
                 case SerializedPropertyType.Float:
-                    property.floatValue = Mathf.Clamp(property.floatValue, (attribute as MinValueAttribute).min, float.MaxValue);
+                    property.floatValue = Mathf.Clamp(property.floatValue, (attribute as MinValueAttribute).min,
+                        float.MaxValue);
                     break;
 
                 default:
                     base.OnGUI(position, property, label);
                     break;
             }
-
         }
     }
-
 }

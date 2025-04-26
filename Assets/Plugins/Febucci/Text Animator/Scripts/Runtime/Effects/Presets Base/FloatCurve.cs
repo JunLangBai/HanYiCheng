@@ -1,22 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Febucci.UI.Core
 {
-    [System.Serializable]
+    [Serializable]
     internal class FloatCurve : EffectEvaluator
     {
-#pragma warning disable 0649 //disabling the error or unity will throw "field is never assigned" [..], because we actually assign the variables from the custom drawers
-        public bool enabled;
-
-        [SerializeField] protected float amplitude;
-        [SerializeField] protected AnimationCurve curve;
-
-        [SerializeField, HideInInspector] protected float defaultReturn;
-
-        [SerializeField, Range(0, 100)] protected float charsTimeOffset; //clamping to 100 because it repeates the behavior after it
-
-        [System.NonSerialized] float calculatedDuration;
-#pragma warning restore 0649
+        private bool isAppearance;
 
         public bool isEnabled => enabled;
 
@@ -24,8 +14,6 @@ namespace Febucci.UI.Core
         {
             return calculatedDuration;
         }
-
-        bool isAppearance;
 
         public void Initialize(int type)
         {
@@ -53,7 +41,6 @@ namespace Febucci.UI.Core
 
                 //app rot
                 case 5: defaultReturn = 0; break;
-
             }
         }
 
@@ -63,13 +50,25 @@ namespace Febucci.UI.Core
                 return defaultReturn;
 
             if (isAppearance)
-            {
-                return Mathf.LerpUnclamped(amplitude, defaultReturn, curve.Evaluate(time) * Mathf.Cos(Mathf.Deg2Rad * (characterIndex * charsTimeOffset / 2f)));
-            }
+                return Mathf.LerpUnclamped(amplitude, defaultReturn,
+                    curve.Evaluate(time) * Mathf.Cos(Mathf.Deg2Rad * (characterIndex * charsTimeOffset / 2f)));
 
 
             //behavior
             return curve.Evaluate(time + characterIndex * (charsTimeOffset / 100f)) * amplitude;
         }
+#pragma warning disable 0649 //disabling the error or unity will throw "field is never assigned" [..], because we actually assign the variables from the custom drawers
+        public bool enabled;
+
+        [SerializeField] protected float amplitude;
+        [SerializeField] protected AnimationCurve curve;
+
+        [SerializeField] [HideInInspector] protected float defaultReturn;
+
+        [SerializeField] [Range(0, 100)]
+        protected float charsTimeOffset; //clamping to 100 because it repeates the behavior after it
+
+        [NonSerialized] private float calculatedDuration;
+#pragma warning restore 0649
     }
 }

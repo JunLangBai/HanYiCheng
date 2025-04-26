@@ -1,12 +1,10 @@
 ﻿namespace Febucci.UI.Core
 {
-    interface EffectEvaluator
+    internal interface EffectEvaluator
     {
-        void Initialize(int type);
-
         bool isEnabled { get; }
+        void Initialize(int type);
         float Evaluate(float time, int characterIndex);
         float GetDuration();
     }
-
 }

@@ -4,41 +4,23 @@ using UnityEngine;
 namespace Febucci.UI.Core.Editors
 {
     [CustomEditor(typeof(TAnimPlayerBase), true)]
-    class TAnimPlayerBaseDrawer : Editor
+    internal class TAnimPlayerBaseDrawer : Editor
     {
-        SerializedProperty showLettersDinamically;
-        SerializedProperty startTypewriterMode;
-        SerializedProperty canSkipTypewriter;
-        SerializedProperty hideAppearancesOnSkip;
-        SerializedProperty triggerEventsOnSkip;
-        SerializedProperty disappearanceOrientation;
+        private SerializedProperty canSkipTypewriter;
+        private SerializedProperty disappearanceOrientation;
+        private SerializedProperty hideAppearancesOnSkip;
+        private SerializedProperty onCharacterVisible;
+        private SerializedProperty onTextDisappeared;
 
-        SerializedProperty onTextShowed;
-        SerializedProperty onTypewriterStart;
-        SerializedProperty onCharacterVisible;
-        SerializedProperty onTextDisappeared;
+        private SerializedProperty onTextShowed;
+        private SerializedProperty onTypewriterStart;
 
-        SerializedProperty resetTypingSpeedAtStartup;
+        private string[] propertiesToExclude = new string[0];
 
-        string[] propertiesToExclude = new string[0];
-
-        protected virtual string[] GetPropertiesToExclude()
-        {
-            return new string[] {
-            "m_Script",
-            "useTypeWriter",
-            "startTypewriterMode",
-            "canSkipTypewriter",
-            "hideAppearancesOnSkip",
-            "triggerEventsOnSkip",
-            "onTextShowed",
-            "onTypewriterStart",
-            "onCharacterVisible",
-            "resetTypingSpeedAtStartup",
-            "onTextDisappeared",
-            "disappearanceOrientation",
-            };
-        }
+        private SerializedProperty resetTypingSpeedAtStartup;
+        private SerializedProperty showLettersDinamically;
+        private SerializedProperty startTypewriterMode;
+        private SerializedProperty triggerEventsOnSkip;
 
         protected virtual void OnEnable()
         {
@@ -60,12 +42,31 @@ namespace Febucci.UI.Core.Editors
             propertiesToExclude = GetPropertiesToExclude();
         }
 
-        bool ButtonPlaymode(string label)
+        protected virtual string[] GetPropertiesToExclude()
         {
-            bool prevGUI = GUI.enabled;
+            return new[]
+            {
+                "m_Script",
+                "useTypeWriter",
+                "startTypewriterMode",
+                "canSkipTypewriter",
+                "hideAppearancesOnSkip",
+                "triggerEventsOnSkip",
+                "onTextShowed",
+                "onTypewriterStart",
+                "onCharacterVisible",
+                "resetTypingSpeedAtStartup",
+                "onTextDisappeared",
+                "disappearanceOrientation"
+            };
+        }
+
+        private bool ButtonPlaymode(string label)
+        {
+            var prevGUI = GUI.enabled;
             GUI.enabled = Application.isPlaying;
 
-            bool value = GUILayout.Button(label, EditorStyles.miniButton, GUILayout.MaxWidth(70));
+            var value = GUILayout.Button(label, EditorStyles.miniButton, GUILayout.MaxWidth(70));
 
             GUI.enabled = prevGUI;
             return value;
@@ -73,7 +74,6 @@ namespace Febucci.UI.Core.Editors
 
         public override void OnInspectorGUI()
         {
-
             {
                 EditorGUILayout.LabelField("Main Settings", EditorStyles.boldLabel);
 
@@ -93,14 +93,8 @@ namespace Febucci.UI.Core.Editors
 
                 if (showLettersDinamically.boolValue)
                 {
-                    if (ButtonPlaymode("Start"))
-                    {
-                        ((TAnimPlayerBase)target).StartShowingText();
-                    }
-                    if (ButtonPlaymode("Stop"))
-                    {
-                        ((TAnimPlayerBase)target).StopShowingText();
-                    }
+                    if (ButtonPlaymode("Start")) ((TAnimPlayerBase)target).StartShowingText();
+                    if (ButtonPlaymode("Stop")) ((TAnimPlayerBase)target).StopShowingText();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -116,13 +110,10 @@ namespace Febucci.UI.Core.Editors
 
                 EditorGUILayout.LabelField("Typewriter Skip", EditorStyles.boldLabel);
 
-                EditorGUILayout.BeginHorizontal(); 
+                EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.PropertyField(canSkipTypewriter);
 
-                if (canSkipTypewriter.boolValue && ButtonPlaymode("Skip"))
-                {
-                    ((TAnimPlayerBase)target).SkipTypewriter();
-                }
+                if (canSkipTypewriter.boolValue && ButtonPlaymode("Skip")) ((TAnimPlayerBase)target).SkipTypewriter();
                 EditorGUILayout.EndHorizontal();
 
 
@@ -132,7 +123,6 @@ namespace Febucci.UI.Core.Editors
                 GUI.enabled = true;
 
                 EditorGUI.indentLevel--;
-
             }
             else
             {
@@ -158,7 +148,6 @@ namespace Febucci.UI.Core.Editors
 
                     if (showLettersDinamically.boolValue)
                     {
-
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(onTypewriterStart);
                         EditorGUILayout.PropertyField(onCharacterVisible);
@@ -168,7 +157,6 @@ namespace Febucci.UI.Core.Editors
 
                     //GUI.enabled = true;
                 }
-
             }
 
             EditorGUILayout.Space();
@@ -189,20 +177,16 @@ namespace Febucci.UI.Core.Editors
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Disappearances", EditorStyles.boldLabel);
 
-                if (ButtonPlaymode("Start"))
-                {
-                    ((TAnimPlayerBase)target).StartDisappearingText();
-                }
-                if (ButtonPlaymode("Stop"))
-                {
-                    ((TAnimPlayerBase)target).StopDisappearingText();
-                }
+                if (ButtonPlaymode("Start")) ((TAnimPlayerBase)target).StartDisappearingText();
+                if (ButtonPlaymode("Stop")) ((TAnimPlayerBase)target).StopDisappearingText();
 
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUI.indentLevel++;
                 GUI.enabled = false;
-                EditorGUILayout.LabelField("To start disappearances, please call the 'StartDisappearingText()' method. See the docs for more.", EditorStyles.wordWrappedMiniLabel);
+                EditorGUILayout.LabelField(
+                    "To start disappearances, please call the 'StartDisappearingText()' method. See the docs for more.",
+                    EditorStyles.wordWrappedMiniLabel);
                 GUI.enabled = true;
 
                 EditorGUILayout.PropertyField(disappearanceOrientation);
@@ -216,55 +200,32 @@ namespace Febucci.UI.Core.Editors
             DrawPropertiesExcluding(serializedObject, propertiesToExclude);
 
 
-            if (serializedObject.hasModifiedProperties)
-            {
-                serializedObject.ApplyModifiedProperties();
-            }
-
+            if (serializedObject.hasModifiedProperties) serializedObject.ApplyModifiedProperties();
         }
 
         protected virtual void OnTypewriterSectionGUI()
         {
-
         }
 
         protected virtual void OnDisappearanceSectionGUI()
         {
-
         }
     }
 
 
     [CustomEditor(typeof(TextAnimatorPlayer), true)]
-    class TAnimPlayerDrawer : TAnimPlayerBaseDrawer
+    internal class TAnimPlayerDrawer : TAnimPlayerBaseDrawer
     {
-        SerializedProperty waitForNormalChars;
-        SerializedProperty waitLong;
-        SerializedProperty waitMiddle;
-        SerializedProperty avoidMultiplePunctuactionWait;
-        SerializedProperty waitForNewLines;
-        SerializedProperty waitForLastCharacter;
+        private SerializedProperty avoidMultiplePunctuactionWait;
+        private PropertyWithDifferentLabel disappearanceSpeedMultiplier;
+        private PropertyWithDifferentLabel disappearanceWaitTime;
 
-        PropertyWithDifferentLabel useTypewriterWaitForDisappearances;
-        PropertyWithDifferentLabel disappearanceWaitTime;
-        PropertyWithDifferentLabel disappearanceSpeedMultiplier;
-
-        struct PropertyWithDifferentLabel
-        {
-            public SerializedProperty property;
-            public GUIContent label;
-
-            public PropertyWithDifferentLabel(SerializedObject obj, string property, string label)
-            {
-                this.property = obj.FindProperty(property);
-                this.label = new GUIContent(label);
-            }
-
-            public void PropertyField()
-            {
-                EditorGUILayout.PropertyField(property, label);
-            }
-        }
+        private PropertyWithDifferentLabel useTypewriterWaitForDisappearances;
+        private SerializedProperty waitForLastCharacter;
+        private SerializedProperty waitForNewLines;
+        private SerializedProperty waitForNormalChars;
+        private SerializedProperty waitLong;
+        private SerializedProperty waitMiddle;
 
         protected override void OnEnable()
         {
@@ -276,39 +237,37 @@ namespace Febucci.UI.Core.Editors
             avoidMultiplePunctuactionWait = serializedObject.FindProperty("avoidMultiplePunctuactionWait");
             waitForNewLines = serializedObject.FindProperty("waitForNewLines");
             waitForLastCharacter = serializedObject.FindProperty("waitForLastCharacter");
-            useTypewriterWaitForDisappearances = new PropertyWithDifferentLabel(serializedObject, "useTypewriterWaitForDisappearances", "Use Typewriter Wait Times");
-            disappearanceSpeedMultiplier = new PropertyWithDifferentLabel(serializedObject, "disappearanceSpeedMultiplier", "Typewriter Speed Multiplier");
-            disappearanceWaitTime = new PropertyWithDifferentLabel(serializedObject, "disappearanceWaitTime", "Disappearances Wait");
+            useTypewriterWaitForDisappearances = new PropertyWithDifferentLabel(serializedObject,
+                "useTypewriterWaitForDisappearances", "Use Typewriter Wait Times");
+            disappearanceSpeedMultiplier = new PropertyWithDifferentLabel(serializedObject,
+                "disappearanceSpeedMultiplier", "Typewriter Speed Multiplier");
+            disappearanceWaitTime =
+                new PropertyWithDifferentLabel(serializedObject, "disappearanceWaitTime", "Disappearances Wait");
         }
 
         protected override string[] GetPropertiesToExclude()
         {
-            string[] newProperties = new string[] {
-            "script",
-            "waitForNormalChars",
-            "waitLong",
-            "waitMiddle",
-            "avoidMultiplePunctuactionWait",
-            "waitForNewLines",
-            "waitForLastCharacter",
-            "useTypewriterWaitForDisappearances",
-            "disappearanceSpeedMultiplier",
-            "disappearanceWaitTime"
+            var newProperties = new[]
+            {
+                "script",
+                "waitForNormalChars",
+                "waitLong",
+                "waitMiddle",
+                "avoidMultiplePunctuactionWait",
+                "waitForNewLines",
+                "waitForLastCharacter",
+                "useTypewriterWaitForDisappearances",
+                "disappearanceSpeedMultiplier",
+                "disappearanceWaitTime"
             };
 
-            string[] baseProperties = base.GetPropertiesToExclude();
+            var baseProperties = base.GetPropertiesToExclude();
 
-            string[] mergedArray = new string[newProperties.Length + baseProperties.Length];
+            var mergedArray = new string[newProperties.Length + baseProperties.Length];
 
-            for (int i = 0; i < baseProperties.Length; i++)
-            {
-                mergedArray[i] = baseProperties[i];
-            }
+            for (var i = 0; i < baseProperties.Length; i++) mergedArray[i] = baseProperties[i];
 
-            for (int i = 0; i < newProperties.Length; i++)
-            {
-                mergedArray[i + baseProperties.Length] = newProperties[i];
-            }
+            for (var i = 0; i < newProperties.Length; i++) mergedArray[i + baseProperties.Length] = newProperties[i];
 
             return mergedArray;
         }
@@ -332,7 +291,23 @@ namespace Febucci.UI.Core.Editors
                 disappearanceSpeedMultiplier.PropertyField();
             else
                 disappearanceWaitTime.PropertyField();
+        }
 
+        private struct PropertyWithDifferentLabel
+        {
+            public readonly SerializedProperty property;
+            public readonly GUIContent label;
+
+            public PropertyWithDifferentLabel(SerializedObject obj, string property, string label)
+            {
+                this.property = obj.FindProperty(property);
+                this.label = new GUIContent(label);
+            }
+
+            public void PropertyField()
+            {
+                EditorGUILayout.PropertyField(property, label);
+            }
         }
     }
 }

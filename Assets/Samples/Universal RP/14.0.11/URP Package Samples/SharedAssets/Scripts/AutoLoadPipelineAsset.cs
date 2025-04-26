@@ -5,17 +5,17 @@ using UnityEngine.Rendering.Universal;
 [ExecuteAlways]
 public class AutoLoadPipelineAsset : MonoBehaviour
 {
-    [SerializeField]
-    private UniversalRenderPipelineAsset m_PipelineAsset;
-    private RenderPipelineAsset m_PreviousPipelineAsset;
-    private bool m_overrodeQualitySettings;
+    [SerializeField] private UniversalRenderPipelineAsset m_PipelineAsset;
 
-    void OnEnable()
+    private bool m_overrodeQualitySettings;
+    private RenderPipelineAsset m_PreviousPipelineAsset;
+
+    private void OnEnable()
     {
         UpdatePipeline();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         ResetPipeline();
     }
@@ -44,14 +44,9 @@ public class AutoLoadPipelineAsset : MonoBehaviour
         if (m_PreviousPipelineAsset)
         {
             if (m_overrodeQualitySettings)
-            {
                 QualitySettings.renderPipeline = m_PreviousPipelineAsset;
-            }
             else
-            {
                 GraphicsSettings.renderPipelineAsset = m_PreviousPipelineAsset;
-            }
-
         }
     }
 }

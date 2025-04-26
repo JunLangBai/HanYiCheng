@@ -13,7 +13,10 @@ Shader "Unlit/RotationShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -34,7 +37,6 @@ Shader "Unlit/RotationShader"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-
             };
 
             sampler2D _MainTex;
@@ -48,14 +50,14 @@ Shader "Unlit/RotationShader"
             float4 _SolidColor;
 
             float4x4 M_Rotate()
-            {                
+            {
                 return float4x4(cos(radians(_Rotation)), -sin(radians(_Rotation)), 0, 0,
-                                sin(radians(_Rotation)),  cos(radians(_Rotation)), 0, 0,
-                                                      0,                        0, 1, 0,
-                                                      0,                        0, 0, 1);
+                sin(radians(_Rotation)), cos(radians(_Rotation)), 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
             }
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 // uvScale
@@ -72,7 +74,7 @@ Shader "Unlit/RotationShader"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 float uv_x = i.uv.x + _UVOffset;
                 fixed4 col = tex2D(_MainTex, uv_x);

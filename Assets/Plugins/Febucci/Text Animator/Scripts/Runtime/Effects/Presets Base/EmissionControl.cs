@@ -1,25 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using Febucci.Attributes;
+using UnityEngine;
 
 namespace Febucci.UI.Core
 {
-    [System.Serializable]
+    [Serializable]
     internal struct EmissionControl
     {
 #pragma warning disable 0649 //disables warning 0649, "value declared but never assigned", since Unity actually assigns the variable in the inspector through the [SerializeField] attribute, but the compiler doesn't know this and throws warnings
-        [SerializeField, Attributes.MinValue(0)] int cycles;
+        [SerializeField] [MinValue(0)] private int cycles;
 
-        [SerializeField] AnimationCurve attackCurve;
-        [SerializeField, Attributes.MinValue(0)] float overrideDuration;
-        [SerializeField] bool continueForever;
-        [SerializeField] AnimationCurve decayCurve;
+        [SerializeField] private AnimationCurve attackCurve;
+        [SerializeField] [MinValue(0)] private float overrideDuration;
+        [SerializeField] private bool continueForever;
+        [SerializeField] private AnimationCurve decayCurve;
 #pragma warning restore 0649
 
-        [System.NonSerialized] float maxDuration;
-        [System.NonSerialized] AnimationCurve intensityOverDuration;
-        [System.NonSerialized] float passedTime;
-        [System.NonSerialized] float cycleDuration;
+        [NonSerialized] private float maxDuration;
+        [NonSerialized] private AnimationCurve intensityOverDuration;
+        [NonSerialized] private float passedTime;
+        [NonSerialized] private float cycleDuration;
 
-        [System.NonSerialized] public float effectWeigth;
+        [NonSerialized] public float effectWeigth;
 
 
         public void Initialize(float effectsMaxDuration)
@@ -27,25 +29,19 @@ namespace Febucci.UI.Core
             effectWeigth = 0;
             passedTime = 0;
 
-            Keyframe[] totalKeys = new Keyframe[
+            var totalKeys = new Keyframe[
                 attackCurve.length + (continueForever ? 0 : decayCurve.length)
-                ];
+            ];
 
-            for (int i = 0; i < attackCurve.length; i++)
-            {
-                totalKeys[i] = attackCurve[i];
-            }
+            for (var i = 0; i < attackCurve.length; i++) totalKeys[i] = attackCurve[i];
 
             if (!continueForever)
             {
-                if (overrideDuration > 0)
-                {
-                    effectsMaxDuration = overrideDuration;
-                }
+                if (overrideDuration > 0) effectsMaxDuration = overrideDuration;
 
-                float attackDuration = attackCurve.CalculateCurveDuration();
+                var attackDuration = attackCurve.CalculateCurveDuration();
 
-                for (int i = attackCurve.length; i < totalKeys.Length; i++)
+                for (var i = attackCurve.length; i < totalKeys.Length; i++)
                 {
                     totalKeys[i] = decayCurve[i - attackCurve.length];
                     totalKeys[i].time += effectsMaxDuration + attackDuration;
@@ -56,7 +52,7 @@ namespace Febucci.UI.Core
             intensityOverDuration.preWrapMode = WrapMode.Loop;
             intensityOverDuration.postWrapMode = WrapMode.Loop;
 
-            this.cycleDuration = intensityOverDuration.CalculateCurveDuration();
+            cycleDuration = intensityOverDuration.CalculateCurveDuration();
             maxDuration = cycleDuration * cycles;
         }
 
@@ -72,13 +68,11 @@ namespace Febucci.UI.Core
 
             //inside duration
             if (passedTime > cycleDuration) //increases cycle
-            {
                 if (continueForever)
                 {
                     effectWeigth = 1;
                     return passedTime;
                 }
-            }
 
             //outside cycles
             if (cycles > 0 && passedTime >= maxDuration)

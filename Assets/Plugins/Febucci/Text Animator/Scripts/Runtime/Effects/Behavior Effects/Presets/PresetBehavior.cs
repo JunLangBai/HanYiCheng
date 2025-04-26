@@ -1,37 +1,39 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
+
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: "")]
-    class PresetBehavior : BehaviorBase
+    [Preserve]
+    [EffectInfo("")]
+    internal class PresetBehavior : BehaviorBase
     {
-        bool enabled;
+        private Color32 color;
+        private ColorCurve colorCurve;
+        private EmissionControl emissionControl;
+        private bool enabled;
 
-        //modifiers
-        float timeSpeed;
-        float weightMult;
+        private bool hasTransformEffects;
+
+        private bool isOnOneCharacter;
 
         //management
-        Matrix4x4 matrix;
-        Vector3 offset;
-        Quaternion rotationQua;
+        private Matrix4x4 matrix;
 
-        float uniformEffectTime;
+        private PresetAppearance.ThreeAxisEffector movement;
+        private Vector3 offset;
+        private PresetAppearance.ThreeAxisEffector rotation;
+        private Quaternion rotationQua;
+        private PresetAppearance.TwoAxisEffector scale;
 
-        bool hasTransformEffects;
+        private bool setColor;
 
-        bool isOnOneCharacter;
+        //modifiers
+        private float timeSpeed;
 
-        float weight = 1;
-        EmissionControl emissionControl;
+        private float uniformEffectTime;
 
-        PresetAppearance.ThreeAxisEffector movement;
-        PresetAppearance.ThreeAxisEffector rotation;
-        PresetAppearance.TwoAxisEffector scale;
-
-        bool setColor;
-        Color32 color;
-        ColorCurve colorCurve;
+        private float weight = 1;
+        private float weightMult;
 
         public override void SetDefaultValues(BehaviorDefaultValues data)
         {
@@ -75,11 +77,7 @@ namespace Febucci.UI.Core
             }
 
             //global presets
-            if (TAnimBuilder.TryGetGlobalPresetBehavior(effectTag, out values))
-            {
-                AssignValues(values);
-                return;
-            }
+            if (TAnimBuilder.TryGetGlobalPresetBehavior(effectTag, out values)) AssignValues(values);
         }
 
         public override void SetModifier(string modifierName, string modifierValue)
@@ -102,7 +100,6 @@ namespace Febucci.UI.Core
                 return;
 
             uniformEffectTime = emissionControl.IncreaseEffectTime(time.deltaTime * timeSpeed);
-
         }
 
         public override void ApplyEffect(ref CharacterData data, int charIndex)
@@ -143,7 +140,6 @@ namespace Febucci.UI.Core
                 color = colorCurve.GetColor(uniformEffectTime, charIndex);
                 data.colors.LerpUnclamped(color, Mathf.Clamp(weight, -1, 1));
             }
-
         }
     }
 }

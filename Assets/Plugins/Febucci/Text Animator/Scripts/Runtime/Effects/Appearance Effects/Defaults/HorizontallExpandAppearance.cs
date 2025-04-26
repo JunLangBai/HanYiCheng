@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Febucci.UI.Core
 {
-    [UnityEngine.Scripting.Preserve]
-    [EffectInfo(tag: TAnimTags.ap_HoriExp)]
-    class HorizontalExpandAppearance : AppearanceBase
+    [Preserve]
+    [EffectInfo(TAnimTags.ap_HoriExp)]
+    internal class HorizontalExpandAppearance : AppearanceBase
     {
         //expand type
         public enum ExpType
@@ -14,14 +15,14 @@ namespace Febucci.UI.Core
             Right //from right to left
         }
 
-
-        ExpType type = ExpType.Left;
+        private float pct;
+        private Vector2 startBot;
 
         //--Temp variables--
-        Vector2 startTop;
-        Vector2 startBot;
-        float pct;
+        private Vector2 startTop;
 
+
+        private ExpType type = ExpType.Left;
 
 
         public override void SetDefaultValues(AppearanceDefaultValues data)
@@ -70,7 +71,6 @@ namespace Febucci.UI.Core
 
                     break;
             }
-
         }
 
         public override void SetModifier(string modifierName, string modifierValue)
@@ -84,11 +84,14 @@ namespace Febucci.UI.Core
                         case "-1": type = ExpType.Left; break;
                         case "0": type = ExpType.Middle; break;
                         case "1": type = ExpType.Right; break;
-                        default: Debug.LogError($"Text Animator: you set an '{modifierName}' modifier with value '{modifierValue}' for the HorizontalExpandAppearance effect, but it can only be '-1', '0', or '1'"); break;
+                        default:
+                            Debug.LogError(
+                                $"Text Animator: you set an '{modifierName}' modifier with value '{modifierValue}' for the HorizontalExpandAppearance effect, but it can only be '-1', '0', or '1'");
+                            break;
                     }
+
                     break;
             }
         }
     }
-
 }

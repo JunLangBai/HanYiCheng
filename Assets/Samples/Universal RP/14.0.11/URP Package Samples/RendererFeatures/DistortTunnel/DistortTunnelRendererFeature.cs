@@ -9,20 +9,20 @@ using UnityEngine.Rendering.Universal;
 // 3. Distort pass: Uses the two RTHandles to create the final effect, and blits the result back to screen.
 public class DistortTunnelRendererFeature : ScriptableRendererFeature
 {
-    public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingSkybox;
-    
-    public Shader distortShader;
-    private Material m_DistortMaterial;
-    
-    private DistortTunnelPass_CopyColor m_CopyColorPass;
-    private DistortTunnelPass_Tunnel m_TunnelPass;
-    private DistortTunnelPass_Distort m_DistortPass;
-    
-    private RTHandle m_CopyColorTexHandle;
     private const string k_CopyColorTexName = "_TunnelDistortBgTexture";
-    private RTHandle m_TunnelTexHandle;
     private const string k_TunnelTexName = "_TunnelDistortTexture";
-    
+    public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingSkybox;
+
+    public Shader distortShader;
+
+    private DistortTunnelPass_CopyColor m_CopyColorPass;
+
+    private RTHandle m_CopyColorTexHandle;
+    private Material m_DistortMaterial;
+    private DistortTunnelPass_Distort m_DistortPass;
+    private DistortTunnelPass_Tunnel m_TunnelPass;
+    private RTHandle m_TunnelTexHandle;
+
 
     public override void Create()
     {
@@ -31,7 +31,7 @@ public class DistortTunnelRendererFeature : ScriptableRendererFeature
         m_DistortMaterial = CoreUtils.CreateEngineMaterial(distortShader);
         m_DistortPass = new DistortTunnelPass_Distort(m_DistortMaterial, passEvent);
     }
-    
+
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
         if (renderingData.cameraData.cameraType != CameraType.Game)
@@ -46,28 +46,30 @@ public class DistortTunnelRendererFeature : ScriptableRendererFeature
     {
         if (renderingData.cameraData.cameraType != CameraType.Game)
             return;
-        
+
         //Create RTHandles
         var desc = renderingData.cameraData.cameraTargetDescriptor;
         desc.depthBufferBits = 0;
         desc.msaaSamples = 1;
-        RenderingUtils.ReAllocateIfNeeded(ref m_CopyColorTexHandle, desc, FilterMode.Bilinear, TextureWrapMode.Clamp, name: k_CopyColorTexName );
-        RenderingUtils.ReAllocateIfNeeded(ref m_TunnelTexHandle, desc, FilterMode.Bilinear, TextureWrapMode.Clamp, name: k_TunnelTexName );
-        
+        RenderingUtils.ReAllocateIfNeeded(ref m_CopyColorTexHandle, desc, FilterMode.Bilinear, TextureWrapMode.Clamp,
+            name: k_CopyColorTexName);
+        RenderingUtils.ReAllocateIfNeeded(ref m_TunnelTexHandle, desc, FilterMode.Bilinear, TextureWrapMode.Clamp,
+            name: k_TunnelTexName);
+
         // Provide the necessary RTHandles to the passes
-        m_CopyColorPass.SetRTHandles(renderer.cameraColorTargetHandle,ref m_CopyColorTexHandle);
+        m_CopyColorPass.SetRTHandles(renderer.cameraColorTargetHandle, ref m_CopyColorTexHandle);
         m_TunnelPass.SetRTHandles(ref m_TunnelTexHandle);
-        m_DistortPass.SetRTHandles(ref m_CopyColorTexHandle,ref m_TunnelTexHandle,renderer.cameraColorTargetHandle);
+        m_DistortPass.SetRTHandles(ref m_CopyColorTexHandle, ref m_TunnelTexHandle, renderer.cameraColorTargetHandle);
     }
 
     protected override void Dispose(bool disposing)
     {
         CoreUtils.Destroy(m_DistortMaterial);
-        
+
         m_DistortPass = null;
         m_TunnelPass = null;
         m_CopyColorPass = null;
-        
+
         m_CopyColorTexHandle?.Release();
         m_TunnelTexHandle?.Release();
     }
