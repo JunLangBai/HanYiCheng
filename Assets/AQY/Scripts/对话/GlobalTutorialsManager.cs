@@ -16,4 +16,13 @@ public class GlobalTutorialsManager : MonoBehaviour
     {
         canNextText = true;
     }
+    
+    /// <summary>
+    /// 验证玩家选择
+    /// </summary>
+    public void ValidateChoice(string choice)
+    {
+        // 在此处添加游戏逻辑验证
+        Debug.Log($"Validating choice: {choice}");
+    }
 }
