@@ -37,7 +37,7 @@ public class TextDisplay : MonoBehaviour
         ShowNextDialogue();
     }
 
-    void ShowNextDialogue()
+    public void ShowNextDialogue()
     {
         if (GlobalTutorialsManager.instance.canNextText)
         {
