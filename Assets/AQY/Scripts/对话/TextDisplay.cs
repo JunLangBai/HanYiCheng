@@ -210,7 +210,7 @@ public class TextDisplay : MonoBehaviour
             }
             else
             {
-                dialogueText.text = "Conversation Ended";
+                dialogueText.text = "接下来开始真正的冒险吧！";
                 ClearButtonContainer();
             }
         }
