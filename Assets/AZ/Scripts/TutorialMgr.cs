@@ -3,11 +3,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class TutorialMgr : MonoBehaviour, IPointerDownHandler
 {
     [Header("教程")]
     public CanvasGroup[] tutorial; // 假设这里有 4 张图片（索引 0-3）
+    public string targetSceneName = "MainUI";
     public float fadeDuration = 1f; // 渐变持续时间
     private int currentIndex = -1; // 当前图片的索引，初始化为 -1 表示尚未开始
 
@@ -117,8 +119,25 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
     {
         Debug.Log("教程结束");
         // 可以在这里添加结束逻辑，例如隐藏所有 UI 或跳转到主菜单
+        StartCoroutine(LoadSceneDirectly());
     }
 
+    IEnumerator LoadSceneDirectly()
+    {
+        // 直接异步加载场景
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        // 等待加载进度完成（保留最后的激活权限）
+        while(!asyncLoad.isDone)
+        {
+            if(asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+            yield return null;
+        }
+    }
     void UpdateDialog()
     {
         if (currentStep < 0 || currentStep >= tutorialText.Length || currentStep >= dialogText.Length)

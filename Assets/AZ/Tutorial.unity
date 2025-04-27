@@ -536,7 +536,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -13.2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &501912729
 MonoBehaviour:
@@ -960,8 +960,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24.1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1049615167
 MonoBehaviour:
@@ -2303,8 +2303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.1000061, y: 0}
+  m_SizeDelta: {x: -18.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2056543103
 MonoBehaviour:
@@ -2564,10 +2564,10 @@ MonoBehaviour:
   - {fileID: 1339539772}
   fadeDuration: 0.25
   tutorialText:
-  - 1
-  - 2
-  - 3
-  - 4
+  - "\u6311\u6218\u81EA\u5DF1\uFF1A\u6765\u4F53\u9A8C\u6709\u8DA3\u7684\u5173\u5361\u6A21\u5F0F\u5427\uFF01\uFF081/4\uFF09"
+  - "\u4E66\u5199\uFF1A\u7528\u4E66\u5199\u7684\u65B9\u5F0F\u8BB0\u4F4F\u6BCF\u4E2A\u5B57\uFF01\uFF082/4\uFF09"
+  - "\u76F8\u673A\uFF1A\u7528\u7B2C\u4E00\u89C6\u89D2\u5B66\u4E60\u97E9\u8BED\u5427\uFF01\uFF083/4\uFF09"
+  - "\u8BBE\u7F6E\uFF084/4\uFF09               -\u70B9\u51FB\u8DF3\u8F6C\u81F3\u4E3B\u9875\u9762-"
   dialogText:
   - {fileID: 2056543103}
   - {fileID: 1049615167}
@@ -2764,8 +2764,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.1000061, y: 0}
+  m_SizeDelta: {x: -16.8, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2144515114
 MonoBehaviour:
