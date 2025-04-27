@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class TextDisplay : MonoBehaviour
 {
