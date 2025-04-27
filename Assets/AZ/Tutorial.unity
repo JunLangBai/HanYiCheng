@@ -2562,7 +2562,7 @@ MonoBehaviour:
   - {fileID: 1335886793}
   - {fileID: 1410750053}
   - {fileID: 1339539772}
-  fadeDuration: 1
+  fadeDuration: 0.25
   tutorialText:
   - 1
   - 2
