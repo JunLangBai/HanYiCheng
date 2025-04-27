@@ -1186,8 +1186,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
-  m_sharedMaterial: {fileID: 3239927004722840311, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1585,8 +1585,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 66, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -0.00000047684, y: 0.0000050962}
+  m_SizeDelta: {x: 311.5, y: 67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1621918842
 MonoBehaviour:
@@ -1610,8 +1610,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7EE7\u7EED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
-  m_sharedMaterial: {fileID: 3239927004722840311, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1642,8 +1642,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1789,7 +1789,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4f814da7848ceea46b1caeeffb20c5e8, type: 2}
   - {fileID: 11400000, guid: 43204af002ae7a64a8638a451118f328, type: 2}
   - {fileID: 11400000, guid: f953ab8c8d7c90a4ab99d261a5ff7899, type: 2}
-  - {fileID: 11400000, guid: f953ab8c8d7c90a4ab99d261a5ff7899, type: 2}
+  - {fileID: 11400000, guid: 10f9998a171ff3d4d9bb73b4ee2d750c, type: 2}
+  - {fileID: 11400000, guid: 48751b14b068b104e9d3623a272f20c1, type: 2}
   endSceneName: 
 --- !u!114 &1638054116
 MonoBehaviour:
@@ -2017,8 +2018,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Hi, \u4F60\u597D\uFF0C\u6211\u662F\u97E9\u6613\u6210\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
-  m_sharedMaterial: {fileID: 3239927004722840311, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

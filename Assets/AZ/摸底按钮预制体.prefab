@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 66, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -0.000011444, y: 0.000019073}
+  m_SizeDelta: {x: 486.2749, y: 90.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &160722444552321376
 CanvasRenderer:
@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7EE7\u7EED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
-  m_sharedMaterial: {fileID: 3239927004722840311, guid: 4a5eb6b9c96206942beadb0e2140a0ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

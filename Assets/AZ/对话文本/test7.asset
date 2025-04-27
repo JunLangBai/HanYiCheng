@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb84fb354b301664fb2b12a98f1e03e1, type: 3}
   m_Name: test7
   m_EditorClassIdentifier: 
-  content: "\u6D4B\u8BD5"
-  stopText: 0
+  content: "\u4F60\u7684\u97E9\u8BED\u600E\u4E48\u6837\uFF1F"
+  onlyText: 0
   buttonTexts:
-  - 1
-  - 2
-  - 3
-  - 4
+  - "\u6211\u662F\u521D\u5B66\u8005"
+  - "\u6211\u77E5\u9053\u4E00\u4E9B\u5E38\u7528\u8BCD\u6C47"
+  - "\u6211\u53EA\u80FD\u8FDB\u884C\u57FA\u7840\u5BF9\u8BDD"
+  - "\u6211\u80FD\u8BA8\u8BBA\u5F88\u591A\u8BDD\u9898"

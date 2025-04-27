@@ -77,7 +77,7 @@ public class TextDisplay : MonoBehaviour
     {
         ChatText current = dialogueSequence[_currentDialogueIndex];
         
-        if (current.stopText == false)
+        if (current.onlyText == false)
         {
             dialogueText = PlacementMgr.instance.optionText;
             dialogueText.text = current.content;
@@ -93,7 +93,7 @@ public class TextDisplay : MonoBehaviour
         // 清除旧按钮
         ClearButtonContainer();
 
-        if (current.stopText)
+        if (current.onlyText)
         {
             GlobalTutorialsManager.instance.canNextText = true;
             // 需要暂停等待继续按钮
