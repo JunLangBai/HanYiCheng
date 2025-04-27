@@ -9,14 +9,14 @@ public class TextDisplay : MonoBehaviour
     // 单例实例
     public static TextDisplay Instance { get; private set; }
 
-    [Header("UI References")]
-    public Button dialogueButton;
+    [Header("UI References")] public Button dialogueButton;
     public TextMeshProUGUI dialogueText;
     [SerializeField] private Transform buttonContainer;
     [SerializeField] private GameObject buttonPrefab;
 
-    [Header("Dialogue Configuration")]
-    [SerializeField] private List<ChatText> dialogueSequence = new List<ChatText>();
+    [Header("Dialogue Configuration")] [SerializeField]
+    private List<ChatText> dialogueSequence = new List<ChatText>();
+
     [SerializeField] private string endSceneName;
 
     private int _currentDialogueIndex = -1;
@@ -77,97 +77,141 @@ public class TextDisplay : MonoBehaviour
     {
         ChatText current = dialogueSequence[_currentDialogueIndex];
         
-        // 根据交互需求处理UI
-        if (current.stopText)
+        if (current.stopText == false)
         {
-            PlacementMgr.instance.ShowOnlyText();
-            _awaitingChoice = true;
-            SetupInteractiveButtons(current.buttonTexts);
+            dialogueText = PlacementMgr.instance.optionText;
+            dialogueText.text = current.content;
         }
         else
         {
             dialogueText = PlacementMgr.instance.optionText;
-            SetupContinueButton();
-            _awaitingChoice = false;
+            dialogueText = PlacementMgr.instance.onlyText;
+            dialogueText.text = current.content;
         }
         
-        // 更新对话文本
-        dialogueText.text = current.content;
 
+        // 清除旧按钮
+        ClearButtonContainer();
+
+        if (current.stopText)
+        {
+            GlobalTutorialsManager.instance.canNextText = true;
+            // 需要暂停等待继续按钮
+            SetupContinueButton();
+            PlacementMgr.instance.ShowOnlyText();
+            _awaitingChoice = true;
+        }
+        else
+        {
+            GlobalTutorialsManager.instance.canNextText = false;
+            // 显示选项按钮
+            SetupInteractiveButtons();
+            PlacementMgr.instance.ShowOptions();
+            _awaitingChoice = false;
+        }
     }
 
-    /// <summary>
-    /// 设置继续按钮
-    /// </summary>
     private void SetupContinueButton()
     {
-        GlobalTutorialsManager.instance.canNextText = dialogueSequence[_currentDialogueIndex].stopText;
+        // 获取当前对话数据
+        ChatText currentChat = dialogueSequence[_currentDialogueIndex];
+
+        // 创建单个继续按钮
         GameObject button = Instantiate(buttonPrefab, buttonContainer);
-        button.GetComponentInChildren<TextMeshProUGUI>().text = dialogueSequence[_currentDialogueIndex].content;
+
+        // 设置按钮文本（使用第一个按钮文本或默认"继续"）
+        string buttonText = currentChat.buttonTexts != null && currentChat.buttonTexts.Length > 0
+            ? currentChat.buttonTexts[0]
+            : "继续";
+
+        button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+
+        // 绑定点击事件
         button.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (!_awaitingChoice) ProceedToNextDialogue();
+            if (!_awaitingChoice)
+            {
+                GlobalTutorialsManager.instance.canNextText = true;
+                ProceedToNextDialogue();
+            }
         });
     }
 
     /// <summary>
     /// 创建交互按钮
     /// </summary>
-    private void SetupInteractiveButtons(string[] options)
+    /// <summary>
+    /// 创建选项按钮组
+    /// </summary>
+    private void SetupInteractiveButtons()
     {
-        if (options == null || options.Length == 0) return;
+        ChatText currentChat = dialogueSequence[_currentDialogueIndex];
 
-        foreach (string option in options)
+        if (currentChat.buttonTexts == null || currentChat.buttonTexts.Length == 0)
         {
-            Debug.Log($"正在创建选项按钮：{option}");
-            GameObject buttonObj = Instantiate(buttonPrefab, buttonContainer);
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = option;
-            
-            Button buttonComponent = buttonObj.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(() =>
+            Debug.LogWarning("对话项配置错误：需要按钮但未配置buttonTexts");
+            return;
+        }
+
+        foreach (string btnText in currentChat.buttonTexts)
+        {
+            GameObject button = Instantiate(buttonPrefab, buttonContainer);
+
+            // 设置按钮文本
+            TextMeshProUGUI textComponent = button.GetComponentInChildren<TextMeshProUGUI>();
+            textComponent.text = btnText;
+
+            // 绑定带参数的点击事件
+            Button btnComponent = button.GetComponent<Button>();
+            btnComponent.onClick.AddListener(() => { HandleButtonClick(btnText); });
+        }
+    }
+
+    // <summary>
+    /// 处理按钮点击事件
+    /// </summary>
+    private void HandleButtonClick(string selectedText)
+    {
+        Debug.Log($"选择选项：{selectedText}");
+        _awaitingChoice = false;
+        ProceedToNextDialogue();
+    }
+
+    /// <summary>
+        /// 处理按钮选择
+        /// </summary>
+        private void HandleButtonSelection(string selectedOption)
+        {
+            // 这里可以添加选择后的逻辑处理
+            Debug.Log($"Selected option: {selectedOption}");
+            GlobalTutorialsManager.instance.ValidateChoice(selectedOption);
+        }
+
+        /// <summary>
+        /// 清理按钮容器
+        /// </summary>
+        private void ClearButtonContainer()
+        {
+            foreach (Transform child in buttonContainer)
             {
-                HandleButtonSelection(option);
-                _awaitingChoice = false;
-                ProceedToNextDialogue();
-            });
+                Destroy(child.gameObject);
+            }
         }
-    }
 
-    /// <summary>
-    /// 处理按钮选择
-    /// </summary>
-    private void HandleButtonSelection(string selectedOption)
-    {
-        // 这里可以添加选择后的逻辑处理
-        Debug.Log($"Selected option: {selectedOption}");
-        GlobalTutorialsManager.instance.ValidateChoice(selectedOption);
-    }
-
-    /// <summary>
-    /// 清理按钮容器
-    /// </summary>
-    private void ClearButtonContainer()
-    {
-        foreach (Transform child in buttonContainer)
+        /// <summary>
+        /// 结束对话流程
+        /// </summary>
+        private void FinalizeDialogue()
         {
-            Destroy(child.gameObject);
+            Debug.Log("Dialogue sequence completed");
+            if (!string.IsNullOrEmpty(endSceneName))
+            {
+                SceneManager.LoadScene(endSceneName);
+            }
+            else
+            {
+                dialogueText.text = "Conversation Ended";
+                ClearButtonContainer();
+            }
         }
     }
-
-    /// <summary>
-    /// 结束对话流程
-    /// </summary>
-    private void FinalizeDialogue()
-    {
-        Debug.Log("Dialogue sequence completed");
-        if (!string.IsNullOrEmpty(endSceneName))
-        {
-            SceneManager.LoadScene(endSceneName);
-        }
-        else
-        {
-            dialogueText.text = "Conversation Ended";
-            ClearButtonContainer();
-        }
-    }
-}

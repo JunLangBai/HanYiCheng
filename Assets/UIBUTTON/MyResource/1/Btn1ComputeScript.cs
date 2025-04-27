@@ -10,10 +10,10 @@ public class Btn1ComputeScript : MonoBehaviour
     [SerializeField] private Material material;
     [SerializeField] private List<Material> materials = new(3);
 
-    [ColorUsageAttribute(true, true)] [SerializeField] [Header("文字颜色")]
+    [ColorUsageAttribute(true, true)] [SerializeField] [Header("???????")]
     private List<Color> textColor_In = new();
 
-    [ColorUsageAttribute(true, true)] [SerializeField] [Header("文字颜色")]
+    [ColorUsageAttribute(true, true)] [SerializeField] [Header("???????")]
     private Color textColor_Out;
 
     [SerializeField] private List<GameObject> btns = new(3);
