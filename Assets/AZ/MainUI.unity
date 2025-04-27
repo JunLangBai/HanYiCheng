@@ -1249,7 +1249,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1521505669}
   fadeDuration: 0.7
   delayBetweenFades: 0
-  endSceneName: 
+  endSceneName: Game
 --- !u!114 &1638054116
 MonoBehaviour:
   m_ObjectHideFlags: 0
