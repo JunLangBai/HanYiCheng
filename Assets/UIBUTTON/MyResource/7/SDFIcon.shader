@@ -106,10 +106,12 @@ Shader "Unlit/SDFIcon"
                 // ���庯��
                 float rect = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusInner, _RadiusInner))) -
                     smoothstep(step, -step,
-                        sdRect(i.uvEdge * _Step, float2(_RadiusInner - _WidthInner, _RadiusInner - _WidthInner)));
+                               sdRect(i.uvEdge * _Step,
+                                      float2(_RadiusInner - _WidthInner, _RadiusInner - _WidthInner)));
                 float rect2 = smoothstep(step, -step, sdRect(i.uvEdge * _Step, float2(_RadiusOuter, _RadiusOuter))) -
                     smoothstep(step, -step,
-                        sdRect(i.uvEdge * _Step, float2(_RadiusOuter - _WidthOuter, _RadiusOuter - _WidthOuter)));
+                                sdRect(i.uvEdge * _Step,
+                                    float2(_RadiusOuter - _WidthOuter, _RadiusOuter - _WidthOuter)));
                 float rhombus = smoothstep(step, -step, sdRhombus(i.uvEdge * (2 - _Step), float2(0.4, 0.4)));
                 float final = rect + rect2;
                 // ����

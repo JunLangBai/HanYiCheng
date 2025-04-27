@@ -7,11 +7,11 @@ using UnityEngine.Rendering.Universal;
 public class BlitToRTHandlePass : ScriptableRenderPass
 {
     private const string k_OutputName = "_CopyColorTexture";
-    private RTHandle m_InputHandle;
     private readonly Material m_Material;
-    private RTHandle m_OutputHandle;
     private readonly int m_OutputId = Shader.PropertyToID(k_OutputName);
     private readonly ProfilingSampler m_ProfilingSampler = new("BlitToRTHandle_CopyColor");
+    private RTHandle m_InputHandle;
+    private RTHandle m_OutputHandle;
 
     public BlitToRTHandlePass(RenderPassEvent evt, Material mat)
     {

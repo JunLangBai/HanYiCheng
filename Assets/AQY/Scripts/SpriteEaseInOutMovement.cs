@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SpriteUpDownMovement : MonoBehaviour
 {
@@ -39,7 +38,7 @@ public class SpriteUpDownMovement : MonoBehaviour
         }
         else
         {
-            this.transform.position = optionsTextPosition.position;
+            transform.position = optionsTextPosition.position;
             transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         }
     }

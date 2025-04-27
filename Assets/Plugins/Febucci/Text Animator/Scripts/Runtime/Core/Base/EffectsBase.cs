@@ -57,8 +57,8 @@ namespace Febucci.UI.Core
 
         internal class RegionManager
         {
-            public string entireRichTextTag;
             private readonly List<TextRegion> textRegions = new();
+            public string entireRichTextTag;
 
             internal bool IsLastRegionClosed()
             {

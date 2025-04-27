@@ -1,39 +1,39 @@
 using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TextDisplay : MonoBehaviour
 {
-    // 单例实例
-    public static TextDisplay Instance { get; private set; }
-
     [Header("UI References")] public Button dialogueButton;
     public TextMeshProUGUI dialogueText;
     [SerializeField] private Transform buttonContainer;
     [SerializeField] private GameObject buttonPrefab;
 
     [Header("Dialogue Configuration")] [SerializeField]
-    private List<ChatText> dialogueSequence = new List<ChatText>();
+    private List<ChatText> dialogueSequence = new();
 
     [Header("UI Fade")]
     //过度
     public CanvasGroup canvasGroup; // 目标CanvasGroup
+
     public float fadeDuration = 1f; // 过渡时间
     public float delayBetweenFades = 0.5f; // 淡入和淡出之间的延迟时间
-    
-    [SerializeField] private string endSceneName;
 
-    private int _currentDialogueIndex = -1;
+    [SerializeField] private string endSceneName;
     private bool _awaitingChoice;
 
-    //是否进行过转场
-    private bool isDoExcessive = false;
+    private int _currentDialogueIndex = -1;
 
-    void Awake()
+    //是否进行过转场
+    private bool isDoExcessive;
+
+    // 单例实例
+    public static TextDisplay Instance { get; private set; }
+
+    private void Awake()
     {
         // 单例模式初始化
         if (Instance == null)
@@ -47,14 +47,14 @@ public class TextDisplay : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         InitializeDialogue();
         dialogueButton.onClick.AddListener(ProceedToNextDialogue);
     }
 
     /// <summary>
-    /// 初始化对话系统
+    ///     初始化对话系统
     /// </summary>
     public void InitializeDialogue()
     {
@@ -63,7 +63,7 @@ public class TextDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// 推进到下一段对话
+    ///     推进到下一段对话
     /// </summary>
     public void ProceedToNextDialogue()
     {
@@ -82,12 +82,12 @@ public class TextDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// 处理当前对话项
+    ///     处理当前对话项
     /// </summary>
     private void ProcessCurrentDialogue()
     {
-        ChatText current = dialogueSequence[_currentDialogueIndex];
-        
+        var current = dialogueSequence[_currentDialogueIndex];
+
         if (current.onlyText == false)
         {
             dialogueText = PlacementMgr.instance.optionText;
@@ -99,7 +99,7 @@ public class TextDisplay : MonoBehaviour
             dialogueText = PlacementMgr.instance.onlyText;
             dialogueText.text = current.content;
         }
-        
+
 
         // 清除旧按钮
         ClearButtonContainer();
@@ -134,13 +134,13 @@ public class TextDisplay : MonoBehaviour
     private void SetupContinueButton()
     {
         // 获取当前对话数据
-        ChatText currentChat = dialogueSequence[_currentDialogueIndex];
+        var currentChat = dialogueSequence[_currentDialogueIndex];
 
         // 创建单个继续按钮
-        GameObject button = Instantiate(buttonPrefab, buttonContainer);
+        var button = Instantiate(buttonPrefab, buttonContainer);
 
         // 设置按钮文本（使用第一个按钮文本或默认"继续"）
-        string buttonText = currentChat.buttonTexts != null && currentChat.buttonTexts.Length > 0
+        var buttonText = currentChat.buttonTexts != null && currentChat.buttonTexts.Length > 0
             ? currentChat.buttonTexts[0]
             : "继续";
 
@@ -158,14 +158,14 @@ public class TextDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// 创建交互按钮
+    ///     创建交互按钮
     /// </summary>
     /// <summary>
-    /// 创建选项按钮组
+    ///     创建选项按钮组
     /// </summary>
     private void SetupInteractiveButtons()
     {
-        ChatText currentChat = dialogueSequence[_currentDialogueIndex];
+        var currentChat = dialogueSequence[_currentDialogueIndex];
 
         if (currentChat.buttonTexts == null || currentChat.buttonTexts.Length == 0)
         {
@@ -173,16 +173,16 @@ public class TextDisplay : MonoBehaviour
             return;
         }
 
-        foreach (string btnText in currentChat.buttonTexts)
+        foreach (var btnText in currentChat.buttonTexts)
         {
-            GameObject button = Instantiate(buttonPrefab, buttonContainer);
+            var button = Instantiate(buttonPrefab, buttonContainer);
 
             // 设置按钮文本
-            TextMeshProUGUI textComponent = button.GetComponentInChildren<TextMeshProUGUI>();
+            var textComponent = button.GetComponentInChildren<TextMeshProUGUI>();
             textComponent.text = btnText;
 
             // 绑定带参数的点击事件
-            Button btnComponent = button.GetComponent<Button>();
+            var btnComponent = button.GetComponent<Button>();
             btnComponent.onClick.AddListener(() => { HandleButtonClick(btnText); });
         }
     }
@@ -198,110 +198,103 @@ public class TextDisplay : MonoBehaviour
     }
 
     /// <summary>
-        /// 处理按钮选择
-        /// </summary>
-        private void HandleButtonSelection(string selectedOption)
+    ///     处理按钮选择
+    /// </summary>
+    private void HandleButtonSelection(string selectedOption)
+    {
+        // 这里可以添加选择后的逻辑处理
+        Debug.Log($"Selected option: {selectedOption}");
+        GlobalTutorialsManager.instance.ValidateChoice(selectedOption);
+    }
+
+    /// <summary>
+    ///     清理按钮容器
+    /// </summary>
+    private void ClearButtonContainer()
+    {
+        foreach (Transform child in buttonContainer) Destroy(child.gameObject);
+    }
+
+    /// <summary>
+    ///     结束对话流程
+    /// </summary>
+    private void FinalizeDialogue()
+    {
+        Debug.Log("Dialogue sequence completed");
+        if (!string.IsNullOrEmpty(endSceneName))
         {
-            // 这里可以添加选择后的逻辑处理
-            Debug.Log($"Selected option: {selectedOption}");
-            GlobalTutorialsManager.instance.ValidateChoice(selectedOption);
+            dialogueText.text = "接下来开始真正的冒险吧！";
+            ClearButtonContainer();
+            // 创建单个继续按钮
+            var button = Instantiate(buttonPrefab, buttonContainer);
+
+            var buttonText = "开始冒险";
+            button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+            var btnComponent = button.GetComponent<Button>();
+            btnComponent.onClick.AddListener(SceneLoaded);
         }
-
-        /// <summary>
-        /// 清理按钮容器
-        /// </summary>
-        private void ClearButtonContainer()
+        else
         {
-            foreach (Transform child in buttonContainer)
-            {
-                Destroy(child.gameObject);
-            }
-        }
+            dialogueText.text = "接下来开始真正的冒险吧！";
+            ClearButtonContainer();
+            // 创建单个继续按钮
+            var button = Instantiate(buttonPrefab, buttonContainer);
 
-        /// <summary>
-        /// 结束对话流程
-        /// </summary>
-        private void FinalizeDialogue()
-        {
-            Debug.Log("Dialogue sequence completed");
-            if (!string.IsNullOrEmpty(endSceneName))
-            {
-                dialogueText.text = "接下来开始真正的冒险吧！";
-                ClearButtonContainer();
-                // 创建单个继续按钮
-                GameObject button = Instantiate(buttonPrefab, buttonContainer);
-
-                string buttonText = "开始冒险";
-                button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
-                Button btnComponent = button.GetComponent<Button>();
-                btnComponent.onClick.AddListener(SceneLoaded);
-            }
-            else
-            {
-                dialogueText.text = "接下来开始真正的冒险吧！";
-                ClearButtonContainer();
-                // 创建单个继续按钮
-                GameObject button = Instantiate(buttonPrefab, buttonContainer);
-
-                string buttonText = "开始冒险";
-                button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
-                Button btnComponent = button.GetComponent<Button>();
-            }
-        }
-        
-        public void SceneLoaded()
-        {
-            SceneManager.LoadScene(endSceneName);  
-        }
-
-        /// <summary>
-        /// 先淡入再淡出的完整序列
-        /// </summary>
-        private IEnumerator FadeInOutSequence()
-        {
-            // 第一步：淡入
-            yield return StartCoroutine(Fade(0f, 1f));
-
-            // 可选：在淡入和淡出之间插入延迟
-            if (delayBetweenFades > 0f)
-            {
-                yield return new WaitForSeconds(delayBetweenFades);
-            }
-            
-            GlobalTutorialsManager.instance.canNextText = false;
-            // 显示选项按钮
-            SetupInteractiveButtons();
-            PlacementMgr.instance.ShowOptions();
-            _awaitingChoice = false;
-
-            // 第二步：淡出
-            yield return StartCoroutine(Fade(1f, 0f));
-            
-        }
-
-        /// <summary>
-        /// 通用的透明度过渡协程
-        /// </summary>
-        /// <param name="start">起始透明度</param>
-        /// <param name="end">目标透明度</param>
-        /// <returns></returns>
-        private IEnumerator Fade(float start, float end)
-        {
-            float elapsedTime = 0f;
-            canvasGroup.alpha = start;
-
-            while (elapsedTime < fadeDuration)
-            {
-                elapsedTime += Time.deltaTime;
-                canvasGroup.alpha = Mathf.Lerp(start, end, elapsedTime / fadeDuration);
-                yield return null; // 等待下一帧
-            }
-
-            // 确保最终值精确
-            canvasGroup.alpha = end;
-
-            // 根据透明度设置交互状态
-            canvasGroup.interactable = (end > 0f);
-            canvasGroup.blocksRaycasts = (end > 0f);
+            var buttonText = "开始冒险";
+            button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+            var btnComponent = button.GetComponent<Button>();
         }
     }
+
+    public void SceneLoaded()
+    {
+        SceneManager.LoadScene(endSceneName);
+    }
+
+    /// <summary>
+    ///     先淡入再淡出的完整序列
+    /// </summary>
+    private IEnumerator FadeInOutSequence()
+    {
+        // 第一步：淡入
+        yield return StartCoroutine(Fade(0f, 1f));
+
+        // 可选：在淡入和淡出之间插入延迟
+        if (delayBetweenFades > 0f) yield return new WaitForSeconds(delayBetweenFades);
+
+        GlobalTutorialsManager.instance.canNextText = false;
+        // 显示选项按钮
+        SetupInteractiveButtons();
+        PlacementMgr.instance.ShowOptions();
+        _awaitingChoice = false;
+
+        // 第二步：淡出
+        yield return StartCoroutine(Fade(1f, 0f));
+    }
+
+    /// <summary>
+    ///     通用的透明度过渡协程
+    /// </summary>
+    /// <param name="start">起始透明度</param>
+    /// <param name="end">目标透明度</param>
+    /// <returns></returns>
+    private IEnumerator Fade(float start, float end)
+    {
+        var elapsedTime = 0f;
+        canvasGroup.alpha = start;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, elapsedTime / fadeDuration);
+            yield return null; // 等待下一帧
+        }
+
+        // 确保最终值精确
+        canvasGroup.alpha = end;
+
+        // 根据透明度设置交互状态
+        canvasGroup.interactable = end > 0f;
+        canvasGroup.blocksRaycasts = end > 0f;
+    }
+}

@@ -16,9 +16,9 @@ public class GlobalTutorialsManager : MonoBehaviour
     {
         canNextText = true;
     }
-    
+
     /// <summary>
-    /// 验证玩家选择
+    ///     验证玩家选择
     /// </summary>
     public void ValidateChoice(string choice)
     {

@@ -79,8 +79,8 @@ Shader "Unlit/HSVInRect"
                 annularPos.x -= _MousePos.x;
                 annularPos.y += _MousePos.y;
                 annularInAnnular = smoothstep(step, -step,
-                                               opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
-                                                   RADIUS_THICKNESS_SELECTOR));
+                                              opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
+                                                        RADIUS_THICKNESS_SELECTOR));
 
                 return saturate(col_V * col_S + annularInAnnular);
             }

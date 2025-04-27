@@ -235,12 +235,12 @@ Shader "Unlit/DayNightButton"
                 if (dis < _Circle3Range.x)
                 {
                     _BGColor = lerp(_Circle1ColorDay, _Circle1ColorNight,
-                                                                     Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
+                                    Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
                 }
                 else if (dis < _Circle3Range.y)
                 {
                     _BGColor = lerp(_Circle2ColorDay, _Circle2ColorNight,
-              Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
+   Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
                 }
                 else if (dis < _Circle3Range.z)
                 {
@@ -250,18 +250,18 @@ Shader "Unlit/DayNightButton"
                 else
                 {
                     _BGColor = lerp(_Circle4ColorDay, _Circle4ColorNight,
-                    Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
+          Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, 1)));
                 }
                 // Clouds
                 col = lerp(_BGColor, fixed4(0.635294, 0.7568627, 0.87843137, 1),
-                    DrawCloud(i.uv, fixed2(_CloudPos.x - 0.04,
-                                                              _CloudPos.y + 0.42 + Remap(
-                                                                  _SunPos, fixed2(-1.6, 1.6), fixed2(0, -2))),
-                                                 _CloudSize));
+                 DrawCloud(i.uv, fixed2(_CloudPos.x - 0.04,
+                                                                   _CloudPos.y + 0.42 + Remap(
+                                                                       _SunPos, fixed2(-1.6, 1.6), fixed2(0, -2))),
+                                                      _CloudSize));
                 col = lerp(col, fixed4(1, 1, 1, 1),
-                                 DrawCloud(i.uv, fixed2(_CloudPos.x,
-                                         _CloudPos.y + Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, -2))),
-                                     _CloudSize));
+                                                DrawCloud(i.uv, fixed2(_CloudPos.x,
+                             _CloudPos.y + Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(0, -2))),
+                _CloudSize));
                 // Stars
                 float clampSunPos = clamp(_SunPos.x, -0.4, 1.6);
                 // _SunPos.x�����ǵ�����Ӱ������￪ʼ��Ч,-0.4ʱȫ������δ���֣���Ϊ��ʼ״̬
@@ -271,94 +271,99 @@ Shader "Unlit/DayNightButton"
                 star1 = pow(star1, _StarsBlink.x * abs(sin(1.2 * clampSunPos)));
                 //col = lerp(col, _StarColor, Remap(clamp(1.0 - smoothstep(0.0,0.1,abs(star1)) - (_StarsStrenth.x * sign(i.uv.x) * sign(i.uv.y) * dot2(i.uv)), 0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));//uvƫ��ǰ
                 col = lerp(col, _StarColor,
-                                       Remap(
-                                           clamp(1.0 - smoothstep(0.0, 0.1, abs(star1)) - (_StarsStrenth.x * sign(
-                                                   i.uv.x - _StarsPosX.x) *
-                                               sign(i.uv.y - _StarsPosY.x) * dot2Offset(
-                                                   i.uv, fixed2(_StarsPosX.x, _StarsPosY.x))), 0.6, 1),
-                                           fixed2(0.6, 1), fixed2(0, 1)));
+                    Remap(
+                        clamp(1.0 - smoothstep(0.0, 0.1, abs(star1)) - (_StarsStrenth.x * sign(
+                                                 i.uv.x - _StarsPosX.x) *
+                                             sign(i.uv.y - _StarsPosY.x) * dot2Offset(
+                                                 i.uv, fixed2(_StarsPosX.x, _StarsPosY.x))), 0.6, 1),
+                        fixed2(0.6, 1), fixed2(0, 1)));
 
                 float star2 = sdRoundedCross(i.uv, _StarsLen.y, fixed2(_StarsPosX.y, _StarsPosY.y), _StarsSize.y) -
                     _StarsRound.y;
                 star2 = pow(star2, _StarsBlink.y * abs(cos(clampSunPos + 140)));
                 col = lerp(col, _StarColor,
-                                                             Remap(
-                                                                 clamp(
-                                                                     1.0 - smoothstep(0.0, 0.1, abs(star2)) - (
-                                                                         _StarsStrenth.y *
-                                                                         sign(i.uv.x - _StarsPosX.y) * sign(
-                                                                             i.uv.y - _StarsPosY.y)
-                                                                         * dot2Offset(
-                                                                             i.uv, fixed2(_StarsPosX.y, _StarsPosY.y))),
-                                                                     0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
+                    Remap(
+                        clamp(
+                            1.0 - smoothstep(0.0, 0.1, abs(star2)) - (
+                                _StarsStrenth.y *
+                                sign(i.uv.x - _StarsPosX.y) * sign(
+                                    i.uv.y - _StarsPosY.y)
+                                * dot2Offset(
+                                    i.uv, fixed2(_StarsPosX.y, _StarsPosY.y))),
+                            0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
 
                 float star3 = sdRoundedCross(i.uv, _StarsLen.z, fixed2(_StarsPosX.z, _StarsPosY.z), _StarsSize.z) -
                     _StarsRound.z;
                 star3 = pow(star3, _StarsBlink.z * abs(sin(1.1 * clampSunPos + 60)));
                 col = lerp(col, _StarColor,
-                                                             Remap(
-                                                                 clamp(
-                                                                     1.0 - smoothstep(0.0, 0.1, abs(star3)) - (
-                                                                         _StarsStrenth.z *
-                                                                         sign(i.uv.x - _StarsPosX.z) * sign(
-                                                                             i.uv.y - _StarsPosY.z)
-                                                                         * dot2Offset(
-                                                                             i.uv, fixed2(_StarsPosX.z, _StarsPosY.z))),
-                                                                     0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
+    Remap(
+        clamp(
+            1.0 - smoothstep(0.0, 0.1, abs(star3)) - (
+                _StarsStrenth.z *
+                sign(i.uv.x - _StarsPosX.z) * sign(
+                    i.uv.y - _StarsPosY.z)
+                * dot2Offset(
+                    i.uv, fixed2(_StarsPosX.z, _StarsPosY.z))),
+            0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
 
                 float star4 = sdRoundedCross(i.uv, _StarsLen.w, fixed2(_StarsPosX.w, _StarsPosY.w), _StarsSize.w) -
                     _StarsRound.w;
                 star4 = pow(star4, _StarsBlink.w * abs(cos(clampSunPos + 140)));
                 col = lerp(col, _StarColor,
-                    Remap(
-                        clamp(1.0 - smoothstep(0.0, 0.1, abs(star4)) - (_StarsStrenth.w * sign(i.uv.x - _StarsPosX.w) *
-                                sign(i.uv.y - _StarsPosY.w) * dot2Offset(i.uv, fixed2(_StarsPosX.w, _StarsPosY.w))),
-                            0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
+                                                         Remap(
+                                                             clamp(
+                                                                 1.0 - smoothstep(0.0, 0.1, abs(star4)) - (_StarsStrenth
+                                                                     .w * sign(i.uv.x - _StarsPosX.w) *
+                                                                     sign(i.uv.y - _StarsPosY.w) * dot2Offset(
+                                                                         i.uv, fixed2(_StarsPosX.w, _StarsPosY.w))),
+                                                                 0.6, 1), fixed2(0.6, 1), fixed2(0, 1)));
                 // 5-8
                 float star5 = sdRoundedCross(i.uv, _StarsLenG2.x, fixed2(_StarsPosXG2.x, _StarsPosYG2.x),
-  _StarsSizeG2.x) - _StarsRoundG2.x;
+                              _StarsSizeG2.x) - _StarsRoundG2.x;
                 star5 = pow(star5, _StarsBlinkG2.x * abs(sin(clampSunPos + 60)));
                 col = lerp(col, _StarColor,
-                    Remap(
-                        clamp(1.0 - smoothstep(0.0, 0.1, abs(star5)) - (_StarsStrenthG2.x *
-                                    sign(i.uv.x - _StarsPosXG2.x) * sign(i.uv.y - _StarsPosYG2.x) * dot2Offset(
-                                        i.uv, fixed2(_StarsPosXG2.x, _StarsPosYG2.x))), 0.6, 1), fixed2(0.6, 1),
-                        fixed2(0, 1)));
+                                 Remap(
+                                     clamp(1.0 - smoothstep(0.0, 0.1, abs(star5)) - (_StarsStrenthG2.x *
+                                                                  sign(i.uv.x - _StarsPosXG2.x) * sign(
+                                                                      i.uv.y - _StarsPosYG2.x) * dot2Offset(
+                                                                      i.uv, fixed2(_StarsPosXG2.x, _StarsPosYG2.x))),
+                                                              0.6, 1), fixed2(0.6, 1),
+                                     fixed2(0, 1)));
 
                 float star6 = sdRoundedCross(i.uv, _StarsLenG2.y, fixed2(_StarsPosXG2.y, _StarsPosYG2.y),
-                                            _StarsSizeG2.y) - _StarsRoundG2.y;
+                _StarsSizeG2.y) - _StarsRoundG2.y;
                 star6 = pow(star6, _StarsBlinkG2.y * abs(sin(clampSunPos + 13)));
                 col = lerp(col, _StarColor,
-                    Remap(
-                        clamp(1.0 - smoothstep(0.0, 0.1, abs(star6)) - (_StarsStrenthG2.y *
-                                            sign(i.uv.x - _StarsPosXG2.y) * sign(i.uv.y - _StarsPosYG2.y) * dot2Offset(
-                                                i.uv, fixed2(_StarsPosXG2.y, _StarsPosYG2.y))), 0.6, 1), fixed2(0.6, 1),
-                        fixed2(0, 1)));
+                                 Remap(
+                                     clamp(1.0 - smoothstep(0.0, 0.1, abs(star6)) - (_StarsStrenthG2.y *
+                        sign(i.uv.x - _StarsPosXG2.y) * sign(i.uv.y - _StarsPosYG2.y) * dot2Offset(
+                            i.uv, fixed2(_StarsPosXG2.y, _StarsPosYG2.y))), 0.6, 1), fixed2(0.6, 1),
+                                     fixed2(0, 1)));
 
                 float star7 = sdRoundedCross(i.uv, _StarsLenG2.z, fixed2(_StarsPosXG2.z, _StarsPosYG2.z),
-                        _StarsSizeG2.z) - _StarsRoundG2.z;
+   _StarsSizeG2.z) - _StarsRoundG2.z;
                 star7 = pow(star7, _StarsBlinkG2.z * abs(sin(1.2 * clampSunPos)));
                 col = lerp(col, _StarColor,
-                                                             Remap(
-                                                                 clamp(
-                                                                     1.0 - smoothstep(0.0, 0.1, abs(star7)) - (
-                                                                         _StarsStrenthG2.z *
-                                                                         sign(i.uv.x - _StarsPosXG2.z) * sign(
-                                                                             i.uv.y - _StarsPosYG2.z) * dot2Offset(
-                                                                             i.uv, fixed2(
-                                                                                 _StarsPosXG2.z, _StarsPosYG2.z))), 0.6,
-                                                                     1), fixed2(0.6, 1), fixed2(0, 1)));
+Remap(
+    clamp(
+        1.0 - smoothstep(0.0, 0.1, abs(star7)) - (
+            _StarsStrenthG2.z *
+            sign(i.uv.x - _StarsPosXG2.z) * sign(
+                i.uv.y - _StarsPosYG2.z) * dot2Offset(
+                i.uv, fixed2(
+                    _StarsPosXG2.z, _StarsPosYG2.z))), 0.6,
+        1), fixed2(0.6, 1), fixed2(0, 1)));
 
                 float star8 = sdRoundedCross(i.uv, _StarsLenG2.w, fixed2(_StarsPosXG2.w, _StarsPosYG2.w),
-                                             _StarsSizeG2.w) - _StarsRoundG2.w;
+                                                                            _StarsSizeG2.w) - _StarsRoundG2.w;
                 star8 = pow(star8, _StarsBlinkG2.w * abs(sin(clampSunPos + 110)));
                 col = lerp(col, _StarColor,
-                           Remap(
-                               clamp(1.0 - smoothstep(0.0, 0.1, abs(star8)) - (_StarsStrenthG2.w *
-                                         sign(i.uv.x - _StarsPosXG2.w) *
-                                         sign(i.uv.y - _StarsPosYG2.w) * dot2Offset(
-                                             i.uv, fixed2(_StarsPosXG2.w, _StarsPosYG2.w))), 0.6,
-                                     1), fixed2(0.6, 1), fixed2(0, 1)));
+                    Remap(
+                        clamp(1.0 - smoothstep(0.0, 0.1, abs(star8)) - (_StarsStrenthG2.w *
+                                                         sign(i.uv.x - _StarsPosXG2.w) *
+                                                         sign(i.uv.y - _StarsPosYG2.w) * dot2Offset(
+                                                             i.uv, fixed2(_StarsPosXG2.w, _StarsPosYG2.w))), 0.6,
+                                                     1), fixed2(0.6, 1), fixed2(0, 1)));
 
 
                 /// Handle
@@ -367,19 +372,20 @@ Shader "Unlit/DayNightButton"
                 // 3 Hole in Handle
                 fixed hole1 = Circle(i.uv, sunpos - fixed2(_HoleCenterX.x, _HoleCenterY.x), _HoleSize.x, 0.05);
                 fixed hole1S = Circle(i.uv, sunpos - fixed2(_HoleCenterX.x, _HoleCenterY.x),
-                                      _HoleSize.x + _HoleShadowSize, _HoleShadowBlur);
+  _HoleSize.x + _HoleShadowSize, _HoleShadowBlur);
                 fixed hole2 = Circle(i.uv, sunpos - fixed2(_HoleCenterX.y, _HoleCenterY.y), _HoleSize.y, 0.05);
                 fixed hole2S = Circle(i.uv, sunpos - fixed2(_HoleCenterX.y, _HoleCenterY.y),
-                                      _HoleSize.y + _HoleShadowSize, _HoleShadowBlur);
+        _HoleSize.y + _HoleShadowSize, _HoleShadowBlur);
                 fixed hole3 = Circle(i.uv, sunpos - fixed2(_HoleCenterX.z, _HoleCenterY.z), _HoleSize.z, 0.05);
                 fixed hole3S = Circle(i.uv, sunpos - fixed2(_HoleCenterX.z, _HoleCenterY.z),
-                                      _HoleSize.z + _HoleShadowSize, _HoleShadowBlur);
+            _HoleSize.z + _HoleShadowSize, _HoleShadowBlur);
                 col = lerp(col, _HoleShadowColor,
-                           clamp(Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(-0.5, saturate(hole1S + hole2S + hole3S))), 0,
-                                 1)); // clamp��-0.5 Ϊ������ʼ��������ӵ�ʱ��
+                                                          clamp(Remap(_SunPos, fixed2(-1.6, 1.6),
+                                   fixed2(-0.5, saturate(hole1S + hole2S + hole3S))), 0,
+                             1)); // clamp��-0.5 Ϊ������ʼ��������ӵ�ʱ��
                 col = lerp(col, fixed4(0.5882353, 0.6352941, 0.7137255, 1),
-                           clamp(Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(-0.5, saturate(hole1 + hole2 + hole3))), 0,
-                                 1));
+         clamp(Remap(_SunPos, fixed2(-1.6, 1.6), fixed2(-0.5, saturate(hole1 + hole2 + hole3))), 0,
+                                                                         1));
 
                 // HighLight and  Shadow
                 fixed2 sunpos1 = fixed2(_SunPos + _SunShadowLightPos1.x, _SunShadowLightPos1.y);

@@ -12,11 +12,11 @@ namespace Rokid.UXR.Demo
         public Text startInfo;
         public Text leftRockerInfo;
         public Text rightRockerInfo;
-        private int colorIndex;
         private readonly List<Color> colors = new() { Color.red, Color.blue, Color.yellow, Color.green, Color.gray };
         private readonly int moveSpeed = 2;
 
         private readonly float rotateSpeed = 1f;
+        private int colorIndex;
 
 
         private void Start()

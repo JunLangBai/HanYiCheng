@@ -1,26 +1,30 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TutorialButtonSystem : MonoBehaviour
 {
+    [Header("UI Components")] [SerializeField]
+    private GameObject mainContinueBtn; // 初始的继续按钮
+
+    [SerializeField] private Transform buttonContainer; // 按钮父对象
+    [SerializeField] private GameObject buttonPrefab; // 按钮预制体
+    [SerializeField] private TextMeshProUGUI dialogText; // 对话框文字
+
+    [Header("Dialog Content")] [SerializeField]
+    private  List<DialogStep> tutorialSteps = new();
+
+    private readonly Stack<GameObject> currentButtons = new();
+
+    private int currentStep = -1;
+
     // 单例实例
     public static TutorialButtonSystem Instance { get; private set; }
 
-    [Header("UI Components")]
-    [SerializeField] private GameObject mainContinueBtn; // 初始的继续按钮
-    [SerializeField] private Transform buttonContainer;  // 按钮父对象
-    [SerializeField] private GameObject buttonPrefab;    // 按钮预制体
-    [SerializeField] private TextMeshProUGUI dialogText; // 对话框文字
-
-    [Header("Dialog Content")]
-    [SerializeField] private List<DialogStep> tutorialSteps = new List<DialogStep>();
-
-    private int currentStep = -1;
-    private readonly Stack<GameObject> currentButtons = new Stack<GameObject>();
-
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -33,18 +37,18 @@ public class TutorialButtonSystem : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         InitializeTutorial();
     }
 
-    void InitializeTutorial()
+    private void InitializeTutorial()
     {
         mainContinueBtn.SetActive(true);
         mainContinueBtn.GetComponent<Button>().onClick.AddListener(StartFirstStep);
     }
 
-    void StartFirstStep()
+    private void StartFirstStep()
     {
         mainContinueBtn.SetActive(false);
         ShowNextStep();
@@ -65,20 +69,20 @@ public class TutorialButtonSystem : MonoBehaviour
         CreateStepButtons();
     }
 
-    void UpdateDialog()
+    private void UpdateDialog()
     {
         dialogText.text = tutorialSteps[currentStep].description;
     }
 
-    void CreateStepButtons()
+    private void CreateStepButtons()
     {
         foreach (var btn in tutorialSteps[currentStep].buttons)
         {
-            GameObject newBtn = Instantiate(buttonPrefab, buttonContainer);
+            var newBtn = Instantiate(buttonPrefab, buttonContainer);
             newBtn.GetComponentInChildren<TextMeshProUGUI>().text = btn.buttonText;
-            
+
             // 添加事件监听
-            newBtn.GetComponent<Button>().onClick.AddListener(() => 
+            newBtn.GetComponent<Button>().onClick.AddListener(() =>
             {
                 btn.onClickEvent?.Invoke();
                 ShowNextStep();
@@ -88,33 +92,33 @@ public class TutorialButtonSystem : MonoBehaviour
         }
     }
 
-    void ClearCurrentButtons()
+    private void ClearCurrentButtons()
     {
         while (currentButtons.Count > 0)
         {
             var btn = currentButtons.Pop();
-            if(btn != null) Destroy(btn);
+            if (btn != null) Destroy(btn);
         }
     }
 
-    void EndTutorial()
+    private void EndTutorial()
     {
         dialogText.text = "教学完成！";
         mainContinueBtn.SetActive(false);
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class DialogStep
 {
-    [TextArea(3,5)]
-    public string description;
-    public List<TutorialButton> buttons = new List<TutorialButton>();
+    [TextArea(3, 5)] public string description;
+
+    public List<TutorialButton> buttons = new();
 }
 
-[System.Serializable]
+[Serializable]
 public class TutorialButton
 {
     public string buttonText;
-    public UnityEngine.Events.UnityEvent onClickEvent;
+    public UnityEvent onClickEvent;
 }

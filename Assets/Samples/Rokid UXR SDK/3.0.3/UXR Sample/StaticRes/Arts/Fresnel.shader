@@ -88,7 +88,7 @@ Shader "Rokid/Fresnel"
         }
 
         inline float4 Refraction(Input i, SurfaceOutputStandardCustom o, float indexOfRefraction,
- float chomaticAberration)
+                                 float chomaticAberration)
         {
             float3 worldNormal = o.Normal;
             float4 screenPos = i.screenPos;

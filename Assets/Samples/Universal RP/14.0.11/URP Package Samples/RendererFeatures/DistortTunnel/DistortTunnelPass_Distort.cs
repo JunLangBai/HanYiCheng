@@ -6,8 +6,8 @@ using UnityEngine.Rendering.Universal;
 public class DistortTunnelPass_Distort : ScriptableRenderPass
 {
     private readonly Material m_Material;
-    private RTHandle m_OutputHandle;
     private readonly ProfilingSampler m_ProfilingSampler = new("DistortTunnelPass_Distort");
+    private RTHandle m_OutputHandle;
 
     public DistortTunnelPass_Distort(Material mat, RenderPassEvent evt)
     {

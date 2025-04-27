@@ -5,8 +5,8 @@ using UnityEngine.Rendering.Universal;
 // This pass renders a certain object (object called "Tunnel" in this sample) to an RTHandle set by the Renderer Feature.
 public class DistortTunnelPass_Tunnel : ScriptableRenderPass
 {
-    private RTHandle m_OutputHandle;
     private readonly ProfilingSampler m_ProfilingSampler = new("DistortTunnelPass_Tunnel");
+    private RTHandle m_OutputHandle;
     private Renderer m_TunnelObject;
 
     public DistortTunnelPass_Tunnel(RenderPassEvent evt)

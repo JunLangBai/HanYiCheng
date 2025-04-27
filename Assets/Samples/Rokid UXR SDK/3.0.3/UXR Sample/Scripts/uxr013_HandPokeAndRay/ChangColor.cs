@@ -4,8 +4,8 @@ namespace Rokid.UXR.Demo
 {
     public class ChangColor : MonoBehaviour
     {
-        private int colorIndex;
         private readonly Color[] colors = { Color.white, Color.yellow, Color.green, Color.red };
+        private int colorIndex;
 
         private void Start()
         {

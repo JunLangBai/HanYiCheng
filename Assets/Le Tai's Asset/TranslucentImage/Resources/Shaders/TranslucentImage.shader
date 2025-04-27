@@ -123,7 +123,7 @@
                 pixelSize /= float2(1, 1) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
                 float4 clampedRect = clamp(_ClipRect, -2e10, 2e10);
                 OUT.mask = float4(IN.vertex.xy * 2 - clampedRect.xy - clampedRect.zw,
- 0.25 / (0.25 * half2(_UIMaskSoftnessX, _UIMaskSoftnessY) + abs(pixelSize.xy)));
+                                  0.25 / (0.25 * half2(_UIMaskSoftnessX, _UIMaskSoftnessY) + abs(pixelSize.xy)));
 
                 return OUT;
             }

@@ -5,10 +5,10 @@ using UnityEngine.Rendering.Universal;
 // This pass performs a blit operation with a Material. The input and output textures are set by the Renderer Feature.
 public class DepthBlitEdgePass : ScriptableRenderPass
 {
-    private RTHandle m_DepthHandle;
     private readonly Material m_Material;
-    private RTHandle m_OutputHandle; //Camera target
     private readonly ProfilingSampler m_ProfilingSampler = new("DepthBlitEdgePass");
+    private RTHandle m_DepthHandle;
+    private RTHandle m_OutputHandle; //Camera target
 
     public DepthBlitEdgePass(Material mat, RenderPassEvent evt)
     {

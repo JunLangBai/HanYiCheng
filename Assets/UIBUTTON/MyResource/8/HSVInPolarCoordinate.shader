@@ -107,8 +107,8 @@ Shader "Unlit/HSVInPolarCoordinate"
                 annularPos.x -= _MousePos.x;
                 annularPos.y += _MousePos.y;
                 annularInAnnular = smoothstep(step, -step,
-                                                            opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
-    RADIUS_THICKNESS_SELECTOR));
+                                              opAnnular(sdCircle(annularPos, RADIUS_SELECTOR),
+                                                        RADIUS_THICKNESS_SELECTOR));
 
                 // UI����
                 return saturate(annularInAnnular + col_HSV);

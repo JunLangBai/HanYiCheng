@@ -5,8 +5,8 @@ using UnityEngine.Rendering.Universal;
 // This pass performs a blit from a source texture to a destination texture set up by the RendererFeature.
 public class DistortTunnelPass_CopyColor : ScriptableRenderPass
 {
-    private RTHandle m_OutputHandle;
     private readonly ProfilingSampler m_ProfilingSampler = new("DistortTunnelPass_CopyColor");
+    private RTHandle m_OutputHandle;
     private RTHandle m_Source;
 
     public DistortTunnelPass_CopyColor(RenderPassEvent evt)

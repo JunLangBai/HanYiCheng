@@ -142,9 +142,9 @@ namespace Febucci.UI.Core.Editors
         internal abstract class BuiltinVariablesDrawer
         {
             private readonly string docsLink;
+            private readonly string toggleLabel;
 
             private bool draw;
-            private readonly string toggleLabel;
 
             public BuiltinVariablesDrawer(string toggleLabel, string docsLink)
             {
@@ -613,12 +613,12 @@ namespace Febucci.UI.Core.Editors
             private readonly SerializedProperty charsTimeOffset;
             private readonly SerializedProperty curve;
             private readonly Color curveColor;
-
-            private string curveDescription;
             private readonly GUIContent curveLabel;
             private readonly SerializedProperty enabled;
             private readonly string name;
             private readonly bool sizeDependant;
+
+            private string curveDescription;
 
             public FloatCurveDrawer(SerializedProperty parent, string name, bool sizeDependant, bool isAppearance,
                 Color curveColor)
@@ -845,8 +845,8 @@ namespace Febucci.UI.Core.Editors
 
             private readonly SerializedProperty cycles;
             private readonly SerializedProperty decayCurve;
-            private string infoText;
             private readonly SerializedProperty overrideDuration;
+            private string infoText;
 
             public EmissionCurveDrawer(SerializedProperty parent)
             {

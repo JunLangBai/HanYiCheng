@@ -52,9 +52,9 @@ Shader "Unlit/RotationShader"
             float4x4 M_Rotate()
             {
                 return float4x4(cos(radians(_Rotation)), -sin(radians(_Rotation)), 0, 0,
-                sin(radians(_Rotation)), cos(radians(_Rotation)), 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1);
+                                sin(radians(_Rotation)), cos(radians(_Rotation)), 0, 0,
+                                0, 0, 1, 0,
+                                0, 0, 0, 1);
             }
 
             v2f vert(appdata v)
