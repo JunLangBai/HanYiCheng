@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -17,10 +18,19 @@ public class TextDisplay : MonoBehaviour
     [Header("Dialogue Configuration")] [SerializeField]
     private List<ChatText> dialogueSequence = new List<ChatText>();
 
+    [Header("UI Fade")]
+    //过度
+    public CanvasGroup canvasGroup; // 目标CanvasGroup
+    public float fadeDuration = 1f; // 过渡时间
+    public float delayBetweenFades = 0.5f; // 淡入和淡出之间的延迟时间
+    
     [SerializeField] private string endSceneName;
 
     private int _currentDialogueIndex = -1;
     private bool _awaitingChoice;
+
+    //是否进行过转场
+    private bool isDoExcessive = false;
 
     void Awake()
     {
@@ -103,11 +113,20 @@ public class TextDisplay : MonoBehaviour
         }
         else
         {
-            GlobalTutorialsManager.instance.canNextText = false;
-            // 显示选项按钮
-            SetupInteractiveButtons();
-            PlacementMgr.instance.ShowOptions();
-            _awaitingChoice = false;
+            if (isDoExcessive == false)
+            {
+                isDoExcessive = true;
+                // 启动时执行先淡入再淡出
+                StartCoroutine(FadeInOutSequence());
+            }
+            else
+            {
+                GlobalTutorialsManager.instance.canNextText = false;
+                // 显示选项按钮
+                SetupInteractiveButtons();
+                PlacementMgr.instance.ShowOptions();
+                _awaitingChoice = false;
+            }
         }
     }
 
@@ -206,12 +225,82 @@ public class TextDisplay : MonoBehaviour
             Debug.Log("Dialogue sequence completed");
             if (!string.IsNullOrEmpty(endSceneName))
             {
-                SceneManager.LoadScene(endSceneName);
+                dialogueText.text = "接下来开始真正的冒险吧！";
+                ClearButtonContainer();
+                // 创建单个继续按钮
+                GameObject button = Instantiate(buttonPrefab, buttonContainer);
+
+                string buttonText = "开始冒险";
+                button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+                Button btnComponent = button.GetComponent<Button>();
+                btnComponent.onClick.AddListener(SceneLoaded);
             }
             else
             {
                 dialogueText.text = "接下来开始真正的冒险吧！";
                 ClearButtonContainer();
+                // 创建单个继续按钮
+                GameObject button = Instantiate(buttonPrefab, buttonContainer);
+
+                string buttonText = "开始冒险";
+                button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+                Button btnComponent = button.GetComponent<Button>();
             }
+        }
+        
+        public void SceneLoaded()
+        {
+            SceneManager.LoadScene(endSceneName);  
+        }
+
+        /// <summary>
+        /// 先淡入再淡出的完整序列
+        /// </summary>
+        private IEnumerator FadeInOutSequence()
+        {
+            // 第一步：淡入
+            yield return StartCoroutine(Fade(0f, 1f));
+
+            // 可选：在淡入和淡出之间插入延迟
+            if (delayBetweenFades > 0f)
+            {
+                yield return new WaitForSeconds(delayBetweenFades);
+            }
+            
+            GlobalTutorialsManager.instance.canNextText = false;
+            // 显示选项按钮
+            SetupInteractiveButtons();
+            PlacementMgr.instance.ShowOptions();
+            _awaitingChoice = false;
+
+            // 第二步：淡出
+            yield return StartCoroutine(Fade(1f, 0f));
+            
+        }
+
+        /// <summary>
+        /// 通用的透明度过渡协程
+        /// </summary>
+        /// <param name="start">起始透明度</param>
+        /// <param name="end">目标透明度</param>
+        /// <returns></returns>
+        private IEnumerator Fade(float start, float end)
+        {
+            float elapsedTime = 0f;
+            canvasGroup.alpha = start;
+
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(start, end, elapsedTime / fadeDuration);
+                yield return null; // 等待下一帧
+            }
+
+            // 确保最终值精确
+            canvasGroup.alpha = end;
+
+            // 根据透明度设置交互状态
+            canvasGroup.interactable = (end > 0f);
+            canvasGroup.blocksRaycasts = (end > 0f);
         }
     }
