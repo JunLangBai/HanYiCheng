@@ -118,6 +118,8 @@ public class TextDisplay : MonoBehaviour
             {
                 isDoExcessive = true;
                 // 启动时执行先淡入再淡出
+                canvasGroup.blocksRaycasts = true;
+                canvasGroup.interactable = true;
                 StartCoroutine(FadeInOutSequence());
             }
             else
@@ -248,7 +250,11 @@ public class TextDisplay : MonoBehaviour
 
     public void SceneLoaded()
     {
-        SceneManager.LoadScene(endSceneName);
+         var a =JsonManager.Instance.gameData;
+         a.placementClear = true;
+         // 保存修改后的数据
+         JsonFileManager.SaveToJson(a, "GameData.json");
+         SceneManager.LoadScene(endSceneName);
     }
 
     /// <summary>
@@ -270,6 +276,9 @@ public class TextDisplay : MonoBehaviour
 
         // 第二步：淡出
         yield return StartCoroutine(Fade(1f, 0f));
+        
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
     }
 
     /// <summary>

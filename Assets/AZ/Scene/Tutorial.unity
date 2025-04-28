@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u63A5\u4E0B\u6765\u6211\u5C06\u544A\u8BC9\u4F60\u5E95\u4E0B\u56DB\u4E2A\u6309\u94AE\u7684\u4F5C\u7528\uFF01"
+  m_text: "\u63A5\u4E0B\u6765\u6211\u5C06\u544A\u8BC9\u4F60\u5E95\u4E0B\u56DB\u4E2A\u6309\u94AE\u7684\u4F5C\u7528\uFF01()"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
@@ -2562,6 +2562,7 @@ MonoBehaviour:
   - {fileID: 1335886793}
   - {fileID: 1410750053}
   - {fileID: 1339539772}
+  targetSceneName: MainUI
   fadeDuration: 0.25
   tutorialText:
   - "\u6311\u6218\u81EA\u5DF1\uFF1A\u6765\u4F53\u9A8C\u6709\u8DA3\u7684\u5173\u5361\u6A21\u5F0F\u5427\uFF01\uFF081/4\uFF09"

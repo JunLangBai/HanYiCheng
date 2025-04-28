@@ -6,10 +6,9 @@ using UnityEngine;
 [Serializable]
 public class GameData
 {
-    public string playerName = "DefaultPlayer";
-    public int playerLevel = 1;
-    public float health = 100f;
-    public bool isPremiumUser;
+    public bool placementClear = false;
+    public bool tutorialClear = false;
+    
 }
 
 public static class JsonFileManager
