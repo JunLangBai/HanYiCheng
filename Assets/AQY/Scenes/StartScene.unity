@@ -721,11 +721,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f854e4979503b8c418eb2f11b0199bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: {fileID: 662481634}
-  nextButton: {fileID: 2002157302}
-  dialogueList:
-  - {fileID: 11400000, guid: 064be0a0b2fa9f747b0206b51ad1854c, type: 2}
-  - {fileID: 11400000, guid: 659558b2fa605154b87a8cbbdd6299ac, type: 2}
+  dialogueButton: {fileID: 0}
+  dialogueText: {fileID: 0}
+  buttonContainer: {fileID: 0}
+  buttonPrefab: {fileID: 0}
+  dialogueSequence: []
+  canvasGroup: {fileID: 0}
+  fadeDuration: 1
+  delayBetweenFades: 0.5
+  endSceneName: 
 --- !u!1 &493883519
 GameObject:
   m_ObjectHideFlags: 0
