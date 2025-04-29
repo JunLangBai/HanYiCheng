@@ -118,10 +118,10 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
     private void EndTutorial()
     {
         Debug.Log("教程结束");
-        var a =JsonManager.Instance.gameData;
-        a.tutorialClear = true;
+        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        gameData.tutorialClear = true;
         // 保存修改后的数据
-        JsonFileManager.SaveToJson(a, "GameData.json");
+        JsonFileManager.SaveToJson(gameData, "GameData.json");
         // 可以在这里添加结束逻辑，例如隐藏所有 UI 或跳转到主菜单
         StartCoroutine(LoadSceneDirectly());
     }

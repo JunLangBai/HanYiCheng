@@ -250,10 +250,11 @@ public class TextDisplay : MonoBehaviour
 
     public void SceneLoaded()
     {
-         var a =JsonManager.Instance.gameData;
-         a.placementClear = true;
+         // 加载 JSON 数据
+         GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+         gameData.placementClear = true;
          // 保存修改后的数据
-         JsonFileManager.SaveToJson(a, "GameData.json");
+         JsonFileManager.SaveToJson(gameData, "GameData.json");
          SceneManager.LoadScene(endSceneName);
     }
 

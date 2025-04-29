@@ -1,14 +1,58 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
-[Serializable]
+[System.Serializable]
 public class GameData
 {
     public bool placementClear = false;
     public bool tutorialClear = false;
-    
+    public List<LevelDataJson> levels = new List<LevelDataJson>();
+}
+
+[System.Serializable]
+public class LevelDataJson
+{
+    public string LevelID;
+    public bool ISUnlockedByDefault;
+    public string Scene; // 如果需要保存 SceneField 的信息
+    public string LevelName;
+
+    // 构造函数：从 LevelData 转换为 LevelDataJson
+    public LevelDataJson(LevelData level)
+    {
+        
+        if (level == null)
+        {
+            Debug.LogError("LevelData is null!");
+            return;
+        }
+
+        LevelID = level.LevelID;
+        ISUnlockedByDefault = level.ISUnlockedByDefault;
+
+        // 确保 Scene 不为 null
+        Scene = level.Scene?.SceneName ?? string.Empty; // 使用空合并运算符避免 NullReferenceException
+
+        LevelName = level.LevelName ?? string.Empty; // 同样处理 LevelName
+    }
+}
+
+[System.Serializable]
+public class AreaDataJson
+{
+    public string AreaName;
+    public List<LevelDataJson> Levels;
+
+    // 构造函数：从 AreaData 转换为 AreaDataJson
+    public AreaDataJson(AreaData area)
+    {
+        AreaName = area.AreaName;
+        Levels = area.Levels.Select(l => new LevelDataJson(l)).ToList();
+    }
 }
 
 public static class JsonFileManager
@@ -69,4 +113,41 @@ public static class JsonFileManager
         Debug.Log($"Loaded JSON from: {filePath}");
         return data;
     }
+    
+    public static class AreaDataConverter
+    {
+        // 将 AreaData 转换为 GameData
+        public static GameData ConvertToGameData(AreaData areaData)
+        {
+            var gameData = new GameData
+            {
+                placementClear = false, // 可以根据需要设置
+                tutorialClear = false,  // 可以根据需要设置
+                levels = areaData.Levels.Select(level => new LevelDataJson(level)).ToList()
+            };
+
+            return gameData;
+        }
+
+        // 将 GameData 转换为 AreaData
+        public static void ApplyGameDataToAreaData(GameData gameData, AreaData areaData)
+        {
+            if (gameData == null || areaData == null) return;
+
+            foreach (var jsonLevel in gameData.levels)
+            {
+                var level = areaData.Levels.FirstOrDefault(l => l.LevelID == jsonLevel.LevelID);
+                if (level != null)
+                {
+                    level.ISUnlockedByDefault = jsonLevel.ISUnlockedByDefault;
+                    Debug.Log($"Updated LevelID: {jsonLevel.LevelID}, ISUnlockedByDefault: {jsonLevel.ISUnlockedByDefault}");
+                }
+                else
+                {
+                    Debug.LogWarning($"Level with ID {jsonLevel.LevelID} not found in AreaData!");
+                }
+            }
+        }
+    }
+
 }

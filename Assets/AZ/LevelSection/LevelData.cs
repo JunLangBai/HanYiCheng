@@ -2,6 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Level Data/Levels", fileName = "New Level")]
 
+//关卡
 public class LevelData : ScriptableObject
 {
     [Header("Level Stats")]
