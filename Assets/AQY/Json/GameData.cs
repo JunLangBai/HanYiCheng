@@ -11,6 +11,7 @@ public class GameData
     public bool placementClear = false;
     public bool tutorialClear = false;
     public List<LevelDataJson> levels = new List<LevelDataJson>();
+    public float volume;
 }
 
 [System.Serializable]

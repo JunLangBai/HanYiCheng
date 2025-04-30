@@ -1,56 +1,55 @@
-// UISettingsController.cs
+// UIManager.cs
+
+using System;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
-public class FlowWindows : MonoBehaviour
-{
-    [Header("绑定截图中的元素")]
+public class FlowWindows : MonoBehaviour {
+    [Header("UI References")]
     [SerializeField] private CanvasGroup settingsPanel;
-    [SerializeField] private Button gearButton;  // 对应Hierarchy中的Image (4)
+    [SerializeField] private float fadeDuration = 0.3f;
+    
+    private Image image ;
+    private Color normalColor = new Color(0.372549f, 0.372549f, 0.372549f, 1f);
+    private Color pressedColor = new Color(0f, 0f, 0f, 1f);
+    
 
-    [Range(0.1f, 2f)]
-    public float fadeSpeed = 0.5f;
+    private Coroutine currentFade;
 
-    private bool isVisible;
-    private float targetAlpha;
-
-    void Start()
+    private void Start()
     {
-        // 初始状态配置
-        settingsPanel.alpha = 0;
-        settingsPanel.interactable = false;
-        settingsPanel.blocksRaycasts = false;
-
-        // 绑定齿轮按钮事件
-        gearButton.onClick.AddListener(TogglePanel);
+        image = GetComponent<Image>();
     }
 
-    void Update()
+    public void ToggleSettingsUI() 
     {
-        // 平滑渐变实现
-        if (Mathf.Abs(settingsPanel.alpha - targetAlpha) > 0.001f)
+        if (settingsPanel.interactable == true)
         {
-            settingsPanel.alpha = Mathf.Lerp(
-                settingsPanel.alpha, 
-                targetAlpha, 
-                Time.unscaledDeltaTime / fadeSpeed
-            );
+            image.color = normalColor;
         }
+        else if (settingsPanel.interactable == false)
+        {
+            
+            image.color = pressedColor;
+        }
+        if(currentFade != null) StopCoroutine(currentFade);
+        currentFade = StartCoroutine(FadePanel(!settingsPanel.interactable));
     }
 
-    private void TogglePanel()
-    {
-        isVisible = !isVisible;
-        targetAlpha = isVisible ? 1 : 0;
+    private IEnumerator FadePanel(bool show) {
+        float startAlpha = settingsPanel.alpha;
+        float targetAlpha = show ? 1 : 0;
+        float elapsed = 0;
+
+        settingsPanel.interactable = show;
+        settingsPanel.blocksRaycasts = show;
+
+        while (elapsed < fadeDuration) {
+            settingsPanel.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / fadeDuration);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
         
-        // 立即更新交互状态
-        settingsPanel.interactable = isVisible;
-        settingsPanel.blocksRaycasts = isVisible;
-
-        // 适配截图中的Animator组件
-        if (TryGetComponent<Animator>(out var anim))
-        {
-            anim.enabled = !isVisible; // 显示面板时暂停原有动画
-        }
     }
 }
