@@ -8,10 +8,16 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    //是否经过摸底
     public bool placementClear = false;
+    //是否经过教程
     public bool tutorialClear = false;
+    //关卡数据
     public List<LevelDataJson> levels = new List<LevelDataJson>();
+    //音量大小
     public float volume;
+    //用户名
+    public string username;
 }
 
 [System.Serializable]
