@@ -33,6 +33,7 @@ public class LevelButton : MonoBehaviour
         if (isUnlocked)
         {
             _button.onClick.AddListener(LoadLevel);
+            Debug.Log(level.LevelID);
             ReturnColor = Color.white;
             _image.color = ReturnColor;
         }
@@ -53,6 +54,7 @@ public class LevelButton : MonoBehaviour
 
     public void LoadLevel()
     {
-        SceneManager.LoadScene(LevelData.Scene);
+        Debug.Log("Loading Level");
+        SceneManager.LoadScene(LevelData.Scene.SceneName, LoadSceneMode.Single);
     }
 }

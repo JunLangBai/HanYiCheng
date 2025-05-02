@@ -20,6 +20,9 @@ public class FlowWindows : MonoBehaviour {
     private void Start()
     {
         image = GetComponent<Image>();
+        settingsPanel.alpha = 0;
+        settingsPanel.interactable = false;
+        settingsPanel.blocksRaycasts = false;
     }
 
     public void ToggleSettingsUI() 

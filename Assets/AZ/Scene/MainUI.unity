@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6791016204fec74f87fbda4bd897565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsPanel: {fileID: 0}
+  settingsPanel: {fileID: 1355868504}
   fadeDuration: 0.3
 --- !u!1 &733048879
 GameObject:
@@ -1391,6 +1391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1355868502}
+  - component: {fileID: 1355868504}
   m_Layer: 0
   m_Name: SettingPanel
   m_TagString: Untagged
@@ -1418,6 +1419,18 @@ RectTransform:
   m_AnchoredPosition: {x: 4.55e-13, y: 66}
   m_SizeDelta: {x: 1500, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1355868504
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355868501}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1375629988
 PrefabInstance:
   m_ObjectHideFlags: 0
