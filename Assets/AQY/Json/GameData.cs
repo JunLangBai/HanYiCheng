@@ -18,6 +18,8 @@ public class GameData
     public float volume;
     //用户名
     public string username;
+    //头像下标
+    public int  profilePictureIndex;
 }
 
 [System.Serializable]
