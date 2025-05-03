@@ -15,7 +15,7 @@ public class GameData
     //关卡数据
     public List<LevelDataJson> levels = new List<LevelDataJson>();
     //音量大小
-    public float volume;
+    public float volume = 1;
     //用户名
     public string username;
     //头像下标
