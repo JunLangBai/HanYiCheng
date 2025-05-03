@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Android;
 
 namespace Rokid.UXR.Demo
 {

@@ -480,6 +480,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5190571452710748020, guid: fa2ab4a52b98844a5beea51c6d5ab85a, type: 3}
+      propertyPath: defaultInitModule
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -517,6 +521,9 @@ MonoBehaviour:
   gameData:
     placementClear: 0
     tutorialClear: 0
+    levels: []
+    volume: 0
+    username: 
 --- !u!4 &1994161176
 Transform:
   m_ObjectHideFlags: 0
