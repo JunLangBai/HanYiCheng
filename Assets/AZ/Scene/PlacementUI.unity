@@ -445,6 +445,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 753802293745759862, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
+      propertyPath: m_HeadTrackingType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6045076911616643429, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
       propertyPath: m_Name
       value: RKCameraRig
@@ -1329,9 +1333,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1638054112}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1233148308800772767, guid: 3c20833d81e354626b8365b459274912, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2114680820}
     - targetCorrespondingSourceObject: {fileID: 1233148307795227417, guid: 3c20833d81e354626b8365b459274912, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1274438574}
@@ -1754,25 +1755,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068809491}
   m_CullTransparentMesh: 1
---- !u!1 &2114680811 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1233148308800772767, guid: 3c20833d81e354626b8365b459274912, type: 3}
-  m_PrefabInstance: {fileID: 1661205818}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2114680820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114680811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e45d02b3e1bef54391124c20cbd76b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  a: {fileID: 1593084997}
-  offset: {x: 0, y: 0, z: 1.5}
 --- !u!1 &2133296534
 GameObject:
   m_ObjectHideFlags: 0

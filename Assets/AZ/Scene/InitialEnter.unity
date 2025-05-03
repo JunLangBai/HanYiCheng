@@ -316,6 +316,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 753802293745759862, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
+      propertyPath: m_HeadTrackingType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6045076911616643429, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
       propertyPath: m_Name
       value: RKCameraRig

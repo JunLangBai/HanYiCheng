@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3989895739844359871}
   - component: {fileID: 6198961278440981888}
+  - component: {fileID: 5313082040637620679}
   m_Layer: 0
   m_Name: JsonManager
   m_TagString: Untagged
@@ -48,3 +49,17 @@ MonoBehaviour:
     placementClear: 0
     tutorialClear: 0
     levels: []
+    volume: 0
+    username: 
+--- !u!114 &5313082040637620679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088804832215061773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c2effae807d2345b9623e0f3db6218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
