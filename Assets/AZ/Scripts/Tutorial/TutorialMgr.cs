@@ -32,6 +32,7 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("点击触发");
+        AudioManager.Instance.PlayButtonSound();
         if (currentIndex < tutorial.Length - 1) // 确保还有下一张图片可以显示
         {
             ShowNextStep();

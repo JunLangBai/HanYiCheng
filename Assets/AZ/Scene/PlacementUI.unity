@@ -423,6 +423,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031273180}
   m_CullTransparentMesh: 1
+--- !u!1001 &1086506125
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939975714814092789, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568239015705641595, guid: 792f4c02d1e01554299b45427e322412, type: 3}
+      propertyPath: m_Name
+      value: InitializationSound
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 792f4c02d1e01554299b45427e322412, type: 3}
 --- !u!1 &1274438568 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1233148307795227417, guid: 3c20833d81e354626b8365b459274912, type: 3}
@@ -1016,7 +1073,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3394868808880257061, guid: fa2ab4a52b98844a5beea51c6d5ab85a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1749943702}
   m_SourcePrefab: {fileID: 100100000, guid: fa2ab4a52b98844a5beea51c6d5ab85a, type: 3}
 --- !u!1 &1621918840
 GameObject:
@@ -1667,6 +1727,23 @@ MonoBehaviour:
   useDynamicScaling: 0
   referenceFontSize: -1
   timeScale: 0
+--- !u!1 &1749943700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3394868808880257061, guid: fa2ab4a52b98844a5beea51c6d5ab85a, type: 3}
+  m_PrefabInstance: {fileID: 1619006149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1749943702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749943700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efa6ff7e6a2e2b4f997924a51ab6cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2068809491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,3 +2020,4 @@ SceneRoots:
   - {fileID: 1375629988}
   - {fileID: 1661205818}
   - {fileID: 225923831}
+  - {fileID: 1086506125}

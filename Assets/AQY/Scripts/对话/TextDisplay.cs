@@ -178,6 +178,7 @@ public class TextDisplay : MonoBehaviour
         foreach (var btnText in currentChat.buttonTexts)
         {
             var button = Instantiate(buttonPrefab, buttonContainer);
+            button.gameObject.AddComponent<GlobalButtonClickListener>();
 
             // 设置按钮文本
             var textComponent = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -186,6 +187,7 @@ public class TextDisplay : MonoBehaviour
             // 绑定带参数的点击事件
             var btnComponent = button.GetComponent<Button>();
             btnComponent.onClick.AddListener(() => { HandleButtonClick(btnText); });
+            
         }
     }
 

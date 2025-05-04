@@ -1,8 +1,21 @@
 {
-  "placementClear": true,
-  "tutorialClear": true,
-  "levels": [],
-  "volume": 0.51188904,
+  "placementClear": false,
+  "tutorialClear": false,
+  "levels": [
+    {
+      "LevelID": "1-1",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level1",
+      "LevelName": "114514"
+    },
+    {
+      "LevelID": "1-2",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level1",
+      "LevelName": "2"
+    }
+  ],
+  "volume": 1.0,
   "username": null,
   "profilePictureIndex": 0
 }

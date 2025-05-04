@@ -1,132 +1,172 @@
-using System;
-using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class LevelSelectMngr : MonoBehaviour
 {
-   public Transform LevelParent;
-   public GameObject LevelButtonPrefab;
-   public TextMeshProUGUI AreaHeaderText;
-   public TextMeshProUGUI LevelHeaderText;
-   public AreaData CurrentArea;
-   
-   public HashSet<string> UnlockedLevelIDs = new HashSet<string>();
-   
-   public Camera _camera;
-   
-   private List<GameObject> _buttonObjects= new List<GameObject>();
-   private Dictionary<GameObject, Vector3> _ButtonLocations = new Dictionary<GameObject, Vector3>();
-   
-   GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
-  
-   private void Start()
-   {
-      if (CurrentArea != null)
-      {
-         LoadAndApplyJson();
-         SaveAreaDataToJson();
-      }
-      else
-      {
-         Debug.LogError("JSON 文件或数据盒未赋值！");
-      }
-      AssignAreaText();
-      LoadUnlockedLevels();
-      CreateLevelButtons();
-   }
-   
-   // 序列化 AreaData 并保存到 JSON 文件
-   // 序列化 AreaData 并保存到 JSON 文件
-   void SaveAreaDataToJson()
-   {
-      // 将 AreaData 转换为 GameData
-      var gameData = JsonFileManager.AreaDataConverter.ConvertToGameData(CurrentArea);
+    public static LevelSelectMngr Instance;
+    
+    [Header("References")]
+    public Transform LevelParent;
+    public GameObject LevelButtonPrefab;
+    public TextMeshProUGUI AreaHeaderText;
+    public AreaData CurrentArea;
 
-      // 使用 JsonFileManager 保存 JSON 数据
-      JsonFileManager.SaveToJson(gameData, "GameData.json");
+    [Header("Progress")]
+    public HashSet<string> UnlockedLevelIDs = new HashSet<string>();
+    
+    private List<GameObject> _buttonObjects = new List<GameObject>();
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
-      Debug.Log($"Saved AreaData to JSON file: {"GameData.json"}");
-   }
+    private void Start()
+    {
+        InitializeLevelSystem();
+    }
 
-   // 加载 JSON 并更新 AreaData
-   void LoadAndApplyJson()
-   {
-      // 使用 JsonFileManager 加载 JSON 数据
-      GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+    private void InitializeLevelSystem()
+    {
+        LoadProgress();
+        CleanOldButtons();
+        CreateLevelButtons();
+        UpdateAreaHeader();
+    }
 
-      if (gameData != null)
-      {
-         // 将 GameData 应用到 AreaData
-         JsonFileManager.AreaDataConverter.ApplyGameDataToAreaData(gameData, CurrentArea);
-      }
-      else
-      {
-         Debug.LogError("JSON 数据为空或格式不正确！");
-      }
-   }
+    private void LoadProgress()
+    {
+        UnlockedLevelIDs.Clear();
 
-   public void AssignAreaText()
-   {
-      AreaHeaderText.SetText(CurrentArea.AreaName);
-   }
+        // 1. 加载默认解锁的关卡
+        foreach (var level in CurrentArea.Levels)
+        {
+            if (level.ISUnlockedByDefault)
+            {
+                UnlockedLevelIDs.Add(level.LevelID);
+                Debug.Log($"默认解锁: {level.LevelID}");
+            }
+        }
 
-   private void LoadUnlockedLevels()
-   {
-      foreach (var level in CurrentArea.Levels)
-      {
-         if (level.ISUnlockedByDefault)
-         {
-            UnlockedLevelIDs.Add(level.LevelID);
-         }
-      }
-   }
+        // 2. 加载存档数据
+        GameData savedData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        if (savedData != null)
+        {
+            foreach (var savedLevel in savedData.levels)
+            {
+                // 关键修改：只处理标记为已解锁的关卡
+                if (savedLevel.ISUnlockedByDefault == true)
+                {
+                    if (!UnlockedLevelIDs.Contains(savedLevel.LevelID))
+                    {
+                        UnlockedLevelIDs.Add(savedLevel.LevelID);
+                        Debug.Log($"存档解锁: {savedLevel.LevelID}");
+                    }
+                }
+            }
+        }
 
-   private void CreateLevelButtons()
-   {
-      for (int i = 0; i < CurrentArea.Levels.Count; i++)
-      {
-         GameObject buttonGO = Instantiate(LevelButtonPrefab, LevelParent);
-         _buttonObjects.Add(buttonGO);
-         
-         RectTransform buttonRect = buttonGO.GetComponent<RectTransform>();
-         
-         buttonGO.name = CurrentArea.Levels[i].LevelID;
-         CurrentArea.Levels[i].LevelButtonObj = buttonGO;
-         
-         LevelButton levelButton = buttonGO.GetComponent<LevelButton>();
-         levelButton.Setup(CurrentArea.Levels[i], UnlockedLevelIDs.Contains(CurrentArea.Levels[i].LevelID));
-      }
-   }
-   
-   //通关后标记为true
-   // public void LevelSelected()
-   // {
-   //    GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
-   //
-   //    if (gameData != null)
-   //    {
-   //       // 找到目标 LevelDataJson 对象
-   //       var targetLevel = gameData.levels.FirstOrDefault(l => l.Scene == SceneManager.GetActiveScene().name);
-   //
-   //       if (targetLevel != null)
-   //       {
-   //          // 修改 ISUnlockedByDefault 值
-   //          targetLevel.ISUnlockedByDefault = true;
-   //
-   //          Debug.Log($"Updated LevelID: {targetLevel.Scene}, ISUnlockedByDefault: {targetLevel.ISUnlockedByDefault}");
-   //
-   //          // 保存修改后的数据回 JSON 文件
-   //          JsonFileManager.SaveToJson(gameData, "GameData.json");
-   //       }
-   //       else
-   //       {
-   //          Debug.LogWarning("Level with ID '关卡数据盒名字' not found!");
-   //       }
-   //    }
-   // }
+        // 3. 保底机制
+        if (UnlockedLevelIDs.Count == 0 && CurrentArea.Levels.Count > 0)
+        {
+            UnlockedLevelIDs.Add(CurrentArea.Levels[0].LevelID);
+            Debug.Log($"保底解锁: {CurrentArea.Levels[0].LevelID}");
+        }
+    }
+
+
+    private void CleanOldButtons()
+    {
+        foreach (var button in _buttonObjects)
+        {
+            if (button != null) Destroy(button);
+        }
+        _buttonObjects.Clear();
+    }
+
+    private void CreateLevelButtons()
+    {
+        foreach (var levelData in CurrentArea.Levels)
+        {
+            GameObject buttonObj = Instantiate(LevelButtonPrefab, LevelParent);
+            _buttonObjects.Add(buttonObj);
+            
+            LevelButton levelButton = buttonObj.GetComponent<LevelButton>();
+            bool isUnlocked = UnlockedLevelIDs.Contains(levelData.LevelID);
+            
+            levelButton.Setup(levelData, isUnlocked);
+            
+            // 设置按钮名称用于调试
+            buttonObj.name = $"Button_{levelData.LevelID}";
+        }
+    }
+
+    public void UnlockNextLevel(string completedLevelID)
+    {
+        int currentIndex = CurrentArea.Levels.FindIndex(l => l.LevelID == completedLevelID);
+        if (currentIndex == -1 || currentIndex + 1 >= CurrentArea.Levels.Count) return;
+
+        LevelData nextLevel = CurrentArea.Levels[currentIndex + 1];
+        
+        if (!UnlockedLevelIDs.Contains(nextLevel.LevelID))
+        {
+            UnlockedLevelIDs.Add(nextLevel.LevelID);
+            UpdateButtonState(nextLevel);
+            SaveProgress();
+        }
+    }
+
+    private void UpdateButtonState(LevelData levelData)
+    {
+        var buttonObj = _buttonObjects.FirstOrDefault(b => 
+            b != null && 
+            b.name.EndsWith(levelData.LevelID));
+        
+        if (buttonObj != null)
+        {
+            buttonObj.GetComponent<LevelButton>().Unlock();
+        }
+    }
+
+    public void SaveProgress()
+    {
+        var gameData = new GameData
+        {
+            levels = CurrentArea.Levels
+                .Where(l => UnlockedLevelIDs.Contains(l.LevelID))
+                .Select(l => new LevelDataJson(l) { 
+                    // 强制保存实际解锁状态
+                    ISUnlockedByDefault = UnlockedLevelIDs.Contains(l.LevelID)
+                })
+                .ToList()
+        };
+    
+        JsonFileManager.SaveToJson(gameData, "GameData.json");
+    }
+
+    private void UpdateAreaHeader()
+    {
+        if (AreaHeaderText != null)
+        {
+            AreaHeaderText.text = CurrentArea.AreaName;
+        }
+    }
+
+    public void ReturnToLevelSelect()
+    {
+        SceneManager.LoadScene("LevelSelectScene");
+        InitializeLevelSystem(); // 重新初始化界面
+    }
 }
