@@ -27,29 +27,25 @@ public class LevelDataJson
 {
     public string LevelID;
     public bool ISUnlockedByDefault;
-    public string Scene; // 如果需要保存 SceneField 的信息
+    public string Scene;
     public string LevelName;
 
-    // 构造函数：从 LevelData 转换为 LevelDataJson
+    // 无参构造函数（用于 JSON 反序列化）
+    public LevelDataJson() 
+    {
+        // 空构造函数
+    }
+
+    // 带参构造函数（原功能保留）
     public LevelDataJson(LevelData level)
     {
-        
-        if (level == null)
-        {
-            Debug.LogError("LevelData is null!");
-            return;
-        }
-
+        if (level == null) return;
         LevelID = level.LevelID;
         ISUnlockedByDefault = level.ISUnlockedByDefault;
-
-        // 确保 Scene 不为 null
-        Scene = level.Scene?.SceneName ?? string.Empty; // 使用空合并运算符避免 NullReferenceException
-
-        LevelName = level.LevelName ?? string.Empty; // 同样处理 LevelName
+        Scene = level.Scene?.SceneName ?? string.Empty;
+        LevelName = level.LevelName ?? string.Empty;
     }
 }
-
 [System.Serializable]
 public class AreaDataJson
 {

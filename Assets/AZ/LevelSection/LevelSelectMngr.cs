@@ -51,29 +51,23 @@ public class LevelSelectMngr : MonoBehaviour
         UnlockedLevelIDs.Clear();
 
         // 1. 加载默认解锁的关卡
-        foreach (var level in CurrentArea.Levels)
+        foreach (var level in CurrentArea.Levels.Where(l => l.ISUnlockedByDefault))
         {
-            if (level.ISUnlockedByDefault)
-            {
-                UnlockedLevelIDs.Add(level.LevelID);
-                Debug.Log($"默认解锁: {level.LevelID}");
-            }
+            UnlockedLevelIDs.Add(level.LevelID);
+            Debug.Log($"默认解锁: {level.LevelID}");
         }
 
-        // 2. 加载存档数据
+        // 2. 加载存档数据（复用 ISUnlockedByDefault 字段）
         GameData savedData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         if (savedData != null)
         {
             foreach (var savedLevel in savedData.levels)
             {
-                // 关键修改：只处理标记为已解锁的关卡
-                if (savedLevel.ISUnlockedByDefault == true)
+                // 关键修改：只要存档中标记为 true 就解锁
+                if (savedLevel.ISUnlockedByDefault && !UnlockedLevelIDs.Contains(savedLevel.LevelID))
                 {
-                    if (!UnlockedLevelIDs.Contains(savedLevel.LevelID))
-                    {
-                        UnlockedLevelIDs.Add(savedLevel.LevelID);
-                        Debug.Log($"存档解锁: {savedLevel.LevelID}");
-                    }
+                    UnlockedLevelIDs.Add(savedLevel.LevelID);
+                    Debug.Log($"存档解锁: {savedLevel.LevelID}");
                 }
             }
         }
@@ -85,7 +79,6 @@ public class LevelSelectMngr : MonoBehaviour
             Debug.Log($"保底解锁: {CurrentArea.Levels[0].LevelID}");
         }
     }
-
 
     private void CleanOldButtons()
     {
@@ -119,15 +112,17 @@ public class LevelSelectMngr : MonoBehaviour
         if (currentIndex == -1 || currentIndex + 1 >= CurrentArea.Levels.Count) return;
 
         LevelData nextLevel = CurrentArea.Levels[currentIndex + 1];
-        
+    
+        // 更新内存中的解锁状态
         if (!UnlockedLevelIDs.Contains(nextLevel.LevelID))
         {
             UnlockedLevelIDs.Add(nextLevel.LevelID);
             UpdateButtonState(nextLevel);
-            SaveProgress();
         }
-    }
 
+        // 直接调用保存
+        SaveProgress();
+    }
     private void UpdateButtonState(LevelData levelData)
     {
         var buttonObj = _buttonObjects.FirstOrDefault(b => 
@@ -142,20 +137,21 @@ public class LevelSelectMngr : MonoBehaviour
 
     public void SaveProgress()
     {
-        var gameData = new GameData
-        {
-            levels = CurrentArea.Levels
-                .Where(l => UnlockedLevelIDs.Contains(l.LevelID))
-                .Select(l => new LevelDataJson(l) { 
-                    // 强制保存实际解锁状态
-                    ISUnlockedByDefault = UnlockedLevelIDs.Contains(l.LevelID)
-                })
-                .ToList()
-        };
+        var gameData = new GameData();
     
+        foreach (var level in CurrentArea.Levels)
+        {
+            bool isUnlocked = UnlockedLevelIDs.Contains(level.LevelID);
+        
+            // 正确使用带参构造函数
+            gameData.levels.Add(new LevelDataJson(level) 
+            { 
+                ISUnlockedByDefault = isUnlocked 
+            });
+        }
+
         JsonFileManager.SaveToJson(gameData, "GameData.json");
     }
-
     private void UpdateAreaHeader()
     {
         if (AreaHeaderText != null)

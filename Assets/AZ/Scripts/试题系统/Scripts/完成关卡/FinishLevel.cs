@@ -1,50 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class FinishLevel : MonoBehaviour
 {
-   public void Finish()
-   {
-      if (UIManager.Instance.GetScore() >= 0.8f)
-      {
-         LevelSelected();
-         LevelSelectMngr.Instance.UnlockNextLevel("1-1");
-         SceneManager.LoadScene("LevelSelection");
-      }
-      else
-      {
-         SceneManager.LoadScene("LevelSelection");
-      }
-   }
-
-
-   //通关后标记为true
-    private void LevelSelected()
+    public void Finish()
     {
-       GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
-    
-       if (gameData != null)
-       {
-          // 找到目标 LevelDataJson 对象
-          var targetLevel = gameData.levels.FirstOrDefault(l => l.Scene == SceneManager.GetActiveScene().name);
-    
-          if (targetLevel != null)
-          {
-             // 修改 ISUnlockedByDefault 值
-             targetLevel.ISUnlockedByDefault = true;
-    
-             Debug.Log($"Updated LevelID: {targetLevel.Scene}, ISUnlockedByDefault: {targetLevel.ISUnlockedByDefault}");
-    
-             // 保存修改后的数据回 JSON 文件
-             JsonFileManager.SaveToJson(gameData, "GameData.json");
-          }
-          else
-          {
-             Debug.LogWarning("Level with ID '关卡数据盒名字' not found!");
-          }
-       }
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string currentLevelID = currentSceneName.Replace("Level", ""); // 例如场景名 "Level1-1" → ID "1-1"
+        
+        // 标记当前关卡为完成
+        MarkLevelCompleted(currentLevelID);
+
+        // 解锁下一关
+        LevelSelectMngr.Instance.UnlockNextLevel(currentLevelID);
+        
+        // 强制保存进度
+        LevelSelectMngr.Instance.SaveProgress();
+
+        SceneManager.LoadScene("LevelSelection");
+    }
+
+    private void MarkLevelCompleted(string levelID)
+    {
+        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        if (gameData == null) return;
+
+        var targetLevel = gameData.levels.FirstOrDefault(l => l.LevelID == levelID);
+        if (targetLevel != null)
+        {
+            targetLevel.ISUnlockedByDefault = true;
+        }
+        else
+        {
+            // 使用无参构造函数 + 对象初始化器
+            gameData.levels.Add(new LevelDataJson
+            {
+                LevelID = levelID,
+                ISUnlockedByDefault = true,
+                Scene = SceneManager.GetActiveScene().path, // 使用场景路径
+                LevelName = "动态解锁的关卡" // 根据实际需要设置
+            });
+        }
+
+        JsonFileManager.SaveToJson(gameData, "GameData.json");
     }
 }

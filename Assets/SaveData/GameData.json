@@ -5,14 +5,56 @@
     {
       "LevelID": "1-1",
       "ISUnlockedByDefault": true,
-      "Scene": "Level1",
+      "Scene": "Level1-1",
       "LevelName": "114514"
     },
     {
       "LevelID": "1-2",
       "ISUnlockedByDefault": true,
-      "Scene": "Level1",
+      "Scene": "Level1-2",
       "LevelName": "2"
+    },
+    {
+      "LevelID": "1-3",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level1-3",
+      "LevelName": "3"
+    },
+    {
+      "LevelID": "1-4",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level1-4",
+      "LevelName": "4"
+    },
+    {
+      "LevelID": "1-5",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level1-5",
+      "LevelName": "5"
+    },
+    {
+      "LevelID": "1-6",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level1-6",
+      "LevelName": "6"
+    },
+    {
+      "LevelID": "1-7",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level1-7",
+      "LevelName": "7"
+    },
+    {
+      "LevelID": "1-8",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level1-8",
+      "LevelName": "8"
+    },
+    {
+      "LevelID": "1-9",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level1-9",
+      "LevelName": "9"
     }
   ],
   "volume": 1.0,
