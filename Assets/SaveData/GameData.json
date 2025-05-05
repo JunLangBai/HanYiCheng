@@ -1,6 +1,6 @@
 {
-  "placementClear": false,
-  "tutorialClear": false,
+  "placementClear": true,
+  "tutorialClear": true,
   "levels": [
     {
       "LevelID": "1-1",
@@ -16,13 +16,13 @@
     },
     {
       "LevelID": "1-3",
-      "ISUnlockedByDefault": true,
+      "ISUnlockedByDefault": false,
       "Scene": "Level1-3",
       "LevelName": "3"
     },
     {
       "LevelID": "1-4",
-      "ISUnlockedByDefault": true,
+      "ISUnlockedByDefault": false,
       "Scene": "Level1-4",
       "LevelName": "4"
     },
@@ -57,7 +57,7 @@
       "LevelName": "9"
     }
   ],
-  "volume": 1.0,
+  "volume": 0.473341554,
   "username": null,
   "profilePictureIndex": 0
 }

@@ -137,20 +137,45 @@ public class LevelSelectMngr : MonoBehaviour
 
     public void SaveProgress()
     {
-        var gameData = new GameData();
-    
+        // 加载现有存档或创建新存档
+        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        if (gameData == null)
+        {
+            gameData = new GameData
+            {
+                placementClear = false,  // 默认值
+                tutorialClear = false,
+                volume = 1.0f,
+                username = "",
+                profilePictureIndex = 0
+            };
+        }
+
+        // 更新当前区域关卡状态
         foreach (var level in CurrentArea.Levels)
         {
             bool isUnlocked = UnlockedLevelIDs.Contains(level.LevelID);
-        
-            // 正确使用带参构造函数
-            gameData.levels.Add(new LevelDataJson(level) 
-            { 
-                ISUnlockedByDefault = isUnlocked 
-            });
+            var targetLevel = gameData.levels.FirstOrDefault(l => l.LevelID == level.LevelID);
+
+            if (targetLevel != null)
+            {
+                targetLevel.ISUnlockedByDefault = isUnlocked;
+            }
+            else
+            {
+                gameData.levels.Add(new LevelDataJson(level)
+                {
+                    ISUnlockedByDefault = isUnlocked
+                });
+            }
         }
 
+        // 保留其他配置字段
         JsonFileManager.SaveToJson(gameData, "GameData.json");
+    
+        Debug.Log("进度保存完成，保留字段状态: " +
+                  $"placementClear={gameData.placementClear}, " +
+                  $"tutorialClear={gameData.tutorialClear}");
     }
     private void UpdateAreaHeader()
     {
@@ -160,9 +185,8 @@ public class LevelSelectMngr : MonoBehaviour
         }
     }
 
-    public void ReturnToLevelSelect()
+    public void ReturnToMainUI()
     {
-        SceneManager.LoadScene("LevelSelectScene");
-        InitializeLevelSystem(); // 重新初始化界面
+        SceneManager.LoadScene("MainUI");
     }
 }

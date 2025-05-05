@@ -145,7 +145,25 @@ public class UIManager : MonoBehaviour
             item.GetComponent<TextMeshProUGUI>().text = $"问题: {question.questionText}\n正确答案: {question.options[question.correctAnswerIndex].text}";
         }
 
-        scoreText.text = GetScore().ToString();
+        // 正确代码
+        var assessment = GetScore();
+        if (assessment >= 0.8f)
+        {
+            scoreText.text = "A";
+        }
+        else if (assessment >= 0.6f)
+        {
+            scoreText.text = "B";
+        }
+        else if (assessment >= 0.4f)
+        {
+            scoreText.text = "C";
+        }
+        else
+        {
+            scoreText.text = "D";
+        }
+        
     }
     
     /// <summary>
@@ -222,7 +240,9 @@ public class UIManager : MonoBehaviour
 
     public float GetScore()
     {
-       score = QuestionManager.Instance.GetWrongQuestions().Count / QuestionManager.Instance.questionData.questions.Count;
-       return score;
+        int totalQuestions = QuestionManager.Instance.questionData.questions.Count;
+        int correctCount = totalQuestions - QuestionManager.Instance.GetWrongQuestions().Count;
+        score = (float)correctCount / totalQuestions;
+        return score;
     }
 }

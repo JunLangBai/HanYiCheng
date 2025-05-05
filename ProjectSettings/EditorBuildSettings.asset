@@ -21,35 +21,32 @@ EditorBuildSettings:
     path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection.unity"
     guid: bff045eda088b48478736343c974cd63
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-1.unity"
     guid: 96d1a94b856abd845a94e1372c2040bd
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-2.unity"
-    guid: 8d7404de4e212d649ab653d1b4910b76
+    guid: 2678b66bec1268d46a0d27d57fcff6b2
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-3.unity"
-    guid: 23404e52c624cd346bed726c4e611ab9
+    guid: 88082bbaff9a92b45a3d701de0ddaa2b
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-4.unity"
-    guid: 5f90de663e276e6418b6db068b4b08bc
+    guid: 971ced8c202ecdb499b7b6cae58edda6
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-5.unity"
-    guid: 01fb9e4ec3e875f47b44b79bb93b6c02
+    guid: af3c21c53d5077641a0b2973edb724a9
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-6.unity"
-    guid: e116226a8702fc443a1ec8ce7478e140
+    guid: 72c80156f8c238346b0249e262eeed3e
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-7.unity"
-    guid: 8f9d844096d00304eacc52861e1e102f
+    guid: 3c8ab3886a6ef804a9d80f25611cca8e
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-8.unity"
-    guid: a2c69afc6ff110647a9bce88adde30a5
+    guid: 5a2d494e976d6e847919491c17b90156
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-9.unity"
-    guid: 2a00a4b37c618e3458ad0193d60aa39c
-  - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level10.unity"
-    guid: 5def80ff96d88374bb764349995295d2
+    guid: 117aabdb82682df49886ead3f990383a
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c0a2b93895e435b4cbdec5019eaea835, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c7b655f3f2581c0418299acd52c2893e, type: 2}
