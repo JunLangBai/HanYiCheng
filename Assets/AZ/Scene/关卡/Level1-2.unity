@@ -756,7 +756,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &400682779
 Canvas:
   m_ObjectHideFlags: 0
@@ -1688,7 +1688,7 @@ MonoBehaviour:
   summaryPanel: {fileID: 786798013}
   summaryContent: {fileID: 536830763}
   summaryItemPrefab: {fileID: 852697141229601544, guid: 1cacc68340261fd45bfcb74d4dbd5afb, type: 3}
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 1219761557}
   audioSource: {fileID: 898386527}
 --- !u!1 &1070665378
 GameObject:
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1070665383
 Canvas:
   m_ObjectHideFlags: 0
@@ -2270,7 +2270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6879f8686663e364197e6ca1438a0d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questionData: {fileID: 11400000, guid: ceedb4b3a5566164f969ac06618ef469, type: 2}
+  questionData: {fileID: 11400000, guid: 9d0b8fba254484941b044ac52abcf8a6, type: 2}
   selectedAnswerIndex: -1
 --- !u!4 &1640919134
 Transform:
