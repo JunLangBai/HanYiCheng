@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e465004f3232a2d4ebe7dad7c6e6330d, type: 3}
+  m_Name: 1-4
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 1c2a563bc62796c4eb706ea5cd5f2fd6, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 73a935a68c2d692498342ad641117b39, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    correctAnswerIndex: 3
+  - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: b6291b3069fe40c428a6e52137e8e826, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    correctAnswerIndex: 1
+  - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: f0d9c5e0968c5354581b5d5bc70b17ba, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
+    questionAudio: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    options:
+    - text: k
+      audioClip: {fileID: 0}
+    - text: kk
+      audioClip: {fileID: 0}
+    - text: g
+      audioClip: {fileID: 0}
+    - text: h
+      audioClip: {fileID: 0}
+    correctAnswerIndex: 0
+  - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
+    questionAudio: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    options:
+    - text: j
+      audioClip: {fileID: 0}
+    - text: ch
+      audioClip: {fileID: 0}
+    - text: g
+      audioClip: {fileID: 0}
+    - text: s
+      audioClip: {fileID: 0}
+    correctAnswerIndex: 1
+  - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
+    questionAudio: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    options:
+    - text: ch
+      audioClip: {fileID: 0}
+    - text: t
+      audioClip: {fileID: 0}
+    - text: k
+      audioClip: {fileID: 0}
+    - text: p
+      audioClip: {fileID: 0}
+    correctAnswerIndex: 3
+  - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
+    questionAudio: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    options:
+    - text: t
+      audioClip: {fileID: 0}
+    - text: tt
+      audioClip: {fileID: 0}
+    - text: pp
+      audioClip: {fileID: 0}
+    - text: b
+      audioClip: {fileID: 0}
+    correctAnswerIndex: 0
