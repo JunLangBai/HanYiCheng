@@ -8,6 +8,8 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public DateTime LastLoginUTC; // 使用UTC时间存储
+    public int LoginStreak;       // 连续登录天数
     //是否经过摸底
     public bool placementClear = false;
     //是否经过教程
