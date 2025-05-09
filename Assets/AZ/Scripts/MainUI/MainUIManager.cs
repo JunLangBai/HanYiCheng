@@ -11,6 +11,7 @@ public class MainUIManager : MonoBehaviour
 {
     public TextMeshProUGUI nowLevels;
     public TextMeshProUGUI attendance;
+    public TextMeshProUGUI nowTime;
     
     public Button _button;
     
@@ -28,6 +29,9 @@ public class MainUIManager : MonoBehaviour
         SaveGameData(gameData);
 
         attendance.text = "连续学习天数：" + gameData.LoginStreak + "天";
+        
+        // 使用协程实现每秒更新（更高效）
+        StartCoroutine(UpdateTime());
     }
     
     void SaveGameData(GameData data)
@@ -37,7 +41,10 @@ public class MainUIManager : MonoBehaviour
 
     void CheckDailyLogin(ref GameData gameData)
     {
-        DateTime currentUTC = DateTime.UtcNow;
+        // 定义中国时区（Windows系统用"China Standard Time"，Linux/macOS用"Asia/Shanghai"）
+        TimeZoneInfo chinaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+        DateTime utcTime = DateTime.UtcNow;
+        DateTime currentUTC = TimeZoneInfo.ConvertTimeFromUtc(utcTime, chinaTimeZone);
         
         // 首次登录初始化
         if (gameData.LastLoginUTC == default)
@@ -47,7 +54,6 @@ public class MainUIManager : MonoBehaviour
             gameData.LastLoginUTC = currentUTC;
             return;
         }
-
         // 计算时间差（只比较日期部分）
         DateTime lastDate = gameData.LastLoginUTC.Date;
         DateTime currentDate = currentUTC.Date;
@@ -103,5 +109,19 @@ public class MainUIManager : MonoBehaviour
 
         // 所有关卡都已解锁，返回最后一个
         return gameData.levels.LastOrDefault();
+    }
+    
+    IEnumerator UpdateTime()
+    {
+        // 定义中国时区（Windows系统用"China Standard Time"，Linux/macOS用"Asia/Shanghai"）
+        TimeZoneInfo chinaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+
+        while (true)
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            DateTime chinaTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, chinaTimeZone);
+            nowTime.text = chinaTime.ToString("f"); // 格式化输出
+            yield return new WaitForSeconds(1);
+        }
     }
 }

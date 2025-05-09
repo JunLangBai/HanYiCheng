@@ -32,5 +32,5 @@ Material:
     - _Size: 10
     m_Colors:
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MousePos: {r: 2183.9375, g: 391.11115, b: 0, a: 0}
+    - _MousePos: {r: 1484.3065, g: 939.63135, b: 0, a: 0}
   m_BuildTextureStacks: []
