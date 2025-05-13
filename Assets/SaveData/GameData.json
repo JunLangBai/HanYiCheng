@@ -42,7 +42,7 @@
     },
     {
       "LevelID": "1-7",
-      "ISUnlockedByDefault": false,
+      "ISUnlockedByDefault": true,
       "Scene": "Level1-7",
       "LevelName": "7"
     },

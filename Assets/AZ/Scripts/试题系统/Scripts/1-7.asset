@@ -1,0 +1,262 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e465004f3232a2d4ebe7dad7c6e6330d, type: 3}
+  m_Name: 1-7
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 6cd519426fc39364682e4d46d7eb22a3, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    - text: d
+      audioClip: {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: e26c2bae7a3231c4bab556e5618d1a4a, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    - text: d
+      audioClip: {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    - text: tt
+      audioClip: {fileID: 8300000, guid: 115cba1653675ca41adf20539956f4d2, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 29b4ab9d2a27cb64b825ef2f90e67f9d, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    - text: n
+      audioClip: {fileID: 8300000, guid: 2c1af64273b6ca74d94c233eeeb2c0e7, type: 3}
+    - text: d
+      audioClip: {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    correctAnswerIndex: 1
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 67e8a5170ac197f43a3cafa264513bae, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    - text: n
+      audioClip: {fileID: 8300000, guid: 2c1af64273b6ca74d94c233eeeb2c0e7, type: 3}
+    - text: d
+      audioClip: {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 87e8c133925a05c419231c3db59b8843, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: tt
+      audioClip: {fileID: 8300000, guid: 115cba1653675ca41adf20539956f4d2, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: d
+      audioClip: {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 5b5f066749d6e0c47a6f9860a72f4bed, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ng
+      audioClip: {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    - text: r
+      audioClip: {fileID: 8300000, guid: 29984815d0c97854bb44c0f98fde091f, type: 3}
+    - text: b
+      audioClip: {fileID: 8300000, guid: 92a94c1e2742d0d42bec8adf4c54ebdd, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 0118f9a99dd573e42877c80a5b885902, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: ng
+      audioClip: {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    - text: b
+      audioClip: {fileID: 8300000, guid: 92a94c1e2742d0d42bec8adf4c54ebdd, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 8066b41ad2a2fc54ab0a0b42d62d49d1, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: b
+      audioClip: {fileID: 8300000, guid: 92a94c1e2742d0d42bec8adf4c54ebdd, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    - text: s
+      audioClip: {fileID: 8300000, guid: 53f3b410d82b85049a3712b44461bf93, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 0708efe91188bf84697121997e4a8a3f, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: b
+      audioClip: {fileID: 8300000, guid: 92a94c1e2742d0d42bec8adf4c54ebdd, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    - text: pp
+      audioClip: {fileID: 8300000, guid: d8d6b396aa97cad44bd33c7fc62ea349, type: 3}
+    correctAnswerIndex: 3
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: e4850ee2cee96c243b885383259ae894, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: s
+      audioClip: {fileID: 8300000, guid: 53f3b410d82b85049a3712b44461bf93, type: 3}
+    - text: ss
+      audioClip: {fileID: 8300000, guid: 511e8cf6aa828b043abc72cd75b9bb69, type: 3}
+    - text: jj
+      audioClip: {fileID: 8300000, guid: ad968956cda00b34b98f0ded93df3bbd, type: 3}
+    correctAnswerIndex: 1
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 7659bf8804e67ad4fa49cf0313181fc5, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: s
+      audioClip: {fileID: 8300000, guid: 53f3b410d82b85049a3712b44461bf93, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    - text: ss
+      audioClip: {fileID: 8300000, guid: 511e8cf6aa828b043abc72cd75b9bb69, type: 3}
+    correctAnswerIndex: 3
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 3265b965b3c94e441977b46ed1dd3e9f, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    - text: ng
+      audioClip: {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 42a784569e5fe15478f8d72c938e95b6, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: jj
+      audioClip: {fileID: 8300000, guid: ad968956cda00b34b98f0ded93df3bbd, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: f64a399b855b3504bbd8f11cef36cc5c, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: jj
+      audioClip: {fileID: 8300000, guid: ad968956cda00b34b98f0ded93df3bbd, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 1
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 1c2a563bc62796c4eb706ea5cd5f2fd6, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: j
+      audioClip: {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
+    - text: jj
+      audioClip: {fileID: 8300000, guid: ad968956cda00b34b98f0ded93df3bbd, type: 3}
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 3
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: b6291b3069fe40c428a6e52137e8e826, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: g
+      audioClip: {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 2
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: f0d9c5e0968c5354581b5d5bc70b17ba, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: kk
+      audioClip: {fileID: 8300000, guid: 4a2e75f92044a9d46b86fc0a20369b0a, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 73a935a68c2d692498342ad641117b39, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: p
+      audioClip: {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
+    - text: t
+      audioClip: {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: ch
+      audioClip: {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
+    correctAnswerIndex: 0
+  - questionText: "\u8F85\u97F3\u590D\u4E60\uFF1A\u8FD9\u4E2A\u600E\u4E48\u8BFB"
+    image: {fileID: 21300000, guid: 08347c6bd1bbce24db4cc41a446e82a9, type: 3}
+    questionAudio: {fileID: 0}
+    options:
+    - text: m
+      audioClip: {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
+    - text: on
+      audioClip: {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
+    - text: k
+      audioClip: {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
+    - text: h
+      audioClip: {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+    correctAnswerIndex: 3
