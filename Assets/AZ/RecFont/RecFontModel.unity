@@ -122,6 +122,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &310602322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 310602324}
+  - component: {fileID: 310602323}
+  m_Layer: 0
+  m_Name: server_py
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &310602323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310602322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pythonExecutable: D:\ANACONDA\python.exe
+  serverScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
+--- !u!4 &310602324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310602322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 44.578236, y: 75.421196, z: 307.30017}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &422446512
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +204,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150.14, y: 22.1}
-  m_SizeDelta: {x: 112.9517, y: 30.7643}
+  m_AnchoredPosition: {x: -91, y: 38}
+  m_SizeDelta: {x: 97.712, y: 29.0849}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &422446514
 MonoBehaviour:
@@ -430,6 +476,7 @@ GameObject:
   - component: {fileID: 997182884}
   - component: {fileID: 997182886}
   - component: {fileID: 997182885}
+  - component: {fileID: 997182887}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -553,6 +600,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997182883}
   m_CullTransparentMesh: 1
+--- !u!114 &997182887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997182883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pythonExecutable: D:\ANACONDA\python.exe
+  serverScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
 --- !u!1 &1220981471
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,8 +819,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -143.3, y: 65.3}
-  m_SizeDelta: {x: 126.6293, y: 41.018}
+  m_AnchoredPosition: {x: -84.574, y: 73.051}
+  m_SizeDelta: {x: 110.5634, y: 41.018}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1408237182
 MonoBehaviour:
@@ -783,8 +844,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8BC6\u522B\u7684\u7ED3\u679C\u662F\uFF1A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
-  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
+  m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -892,7 +953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.8544, y: 34.6434}
+  m_AnchoredPosition: {x: 59, y: 51.632}
   m_SizeDelta: {x: 145.1007, y: 142.1782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1502460295
@@ -966,7 +1027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150.14, y: -17.2}
+  m_AnchoredPosition: {x: -91, y: 0}
   m_SizeDelta: {x: 97.713, y: 25.7965}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743659524
@@ -1287,7 +1348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 195.32901, y: 44.888}
+  m_AnchoredPosition: {x: 176, y: 32}
   m_SizeDelta: {x: 646.0696, y: 404.5612}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807
@@ -1299,3 +1360,4 @@ SceneRoots:
   - {fileID: 1941142071}
   - {fileID: 1220981474}
   - {fileID: 690929270}
+  - {fileID: 310602324}

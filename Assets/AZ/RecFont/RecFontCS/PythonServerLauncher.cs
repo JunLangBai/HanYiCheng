@@ -7,42 +7,55 @@ public class PythonServerLauncher : MonoBehaviour
     private Process serverProcess;
 
     public string pythonExecutable = @"D:\ANACONDA\python.exe";
-    public string serverScriptPath = Path.GetFullPath("server.py");
+    public string serverScriptPath = @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py";
+
+    private bool isRunning = false;
 
     void Start()
     {
-        StartPythonServer();
+        if (!isRunning)
+        {
+            StartPythonServer();
+        }
     }
 
     void StartPythonServer()
     {
         if (!File.Exists(serverScriptPath))
         {
-            UnityEngine.Debug.LogError("找不到 server.py 脚本！");
+            UnityEngine.Debug.LogError($"❌ 找不到 Python 脚本路径: {serverScriptPath}");
             return;
         }
 
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
             FileName = pythonExecutable,
-            Arguments = serverScriptPath,
+            Arguments = $"\"{serverScriptPath}\"",  // 注意加引号以防路径中有空格
+            WorkingDirectory = Path.GetDirectoryName(serverScriptPath),  // 设置正确目录
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
             RedirectStandardError = true
         };
+
+
         startInfo.EnvironmentVariables["PYTHONIOENCODING"] = "utf-8";
+
         serverProcess = new Process();
         serverProcess.StartInfo = startInfo;
 
         try
         {
             serverProcess.Start();
-            UnityEngine.Debug.Log("Python 服务器已启动。");
+            serverProcess.BeginOutputReadLine();
+            serverProcess.BeginErrorReadLine();
+
+            isRunning = true;
+            UnityEngine.Debug.Log("✅ Python Flask 服务已启动！");
         }
         catch (System.Exception ex)
         {
-            UnityEngine.Debug.LogError("启动 Python 服务器失败: " + ex.Message);
+            UnityEngine.Debug.LogError("❌ 启动 Python 服务失败: " + ex.Message);
         }
     }
 
@@ -51,7 +64,7 @@ public class PythonServerLauncher : MonoBehaviour
         if (serverProcess != null && !serverProcess.HasExited)
         {
             serverProcess.Kill();
-            UnityEngine.Debug.Log("Python 服务器已关闭。");
+            UnityEngine.Debug.Log("🔚 Python 服务已关闭");
         }
     }
 }

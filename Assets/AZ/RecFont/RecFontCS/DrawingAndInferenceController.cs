@@ -25,8 +25,8 @@ public class DrawingAndInferenceController : MonoBehaviour
 
         if (drawingTexture != null)
         {
-            string imagePath = Path.Combine(Application.dataPath, @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\temp.jpg");
-            string resultPath = Path.Combine(Application.dataPath, @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\result.txt");
+            string imagePath = Application.dataPath + "/AZ/RecFont/temp.jpg";
+            string resultPath = Application.dataPath + "/AZ/RecFont/result.txt";
 
             // 删除旧的结果文件
             if (File.Exists(resultPath))
