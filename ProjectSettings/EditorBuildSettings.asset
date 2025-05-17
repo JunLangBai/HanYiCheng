@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/AZ/Scene/MainUI.unity
     guid: 9706fc31f64024947bee1c29e2fe83d3
   - enabled: 1
-    path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection.unity"
+    path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection1.unity"
     guid: bff045eda088b48478736343c974cd63
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-1.unity"
@@ -59,6 +59,15 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-5.unity"
     guid: b2596ccefca9c1144806867395fc56af
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-1.unity"
+    guid: f13623e3317e20c4b88a05cb0db52bf3
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection2.unity"
+    guid: 58751ba0c3225f747ab141f029872cad
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u9009\u5173/TotalLevel.unity"
+    guid: bb7b60188324283469413c79cbb49120
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c0a2b93895e435b4cbdec5019eaea835, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c7b655f3f2581c0418299acd52c2893e, type: 2}
