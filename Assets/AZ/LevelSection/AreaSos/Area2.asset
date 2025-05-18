@@ -15,9 +15,5 @@ MonoBehaviour:
   AreaName: "\u7B2C\u4E8C\u7AE0"
   Levels:
   - {fileID: 11400000, guid: 9db1e5b46ea8c3740ad7770ca4a5dd40, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 50dda024f87c0c8409969a4b096117f5, type: 2}
+  - {fileID: 11400000, guid: ebc2fe97027bd1a41831a72ccc24d4e0, type: 2}

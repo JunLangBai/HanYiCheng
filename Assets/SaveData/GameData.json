@@ -63,6 +63,12 @@
       "ISUnlockedByDefault": true,
       "Scene": "Assets/AZ/Scene/关卡/Level1-2 1.unity",
       "LevelName": "动态解锁的关卡"
+    },
+    {
+      "LevelID": "2-1",
+      "ISUnlockedByDefault": true,
+      "Scene": "Assets/AZ/Scene/关卡/Level2-1.unity",
+      "LevelName": "动态解锁的关卡"
     }
   ],
   "volume": 0.188949883,
