@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalRotation.w
@@ -577,8 +577,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184.92, y: 100}
-  m_SizeDelta: {x: 985.1, y: 319.65}
+  m_AnchoredPosition: {x: -227, y: 196}
+  m_SizeDelta: {x: 907.63, y: 319.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1053418424
 MonoBehaviour:
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7B2C\u4E00\u8BFE\uFF1A\u5355\u5143\u97F3\u4E0E\u8F85\u97F3\u201C\u3147\u201D\r\n\r\n\u97E9\u6587\u4ECB\u7ECD\uFF1A\r\n\u97E9\u56FD\u7684\u6587\u5B57\u2014\u97E9\u6587\uFF08\uD55C\uAE00\uFF09\u8BDE\u751F\u4E8E1446\u5E74\uFF0C\u7531\u4E16\u5B97\u5927\u738B\u521B\u5236\uFF0C\u662F\u8868\u97F3\u6587\u5B57\u3002\u97E9\u6587\u7531\u8F85\u97F3\u548C\u5143\u97F3\u3001\u6536\u97F3\u76F8\u7EC4\u5408\u6784\u6210\uFF0C\u5143\u97F3\u670921\u4E2A\uFF0C\u8F85\u97F3\u670919\u4E2A\uFF0C\u6536\u97F3\u670927\u4E2A\u3002\r\n\r\n\u53D1\u97F3\u89C4\u5219\uFF1A\r\n\r\n\u5F53\u3147\u4F4D\u4E8E\u5143\u97F3\u524D\u65F6\uFF0C\u4E0D\u53D1\u97F3\uFF08\u5982\uC544\u8BFB\u4F5C[a]\uFF09\r\n\r\n\u5F53\u3147\u4F4D\u4E8E\u97F3\u8282\u672B\u5C3E\u65F6\uFF0C\u53D1[\u014B]\u97F3\uFF08\u5982\uAC15\u8BFB\u4F5C[ga\u014B]\uFF09\r\n\r\n\u3147\u4E0D\u80FD\u5355\u72EC\u6210\u5B57\uFF0C\u5FC5\u987B\u4E0E\u5143\u97F3\u7EC4\u5408"
+  m_text: "\u7B2C\u4E00\u8BFE\uFF1A\u5355\u5143\u97F3\u4E0E\u8F85\u97F3\u201C\u3147\u201D\r\n\r\n\u97E9\u6587\u4ECB\u7ECD\uFF1A\r\n\u97E9\u56FD\u7684\u6587\u5B57\u2014\u97E9\u6587\uFF08\uD55C\uAE00\uFF09\u8BDE\u751F\u4E8E1446\u5E74\uFF0C\u7531\u4E16\u5B97\u5927\u738B\u521B\u5236\uFF0C\u662F\u8868\u97F3\u6587\u5B57\u3002\u97E9\u6587\u7531\u8F85\u97F3\u548C\u5143\u97F3\u3001\u6536\u97F3\u76F8\u7EC4\u5408\u6784\u6210\uFF0C\u5143\u97F3\u670921\u4E2A\uFF0C\u8F85\u97F3\u670919\u4E2A\uFF0C\u6536\u97F3\u670927\u4E2A\u3002\r\n\r\n\u53D1\u97F3\u89C4\u5219\uFF1A\r\n\n\u5F53\u3147\u4F4D\u4E8E\u5143\u97F3\u524D\u65F6\uFF0C\u4E0D\u53D1\u97F3\uFF08\u5982\uC544\u8BFB\u4F5C[a]\uFF09\r\n\u5F53\u3147\u4F4D\u4E8E\u97F3\u8282\u672B\u5C3E\u65F6\uFF0C\u53D1[\u014B]\u97F3\uFF08\u5982\uAC15\u8BFB\u4F5C[ga\u014B]\uFF09\r\n\u3147\u4E0D\u80FD\u5355\u72EC\u6210\u5B57\uFF0C\u5FC5\u987B\u4E0E\u5143\u97F3\u7EC4\u5408"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
@@ -627,8 +627,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -711,8 +711,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -678, y: 336}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -675, y: -325}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1099356022
 MonoBehaviour:
@@ -846,15 +846,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.64705884, g: 0.64705884, b: 0.64705884, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 139ff86c4775c10498bda9158ead62be, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1180,8 +1180,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
+    m_PressedColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
