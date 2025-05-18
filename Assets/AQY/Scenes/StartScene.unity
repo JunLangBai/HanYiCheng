@@ -677,6 +677,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616a42ddaf633c741b3e4ea59e88e262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 1941997899}
+  eventCamera: {fileID: 271829229}
 --- !u!1 &478468980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1201,7 @@ PrefabInstance:
       objectReference: {fileID: 271829229}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.0164
       objectReference: {fileID: 0}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1560,6 +1562,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635354706}
   m_CullTransparentMesh: 1
+--- !u!4 &1941997899 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
+  m_PrefabInstance: {fileID: 1172945795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2002157300
 GameObject:
   m_ObjectHideFlags: 0
