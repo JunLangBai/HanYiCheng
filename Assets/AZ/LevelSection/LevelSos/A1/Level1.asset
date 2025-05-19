@@ -15,6 +15,6 @@ MonoBehaviour:
   LevelID: 1-1
   ISUnlockedByDefault: 1
   Scene:
-    m_SceneAsset: {fileID: 102900000, guid: 5d7cc95e373fb9c47a7983b33c35675e, type: 3}
-    m_SceneName: Level1-7
+    m_SceneAsset: {fileID: 102900000, guid: 96d1a94b856abd845a94e1372c2040bd, type: 3}
+    m_SceneName: Level1-1
   LevelName: 114514

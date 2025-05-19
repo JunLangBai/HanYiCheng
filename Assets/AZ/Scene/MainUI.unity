@@ -1142,8 +1142,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 453305383}
-        m_TargetAssemblyTypeName: StartChallenge, Assembly-CSharp
-        m_MethodName: StartStudy
+        m_TargetAssemblyTypeName: ScenesLoaderMgr, Assembly-CSharp
+        m_MethodName: BackScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1162,9 +1162,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 453305378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3de1653748842e4cadf7e8adab0937b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneName: TotalLevel
 --- !u!1 &479032086
 GameObject:
   m_ObjectHideFlags: 0

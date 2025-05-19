@@ -44,7 +44,7 @@ public class QuestionManager : MonoBehaviour
             Debug.LogError($"无效的题目索引：{currentQuestionIndex}，总题数：{questionData.questions.Count}");
             return null;
         }
-    
+        
         return questionData.questions[currentQuestionIndex];
     }
 

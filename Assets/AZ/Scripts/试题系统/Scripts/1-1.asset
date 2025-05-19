@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questions:
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: dceb1089b6461164d9eeb26574bdf4fb, type: 3}
     options:
     - text: ya
@@ -27,7 +27,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 2
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: d910c9f4b918be34783ac3bc577163cd, type: 3}
     options:
     - text: i
@@ -66,7 +66,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 0
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: 89f3d4ee773a3fa409ed19338e84b663, type: 3}
     options:
     - text: yeo
@@ -92,7 +92,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 2
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: d2c09e33bff3c724abe1fefb1c28cfea, type: 3}
     options:
     - text: yeo
@@ -105,7 +105,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 1
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: fd67f9c8c1d923f4abf21fb20a890e8c, type: 3}
     options:
     - text: ye
@@ -144,7 +144,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 2
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: 36dccb00237b57f4eaa524c19b52d23e, type: 3}
     options:
     - text: a
@@ -170,7 +170,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 0
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: e486038768a678441912b140584e139b, type: 3}
     options:
     - text: yeo
@@ -183,7 +183,7 @@ MonoBehaviour:
       audioClip: {fileID: 0}
     correctAnswerIndex: 3
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
-    image: {fileID: 21300000, guid: fd30afab859581246b9ba7593ee3c10c, type: 3}
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
     questionAudio: {fileID: 8300000, guid: 00a5324dce7df1244bc4b9217b4f701d, type: 3}
     options:
     - text: eu
