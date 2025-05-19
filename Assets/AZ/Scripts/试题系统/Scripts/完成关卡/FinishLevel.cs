@@ -23,7 +23,7 @@ public class FinishLevel : MonoBehaviour
         // 强制保存进度
         LevelSelectMngr.Instance.SaveProgress();
 
-        SceneManager.LoadScene("LevelSelection");
+        SceneManager.LoadScene("LevelSelection1");
     }
 
     private void MarkLevelCompleted(string levelID)

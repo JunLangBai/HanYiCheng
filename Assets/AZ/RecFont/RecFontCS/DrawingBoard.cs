@@ -25,22 +25,37 @@ public class DrawingBoard : MonoBehaviour
 
     void Update()
     {
+        Vector2 currentCoord = GetTextureCoord();
+        bool isValidCoord = IsValidCoordinate(currentCoord);
+
         if (Input.GetMouseButtonDown(0))
         {
-            isDrawing = true;
-            previousMousePos = GetTextureCoord();
-            DrawCircle(previousMousePos, brushSize);
-            UpdateTexture();
+            // 仅在有效坐标时开始绘制
+            if (isValidCoord)
+            {
+                isDrawing = true;
+                previousMousePos = currentCoord;
+                DrawCircle(previousMousePos, brushSize);
+                UpdateTexture();
+            }
+            else
+            {
+                isDrawing = false; // 确保点击外部不开始绘制
+            }
         }
         else if (Input.GetMouseButton(0) && isDrawing)
         {
-            Vector2 currentMousePos = GetTextureCoord();
-            
-            // 只在鼠标移动了一定距离后才绘制，避免重复绘制相同位置
-            if (Vector2.Distance(currentMousePos, previousMousePos) > 0.1f)
+            // 如果当前坐标无效，停止绘制
+            if (!isValidCoord)
             {
-                DrawLine(previousMousePos, currentMousePos);
-                previousMousePos = currentMousePos;
+                isDrawing = false;
+                return;
+            }
+
+            if (Vector2.Distance(currentCoord, previousMousePos) > 0.1f)
+            {
+                DrawLine(previousMousePos, currentCoord);
+                previousMousePos = currentCoord;
                 UpdateTexture();
             }
         }
@@ -49,45 +64,47 @@ public class DrawingBoard : MonoBehaviour
             isDrawing = false;
         }
     }
-
     // 获取鼠标在纹理上的坐标
     Vector2 GetTextureCoord()
     {
         Vector2 mousePos = Input.mousePosition;
         Vector2 localPoint;
         
-        // 转换屏幕坐标到UI的本地坐标
         bool success = RectTransformUtility.ScreenPointToLocalPointInRectangle(
             drawingImage.rectTransform, 
             mousePos, 
             uiCamera, 
             out localPoint);
 
-        if (!success) return Vector2.negativeInfinity;
+        // 如果转换失败，返回无效坐标
+        if (!success) return new Vector2(-1, -1);
 
-        // 获取UI元素的尺寸
         Rect rect = drawingImage.rectTransform.rect;
         float width = rect.width;
         float height = rect.height;
 
-        // 转换为UV坐标（0到1范围）
         Vector2 uv = new Vector2(
             (localPoint.x + width * 0.5f) / width,
             (localPoint.y + height * 0.5f) / height
         );
 
-        // 转换为纹理坐标
-        int texX = Mathf.Clamp((int)(uv.x * drawingTexture.width), 0, drawingTexture.width - 1);
-        int texY = Mathf.Clamp((int)(uv.y * drawingTexture.height), 0, drawingTexture.height - 1);
+        // 直接判断UV是否在0-1范围内
+        if (uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1)
+            return new Vector2(-1, -1);
 
+        int texX = Mathf.FloorToInt(uv.x * drawingTexture.width);
+        int texY = Mathf.FloorToInt(uv.y * drawingTexture.height);
+        
         return new Vector2(texX, texY);
     }
+
 
     bool IsValidCoordinate(Vector2 coord)
     {
         return coord.x >= 0 && coord.x < drawingTexture.width && 
                coord.y >= 0 && coord.y < drawingTexture.height;
     }
+
 
     // 绘制圆形画笔
     void DrawCircle(Vector2 center, float radius)

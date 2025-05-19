@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/AZ/Scene/MainUI.unity
     guid: 9706fc31f64024947bee1c29e2fe83d3
   - enabled: 1
+    path: "Assets/AZ/Scene/\u70B9\u8BFB\u673A/ReadAfter.unity"
+    guid: ac6ee94b855583c40bc81721efab01be
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u70B9\u8BFB\u673A/\u6559\u5B66\u573A\u666F/Reader1.unity"
+    guid: 3aa2630d73630e248b12e8b2ca6a36a7
+  - enabled: 1
     path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection1.unity"
     guid: bff045eda088b48478736343c974cd63
   - enabled: 1

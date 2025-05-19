@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartChallenge : MonoBehaviour
+public class TotalLevelSelection : MonoBehaviour
 {
-   public void StartStudy()
+   public void LevelSelection1()
    {
       SceneManager.LoadScene("LevelSelection1");
+   }
+   
+   public void LevelSelection2()
+   {
+      SceneManager.LoadScene("LevelSelection2");
    }
 }
