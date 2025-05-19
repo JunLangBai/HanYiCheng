@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 1039235687}
   - component: {fileID: 1039235686}
   - component: {fileID: 1039235685}
+  - component: {fileID: 1039235688}
   m_Layer: 5
   m_Name: "\u8FD4\u56DE\u4E3B\u754C\u9762"
   m_TagString: Untagged
@@ -343,9 +344,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1695380162}
-        m_TargetAssemblyTypeName: LevelSelectMngr, Assembly-CSharp
-        m_MethodName: ReturnToMainUI
+      - m_Target: {fileID: 1039235688}
+        m_TargetAssemblyTypeName: ScenesLoaderMgr, Assembly-CSharp
+        m_MethodName: BackScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -393,6 +394,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039235683}
   m_CullTransparentMesh: 1
+--- !u!114 &1039235688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039235683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: TotalLevel
 --- !u!1001 &1113761327
 PrefabInstance:
   m_ObjectHideFlags: 0

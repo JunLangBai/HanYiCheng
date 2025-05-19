@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     /// <param name="question">要加载的题目数据</param>
     void LoadQuestion(Question question)
     {
+        Debug.Log("LoadQuestion"+question);
         if (question == null)
         {
             Debug.LogError("尝试加载空题目！");
