@@ -8,8 +8,8 @@ using System.Text;
 
 public class PythonScriptRunner : MonoBehaviour
 {
-    public string pythonScriptPath = @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py";
-    public string imagePath = @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\temp.jpg";
+    public string pythonScriptPath = "/AZ/RecFont/server.py";
+    public string imagePath = "/AZ/RecFont/temp.jpg";
     public string pythonOutput = "";
     
     
@@ -53,7 +53,7 @@ public class PythonScriptRunner : MonoBehaviour
     
     public string RunPythonScript()
     {
-        string pythonExecutable = @"D:\\ANACONDA\\python.exe";
+        string pythonExecutable = "/StreamingAssets/Fonts/python.exe";
         string arguments = $"{pythonScriptPath} {imagePath}";
 
         ProcessStartInfo startInfo = new ProcessStartInfo

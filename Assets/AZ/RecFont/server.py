@@ -1,4 +1,4 @@
-﻿
+﻿# -*- coding: utf-8 -*-
 
 from flask import Flask, request, jsonify
 import numpy as np

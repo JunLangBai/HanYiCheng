@@ -25,9 +25,10 @@ public class DrawingAndInferenceController : MonoBehaviour
 
         if (drawingTexture != null)
         {
-            string imagePath = Application.dataPath + "/AZ/RecFont/temp.jpg";
-            string resultPath = Application.dataPath + "/AZ/RecFont/result.txt";
-
+            string imagePath = Application.dataPath + "/AZ/RecFont/dist/temp.jpg";
+            string resultPath = Application.dataPath + "/AZ/RecFont/dist/result.txt";
+            //UnityEngine.Debug.LogError($"Python 脚本路径: {imagePath}");
+            //UnityEngine.Debug.LogError($"serverScriptPath 脚本路径: {resultPath}");
             // 删除旧的结果文件
             if (File.Exists(resultPath))
             {

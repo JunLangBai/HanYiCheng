@@ -6,15 +6,18 @@ public class PythonServerLauncher : MonoBehaviour
 {
     private Process serverProcess;
 
-    public string pythonExecutable;
-    public string serverScriptPath;
+    // 改为只需要 exe 路径
+    public string exePath;
 
     private bool isRunning = false;
 
     void Start()
-    {   
-        pythonExecutable =  Application.dataPath + @"\StreamingAssets\Fonts\python.exe";
-        serverScriptPath = Application.dataPath + @"\AZ\RecFont\server.py";
+    {
+        // 修改为你的 .exe 路径（推荐放在 StreamingAssets 或其他路径）
+        exePath = Application.dataPath + "/AZ/RecFont/dist/server.exe";
+
+        UnityEngine.Debug.LogError($"EXE 路径: {exePath}");
+
         if (!isRunning)
         {
             StartPythonServer();
@@ -23,25 +26,21 @@ public class PythonServerLauncher : MonoBehaviour
 
     void StartPythonServer()
     {
-        if (!File.Exists(serverScriptPath))
+        if (!File.Exists(exePath))
         {
-            UnityEngine.Debug.LogError($"❌ 找不到 Python 脚本路径: {serverScriptPath}");
+            UnityEngine.Debug.LogError($"❌ 找不到可执行文件: {exePath}");
             return;
         }
 
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
-            FileName = pythonExecutable,
-            Arguments = $"\"{serverScriptPath}\"",  // 注意加引号以防路径中有空格
-            WorkingDirectory = Path.GetDirectoryName(serverScriptPath),  // 设置正确目录
+            FileName = exePath,
+            WorkingDirectory = Path.GetDirectoryName(exePath),
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
             RedirectStandardError = true
         };
-
-
-        startInfo.EnvironmentVariables["PYTHONIOENCODING"] = "utf-8";
 
         serverProcess = new Process();
         serverProcess.StartInfo = startInfo;
@@ -53,11 +52,11 @@ public class PythonServerLauncher : MonoBehaviour
             serverProcess.BeginErrorReadLine();
 
             isRunning = true;
-            UnityEngine.Debug.Log("✅ Python Flask 服务已启动！");
+            UnityEngine.Debug.Log("✅ EXE 服务已启动！");
         }
         catch (System.Exception ex)
         {
-            UnityEngine.Debug.LogError("❌ 启动 Python 服务失败: " + ex.Message);
+            UnityEngine.Debug.LogError("❌ 启动 EXE 服务失败: " + ex.Message);
         }
     }
 
@@ -66,7 +65,7 @@ public class PythonServerLauncher : MonoBehaviour
         if (serverProcess != null && !serverProcess.HasExited)
         {
             serverProcess.Kill();
-            UnityEngine.Debug.Log("🔚 Python 服务已关闭");
+            UnityEngine.Debug.Log("🔚 服务已关闭");
         }
     }
 }

@@ -2068,8 +2068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c767d5bafb2c044ace5d68f61581d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pythonScriptPath: \AZ\RecFont\server.py
-  imagePath: \AZ\RecFont\temp.jpg
+  pythonScriptPath: ..\AZ\RecFont\server.py
+  imagePath: ..\AZ\RecFont\temp.jpg
   pythonOutput: 
 --- !u!114 &1269417946
 MonoBehaviour:
@@ -3248,7 +3248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1802263922}
-  - component: {fileID: 1802263921}
+  - component: {fileID: 1802263923}
   m_Layer: 0
   m_Name: server_py
   m_TagString: Untagged
@@ -3256,20 +3256,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1802263921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802263920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pythonExecutable: \StreamingAssets\Fonts\python.exe
-  serverScriptPath: \AZ\RecFont\server.py
 --- !u!4 &1802263922
 Transform:
   m_ObjectHideFlags: 0
@@ -3285,6 +3271,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1802263923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802263920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pythonExecutable: 
+  serverScriptPath: 
 --- !u!20 &1866320994 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6045076911616643428, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
