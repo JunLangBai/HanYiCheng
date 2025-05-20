@@ -6,13 +6,15 @@ public class PythonServerLauncher : MonoBehaviour
 {
     private Process serverProcess;
 
-    public string pythonExecutable = @"D:\ANACONDA\python.exe";
-    public string serverScriptPath = @"D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py";
+    public string pythonExecutable;
+    public string serverScriptPath;
 
     private bool isRunning = false;
 
     void Start()
-    {
+    {   
+        pythonExecutable =  Application.dataPath + @"\StreamingAssets\Fonts\python.exe";
+        serverScriptPath = Application.dataPath + @"\AZ\RecFont\server.py";
         if (!isRunning)
         {
             StartPythonServer();

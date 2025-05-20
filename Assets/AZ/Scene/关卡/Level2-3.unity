@@ -2068,8 +2068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c767d5bafb2c044ace5d68f61581d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pythonScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
-  imagePath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\temp.jpg
+  pythonScriptPath: \AZ\RecFont\server.py
+  imagePath: \AZ\RecFont\temp.jpg
   pythonOutput: 
 --- !u!114 &1269417946
 MonoBehaviour:
@@ -3268,8 +3268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pythonExecutable: D:\ANACONDA\python.exe
-  serverScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
+  pythonExecutable: \StreamingAssets\Fonts\python.exe
+  serverScriptPath: \AZ\RecFont\server.py
 --- !u!4 &1802263922
 Transform:
   m_ObjectHideFlags: 0
