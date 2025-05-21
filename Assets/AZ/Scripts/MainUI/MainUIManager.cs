@@ -22,7 +22,7 @@ public class MainUIManager : MonoBehaviour
         _button.onClick.AddListener(() => SceneManager.LoadScene("LevelSelection"));
         nowLevels.text = "当前解锁的关卡为：" + GetCurrentLevelToPlay(gameData).LevelID;
         
-        // 执行登录检查
+        //执行登录检查
         CheckDailyLogin(ref gameData);
 
         // 保存更新后的数据
@@ -30,8 +30,8 @@ public class MainUIManager : MonoBehaviour
 
         attendance.text = "连续学习天数：" + gameData.LoginStreak + "天";
         
-        // 使用协程实现每秒更新（更高效）
-        StartCoroutine(UpdateTime());
+        // // 使用协程实现每秒更新（更高效）
+        // StartCoroutine(UpdateTime());
     }
     
     void SaveGameData(GameData data)

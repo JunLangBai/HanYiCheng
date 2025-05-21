@@ -5,49 +5,49 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private Transform targetObject; // 要移动的物体（通常是Canvas的父物体）
-    [SerializeField] private Camera eventCamera;     // 用于坐标转换的摄像机
-
-    private Vector3 dragStartPosition; // 记录拖拽起始位置
-    private Vector3 objectStartPosition; // 目标物体的初始位置
+    private RectTransform rectTransform;
+    private Canvas canvas;
     private bool isDragging;
 
     private void Start()
     {
-        // 自动获取必要组件
-        if (targetObject == null)
-            targetObject = transform.root; // 默认移动根物体
-        
-        if (eventCamera == null)
-            eventCamera = GetComponentInParent<Canvas>().worldCamera;
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         isDragging = true;
-        
-        // 记录初始位置
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            GetComponent<RectTransform>(),
-            eventData.position,
-            eventCamera,
-            out dragStartPosition);
-
-        objectStartPosition = targetObject.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                GetComponent<RectTransform>(),
-                eventData.position,
-                eventCamera,
-                out Vector3 currentPosition))
-        {
-            // 计算世界空间中的位移差值
-            Vector3 offset = currentPosition - dragStartPosition;
-            targetObject.position = objectStartPosition + offset;
-        }
+        Vector2 delta = eventData.delta / canvas.scaleFactor;
+        Vector2 newPosition = rectTransform.anchoredPosition + delta;
+
+        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+        Rect canvasRect = canvasRectTransform.rect;
+        Rect elementRect = rectTransform.rect;
+
+        float parentWidth = canvasRect.width;
+        float parentHeight = canvasRect.height;
+        float elementWidth = elementRect.width;
+        float elementHeight = elementRect.height;
+        Vector2 pivot = rectTransform.pivot;
+
+        // 计算X轴的边界限制
+        float minX = (-parentWidth / 2f) + (elementWidth * pivot.x);
+        float maxX = (parentWidth / 2f) - (elementWidth * (1f - pivot.x));
+
+        // 计算Y轴的边界限制
+        float minY = (-parentHeight / 2f) + (elementHeight * pivot.y);
+        float maxY = (parentHeight / 2f) - (elementHeight * (1f - pivot.y));
+
+        // 应用限制
+        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+
+        rectTransform.anchoredPosition = newPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -55,13 +55,12 @@ public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         isDragging = false;
     }
 
-    // 点击事件处理（通过UnityEvent绑定）
     public void OnClick()
     {
         if (!isDragging)
         {
             Debug.Log("Button Clicked!");
-            // 你的点击处理逻辑
+            // 点击处理逻辑
         }
     }
 }

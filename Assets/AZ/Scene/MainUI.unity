@@ -429,9 +429,28 @@ MonoBehaviour:
   textGroup: {fileID: 731220638}
   displayDuration: 5
   originalTexts:
-  - 11214343
-  - "\u8BA4\u4E3A\u70ED\u671B\u65E5\u671F"
-  - 13124214214
+  - "\u4F60\u597D\u50CF\u662F\u6211\u7684\u5976\u8336\uFF0C\u751C\u5F97\u8BA9\u6211\u6212\u4E0D\u6389~"
+  - "\u4F60\u50CF\u6211\u7684\u773C\u955C\uFF0C\u6CA1\u6709\u4F60\uFF0C\u6211\u770B\u4E0D\u6E05\u672A\u6765"
+  - "\"\uD654\uC7A5\uC2E4\uC740 \uC5B4\uB514\uC5D0 \uC788\uB098\uC694?\"\u610F\u601D\u662F\u201C\u6D17\u624B\u95F4\u5728\u54EA\u513F?\u201C"
+  - "\"\uC624\uB298 \uB0A0\uC528 \uC88B\uB124\uC694.\"\u7684\u610F\u601D\u662F\u201C\u4ECA\u5929\u5929\u6C14\u771F\u597D\u201D"
+  - "\u97E9\u8BED\u5206 \u656C\u8BED\uFF08-\uC694/-\uC2B5\uB2C8\uB2E4\uFF09 \u548C
+    \u975E\u656C\u8BED\uFF0C\u5BF9\u957F\u8F88\u6216\u964C\u751F\u4EBA\u8BB0\u5F97\u8981\u7528\u656C\u8BED"
+  - "\u591A\u52A0\u7EC3\u4E60\u53E3\u8BED\u548C\u542C\u529B\uFF0C\u97E9\u5267\u6216\u7EFC\u827A\u662F\u5F88\u597D\u7684\u5B66\u4E60\u7D20\u6750\uFF01"
+  - "\u97E9\u8BED\u52A8\u8BCD\u5728\u53E5\u5C3E\uFF0C\u548C\u4E2D\u6587\u76F8\u53CD\u3002"
+  - "\u5BF9\u964C\u751F\u4EBA\u6216\u957F\u8F88\u5FC5\u987B\u7528\u201C-\uC694/-\uC2B5\uB2C8\uB2E4\u201D\uFF0C\u670B\u53CB\u95F4\u7528\u201C-\uC544/\uC5B4\u201D"
+  - "\u542C\u4E0D\u61C2\u65F6\u5FAE\u7B11\u8BF4\u201C\uB2E4\uC2DC \uD55C \uBC88 \uB9D0\uC500\uD574
+    \uC8FC\uC138\uC694\u201D\uFF08\u8BF7\u518D\u8BF4\u4E00\u904D\uFF09"
+  - "\u88AB\u5938\u97E9\u8BED\u597D\u53EF\u4EE5\u8C26\u865A\u7684\u56DE\u7B54\u201C\uC544\uC9C1
+    \uBD80\uC871\uD574\uC694\u201D"
+  - "\u4F60\u662F\u6211\u7684\u5929\u6C14\u9884\u62A5\uFF0C\u4E00\u51FA\u73B0\u5C31\u6674\u7A7A\u4E07\u91CC\u3002"
+  - "\u6211\u89C9\u5F97\u4F60\u4ECA\u5929\u6709\u70B9\u602A\uFF0C\u54EA\u91CC\u602A\u4E86\uFF0C\u602A\u53EF\u7231\u7684\u3002  "
+  - "\u4F60\u77E5\u9053\u6211\u6700\u559C\u6B22\u5403\u4EC0\u4E48\u6C34\u679C\u5417?\u4F60\u8FD9\u4E2A\u5F00\u5FC3\u679C\u3002"
+  - "\u8D70\u5728\u8DEF\u4E0A\u88AB\u6CE5\u6E85\u4E86\u4E00\u8EAB\uFF0C\u56DE\u53BB\u4E00\u67E5\u624D\u77E5\u9053\u8FD9\u6CE5\u53EB\u505A\u6211\u597D\u60F3\u6CE5"
+  - "\u70B9\u6EF4\u52AA\u529B\u7EC8\u4F1A\u6C47\u805A\u6210\u5DE8\u5927\u6210\u529F\uFF0C\u4ECA\u5929\u4E5F\u52A0\u6CB9\uFF01"
+  - "\u8D8A\u662F\u56F0\u96BE\u7684\u65F6\u5019\uFF0C\u8D8A\u662F\u6210\u957F\u7684\u5951\u673A\uFF0C\u73B0\u5728\u5C31\u662F\u673A\u4F1A\uFF01"
+  - "\u6BCF\u5929\u79EF\u7D2F\u4E00\u70B9\u70B9\uFF0C\u575A\u6301\u4F1A\u521B\u9020\u5947\u8FF9\u3002"
+  - "\u4E3A\u4F60\u52A0\u6CB9\uFF01\u613F\u4F60\u7684\u97E9\u8BED\u5B66\u4E60\u4E4B\u65C5\u95EA\u95EA\u53D1\u5149\uFF01"
+  - "\u4ECA\u5929\u7684\u201C\u4F60\u597D\u201D\uFF0C\u4F1A\u547C\u5524\u660E\u5929\u7684\u201C\u6210\u529F\u201D"
 --- !u!114 &85089183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,10 +2018,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC548\uB155\uD558\uC138\uC694"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
-  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
+  m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2705,7 +2724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1234156106
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3228,6 +3247,7 @@ GameObject:
   - component: {fileID: 1564220171}
   - component: {fileID: 1564220170}
   - component: {fileID: 1564220172}
+  - component: {fileID: 1564220173}
   m_Layer: 0
   m_Name: Image (2)
   m_TagString: Untagged
@@ -3336,7 +3356,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1564220170}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1564220173}
+        m_TargetAssemblyTypeName: ScenesLoaderMgr, Assembly-CSharp
+        m_MethodName: BackScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1564220173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564220168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: ReadAfter
 --- !u!1 &1589239595
 GameObject:
   m_ObjectHideFlags: 0
