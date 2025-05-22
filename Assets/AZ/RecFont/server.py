@@ -12,29 +12,37 @@ import sys
 # 保证标准输出是 UTF-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+result_path = os.path.join(BASE_DIR, "result.txt")
 
 app = Flask(__name__)
-if os.path.exists("result.txt"):
-    os.remove("result.txt")
+if os.path.exists(result_path):
+    os.remove(result_path)
 # ===== 日志 =====
+log_path = os.path.join(BASE_DIR, "inference_log.txt")
 def write_log(msg):
-    with open("inference_log.txt", "a", encoding="utf-8") as f:
+    with open(log_path, "a", encoding="utf-8") as f:
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"[{now}] {msg}\n")
 
 write_log("🔄 服务器启动中...")
 
 # ===== 加载模型 =====
+
+MODEL_PATH = os.path.join(BASE_DIR, "saved_model")
+
 try:
-    model = tf.saved_model.load('saved_model')
+    model = tf.saved_model.load(MODEL_PATH)
     write_log("✅ 模型加载成功")
 except Exception as e:
     write_log(f"❌ 模型加载失败: {e}")
     raise e
 
 # ===== 加载标签 =====
+
+Label_PATH = os.path.join(BASE_DIR, "2350-common-hangul.txt")
 try:
-    with open('2350-common-hangul.txt', 'r', encoding='utf-8') as f:
+    with open(Label_PATH, 'r', encoding='utf-8') as f:
         labels = f.read().splitlines()
     write_log("标签加载成功")
 except Exception as e:
@@ -128,8 +136,9 @@ def augment_image(img: Image.Image):
 # ===== 推理接口 =====
 @app.route("/predict", methods=["POST"])
 def predict():
-    if os.path.exists("result.txt"):
-        os.remove("result.txt")
+    
+    if os.path.exists(result_path):
+        os.remove(result_path)
 
     if 'image' not in request.files:
         return jsonify({'error': '缺少图像文件参数'}), 400
@@ -157,7 +166,7 @@ def predict():
         write_log(f"各增强预测: {predictions}")
         write_log(f"最终预测: {final_prediction}")
 
-        with open('result.txt', 'w', encoding='utf-8') as f:
+        with open(result_path, 'w', encoding='utf-8') as f:
             f.write(final_prediction)
             print(f'{final_prediction}')
 
