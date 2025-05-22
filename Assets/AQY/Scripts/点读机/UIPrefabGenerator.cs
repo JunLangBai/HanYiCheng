@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using TMPro;
 
 public class UIPrefabGenerator : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class UIPrefabGenerator : MonoBehaviour
     [Header("Resources")]
     public List<Sprite> sprites = new List<Sprite>();
     public List<AudioClip> audioClips = new List<AudioClip>();
+    public List<string> texts = new List<string>(); // 新增文本列表
 
     [Header("Audio")]
     public AudioSource audioPlayer;   // 音频播放器
@@ -33,7 +35,11 @@ public class UIPrefabGenerator : MonoBehaviour
 
     private void Start()
     {
-        int totalToGenerate = Mathf.Min(sprites.Count, audioClips.Count);
+        // 使用三个资源列表的最小长度
+        int totalToGenerate = Mathf.Min(
+            Mathf.Min(sprites.Count, audioClips.Count),
+            texts.Count);
+        
         for (int i = 0; i < totalToGenerate; i++)
         {
             GenerateUIPrefab();
@@ -46,7 +52,8 @@ public class UIPrefabGenerator : MonoBehaviour
         int index = GetNextIndex();
         GameObject instance = CreateUIInstance();
         SetupUIImage(instance, index);
-        SetupButton(instance, index); // 新增这行
+        SetupText(instance, index); // 新增文本设置
+        SetupButton(instance, index);
     }
     private bool ValidateUIComponents()
     {
@@ -68,12 +75,21 @@ public class UIPrefabGenerator : MonoBehaviour
             return false;
         }
 
+        if (texts.Count == 0)
+        {
+            Debug.LogError("Text list is empty!");
+            return false;
+        }
+
         return true;
     }
 
     private int GetNextIndex()
     {
-        int maxIndex = Mathf.Min(sprites.Count, audioClips.Count);
+        // 获取三个列表的最小长度作为最大索引
+        int maxIndex = Mathf.Min(
+            Mathf.Min(sprites.Count, audioClips.Count),
+            texts.Count);
         
         if (mode == GenerationMode.Sequential)
         {
@@ -132,6 +148,37 @@ public class UIPrefabGenerator : MonoBehaviour
         }
     }
 
+    private void SetupText(GameObject instance, int index)
+    {
+        // 方法1：按名称查找TMP子物体（根据你的预制体结构修改名称）
+        Transform textChild = instance.transform.Find("发音");
+        if (textChild == null)
+        {
+            Debug.LogError("未找到TMP子物体: TextTMP");
+            return;
+        }
+
+        TMP_Text tmpComponent = textChild.GetComponent<TMP_Text>();
+        if (tmpComponent != null)
+        {
+            // 安全检查索引范围
+            if (index >= 0 && index < texts.Count)
+            {
+                tmpComponent.text = texts[index];
+            }
+            else
+            {
+                Debug.LogWarning($"文本索引超出范围: {index}");
+                tmpComponent.text = "Default Text";
+            }
+        }
+        else
+        {
+            Debug.LogError("子物体上未找到TMP_Text组件");
+        }
+    }
+
+    
     private void OnButtonClick(int index)
     {
         // 点击时播放对应音频
