@@ -280,7 +280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8F85\u97F3"
+  m_text: "\u8F85\u97F3-\u9001\u6C14\u97F3\u7D27\u97F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
   m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 551885921}
   - component: {fileID: 551885924}
   m_Layer: 0
-  m_Name: "\u8F85\u97F3"
+  m_Name: "\u8F85\u97F3-\u9001\u6C14\u97F3\u7D27\u97F3"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1478,8 +1478,8 @@ RectTransform:
   m_Children:
   - {fileID: 1687351376}
   - {fileID: 565072932}
-  - {fileID: 475166528}
   - {fileID: 551885920}
+  - {fileID: 475166528}
   - {fileID: 1252734047}
   - {fileID: 258311331}
   m_Father: {fileID: 1638054112}
