@@ -178,4 +178,4 @@ def predict():
 
 # ===== 启动服务 =====
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="110.40.170.159", port=8888)
