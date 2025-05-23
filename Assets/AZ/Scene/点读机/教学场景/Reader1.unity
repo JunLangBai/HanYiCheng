@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 5600552}
   - component: {fileID: 5600556}
   - component: {fileID: 5600555}
-  - component: {fileID: 5600557}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -201,20 +200,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5600551}
   m_CullTransparentMesh: 1
---- !u!114 &5600557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5600551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc307813aa3753149a90abf04addca63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  intorductionText: {fileID: 0}
-  textToDisplay: 
 --- !u!1001 &87068908
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -600,7 +585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7B2C\u4E00\u8BFE\uFF1A\u5355\u5143\u97F3\u4E0E\u8F85\u97F3\u201C\u3147\u201D\r\n\r\n\u97E9\u6587\u4ECB\u7ECD\uFF1A\r\n\u97E9\u56FD\u7684\u6587\u5B57\u2014\u97E9\u6587\uFF08\uD55C\uAE00\uFF09\u8BDE\u751F\u4E8E1446\u5E74\uFF0C\u7531\u4E16\u5B97\u5927\u738B\u521B\u5236\uFF0C\u662F\u8868\u97F3\u6587\u5B57\u3002\u97E9\u6587\u7531\u8F85\u97F3\u548C\u5143\u97F3\u3001\u6536\u97F3\u76F8\u7EC4\u5408\u6784\u6210\uFF0C\u5143\u97F3\u670921\u4E2A\uFF0C\u8F85\u97F3\u670919\u4E2A\uFF0C\u6536\u97F3\u670927\u4E2A\u3002\r\n\r\n\u53D1\u97F3\u89C4\u5219\uFF1A\r\n\n\u5F53\u3147\u4F4D\u4E8E\u5143\u97F3\u524D\u65F6\uFF0C\u4E0D\u53D1\u97F3\uFF08\u5982\uC544\u8BFB\u4F5C[a]\uFF09\r\n\u5F53\u3147\u4F4D\u4E8E\u97F3\u8282\u672B\u5C3E\u65F6\uFF0C\u53D1[\u014B]\u97F3\uFF08\u5982\uAC15\u8BFB\u4F5C[ga\u014B]\uFF09\r\n\u3147\u4E0D\u80FD\u5355\u72EC\u6210\u5B57\uFF0C\u5FC5\u987B\u4E0E\u5143\u97F3\u7EC4\u5408"
+  m_text: "<size=60><color=#F7BD5C>\u5355\u5143\u97F3\u4E0E\u8F85\u97F3\u201C\u3147\u201D\r</color></size>\n\r\n\u97E9\u6587\u4ECB\u7ECD\uFF1A\r\n\u97E9\u56FD\u7684\u6587\u5B57\u2014\u97E9\u6587\uFF08\uD55C\uAE00\uFF09\u8BDE\u751F\u4E8E1446\u5E74\uFF0C\u7531\u4E16\u5B97\u5927\u738B\u521B\u5236\uFF0C\u662F\u8868\u97F3\u6587\u5B57\u3002\u97E9\u6587\u7531\u8F85\u97F3\u548C\u5143\u97F3\u3001\u6536\u97F3\u76F8\u7EC4\u5408\u6784\u6210\uFF0C\u5143\u97F3\u670921\u4E2A\uFF0C\u8F85\u97F3\u670919\u4E2A\uFF0C\u6536\u97F3\u670927\u4E2A\u3002\r\n\r\n\u53D1\u97F3\u89C4\u5219\uFF1A\r\n\u5F53\u3147\u4F4D\u4E8E\u5143\u97F3\u524D\u65F6\uFF0C\u4E0D\u53D1\u97F3\uFF08\u5982\uC544\u8BFB\u4F5C[a]\uFF09\r\n\u5F53\u3147\u4F4D\u4E8E\u97F3\u8282\u672B\u5C3E\u65F6\uFF0C\u53D1[\u014B]\u97F3\uFF08\u5982\uAC15\u8BFB\u4F5C[ga\u014B]\uFF09\r\n\u3147\u4E0D\u80FD\u5355\u72EC\u6210\u5B57\uFF0C\u5FC5\u987B\u4E0E\u5143\u97F3\u7EC4\u5408\n\u8F85\u97F3\u3147\u4E0E\u4EFB\u4F55\u5143\u97F3\u7ED3\u5408\uFF0C\u53D1\u97F3\u4E0D\u53D8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
@@ -627,8 +612,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -858,7 +843,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 40
   m_Viewport: {fileID: 3026393120622650682}
   m_HorizontalScrollbar: {fileID: 5905415709326289799}
   m_VerticalScrollbar: {fileID: 5413112066391511990}
@@ -1558,9 +1543,9 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 50
-    m_Bottom: 50
+    m_Bottom: 200
   m_ChildAlignment: 4
-  m_Spacing: 30
+  m_Spacing: 90
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -1610,6 +1595,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e486038768a678441912b140584e139b, type: 3}
   - {fileID: 8300000, guid: e341b1c834928eb46b47a1909445d6e3, type: 3}
   - {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
+  texts:
+  - '[a]'
+  - '[eo]'
+  - '[o]'
+  - '[u]'
+  - '[eu]'
+  - '[i]'
+  - '[ae]'
+  - '[yae]'
+  - '[ng]'
   audioPlayer: {fileID: 9219426737329813219}
   mode: 0
   spawnPosition: {x: 0, y: 0}
