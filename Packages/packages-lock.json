@@ -193,13 +193,6 @@
         "com.unity.render-pipelines.core": "14.0.10"
       }
     },
-    "com.unity.scripting.python": {
-      "version": "6.0.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.cn"
-    },
     "com.unity.searcher": {
       "version": "4.9.2",
       "depth": 1,
