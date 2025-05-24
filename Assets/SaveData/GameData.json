@@ -1,6 +1,6 @@
 {
-  "LastLoginUTC": "2025-05-23T14:52:09.4201628",
-  "LoginStreak": 3,
+  "LastLoginUTC": "2025-05-25T00:00:57.8753353",
+  "LoginStreak": 1,
   "placementClear": true,
   "tutorialClear": true,
   "levels": [
@@ -45,24 +45,6 @@
       "ISUnlockedByDefault": true,
       "Scene": "Level1-7",
       "LevelName": "7"
-    },
-    {
-      "LevelID": "1-8",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level1-8",
-      "LevelName": "8"
-    },
-    {
-      "LevelID": "1-9",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level1-9",
-      "LevelName": "9"
-    },
-    {
-      "LevelID": "1-2 1",
-      "ISUnlockedByDefault": true,
-      "Scene": "Assets/AZ/Scene/关卡/Level1-2 1.unity",
-      "LevelName": "动态解锁的关卡"
     },
     {
       "LevelID": "2-1",

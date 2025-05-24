@@ -19,7 +19,7 @@ public class MainUIManager : MonoBehaviour
 
     private void Start()
     {
-        _button.onClick.AddListener(() => SceneManager.LoadScene("LevelSelection"));
+        _button.onClick.AddListener(() => SceneManager.LoadScene("TotalLevel"));
         nowLevels.text = "当前解锁的关卡为：" + GetCurrentLevelToPlay(gameData).LevelID;
         
         //执行登录检查
