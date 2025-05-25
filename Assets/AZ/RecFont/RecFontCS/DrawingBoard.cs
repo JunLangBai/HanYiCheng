@@ -17,6 +17,11 @@ public class DrawingBoard : MonoBehaviour
         // 初始化纹理
         drawingTexture = new Texture2D(256, 256, TextureFormat.RGB24, false);
         drawingTexture.filterMode = FilterMode.Point;
+        if (uiCamera == null)
+        {
+            Debug.LogWarning("⚠️ uiCamera 未设置，绘图可能无法正常工作！");
+        }
+
         drawingTexture.wrapMode = TextureWrapMode.Clamp;
         pixels = new Color[drawingTexture.width * drawingTexture.height];
         ClearCanvas();

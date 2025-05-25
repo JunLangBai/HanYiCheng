@@ -1,0 +1,29 @@
+{
+  "name": "com.github.asus4.tflite.common",
+  "displayName": "TensorFlow Lite Common",
+  "description": "TensorFlow Lite Common Scripts for Unity",
+  "keywords": [
+    "unity",
+    "tensorflow-lite"
+  ],
+  "license": "Apache License 2.0",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "version": "2.17.0",
+  "hideInEditor": false,
+  "dependencies": {
+    "com.unity.burst": "1.8.12",
+    "com.github.asus4.tflite": "2.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "repository": "https://github.com/asus4/tf-lite-unity-sample"
+  },
+  "documentationUrl": "https://github.com/asus4/tf-lite-unity-sample",
+  "changelogUrl": "https://github.com/asus4/tf-lite-unity-sample/releases",
+  "licensesUrl": "https://github.com/asus4/tf-lite-unity-sample/tree/master/Packages/com.github.asus4.tflite.common/LICENSE",
+  "author": {
+    "name": "Koki Ibukuro",
+    "url": "https://github.com/asus4"
+  }
+}

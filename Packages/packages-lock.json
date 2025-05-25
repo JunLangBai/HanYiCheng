@@ -1,5 +1,36 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "2.5.10",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
+    "com.github.asus4.mediapipe": {
+      "version": "file:com.github.asus4.mediapipe",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.github.asus4.tflite": "2.17.0",
+        "com.github.asus4.tflite.common": "2.17.0"
+      }
+    },
+    "com.github.asus4.tflite": {
+      "version": "file:com.github.asus4.tflite",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.github.asus4.tflite.common": {
+      "version": "file:com.github.asus4.tflite.common",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.burst": "1.8.12",
+        "com.github.asus4.tflite": "2.17.0"
+      }
+    },
     "com.rokid.openxr": {
       "version": "3.0.3",
       "depth": 1,

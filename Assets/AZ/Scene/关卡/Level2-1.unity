@@ -582,8 +582,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5B8C\u6210"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
-  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 95546559}
   - component: {fileID: 95546558}
   m_Layer: 0
-  m_Name: RawImage
+  m_Name: gewImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -810,7 +810,7 @@ GameObject:
   - component: {fileID: 215920302}
   - component: {fileID: 215920301}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: clear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1094,7 +1094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 535.78, y: 285}
+  m_AnchoredPosition: {x: 547, y: 288}
   m_SizeDelta: {x: 233.8, y: 99.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &484741854
@@ -1255,52 +1255,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa2ab4a52b98844a5beea51c6d5ab85a, type: 3}
---- !u!1 &537051332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 537051334}
-  - component: {fileID: 537051333}
-  m_Layer: 0
-  m_Name: server_py
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &537051333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537051332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba39a522fe366847bea7d23bae15765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pythonExecutable: D:\ANACONDA\python.exe
-  serverScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
---- !u!4 &537051334
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537051332}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.578236, y: 75.421196, z: 307.30017}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &598638672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,8 +2303,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 123
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
-  m_sharedMaterial: {fileID: 5491025100381932019, guid: e32c00d8fea561a40b39f3530ff25cea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2559,9 +2513,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1522516284}
-  - component: {fileID: 1522516283}
-  - component: {fileID: 1522516282}
-  - component: {fileID: 1522516281}
+  - component: {fileID: 1522516285}
+  - component: {fileID: 1522516287}
   m_Layer: 0
   m_Name: GameObj
   m_TagString: Untagged
@@ -2569,54 +2522,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1522516281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522516280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingImage: {fileID: 95546558}
-  drawingTexture: {fileID: 0}
-  brushSize: 5
-  uiCamera: {fileID: 1318910076}
---- !u!114 &1522516282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522516280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91c767d5bafb2c044ace5d68f61581d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pythonScriptPath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\server.py
-  imagePath: D:\GitHub\HanYiCheng\Assets\AZ\RecFont\temp.jpg
-  pythonOutput: 
---- !u!114 &1522516283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522516280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94475e23b5784942a29673b2c72c0fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingBoard: {fileID: 1522516281}
-  inferenceScript: {fileID: 1522516282}
-  recognizeButton: {fileID: 1036834912}
-  resultText: {fileID: 484741855}
-  clearButton: {fileID: 57861793}
 --- !u!4 &1522516284
 Transform:
   m_ObjectHideFlags: 0
@@ -2632,6 +2537,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1522516285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522516280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingImage: {fileID: 95546558}
+  drawingTexture: {fileID: 0}
+  brushSize: 5
+  uiCamera: {fileID: 1318910076}
+--- !u!114 &1522516287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522516280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50907cd0b9c7458489607150ad456ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingBoard: {fileID: 1522516285}
+  targetRawImage: {fileID: 95546558}
+  recognizeButton: {fileID: 1036834912}
+  resultText: {fileID: 484741855}
+  clearButton: {fileID: 57861793}
+  serverURL: http://110.40.170.159:6666/predict
+  timeoutSeconds: 15
+  testTexture: {fileID: 0}
 --- !u!1 &1593630573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,4 +3238,3 @@ SceneRoots:
   - {fileID: 1132145592}
   - {fileID: 1385107839}
   - {fileID: 1522516284}
-  - {fileID: 537051334}
