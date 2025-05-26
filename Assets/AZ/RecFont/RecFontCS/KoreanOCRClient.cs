@@ -128,7 +128,7 @@ public class KoreanOCRClient : MonoBehaviour
             }
             
             // 处理响应
-            bool success = ProcessResponse(request);
+            bool success = ProcessResponse(request);    
             
             // 无论成功失败，都结束识别状态
             FinishRecognition();
