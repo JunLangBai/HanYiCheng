@@ -13,6 +13,18 @@ MonoBehaviour:
   m_Name: 2-3
   m_EditorClassIdentifier: 
   questions:
-  - questionText: 
+  - questionText: "\u5982\u679C\u5143\u97F3\u6709\u4E00\u4E2A\u957F\u7AD6\u7EBF\uFF0C\u6BD4\u5982
+      \u314F\u3001\u3151\u3001\u3153\u3001\u3155 \u6216 \u3163\uFF0C\u8F85\u97F3\u5199\u5728\u5DE6\u534A\u8FB9\uFF0C\u5143\u97F3\u5199\u5728\u53F3\u534A\u8FB9\u3002\u8BFB\u6CD5\u662F\u8F85\u97F3\u97F3\u6807+\u5143\u97F3\u97F3\u6807\uFF1Ag+a=ga"
     referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 94b2f5e6a09742540808b68075a80f08, type: 3}
     correctAnswer: "\uAC00"
+  - questionText: "\u5982\u679C\u5143\u97F3\u6709\u4E00\u4E2A\u957F\u7AD6\u7EBF\uFF0C\u6BD4\u5982
+      \u314F\u3001\u3151\u3001\u3153\u3001\u3155 \u6216 \u3163\uFF0C\u8F85\u97F3\u5199\u5728\u5DE6\u534A\u8FB9\uFF0C\u5143\u97F3\u5199\u5728\u53F3\u534A\u8FB9"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 50d6556064a9e7547aaf6a09233f1e16, type: 3}
+    correctAnswer: "\uB098"
+  - questionText: "\u5982\u679C\u5143\u97F3\u6709\u4E00\u4E2A\u957F\u7AD6\u7EBF\uFF0C\u6BD4\u5982
+      \u314F\u3001\u3151\u3001\u3153\u3001\u3155 \u6216 \u3163\uFF0C\u8F85\u97F3\u5199\u5728\u5DE6\u534A\u8FB9\uFF0C\u5143\u97F3\u5199\u5728\u53F3\u534A\u8FB9"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 50d6556064a9e7547aaf6a09233f1e16, type: 3}
+    correctAnswer: "\uB098"

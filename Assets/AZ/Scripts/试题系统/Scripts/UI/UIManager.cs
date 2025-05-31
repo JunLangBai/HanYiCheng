@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
     private bool isShowingResult; // 是否处于显示答案结果的状态
 
     private float score;
-
+    
     private void Awake()
     {
         Instance = this;
@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         // 初始化按钮监听
         actionButton.onClick.AddListener(OnActionButtonClicked);
+        imagePanel.gameObject.GetComponent<Button>().onClick.AddListener(OnQuestionButtonClicked);
         nowChose.text = "当前选项:";
         actionButtonText.text = "完成";
         // 加载第一题
@@ -93,6 +94,11 @@ public class UIManager : MonoBehaviour
         PlayAudio(question.questionAudio);
 
         UpdateProgress();
+    }
+
+    public void OnQuestionButtonClicked()
+    {
+        PlayAudio(QuestionManager.Instance.GetCurrentQuestion().questionAudio);
     }
 
     /// <summary>
