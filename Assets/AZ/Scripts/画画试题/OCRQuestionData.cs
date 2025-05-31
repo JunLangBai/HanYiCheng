@@ -1,6 +1,8 @@
 // OCRQuestionData.cs
-using UnityEngine;
+
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewOCRQuestionData", menuName = "OCR Question Data")]
 public class OCRQuestionData : ScriptableObject
@@ -8,7 +10,7 @@ public class OCRQuestionData : ScriptableObject
     public List<OCRQuestion> questions;
 }
 
-[System.Serializable]
+[Serializable]
 public class OCRQuestion
 {
     public string questionText;

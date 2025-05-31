@@ -5,14 +5,12 @@ using UnityEngine;
 //关卡
 public class LevelData : ScriptableObject
 {
-    [Header("Level Stats")]
-    public string LevelID;
+    [Header("Level Stats")] public string LevelID;
+
     [Tooltip("For starting Levels")] public bool ISUnlockedByDefault;
     public SceneField Scene;
-    
-    [Header("Level Display Information")]
-    public string LevelName;
-    
+
+    [Header("Level Display Information")] public string LevelName;
+
     public GameObject LevelButtonObj { get; set; }
-    
 }

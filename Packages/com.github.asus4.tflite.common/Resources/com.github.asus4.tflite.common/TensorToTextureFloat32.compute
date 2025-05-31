@@ -6,11 +6,11 @@ RWTexture2D<float4> _OutputTexture;
 uint2 _InputSize;
 
 [numthreads(8,8,1)]
-void TensorToTexture (uint2 id : SV_DispatchThreadID)
+void TensorToTexture(uint2 id : SV_DispatchThreadID)
 {
-    if(any(id >= _InputSize))
+    if (any(id >= _InputSize))
     {
-        return; 
+        return;
     }
 
     uint gid = (_InputSize.y - 1 - id.y) * _InputSize.x + id.x;

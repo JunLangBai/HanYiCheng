@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip buttonClickSound;
     private AudioSource audioSource;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -22,9 +22,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlayButtonSound()
     {
-        if (buttonClickSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(buttonClickSound);
-        }
+        if (buttonClickSound != null && audioSource != null) audioSource.PlayOneShot(buttonClickSound);
     }
 }

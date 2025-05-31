@@ -5,9 +5,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    private RectTransform rectTransform;
     private Canvas canvas;
     private bool isDragging;
+    private RectTransform rectTransform;
 
     private void Start()
     {
@@ -22,26 +22,26 @@ public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 delta = eventData.delta / canvas.scaleFactor;
-        Vector2 newPosition = rectTransform.anchoredPosition + delta;
+        var delta = eventData.delta / canvas.scaleFactor;
+        var newPosition = rectTransform.anchoredPosition + delta;
 
-        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
-        Rect canvasRect = canvasRectTransform.rect;
-        Rect elementRect = rectTransform.rect;
+        var canvasRectTransform = canvas.GetComponent<RectTransform>();
+        var canvasRect = canvasRectTransform.rect;
+        var elementRect = rectTransform.rect;
 
-        float parentWidth = canvasRect.width;
-        float parentHeight = canvasRect.height;
-        float elementWidth = elementRect.width;
-        float elementHeight = elementRect.height;
-        Vector2 pivot = rectTransform.pivot;
+        var parentWidth = canvasRect.width;
+        var parentHeight = canvasRect.height;
+        var elementWidth = elementRect.width;
+        var elementHeight = elementRect.height;
+        var pivot = rectTransform.pivot;
 
         // 计算X轴的边界限制
-        float minX = (-parentWidth / 2f) + (elementWidth * pivot.x);
-        float maxX = (parentWidth / 2f) - (elementWidth * (1f - pivot.x));
+        var minX = -parentWidth / 2f + elementWidth * pivot.x;
+        var maxX = parentWidth / 2f - elementWidth * (1f - pivot.x);
 
         // 计算Y轴的边界限制
-        float minY = (-parentHeight / 2f) + (elementHeight * pivot.y);
-        float maxY = (parentHeight / 2f) - (elementHeight * (1f - pivot.y));
+        var minY = -parentHeight / 2f + elementHeight * pivot.y;
+        var maxY = parentHeight / 2f - elementHeight * (1f - pivot.y);
 
         // 应用限制
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
@@ -57,10 +57,7 @@ public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnClick()
     {
-        if (!isDragging)
-        {
-            Debug.Log("Button Clicked!");
-            // 点击处理逻辑
-        }
+        if (!isDragging) Debug.Log("Button Clicked!");
+        // 点击处理逻辑
     }
 }

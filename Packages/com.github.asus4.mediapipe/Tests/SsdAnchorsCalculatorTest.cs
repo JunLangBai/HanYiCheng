@@ -10,7 +10,7 @@ namespace TensorFlowLite
         [Test]
         public void FaceDetectionConfigTest()
         {
-            var options = new SsdAnchorsCalculator.Options()
+            var options = new SsdAnchorsCalculator.Options
             {
                 numLayers = 5,
 
@@ -25,12 +25,12 @@ namespace TensorFlowLite
 
                 featureMapWidth = new int[0] { },
                 featureMapHeight = new int[0] { },
-                strides = new int[] { 8, 16, 32, 32, 32 },
-                aspectRatios = new float[] { 1.0f },
+                strides = new[] { 8, 16, 32, 32, 32 },
+                aspectRatios = new[] { 1.0f },
 
                 reduceBoxesInLowestLayer = false,
                 interpolatedScaleAspectRatio = 1.0f,
-                fixedAnchorSize = true,
+                fixedAnchorSize = true
             };
 
             var testData = LoadTestData("anchor_golden_file_0.txt");
@@ -41,7 +41,7 @@ namespace TensorFlowLite
         [Test]
         public void MobileSSDConfig()
         {
-            var options = new SsdAnchorsCalculator.Options()
+            var options = new SsdAnchorsCalculator.Options
             {
                 numLayers = 6,
 
@@ -56,12 +56,12 @@ namespace TensorFlowLite
 
                 featureMapWidth = new int[0] { },
                 featureMapHeight = new int[0] { },
-                strides = new int[] { 16, 32, 64, 128, 256, 512 },
-                aspectRatios = new float[] { 1.0f, 2.0f, 0.5f, 3.0f, 0.3333f },
+                strides = new[] { 16, 32, 64, 128, 256, 512 },
+                aspectRatios = new[] { 1.0f, 2.0f, 0.5f, 3.0f, 0.3333f },
 
                 reduceBoxesInLowestLayer = true,
                 interpolatedScaleAspectRatio = 1.0f,
-                fixedAnchorSize = false,
+                fixedAnchorSize = false
             };
 
             var testData = LoadTestData("anchor_golden_file_1.txt");
@@ -73,19 +73,16 @@ namespace TensorFlowLite
         {
             Assert.AreEqual(expected.Length, actual.Length);
 
-            int length = expected.Length;
-            for (int i = 0; i < length; i++)
-            {
-                Assert.IsTrue(expected[i] == actual[i]);
-                // Assert.AreEqual(expected[i], actual[i]);
-            }
+            var length = expected.Length;
+            for (var i = 0; i < length; i++) Assert.IsTrue(expected[i] == actual[i]);
+            // Assert.AreEqual(expected[i], actual[i]);
             Debug.Log("all equal");
         }
 
         private static SsdAnchor[] LoadTestData(string testFile)
         {
             const string testDataPath = "Packages/com.github.asus4.mediapipe/Tests/TestData";
-            string path = Path.GetFullPath(Path.Combine(testDataPath, testFile));
+            var path = Path.GetFullPath(Path.Combine(testDataPath, testFile));
             Assert.IsTrue(File.Exists(path));
 
             var anchors = new List<SsdAnchor>();
@@ -97,16 +94,17 @@ namespace TensorFlowLite
                 {
                     if (string.IsNullOrWhiteSpace(line)) continue;
 
-                    string[] chunks = line.Split(' ');
-                    anchors.Add(new SsdAnchor()
+                    var chunks = line.Split(' ');
+                    anchors.Add(new SsdAnchor
                     {
                         x = float.Parse(chunks[0]),
                         y = float.Parse(chunks[1]),
                         width = float.Parse(chunks[2]),
-                        height = float.Parse(chunks[3]),
+                        height = float.Parse(chunks[3])
                     });
                 }
             }
+
             return anchors.ToArray();
         }
     }

@@ -1,22 +1,23 @@
 // OptionButton.cs
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class OptionButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI optionText;
     [SerializeField] private Image highlight;
+    private Option optionData;
 
     public int Index { get; private set; }
-    private Option optionData;
 
     public void Initialize(int index, Option data)
     {
         Index = index;
         optionData = data;
         optionText.text = data.text;
-        
+
         GetComponent<Button>().onClick.AddListener(() =>
         {
             // 传递完整选项数据到GameManager

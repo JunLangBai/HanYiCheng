@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 namespace TensorFlowLite
 {
     /// <summary>
-    /// An utility for getting latest N samples from microphone.
+    ///     An utility for getting latest N samples from microphone.
     /// </summary>
     public class MicrophoneBuffer : IDisposable
     {
@@ -21,27 +21,23 @@ namespace TensorFlowLite
             Hz32000 = 32000,
             Hz44100 = 44100,
             Hz48000 = 48000,
-            Hz96000 = 96000,
+            Hz96000 = 96000
         }
 
         [Serializable]
         public class Options
         {
-            [Tooltip("Microphone device name; null to use default device")]
-            [MicrophoneName]
-            public string deviceName = null;
+            [Tooltip("Microphone device name; null to use default device")] [MicrophoneName]
+            public string deviceName;
 
-            [Tooltip("Mic Frequency in Hz")]
-            public Frequency frequency = Frequency.Hz16000;
+            [Tooltip("Mic Frequency in Hz")] public Frequency frequency = Frequency.Hz16000;
 
-            [Tooltip("Max duration in seconds")]
-            [Min(1)]
+            [Tooltip("Max duration in seconds")] [Min(1)]
             public int maxDurationSec = 5;
         }
 
-        [Tooltip("Default options")]
-        [SerializeField]
-        private Options defaultOptions = new();
+        [Tooltip("Default options")] [SerializeField]
+        private readonly Options defaultOptions = new();
 
         private string deviceName;
         private AudioClip clip;
@@ -67,19 +63,17 @@ namespace TensorFlowLite
             options ??= defaultOptions;
 
             // Find device name
-            string[] availableDevices = Microphone.devices;
+            var availableDevices = Microphone.devices;
             deviceName = options.deviceName;
             if (string.IsNullOrEmpty(deviceName) || !availableDevices.Contains(deviceName))
-            {
                 deviceName = availableDevices[0];
-            }
 
             // Clamp frequency
-            int frequency = (int)options.frequency;
-            Microphone.GetDeviceCaps(deviceName, out int minFreq, out int maxFreq);
+            var frequency = (int)options.frequency;
+            Microphone.GetDeviceCaps(deviceName, out var minFreq, out var maxFreq);
             frequency = Math.Clamp(frequency, minFreq, maxFreq);
 
-            int maxDurationSec = Math.Max(1, options.maxDurationSec);
+            var maxDurationSec = Math.Max(1, options.maxDurationSec);
 
             var clip = Microphone.Start(deviceName, true, maxDurationSec, frequency);
             pool ??= ArrayPool<float>.Create(frequency * maxDurationSec, 2);
@@ -105,23 +99,18 @@ namespace TensorFlowLite
 
         public void GetLatestSamples(float[] samples)
         {
-            if (!IsRecording)
-            {
-                throw new InvalidOperationException("Recording is not started");
-            }
+            if (!IsRecording) throw new InvalidOperationException("Recording is not started");
             if (samples.Length > clip.samples)
-            {
                 throw new ArgumentException("samples.Length must be less than clip total samples");
-            }
 
-            int position = Microphone.GetPosition(deviceName);
+            var position = Microphone.GetPosition(deviceName);
             if (position < samples.Length)
             {
                 GetLoopedSamples(position, samples);
             }
             else
             {
-                int offset = position - samples.Length;
+                var offset = position - samples.Length;
                 clip.GetData(samples, offset);
             }
         }
@@ -145,18 +134,15 @@ namespace TensorFlowLite
 #else
         private void GetLoopedSamples(int position, float[] samples)
         {
-            int firstLength = samples.Length - position;
-            float[] firstBuffer = pool.Rent(firstLength);
+            var firstLength = samples.Length - position;
+            var firstBuffer = pool.Rent(firstLength);
             clip.GetData(firstBuffer, clip.samples - firstLength);
             Array.Copy(firstBuffer, 0, samples, 0, firstLength);
             pool.Return(firstBuffer);
 
-            if (position <= 0)
-            {
-                return;
-            }
-            int secondLength = position;
-            float[] secondBuffer = pool.Rent(secondLength);
+            if (position <= 0) return;
+            var secondLength = position;
+            var secondBuffer = pool.Rent(secondLength);
             clip.GetData(secondBuffer, 0);
             Array.Copy(secondBuffer, 0, samples, firstLength, secondLength);
             pool.Return(secondBuffer);

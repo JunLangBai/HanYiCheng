@@ -13,12 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-using System.Runtime.InteropServices;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-using MTLBuffer = System.IntPtr;
-using TfLiteDelegate = System.IntPtr;
-
 namespace TensorFlowLite
 {
 #if UNITY_IOS || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX

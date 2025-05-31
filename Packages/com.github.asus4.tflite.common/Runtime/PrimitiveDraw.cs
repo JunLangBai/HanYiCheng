@@ -1,19 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.Rendering;
+using Object = UnityEngine.Object;
 
 namespace TensorFlowLite
 {
     /// <summary>
-    /// A simple drawing utility
+    ///     A simple drawing utility
     /// </summary>
-    public sealed class PrimitiveDraw : System.IDisposable
+    public sealed class PrimitiveDraw : IDisposable
     {
         #region Internal Class
-        private class MeshBuffer : System.IDisposable
+
+        private class MeshBuffer : IDisposable
         {
-            public Mesh mesh;
             public Matrix4x4[] buffer;
             public int index;
+            public Mesh mesh;
 
             public MeshBuffer(Mesh mesh, int initialSize = 256)
             {
@@ -40,24 +44,25 @@ namespace TensorFlowLite
                 if (index >= buffer.Length)
                 {
                     var newBuffer = new Matrix4x4[buffer.Length * 2];
-                    System.Array.Copy(buffer, newBuffer, buffer.Length);
+                    Array.Copy(buffer, newBuffer, buffer.Length);
                     buffer = newBuffer;
                     Debug.Log($"Allocate new buffer: {newBuffer.Length} mesh: {mesh.name}");
                 }
             }
         }
+
         #endregion // Internal Class
 
         #region Private members
 
         private Material material;
-        private MaterialPropertyBlock mpb;
+        private readonly MaterialPropertyBlock mpb;
 
-        private MeshBuffer cube;
-        private MeshBuffer quad;
+        private readonly MeshBuffer cube;
+        private readonly MeshBuffer quad;
 
-        private Camera camera;
-        private int layer;
+        private readonly Camera camera;
+        private readonly int layer;
 
         private static readonly int _Color = Shader.PropertyToID("_Color");
 
@@ -112,18 +117,12 @@ namespace TensorFlowLite
         {
             Draw(cube, drawEditor);
             Draw(quad, drawEditor);
-            if (clear)
-            {
-                Clear();
-            }
+            if (clear) Clear();
         }
 
         public void Line(Vector3 start, Vector3 end, float thickness)
         {
-            if (TryLine2DMatrix(start, end, thickness, out Matrix4x4 mtx))
-            {
-                quad.Add(mtx);
-            }
+            if (TryLine2DMatrix(start, end, thickness, out var mtx)) quad.Add(mtx);
         }
 
         public void Rect(Rect rect, float thickness, float z = 0)
@@ -155,10 +154,7 @@ namespace TensorFlowLite
 
         public void Line3D(Vector3 start, Vector3 end, float thickness)
         {
-            if (TryLine3DMatrix(start, end, thickness, out Matrix4x4 mtx))
-            {
-                cube.Add(mtx);
-            }
+            if (TryLine3DMatrix(start, end, thickness, out var mtx)) cube.Add(mtx);
         }
 
         public void Cube(Vector3 center, float size)
@@ -193,9 +189,9 @@ namespace TensorFlowLite
                 LightProbeUsage.Off, null);
 
 #if UNITY_EDITOR
-            if (drawEditor && UnityEditor.SceneView.lastActiveSceneView != null)
+            if (drawEditor && SceneView.lastActiveSceneView != null)
             {
-                var editorCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
+                var editorCamera = SceneView.lastActiveSceneView.camera;
                 Graphics.DrawMeshInstanced(
                     mb.mesh, 0, material, mb.buffer, mb.index,
                     mpb, ShadowCastingMode.Off, false, layer, editorCamera,
@@ -213,6 +209,7 @@ namespace TensorFlowLite
                 mtx = Matrix4x4.identity;
                 return false;
             }
+
             mtx = Matrix4x4.TRS(
                 (end + start) / 2,
                 Quaternion.Euler(0, 0, Mathf.Atan2(vec.y, vec.x) * Mathf.Rad2Deg),
@@ -230,6 +227,7 @@ namespace TensorFlowLite
                 mtx = Matrix4x4.identity;
                 return false;
             }
+
             mtx = Matrix4x4.TRS(
                 (end + start) / 2,
                 Quaternion.LookRotation(vec, Vector3.forward),
@@ -244,32 +242,37 @@ namespace TensorFlowLite
             {
                 case PrimitiveType.Cube:
                     var cube = new Mesh();
-                    cube.vertices = new Vector3[]
+                    cube.vertices = new[]
                     {
-                        new Vector3(S, -S, S), new Vector3(-S, -S, S), new Vector3(S, S, S), new Vector3(-S, S, S), new Vector3(S, S, -S), new Vector3(-S, S, -S), new Vector3(S, -S, -S), new Vector3(-S, -S, -S), new Vector3(S, S, S), new Vector3(-S, S, S), new Vector3(S, S, -S), new Vector3(-S, S, -S), new Vector3(S, -S, -S), new Vector3(S, -S, S), new Vector3(-S, -S, S), new Vector3(-S, -S, -S), new Vector3(-S, -S, S), new Vector3(-S, S, S), new Vector3(-S, S, -S), new Vector3(-S, -S, -S), new Vector3(S, -S, -S), new Vector3(S, S, -S), new Vector3(S, S, S), new Vector3(S, -S, S)
+                        new Vector3(S, -S, S), new Vector3(-S, -S, S), new Vector3(S, S, S), new Vector3(-S, S, S),
+                        new Vector3(S, S, -S), new Vector3(-S, S, -S), new Vector3(S, -S, -S), new Vector3(-S, -S, -S),
+                        new Vector3(S, S, S), new Vector3(-S, S, S), new Vector3(S, S, -S), new Vector3(-S, S, -S),
+                        new Vector3(S, -S, -S), new Vector3(S, -S, S), new Vector3(-S, -S, S), new Vector3(-S, -S, -S),
+                        new Vector3(-S, -S, S), new Vector3(-S, S, S), new Vector3(-S, S, -S), new Vector3(-S, -S, -S),
+                        new Vector3(S, -S, -S), new Vector3(S, S, -S), new Vector3(S, S, S), new Vector3(S, -S, S)
                     };
-                    cube.triangles = new int[]
+                    cube.triangles = new[]
                     {
-                        0, 2, 3, 0, 3, 1, 8, 4, 5, 8, 5, 9, 10, 6, 7, 10, 7, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23,
+                        0, 2, 3, 0, 3, 1, 8, 4, 5, 8, 5, 9, 10, 6, 7, 10, 7, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16,
+                        18, 19, 20, 21, 22, 20, 22, 23
                     };
                     return cube;
                 case PrimitiveType.Quad:
                     var quad = new Mesh();
-                    quad.vertices = new Vector3[]
+                    quad.vertices = new[]
                     {
                         new Vector3(-S, -S, 0), new Vector3(S, -S, 0), new Vector3(-S, S, 0), new Vector3(S, S, 0)
                     };
-                    quad.triangles = new int[]
+                    quad.triangles = new[]
                     {
-                        0, 3, 1, 3, 0, 2,
+                        0, 3, 1, 3, 0, 2
                     };
                     return quad;
                 default:
-                    throw new System.NotImplementedException($"Primitive type {type} not implemented");
+                    throw new NotImplementedException($"Primitive type {type} not implemented");
             }
         }
+
         #endregion // Private Methods
-
     }
-
 }

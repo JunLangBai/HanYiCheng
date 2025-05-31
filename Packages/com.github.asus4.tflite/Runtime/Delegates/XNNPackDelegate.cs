@@ -15,6 +15,7 @@ limitations under the License.
 
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine;
 using TfLiteDelegate = System.IntPtr;
 using TfLiteXNNPackDelegateWeightsCache = System.IntPtr;
 
@@ -22,67 +23,54 @@ namespace TensorFlowLite
 {
     public sealed class XNNPackDelegate : IDelegate
     {
-        [System.Flags]
+        [Flags]
         public enum Flags : uint
         {
             // Enable XNNPACK acceleration for signed quantized 8-bit inference.
             // This includes operators with channel-wise quantized weights.
             QS8 = 0x00000001,
+
             // Enable XNNPACK acceleration for unsigned quantized 8-bit inference.
             QU8 = 0x00000002,
+
             // Force FP16 inference for FP32 operators.
             FORCE_FP16 = 0x00000004,
+
             // Enable XNNPACK acceleration for FULLY_CONNECTED operator with dynamic
             //weights.
             DYNAMIC_FULLY_CONNECTED = 0x00000008,
+
             // Enable XNNPACK acceleration for VAR_HANDLE, READ_VARIABLE, and
             // ASSIGN_VARIABLE operators.
             VARIABLE_OPERATORS = 0x00000010,
+
             // Enable transient indirection buffer to reduce memory usage in selected
             // operators. Indirection buffer initialization will take place on every
             // inference run, instead of only once during initialization of the operators.
             TRANSIENT_INDIRECTION_BUFFER = 0x00000020,
+
             // Enable the latest XNNPACK operators and features in the delegate which have
             // not yet been enabled by default.
             ENABLE_LATEST_OPERATORS = 0x00000040,
+
             // Enable XNNPack subgraph reshaping. This means that models with dynamic
             // tensors are supported and that inputs may be efficiently resized.
-            ENABLE_SUBGRAPH_RESHAPING = 0x00000080,
+            ENABLE_SUBGRAPH_RESHAPING = 0x00000080
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Options
-        {
-            // Number of threads to use in the thread pool.
-            // 0 or negative value means no thread pool used.
-            public int numThreads;
-            public Flags flags;
-            // Cache for packed weights, can be shared between multiple instances of
-            // delegates.
-            public TfLiteXNNPackDelegateWeightsCache weightsCache;
-            // Deprecated. Use the flags bitfield with the
-            // TFLITE_XNNPACK_DELEGATE_FLAG_VARIABLE_OPERATORS mask.
-            [Obsolete("Use the flags bitfield with the TFLITE_XNNPACK_DELEGATE_FLAG_VARIABLE_OPERATORS mask.")]
-            public bool handleVariableOps;
-            // Path to the weight cache to load if `weight_cache` is undefined.
-            //
-            // WARNING this is an experimental flag.
-            public IntPtr experimental_weight_cache_file_path; // char*
-        }
-
-        public TfLiteDelegate Delegate { get; private set; }
-
-        public static Options DefaultOptions => TfLiteXNNPackDelegateOptionsDefault();
-
-        public XNNPackDelegate(): this(DefaultOptions)
+        public XNNPackDelegate() : this(DefaultOptions)
         {
         }
 
         public XNNPackDelegate(Options options)
         {
-            UnityEngine.Debug.Log("XNNPackDelegate Created");
+            Debug.Log("XNNPackDelegate Created");
             Delegate = TfLiteXNNPackDelegateCreate(ref options);
         }
+
+        public static Options DefaultOptions => TfLiteXNNPackDelegateOptionsDefault();
+
+        public TfLiteDelegate Delegate { get; private set; }
 
         public void Dispose()
         {
@@ -94,38 +82,58 @@ namespace TensorFlowLite
         {
             Flags flags = 0;
             if (inputType == typeof(sbyte))
-            {
                 flags = Flags.QS8;
-            }
-            else if (inputType == typeof(byte))
+            else if (inputType == typeof(byte)) flags = Flags.QU8;
+            var options = new Options
             {
-                flags = Flags.QU8;
-            }
-            var options = new Options()
-            {
-                numThreads = UnityEngine.SystemInfo.processorCount,
-                flags = flags,
+                numThreads = SystemInfo.processorCount,
+                flags = flags
             };
             return new XNNPackDelegate(options);
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Options
+        {
+            // Number of threads to use in the thread pool.
+            // 0 or negative value means no thread pool used.
+            public int numThreads;
+
+            public Flags flags;
+
+            // Cache for packed weights, can be shared between multiple instances of
+            // delegates.
+            public TfLiteXNNPackDelegateWeightsCache weightsCache;
+
+            // Deprecated. Use the flags bitfield with the
+            // TFLITE_XNNPACK_DELEGATE_FLAG_VARIABLE_OPERATORS mask.
+            [Obsolete("Use the flags bitfield with the TFLITE_XNNPACK_DELEGATE_FLAG_VARIABLE_OPERATORS mask.")]
+            public bool handleVariableOps;
+
+            // Path to the weight cache to load if `weight_cache` is undefined.
+            //
+            // WARNING this is an experimental flag.
+            public IntPtr experimental_weight_cache_file_path; // char*
+        }
+
         #region Externs
+
         // APIs for XNNPack are included in the core library 
         internal const string TensorFlowLibrary = Interpreter.TensorFlowLibrary;
 
         // Returns a structure with the default XNNPack delegate options.
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe Options TfLiteXNNPackDelegateOptionsDefault();
+        private static extern Options TfLiteXNNPackDelegateOptionsDefault();
 
         // Creates a new delegate instance that need to be destroyed with
         // `TfLiteXNNPackDelegateDelete` when delegate is no longer used by TFLite.
         // When `options` is set to `nullptr`, the following default values are used:
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe TfLiteDelegate TfLiteXNNPackDelegateCreate(ref Options options);
+        private static extern TfLiteDelegate TfLiteXNNPackDelegateCreate(ref Options options);
 
         // Destroys a delegate created with `TfLiteXNNPackDelegateCreate` call.
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe void TfLiteXNNPackDelegateDelete(TfLiteDelegate xnnPackDelegate);
+        private static extern void TfLiteXNNPackDelegateDelete(TfLiteDelegate xnnPackDelegate);
 
         // Weights Cache is disable due to build error in iOS and Unity 2021 LTS.
         // https://github.com/asus4/tf-lite-unity-sample/issues/261
@@ -137,6 +145,7 @@ namespace TensorFlowLite
         // Destroys a weights cache created with `TfLiteXNNPackDelegateWeightsCacheCreate` call.
         // [DllImport(TensorFlowLibrary)]
         // private static extern unsafe void TfLiteXNNPackWeightsCacheDelete(TfLiteXNNPackDelegateWeightsCache cache);
+
         #endregion // Externs
     }
 }

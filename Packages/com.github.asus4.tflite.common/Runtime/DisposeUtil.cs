@@ -15,26 +15,17 @@ namespace TensorFlowLite
 
         public static void TryDispose(Texture2D tex)
         {
-            if (tex != null)
-            {
-                Object.Destroy(tex);
-            }
+            if (tex != null) Object.Destroy(tex);
         }
 
         public static void TryDispose(Material mat)
         {
-            if (mat != null)
-            {
-                Object.Destroy(mat);
-            }
+            if (mat != null) Object.Destroy(mat);
         }
 
         public static void TryDispose(ComputeBuffer buf)
         {
-            if (buf != null)
-            {
-                buf.Dispose();
-            }
+            if (buf != null) buf.Dispose();
         }
     }
 }

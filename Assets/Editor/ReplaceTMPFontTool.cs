@@ -1,26 +1,19 @@
+using TMPro;
 using UnityEditor;
 using UnityEngine;
-using TMPro;
-using System.Collections.Generic;
 
 public class ReplaceTMPFontTool : EditorWindow
 {
     private TMP_FontAsset targetFont;
 
-    [MenuItem("Tools/TMP/批量替换TMP字体")]
-    public static void ShowWindow()
-    {
-        GetWindow<ReplaceTMPFontTool>("替换TMP字体");
-    }
-
-    void OnGUI()
+    private void OnGUI()
     {
         GUILayout.Label("批量替换TMP字体设置", EditorStyles.boldLabel);
-        
+
         targetFont = (TMP_FontAsset)EditorGUILayout.ObjectField(
-            "目标字体", 
-            targetFont, 
-            typeof(TMP_FontAsset), 
+            "目标字体",
+            targetFont,
+            typeof(TMP_FontAsset),
             false);
 
         if (GUILayout.Button("开始替换"))
@@ -31,14 +24,18 @@ public class ReplaceTMPFontTool : EditorWindow
                 return;
             }
 
-            if (EditorUtility.DisplayDialog("警告", 
-                "即将修改所有TMP文本的字体，此操作不可逆！\n\n建议先保存场景。\n是否继续？", 
-                "继续", 
-                "取消"))
-            {
+            if (EditorUtility.DisplayDialog("警告",
+                    "即将修改所有TMP文本的字体，此操作不可逆！\n\n建议先保存场景。\n是否继续？",
+                    "继续",
+                    "取消"))
                 ReplaceAllTMPFonts();
-            }
         }
+    }
+
+    [MenuItem("Tools/TMP/批量替换TMP字体")]
+    public static void ShowWindow()
+    {
+        GetWindow<ReplaceTMPFontTool>("替换TMP字体");
     }
 
     private void ReplaceAllTMPFonts()
@@ -54,10 +51,10 @@ public class ReplaceTMPFontTool : EditorWindow
 
     private void ReplaceInSceneObjects()
     {
-        TextMeshProUGUI[] tmpComponents = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>();
-        int count = 0;
+        var tmpComponents = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>();
+        var count = 0;
 
-        foreach (TextMeshProUGUI tmp in tmpComponents)
+        foreach (var tmp in tmpComponents)
         {
             // 跳过预制体实例（后面单独处理）
             if (PrefabUtility.IsPartOfPrefabInstance(tmp))
@@ -73,31 +70,26 @@ public class ReplaceTMPFontTool : EditorWindow
 
     private void ReplaceInPrefabs()
     {
-        string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab");
-        int modifiedCount = 0;
+        var prefabGuids = AssetDatabase.FindAssets("t:Prefab");
+        var modifiedCount = 0;
 
-        foreach (string guid in prefabGuids)
+        foreach (var guid in prefabGuids)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            GameObject prefab = PrefabUtility.LoadPrefabContents(path);
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var prefab = PrefabUtility.LoadPrefabContents(path);
 
-            bool modified = false;
-            TextMeshProUGUI[] tmpComponents = prefab.GetComponentsInChildren<TextMeshProUGUI>(true);
+            var modified = false;
+            var tmpComponents = prefab.GetComponentsInChildren<TextMeshProUGUI>(true);
 
-            foreach (TextMeshProUGUI tmp in tmpComponents)
-            {
+            foreach (var tmp in tmpComponents)
                 if (tmp.font != targetFont)
                 {
                     tmp.font = targetFont;
                     modified = true;
                     modifiedCount++;
                 }
-            }
 
-            if (modified)
-            {
-                PrefabUtility.SaveAsPrefabAsset(prefab, path);
-            }
+            if (modified) PrefabUtility.SaveAsPrefabAsset(prefab, path);
 
             PrefabUtility.UnloadPrefabContents(prefab);
         }

@@ -14,7 +14,6 @@ limitations under the License.
 ==============================================================================*/
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-
 using System;
 using System.Runtime.InteropServices;
 using TfLiteDelegate = System.IntPtr;

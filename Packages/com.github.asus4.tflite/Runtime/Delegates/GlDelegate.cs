@@ -15,7 +15,6 @@ limitations under the License.
 
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-
 using System.Runtime.InteropServices;
 using UnityEngine;
 using TfLiteDelegate = System.IntPtr;
@@ -114,4 +113,3 @@ namespace TensorFlowLite
     }
 }
 #endif // UNITY_ANDROID && !UNITY_EDITOR
-

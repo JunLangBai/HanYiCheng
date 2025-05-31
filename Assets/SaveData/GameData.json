@@ -1,6 +1,5 @@
 {
-  "LastLoginUTC": "2025-05-26T13:00:25.9029329",
-  "LoginStreak": 2,
+  "LoginStreak": 1,
   "placementClear": true,
   "tutorialClear": true,
   "levels": [
@@ -63,9 +62,16 @@
       "ISUnlockedByDefault": true,
       "Scene": "Level2-3",
       "LevelName": "3"
+    },
+    {
+      "LevelID": "2-4",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level2-4",
+      "LevelName": "4"
     }
   ],
   "volume": 0.188949883,
   "username": null,
-  "profilePictureIndex": 3
+  "profilePictureIndex": 3,
+  "LastLoginUTC": "2025-05-31T21:29:55.9069189"
 }

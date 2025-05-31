@@ -8,11 +8,8 @@ namespace TensorFlowLite
     {
         public static IEnumerable<Tuple<int, T>> ToIndexValueTuple<T>(this T[] arr)
         {
-            int index = 0;
-            return arr.Select(o =>
-            {
-                return Tuple.Create(index++, o);
-            });
+            var index = 0;
+            return arr.Select(o => { return Tuple.Create(index++, o); });
         }
     }
 }

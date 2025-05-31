@@ -22,7 +22,6 @@ using TfLiteInterpreter = System.IntPtr;
 using TfLiteInterpreterOptions = System.IntPtr;
 using TfLiteNode = System.IntPtr;
 using TfLiteRegistration = System.IntPtr;
-using TfLiteTensor = System.IntPtr;
 
 namespace TensorFlowLite
 {
@@ -30,13 +29,17 @@ namespace TensorFlowLite
     public struct Registration
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void InitDelegate(TfLiteContext context, IntPtr buffer, UInt64 length);
+        public delegate void InitDelegate(TfLiteContext context, TfLiteContext buffer, ulong length);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void FreeDelegate(TfLiteContext context, IntPtr buffer);
+        public delegate void FreeDelegate(TfLiteContext context, TfLiteContext buffer);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate Status PrepareDelegate(TfLiteContext context, TfLiteNode node);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate Status InvokeDelegate(TfLiteContext context, TfLiteNode node);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate string ProfilingStringDelegate(TfLiteContext context, TfLiteNode node);
 
@@ -51,12 +54,14 @@ namespace TensorFlowLite
     }
 
     /// <summary>
-    /// The bridge for c_api_experimental.h 
+    ///     The bridge for c_api_experimental.h
     /// </summary>
     public static class InterpreterExperimental
     {
+        private const string TensorFlowLibrary = Interpreter.TensorFlowLibrary;
+
         /// <summary>
-        /// Resets all variable tensors to zero.
+        ///     Resets all variable tensors to zero.
         /// </summary>
         /// <param name="interpreter"></param>
         public static void ResetVariableTensors(this Interpreter interpreter)
@@ -65,7 +70,7 @@ namespace TensorFlowLite
         }
 
         /// <summary>
-        /// Returns the number of variable tensors associated with the model.
+        ///     Returns the number of variable tensors associated with the model.
         /// </summary>
         /// <param name="interpreter"></param>
         /// <returns></returns>
@@ -75,7 +80,8 @@ namespace TensorFlowLite
         }
 
         // TODO: Implement way to add custom ops
-        public static unsafe void AddBuiltinOp(this InterpreterOptions options, BuiltinOperator op, Registration registration, int minVersion, int maxVersion)
+        public static void AddBuiltinOp(this InterpreterOptions options, BuiltinOperator op, Registration registration,
+            int minVersion, int maxVersion)
         {
             throw new NotImplementedException();
         }
@@ -104,8 +110,6 @@ namespace TensorFlowLite
         {
             return TfLiteInterpreterGetOutputTensorIndex(interpreter.InterpreterPointer, index);
         }
-
-        private const string TensorFlowLibrary = Interpreter.TensorFlowLibrary;
 
         [DllImport(TensorFlowLibrary)]
         private static extern Status TfLiteInterpreterResetVariableTensors(TfLiteInterpreter interpreter);
@@ -146,6 +150,5 @@ namespace TensorFlowLite
         [DllImport(TensorFlowLibrary)]
         internal static extern int TfLiteInterpreterGetOutputTensorIndex(
             TfLiteInterpreter interpreter, int output_index);
-
     }
 }

@@ -13,7 +13,6 @@
         Pass
         {
             CGPROGRAM
-
             #pragma vertex vert
             #pragma fragment frag
 
@@ -34,7 +33,7 @@
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(mul(_VertTransform, v.vertex));
@@ -44,9 +43,9 @@
 
             sampler2D _MainTex;
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                if(i.uv.x < 0 || i.uv.x > 1 || i.uv.y < 0 || i.uv.y > 1)
+                if (i.uv.x < 0 || i.uv.x > 1 || i.uv.y < 0 || i.uv.y > 1)
                 {
                     return fixed4(0, 0, 0, 0);
                 }

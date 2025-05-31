@@ -19,7 +19,7 @@ namespace TensorFlowLite
     }
 
     /// <summary>
-    /// Attribute for string to specify WebCam name in Editor
+    ///     Attribute for string to specify WebCam name in Editor
     /// </summary>
     public sealed class WebCamName : DeviceName
     {
@@ -29,7 +29,7 @@ namespace TensorFlowLite
     }
 
     /// <summary>
-    /// Attribute for string to specify Microphone name in Editor
+    ///     Attribute for string to specify Microphone name in Editor
     /// </summary>
     public sealed class MicrophoneName : DeviceName
     {

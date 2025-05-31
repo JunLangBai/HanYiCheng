@@ -1,13 +1,14 @@
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class FinishLevel : MonoBehaviour
 {
     public void Finish()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        string currentLevelID = currentSceneName.Replace("Level", ""); // 例如场景名 "Level1-1" → ID "1-1"
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        var currentLevelID = currentSceneName.Replace("Level", ""); // 例如场景名 "Level1-1" → ID "1-1"
 
         if (UIManager.Instance.GetScore() >= 0.8f)
         {
@@ -18,26 +19,31 @@ public class FinishLevel : MonoBehaviour
 
             // 解锁下一关
             LevelSelectMngr.Instance.UnlockNextLevel(currentLevelID);
-
         }
+
         // 强制保存进度
         LevelSelectMngr.Instance.SaveProgress();
-
-        SceneManager.LoadScene("LevelSelection1");
+        // 匹配连续的数字部分
+        Match match = Regex.Match(LevelSelectMngr.Instance.CurrentArea.ToString(), @"\d+");
+        
+        if (match.Success)
+        {
+            string numberPart = match.Value;  // 获取数字字符串 "2"
+            int number = int.Parse(numberPart); // 转换为整数
+            SceneManager.LoadScene("LevelSelection" + number);
+        }
+        
     }
 
     private void MarkLevelCompleted(string levelID)
     {
-        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         if (gameData == null) return;
 
         var targetLevel = gameData.levels.FirstOrDefault(l => l.LevelID == levelID);
         if (targetLevel != null)
-        {
             targetLevel.ISUnlockedByDefault = true;
-        }
         else
-        {
             // 使用无参构造函数 + 对象初始化器
             gameData.levels.Add(new LevelDataJson
             {
@@ -46,7 +52,6 @@ public class FinishLevel : MonoBehaviour
                 Scene = SceneManager.GetActiveScene().path, // 使用场景路径
                 LevelName = "动态解锁的关卡" // 根据实际需要设置
             });
-        }
 
         JsonFileManager.SaveToJson(gameData, "GameData.json");
     }

@@ -19,9 +19,10 @@ Shader "Hidden/PrimitiveDraw"
 
     SubShader
     {
-        Tags {
+        Tags
+        {
             "Queue"="Transparent+1"
-            "IgnoreProjector"="True" 
+            "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }
 
@@ -41,18 +42,23 @@ Shader "Hidden/PrimitiveDraw"
             #pragma multi_compile_instancing
             #include "UnityCG.cginc"
 
-            struct appdata_t {
+            struct appdata_t
+            {
                 float4 vertex : POSITION;
                 float4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-            struct v2f {
+
+            struct v2f
+            {
                 fixed4 color : COLOR;
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
+
             float4 _Color;
-            v2f vert (appdata_t v)
+
+            v2f vert(appdata_t v)
             {
                 v2f o;
                 UNITY_SETUP_INSTANCE_ID(v);
@@ -62,7 +68,7 @@ Shader "Hidden/PrimitiveDraw"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 return i.color;
             }

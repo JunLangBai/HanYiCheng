@@ -14,7 +14,6 @@ limitations under the License.
 ==============================================================================*/
 
 #if (UNITY_ANDROID && !UNITY_EDITOR) || (UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX)
-
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -153,4 +152,3 @@ namespace TensorFlowLite
     }
 }
 #endif // (UNITY_ANDROID && !UNITY_EDITOR) || (UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX)
-

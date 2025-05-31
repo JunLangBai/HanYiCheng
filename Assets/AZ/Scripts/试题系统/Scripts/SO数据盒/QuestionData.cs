@@ -1,6 +1,8 @@
 // QuestionData.cs
-using UnityEngine;
+
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewQuestionData", menuName = "Question Data")]
 public class QuestionData : ScriptableObject
@@ -8,7 +10,7 @@ public class QuestionData : ScriptableObject
     public List<Question> questions;
 }
 
-[System.Serializable]
+[Serializable]
 public class Question
 {
     public string questionText;
@@ -18,7 +20,7 @@ public class Question
     public int correctAnswerIndex;
 }
 
-[System.Serializable]
+[Serializable]
 public class Option
 {
     public string text;

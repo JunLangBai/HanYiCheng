@@ -33,20 +33,20 @@ public class NewMat : MonoBehaviour
 
         if (_mat.GetFloat("_SunPos") < 0)
             tween_down = DOTween
-                .To(value => { _mat.SetFloat("_SunPos", value); }, _mat.GetFloat("_SunPos"), END_POS, 1f).OnComplete(
-                    () =>
-                    {
-                        inAnim = false;
-                        inBtn = false;
-                    });
+                .To(value => { _mat.SetFloat("_SunPos", value); }, _mat.GetFloat("_SunPos"), END_POS, 1f)
+                .OnComplete(() =>
+                {
+                    inAnim = false;
+                    inBtn = false;
+                });
         else
             tween_down = DOTween
-                .To(value => { _mat.SetFloat("_SunPos", value); }, _mat.GetFloat("_SunPos"), BEGIN_POS, 1f).OnComplete(
-                    () =>
-                    {
-                        inAnim = false;
-                        inBtn = false;
-                    });
+                .To(value => { _mat.SetFloat("_SunPos", value); }, _mat.GetFloat("_SunPos"), BEGIN_POS, 1f)
+                .OnComplete(() =>
+                {
+                    inAnim = false;
+                    inBtn = false;
+                });
     }
 
     public void OnMouseEnter()

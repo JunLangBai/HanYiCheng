@@ -187,7 +187,6 @@ public class TextDisplay : MonoBehaviour
             // 绑定带参数的点击事件
             var btnComponent = button.GetComponent<Button>();
             btnComponent.onClick.AddListener(() => { HandleButtonClick(btnText); });
-            
         }
     }
 
@@ -252,12 +251,12 @@ public class TextDisplay : MonoBehaviour
 
     public void SceneLoaded()
     {
-         // 加载 JSON 数据
-         GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
-         gameData.placementClear = true;
-         // 保存修改后的数据
-         JsonFileManager.SaveToJson(gameData, "GameData.json");
-         SceneManager.LoadScene(endSceneName);
+        // 加载 JSON 数据
+        var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        gameData.placementClear = true;
+        // 保存修改后的数据
+        JsonFileManager.SaveToJson(gameData, "GameData.json");
+        SceneManager.LoadScene(endSceneName);
     }
 
     /// <summary>
@@ -279,7 +278,7 @@ public class TextDisplay : MonoBehaviour
 
         // 第二步：淡出
         yield return StartCoroutine(Fade(1f, 0f));
-        
+
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
     }

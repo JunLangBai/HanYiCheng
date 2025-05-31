@@ -2,28 +2,16 @@ using System;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
-
 using DataType = TensorFlowLite.Interpreter.DataType;
 using Object = UnityEngine.Object;
 
 namespace TensorFlowLite
 {
     /// <summary>
-    /// Converts tensor to texture
+    ///     Converts tensor to texture
     /// </summary>
     public sealed class TensorToTexture : IDisposable
     {
-        [Serializable]
-        public class Options
-        {
-            public ComputeShader compute = null;
-            public int kernel = 0;
-            public int width = 0;
-            public int height = 0;
-            public int channels = 0;
-            public DataType inputType = DataType.Float32;
-        }
-
         private static readonly int _InputTensor = Shader.PropertyToID("_InputTensor");
         private static readonly int _InputSize = Shader.PropertyToID("_InputSize");
         private static readonly int _OutputTexture = Shader.PropertyToID("_OutputTexture");
@@ -31,17 +19,15 @@ namespace TensorFlowLite
         private static readonly Lazy<ComputeShader> DefaultComputeShaderFloat32 = new(()
             => Resources.Load<ComputeShader>("com.github.asus4.tflite.common/TensorToTextureFloat32"));
 
-        private readonly ComputeShader compute;
-        private readonly int kernel;
-        private readonly int width;
-        private readonly int height;
         private readonly int channels;
+
+        private readonly ComputeShader compute;
+        private readonly int height;
+        private readonly int kernel;
 
 
         private readonly GraphicsBuffer tensorBuffer;
-        private readonly RenderTexture outputTexture;
-
-        public RenderTexture OutputTexture => outputTexture;
+        private readonly int width;
 
         public TensorToTexture(Options options)
         {
@@ -55,20 +41,22 @@ namespace TensorFlowLite
 
             Assert.IsNotNull(compute, "ComputeShader is not set");
 
-            int stride = channels * DataTypeToStride(options.inputType);
+            var stride = channels * DataTypeToStride(options.inputType);
             tensorBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, width * height, stride);
-            outputTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32)
+            OutputTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32)
             {
                 enableRandomWrite = true
             };
-            outputTexture.Create();
+            OutputTexture.Create();
         }
+
+        public RenderTexture OutputTexture { get; }
 
         public void Dispose()
         {
             tensorBuffer.Dispose();
-            outputTexture.Release();
-            Object.Destroy(outputTexture);
+            OutputTexture.Release();
+            Object.Destroy(OutputTexture);
         }
 
         public RenderTexture Convert(Array data)
@@ -76,9 +64,9 @@ namespace TensorFlowLite
             tensorBuffer.SetData(data);
             compute.SetInts(_InputSize, width, height);
             compute.SetBuffer(kernel, _InputTensor, tensorBuffer);
-            compute.SetTexture(kernel, _OutputTexture, outputTexture);
+            compute.SetTexture(kernel, _OutputTexture, OutputTexture);
             compute.Dispatch(kernel, Mathf.CeilToInt(width / 8f), Mathf.CeilToInt(height / 8f), 1);
-            return outputTexture;
+            return OutputTexture;
         }
 
         public RenderTexture Convert<T>(NativeArray<T> data)
@@ -87,9 +75,9 @@ namespace TensorFlowLite
             tensorBuffer.SetData(data);
             compute.SetInts(_InputSize, width, height);
             compute.SetBuffer(kernel, _InputTensor, tensorBuffer);
-            compute.SetTexture(kernel, _OutputTexture, outputTexture);
+            compute.SetTexture(kernel, _OutputTexture, OutputTexture);
             compute.Dispatch(kernel, Mathf.CeilToInt(width / 8f), Mathf.CeilToInt(height / 8f), 1);
-            return outputTexture;
+            return OutputTexture;
         }
 
         private static int DataTypeToStride(DataType type)
@@ -97,8 +85,19 @@ namespace TensorFlowLite
             return type switch
             {
                 DataType.Float32 => sizeof(float),
-                _ => throw new NotSupportedException($"Unsupported type: {type}"),
+                _ => throw new NotSupportedException($"Unsupported type: {type}")
             };
+        }
+
+        [Serializable]
+        public class Options
+        {
+            public ComputeShader compute;
+            public int kernel;
+            public int width;
+            public int height;
+            public int channels;
+            public DataType inputType = DataType.Float32;
         }
     }
 }

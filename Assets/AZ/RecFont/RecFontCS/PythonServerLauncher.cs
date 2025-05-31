@@ -3,24 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TensorFlowLite;
 using UnityEngine;
 using UnityEngine.Networking;
-using TensorFlowLite;
+using Random = System.Random;
 
 public class HangulInference : MonoBehaviour
 {
     [SerializeField] private string labelFileName = "labels.txt";
     [SerializeField] private string modelFileName = "model.tflite";
+    private float[] inputBuffer;
+    private Interpreter interpreter;
 
     private string[] labels;
-    private Interpreter interpreter;
-    private float[] inputBuffer;
     private float[] outputBuffer;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(LoadLabelsAsync());
         StartCoroutine(LoadModelAsync());
+    }
+
+    private void OnDestroy()
+    {
+        interpreter?.Dispose();
     }
 
     private IEnumerator LoadLabelsAsync()
@@ -28,7 +34,7 @@ public class HangulInference : MonoBehaviour
         var labelPath = Path.Combine(Application.streamingAssetsPath, labelFileName);
         Debug.Log($"加载标签文件: {labelPath}");
 
-        UnityWebRequest request = UnityWebRequest.Get(labelPath);
+        var request = UnityWebRequest.Get(labelPath);
         yield return request.SendWebRequest();
 
 #if UNITY_2020_1_OR_NEWER
@@ -41,7 +47,7 @@ public class HangulInference : MonoBehaviour
             yield break;
         }
 
-        string text = request.downloadHandler.text;
+        var text = request.downloadHandler.text;
         if (string.IsNullOrEmpty(text))
         {
             Debug.LogError("❌ 标签文件为空！");
@@ -65,6 +71,7 @@ public class HangulInference : MonoBehaviour
             Debug.LogError($"❌ 模型文件未找到: {modelPath}");
             yield break;
         }
+
         modelData = File.ReadAllBytes(modelPath);
 #else
     UnityWebRequest request = UnityWebRequest.Get(modelPath);
@@ -93,7 +100,7 @@ public class HangulInference : MonoBehaviour
         try
         {
             interpreter?.Dispose();
-            var options = new InterpreterOptions() { threads = 1 };
+            var options = new InterpreterOptions { threads = 1 };
             interpreter = new Interpreter(modelData, options);
             interpreter.AllocateTensors();
 
@@ -104,8 +111,6 @@ public class HangulInference : MonoBehaviour
             outputBuffer = new float[outputInfo.shape[1]];
 
             Debug.Log($"✅ 模型加载成功: 输入维度 {string.Join(",", inputInfo.shape)}, 输出维度 {string.Join(",", outputInfo.shape)}");
-
-
         }
         catch (Exception ex)
         {
@@ -129,6 +134,7 @@ public class HangulInference : MonoBehaviour
                 Debug.LogError("❌ 模型未加载成功，interpreter 为 null");
                 return "";
             }
+
             if (outputBuffer == null)
             {
                 Debug.LogError("❌ outputBuffer 尚未初始化");
@@ -137,13 +143,13 @@ public class HangulInference : MonoBehaviour
 
             // 数据增强，得到多版本图像
             var variants = AugmentImage(image);
-            List<string> predictions = new List<string>();
+            var predictions = new List<string>();
 
             foreach (var img in variants)
             {
                 // 预处理，转为模型输入格式的一维float数组
                 var vector = Preprocess(img);
-                inputBuffer = vector;  // 直接赋值
+                inputBuffer = vector; // 直接赋值
 
                 // 填充输入tensor并推理
                 interpreter.SetInputTensorData(0, inputBuffer);
@@ -153,13 +159,13 @@ public class HangulInference : MonoBehaviour
                 interpreter.GetOutputTensorData(0, outputBuffer);
 
                 // softmax概率计算，选最大概率索引
-                float[] probs = Softmax(outputBuffer);
-                int index = ArgMax(probs);
+                var probs = Softmax(outputBuffer);
+                var index = ArgMax(probs);
                 predictions.Add(labels[index]);
             }
 
             // 多版本预测结果投票，返回最多的那个label
-            string finalPrediction = predictions
+            var finalPrediction = predictions
                 .GroupBy(x => x)
                 .OrderByDescending(g => g.Count())
                 .First().Key;
@@ -175,23 +181,22 @@ public class HangulInference : MonoBehaviour
     }
 
 
-
     // 下面是你的辅助方法，保持不变
-    
+
     private float[] Preprocess(Texture2D input)
     {
         // 1. 转灰度并resize为64x64（建议用RenderTexture+shader做灰度缩放）
-        Texture2D gray64 = ResizeAndGrayscale(input, 64, 64);
+        var gray64 = ResizeAndGrayscale(input, 64, 64);
 
         // 2. 读取像素并归一化反色
-        Color32[] pixels = gray64.GetPixels32();
-        float[] vector = new float[pixels.Length];
+        var pixels = gray64.GetPixels32();
+        var vector = new float[pixels.Length];
 
-        for (int i = 0; i < pixels.Length; i++)
+        for (var i = 0; i < pixels.Length; i++)
         {
             // 灰度值在r/g/b三通道相同
-            float gray = pixels[i].r / 255f;
-            vector[i] = 1f - gray;  // 反色
+            var gray = pixels[i].r / 255f;
+            vector[i] = 1f - gray; // 反色
         }
 
         return vector;
@@ -201,12 +206,12 @@ public class HangulInference : MonoBehaviour
     private Texture2D ResizeAndGrayscale(Texture2D source, int width, int height)
     {
         // 先缩放到目标尺寸
-        Texture2D resized = ResizeTexture(source, width, height);
+        var resized = ResizeTexture(source, width, height);
 
-        Color32[] pixels = resized.GetPixels32();
-        for (int i = 0; i < pixels.Length; i++)
+        var pixels = resized.GetPixels32();
+        for (var i = 0; i < pixels.Length; i++)
         {
-            byte gray = (byte)(0.299f * pixels[i].r + 0.587f * pixels[i].g + 0.114f * pixels[i].b);
+            var gray = (byte)(0.299f * pixels[i].r + 0.587f * pixels[i].g + 0.114f * pixels[i].b);
             pixels[i] = new Color32(gray, gray, gray, pixels[i].a);
         }
 
@@ -218,16 +223,16 @@ public class HangulInference : MonoBehaviour
 
     private Texture2D GaussianBlur(Texture2D source, int radius)
     {
-        RenderTexture rt1 = RenderTexture.GetTemporary(source.width, source.height);
-        RenderTexture rt2 = RenderTexture.GetTemporary(source.width, source.height);
+        var rt1 = RenderTexture.GetTemporary(source.width, source.height);
+        var rt2 = RenderTexture.GetTemporary(source.width, source.height);
 
         Graphics.Blit(source, rt1);
 
-        Material blurMat = new Material(Shader.Find("Hidden/GaussianBlur"));
+        var blurMat = new Material(Shader.Find("Hidden/GaussianBlur"));
         blurMat.SetFloat("_Radius", radius);
 
         Graphics.Blit(rt1, rt2, blurMat);
-        Texture2D result = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
+        var result = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
         RenderTexture.active = rt2;
         result.ReadPixels(new Rect(0, 0, rt2.width, rt2.height), 0, 0);
         result.Apply();
@@ -238,19 +243,20 @@ public class HangulInference : MonoBehaviour
 
         return result;
     }
+
     private Texture2D AddGaussianNoise(Texture2D source, float stdDev)
     {
-        Texture2D noisy = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
-        Color32[] pixels = source.GetPixels32();
-        System.Random rnd = new System.Random();
+        var noisy = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
+        var pixels = source.GetPixels32();
+        var rnd = new Random();
 
-        for (int i = 0; i < pixels.Length; i++)
+        for (var i = 0; i < pixels.Length; i++)
         {
-            float noise = (float)GaussianRandom(rnd, 0, stdDev) / 255f;
-            float gray = pixels[i].r / 255f;
+            var noise = (float)GaussianRandom(rnd, 0, stdDev) / 255f;
+            var gray = pixels[i].r / 255f;
 
-            float noisyGray = Mathf.Clamp01(gray + noise);
-            byte val = (byte)(noisyGray * 255f);
+            var noisyGray = Mathf.Clamp01(gray + noise);
+            var val = (byte)(noisyGray * 255f);
             pixels[i] = new Color32(val, val, val, 255);
         }
 
@@ -259,48 +265,47 @@ public class HangulInference : MonoBehaviour
         return noisy;
     }
 
-    private double GaussianRandom(System.Random rnd, double mean, double stdDev)
+    private double GaussianRandom(Random rnd, double mean, double stdDev)
     {
         // Box-Muller transform
-        double u1 = 1.0 - rnd.NextDouble();
-        double u2 = 1.0 - rnd.NextDouble();
-        double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
-                               Math.Sin(2.0 * Math.PI * u2);
+        var u1 = 1.0 - rnd.NextDouble();
+        var u2 = 1.0 - rnd.NextDouble();
+        var randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
+                            Math.Sin(2.0 * Math.PI * u2);
         return mean + stdDev * randStdNormal;
     }
+
     private Texture2D RotateTexture(Texture2D source, float angle)
     {
-        int width = source.width;
-        int height = source.height;
+        var width = source.width;
+        var height = source.height;
 
-        Texture2D rotated = new Texture2D(width, height, TextureFormat.RGBA32, false);
-        Color32[] srcPixels = source.GetPixels32();
-        Color32[] rotatedPixels = new Color32[srcPixels.Length];
+        var rotated = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        var srcPixels = source.GetPixels32();
+        var rotatedPixels = new Color32[srcPixels.Length];
 
-        float rad = angle * Mathf.Deg2Rad;
-        float cos = Mathf.Cos(rad);
-        float sin = Mathf.Sin(rad);
+        var rad = angle * Mathf.Deg2Rad;
+        var cos = Mathf.Cos(rad);
+        var sin = Mathf.Sin(rad);
 
-        int cx = width / 2;
-        int cy = height / 2;
+        var cx = width / 2;
+        var cy = height / 2;
 
-        Color32 white = new Color32(255, 255, 255, 255);
+        var white = new Color32(255, 255, 255, 255);
 
-        for (int y = 0; y < height; y++)
+        for (var y = 0; y < height; y++)
+        for (var x = 0; x < width; x++)
         {
-            for (int x = 0; x < width; x++)
-            {
-                int tx = x - cx;
-                int ty = y - cy;
+            var tx = x - cx;
+            var ty = y - cy;
 
-                int rx = Mathf.RoundToInt(cos * tx - sin * ty) + cx;
-                int ry = Mathf.RoundToInt(sin * tx + cos * ty) + cy;
+            var rx = Mathf.RoundToInt(cos * tx - sin * ty) + cx;
+            var ry = Mathf.RoundToInt(sin * tx + cos * ty) + cy;
 
-                if (rx >= 0 && rx < width && ry >= 0 && ry < height)
-                    rotatedPixels[y * width + x] = srcPixels[ry * width + rx];
-                else
-                    rotatedPixels[y * width + x] = white;
-            }
+            if (rx >= 0 && rx < width && ry >= 0 && ry < height)
+                rotatedPixels[y * width + x] = srcPixels[ry * width + rx];
+            else
+                rotatedPixels[y * width + x] = white;
         }
 
         rotated.SetPixels32(rotatedPixels);
@@ -308,9 +313,10 @@ public class HangulInference : MonoBehaviour
 
         return rotated;
     }
+
     private List<Texture2D> AugmentImage(Texture2D original)
     {
-        List<Texture2D> variants = new List<Texture2D> { original };
+        var variants = new List<Texture2D> { original };
 
         // 旋转
         float[] angles = { -5f, 5f, 10f };
@@ -334,40 +340,37 @@ public class HangulInference : MonoBehaviour
 
     private Texture2D ScaleAndCenter(Texture2D source, float scale)
     {
-        int newW = Mathf.RoundToInt(source.width * scale);
-        int newH = Mathf.RoundToInt(source.height * scale);
+        var newW = Mathf.RoundToInt(source.width * scale);
+        var newH = Mathf.RoundToInt(source.height * scale);
 
-        Texture2D scaled = new Texture2D(newW, newH, TextureFormat.RGBA32, false);
+        var scaled = new Texture2D(newW, newH, TextureFormat.RGBA32, false);
         // 直接缩放（用RenderTexture更好）
         scaled = ResizeTexture(source, newW, newH);
 
-        Texture2D canvas = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
-        Color32[] bg = Enumerable.Repeat(new Color32(255, 255, 255, 255), canvas.width * canvas.height).ToArray();
+        var canvas = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
+        var bg = Enumerable.Repeat(new Color32(255, 255, 255, 255), canvas.width * canvas.height).ToArray();
         canvas.SetPixels32(bg);
 
-        int offsetX = (canvas.width - newW) / 2;
-        int offsetY = (canvas.height - newH) / 2;
+        var offsetX = (canvas.width - newW) / 2;
+        var offsetY = (canvas.height - newH) / 2;
 
-        for (int y = 0; y < newH; y++)
-        {
-            for (int x = 0; x < newW; x++)
-            {
-                canvas.SetPixel(x + offsetX, y + offsetY, scaled.GetPixel(x, y));
-            }
-        }
+        for (var y = 0; y < newH; y++)
+        for (var x = 0; x < newW; x++)
+            canvas.SetPixel(x + offsetX, y + offsetY, scaled.GetPixel(x, y));
 
         canvas.Apply();
         return canvas;
     }
+
     private Texture2D ResizeTexture(Texture2D source, int width, int height)
     {
-        RenderTexture rt = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGB32);
+        var rt = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGB32);
         RenderTexture.active = rt;
 
         // 使用Graphics.Blit进行缩放
         Graphics.Blit(source, rt);
 
-        Texture2D result = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        var result = new Texture2D(width, height, TextureFormat.RGBA32, false);
         result.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         result.Apply();
 
@@ -376,30 +379,25 @@ public class HangulInference : MonoBehaviour
 
         return result;
     }
+
     private float[] Softmax(float[] logits)
     {
-        float max = logits.Max();
-        float sum = logits.Select(x => Mathf.Exp(x - max)).Sum();
+        var max = logits.Max();
+        var sum = logits.Select(x => Mathf.Exp(x - max)).Sum();
         return logits.Select(x => Mathf.Exp(x - max) / sum).ToArray();
     }
 
     private int ArgMax(float[] array)
     {
-        int maxIndex = 0;
-        float maxValue = array[0];
-        for (int i = 1; i < array.Length; i++)
-        {
+        var maxIndex = 0;
+        var maxValue = array[0];
+        for (var i = 1; i < array.Length; i++)
             if (array[i] > maxValue)
             {
                 maxValue = array[i];
                 maxIndex = i;
             }
-        }
-        return maxIndex;
-    }
 
-    void OnDestroy()
-    {
-        interpreter?.Dispose();
+        return maxIndex;
     }
 }

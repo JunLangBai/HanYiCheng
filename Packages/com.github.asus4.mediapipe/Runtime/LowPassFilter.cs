@@ -1,16 +1,15 @@
-﻿
-namespace TensorFlowLite
+﻿namespace TensorFlowLite
 {
     /// <summary>
-    /// Super simple low pass filter
+    ///     Super simple low pass filter
     /// </summary>
     public class LowPassFilter
     {
         public float alpha;
+        private bool isInitialized;
 
         private float rawValue;
         private float storedValue;
-        private bool isInitialized;
 
         public float Apply(float value)
         {
@@ -24,6 +23,7 @@ namespace TensorFlowLite
                 result = value;
                 isInitialized = true;
             }
+
             rawValue = value;
             storedValue = result;
             return result;
@@ -34,6 +34,5 @@ namespace TensorFlowLite
             this.alpha = alpha;
             return Apply(value);
         }
-
     }
 }

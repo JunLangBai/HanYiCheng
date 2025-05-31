@@ -16,25 +16,33 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEngine;
 using TfLiteDelegate = System.IntPtr;
 using TfLiteInterpreterOptions = System.IntPtr;
 
 namespace TensorFlowLite
 {
     /// <summary>
-    /// Options for creating a <see cref="Interpreter"/>.
+    ///     Options for creating a <see cref="Interpreter" />.
     /// </summary>
     public class InterpreterOptions : IDisposable
     {
-        // void (*reporter)(void* user_data, const char* format, va_list args),
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true)]
-        private delegate void ErrorReporterDelegate(IntPtr userData, string format, IntPtr argsPtrs);
+        private int _threads;
+
+        private bool _useNNAPI;
+
+        private readonly List<IDelegate> delegates;
 
         internal TfLiteInterpreterOptions nativePtr;
 
-        private List<IDelegate> delegates;
+        public InterpreterOptions()
+        {
+            nativePtr = TfLiteInterpreterOptionsCreate();
+            delegates = new List<IDelegate>();
 
-        private int _threads;
+            ErrorReporter.ConfigureReporter(nativePtr);
+        }
+
         public int threads
         {
             get => _threads;
@@ -45,7 +53,6 @@ namespace TensorFlowLite
             }
         }
 
-        private bool _useNNAPI;
         [Obsolete("useNNAPI option is deprecated, use NNAPIDelegate instead.")]
         public bool useNNAPI
         {
@@ -60,14 +67,6 @@ namespace TensorFlowLite
             }
         }
 
-        public InterpreterOptions()
-        {
-            nativePtr = TfLiteInterpreterOptionsCreate();
-            delegates = new List<IDelegate>();
-
-            ErrorReporter.ConfigureReporter(nativePtr);
-        }
-
         public void Dispose()
         {
             if (nativePtr != IntPtr.Zero)
@@ -75,10 +74,8 @@ namespace TensorFlowLite
                 TfLiteInterpreterOptionsDelete(nativePtr);
                 nativePtr = IntPtr.Zero;
             }
-            foreach (var gpuDelegate in delegates)
-            {
-                gpuDelegate.Dispose();
-            }
+
+            foreach (var gpuDelegate in delegates) gpuDelegate.Dispose();
             delegates.Clear();
         }
 
@@ -107,29 +104,33 @@ namespace TensorFlowLite
                 enableQuantization = true,
             });
 #endif
-            UnityEngine.Debug.LogWarning("GPU Delegate is not supported on this platform");
+            Debug.LogWarning("GPU Delegate is not supported on this platform");
             return null;
         }
 #pragma warning restore CS0162 // Unreachable code detected    
+        // void (*reporter)(void* user_data, const char* format, va_list args),
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true)]
+        private delegate void ErrorReporterDelegate(IntPtr userData, string format, IntPtr argsPtrs);
 
 
         #region Externs
+
         private const string TensorFlowLibrary = Interpreter.TensorFlowLibrary;
 
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe TfLiteInterpreterOptions TfLiteInterpreterOptionsCreate();
+        private static extern TfLiteInterpreterOptions TfLiteInterpreterOptionsCreate();
 
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe void TfLiteInterpreterOptionsDelete(TfLiteInterpreterOptions options);
+        private static extern void TfLiteInterpreterOptionsDelete(TfLiteInterpreterOptions options);
 
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe void TfLiteInterpreterOptionsSetNumThreads(
+        private static extern void TfLiteInterpreterOptionsSetNumThreads(
             TfLiteInterpreterOptions options,
             int num_threads
         );
 
         [DllImport(TensorFlowLibrary)]
-        private static extern unsafe void TfLiteInterpreterOptionsAddDelegate(
+        private static extern void TfLiteInterpreterOptionsAddDelegate(
             TfLiteInterpreterOptions options,
             TfLiteDelegate _delegate);
 

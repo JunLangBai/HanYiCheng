@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -7,16 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class TutorialMgr : MonoBehaviour, IPointerDownHandler
 {
-    [Header("教程")]
-    public CanvasGroup[] tutorial; // 假设这里有 4 张图片（索引 0-3）
+    [Header("教程")] public CanvasGroup[] tutorial; // 假设这里有 4 张图片（索引 0-3）
+
     public string targetSceneName = "MainUI";
     public float fadeDuration = 1f; // 渐变持续时间
-    private int currentIndex = -1; // 当前图片的索引，初始化为 -1 表示尚未开始
 
-    [Header("文本")]
-    public string[] tutorialText;
-    private int currentStep = -1;
+    [Header("文本")] public string[] tutorialText;
+
     public TextMeshProUGUI[] dialogText;
+    private int currentIndex = -1; // 当前图片的索引，初始化为 -1 表示尚未开始
+    private int currentStep = -1;
 
     private void Start()
     {
@@ -60,7 +59,7 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
         }
 
         var fromIndex = currentIndex - 1; // 当前显示的图片索引
-        var toIndex = currentIndex;       // 下一张图片索引
+        var toIndex = currentIndex; // 下一张图片索引
 
         StartCoroutine(FadeOutIn(fromIndex, toIndex));
     }
@@ -76,31 +75,19 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
             var alpha = timer / fadeDuration;
 
             // 淡出上一张图片
-            if (fromIndex >= 0 && fromIndex < tutorial.Length)
-            {
-                tutorial[fromIndex].alpha = 1 - alpha; // 渐渐变为透明
-            }
+            if (fromIndex >= 0 && fromIndex < tutorial.Length) tutorial[fromIndex].alpha = 1 - alpha; // 渐渐变为透明
 
             // 淡入下一张图片
-            if (toIndex >= 0 && toIndex < tutorial.Length)
-            {
-                tutorial[toIndex].alpha = alpha; // 渐渐变为可见
-            }
+            if (toIndex >= 0 && toIndex < tutorial.Length) tutorial[toIndex].alpha = alpha; // 渐渐变为可见
 
             timer += Time.unscaledDeltaTime; // 使用 Time.unscaledDeltaTime 不受暂停影响
             yield return null;
         }
 
         // 确保最终状态正确
-        if (fromIndex >= 0 && fromIndex < tutorial.Length)
-        {
-            tutorial[fromIndex].alpha = 0;
-        }
+        if (fromIndex >= 0 && fromIndex < tutorial.Length) tutorial[fromIndex].alpha = 0;
 
-        if (toIndex >= 0 && toIndex < tutorial.Length)
-        {
-            tutorial[toIndex].alpha = 1;
-        }
+        if (toIndex >= 0 && toIndex < tutorial.Length) tutorial[toIndex].alpha = 1;
     }
 
     public void ShowNextStep()
@@ -119,7 +106,7 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
     private void EndTutorial()
     {
         Debug.Log("教程结束");
-        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         gameData.tutorialClear = true;
         // 保存修改后的数据
         JsonFileManager.SaveToJson(gameData, "GameData.json");
@@ -127,28 +114,23 @@ public class TutorialMgr : MonoBehaviour, IPointerDownHandler
         StartCoroutine(LoadSceneDirectly());
     }
 
-    IEnumerator LoadSceneDirectly()
+    private IEnumerator LoadSceneDirectly()
     {
         // 直接异步加载场景
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
+        var asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
         asyncLoad.allowSceneActivation = false;
 
         // 等待加载进度完成（保留最后的激活权限）
-        while(!asyncLoad.isDone)
+        while (!asyncLoad.isDone)
         {
-            if(asyncLoad.progress >= 0.9f)
-            {
-                asyncLoad.allowSceneActivation = true;
-            }
+            if (asyncLoad.progress >= 0.9f) asyncLoad.allowSceneActivation = true;
             yield return null;
         }
     }
-    void UpdateDialog()
+
+    private void UpdateDialog()
     {
-        if (currentStep < 0 || currentStep >= tutorialText.Length || currentStep >= dialogText.Length)
-        {
-            return;
-        }
+        if (currentStep < 0 || currentStep >= tutorialText.Length || currentStep >= dialogText.Length) return;
 
         dialogText[currentStep].text = tutorialText[currentStep];
     }

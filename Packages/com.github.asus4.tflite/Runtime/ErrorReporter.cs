@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-using System;
 using System.Runtime.InteropServices;
+using AOT;
 using Debug = UnityEngine.Debug;
 using TfLiteInterpreterOptions = System.IntPtr;
 
@@ -24,15 +24,17 @@ namespace TensorFlowLite
     {
         // void (*reporter)(void* user_data, const char* format, va_list args),
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true)]
-        private delegate void ErrorReporterDelegate(IntPtr userData, string format, IntPtr argsPtrs);
+        private delegate void ErrorReporterDelegate(TfLiteInterpreterOptions userData, string format,
+            TfLiteInterpreterOptions argsPtrs);
 
         internal static void ConfigureReporter(TfLiteInterpreterOptions options)
         {
-            TfLiteInterpreterOptionsSetErrorReporter(options, OnErrorReporter, IntPtr.Zero);
+            TfLiteInterpreterOptionsSetErrorReporter(options, OnErrorReporter, TfLiteInterpreterOptions.Zero);
         }
 
-        [AOT.MonoPInvokeCallback(typeof(ErrorReporterDelegate))]
-        private static void OnErrorReporter(IntPtr userData, string format, IntPtr vaList)
+        [MonoPInvokeCallback(typeof(ErrorReporterDelegate))]
+        private static void OnErrorReporter(TfLiteInterpreterOptions userData, string format,
+            TfLiteInterpreterOptions vaList)
         {
             // Marshalling va_list as args.
             // refs:
@@ -57,7 +59,7 @@ namespace TensorFlowLite
         private static extern void TfLiteInterpreterOptionsSetErrorReporter(
             TfLiteInterpreterOptions options,
             ErrorReporterDelegate errorReporter,
-            IntPtr user_data);
+            TfLiteInterpreterOptions user_data);
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         private const string LibCLibrary = "libc";

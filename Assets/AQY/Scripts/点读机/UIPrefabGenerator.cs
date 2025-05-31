@@ -1,9 +1,8 @@
-using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using Random = UnityEngine.Random;
-using TMPro;
 
 public class UIPrefabGenerator : MonoBehaviour
 {
@@ -13,48 +12,44 @@ public class UIPrefabGenerator : MonoBehaviour
         Random
     }
 
-    [Header("UI Settings")]
-    public RectTransform parentPanel;  // UI父容器
-    public GameObject uiPrefab;       // UI预制体
+    [Header("UI Settings")] public RectTransform parentPanel; // UI父容器
 
-    [Header("Resources")]
-    public List<Sprite> sprites = new List<Sprite>();
-    public List<AudioClip> audioClips = new List<AudioClip>();
-    public List<string> texts = new List<string>(); // 新增文本列表
+    public GameObject uiPrefab; // UI预制体
 
-    [Header("Audio")]
-    public AudioSource audioPlayer;   // 音频播放器
+    [Header("Resources")] public List<Sprite> sprites = new();
 
-    [Header("Generation Mode")]
-    public GenerationMode mode = GenerationMode.Sequential;
+    public List<AudioClip> audioClips = new();
+    public List<string> texts = new(); // 新增文本列表
 
-    [Header("Position Settings")]
-    public Vector2 spawnPosition = Vector2.zero;
+    [Header("Audio")] public AudioSource audioPlayer; // 音频播放器
+
+    [Header("Generation Mode")] public GenerationMode mode = GenerationMode.Sequential;
+
+    [Header("Position Settings")] public Vector2 spawnPosition = Vector2.zero;
 
     private int currentIndex;
 
     private void Start()
     {
         // 使用三个资源列表的最小长度
-        int totalToGenerate = Mathf.Min(
+        var totalToGenerate = Mathf.Min(
             Mathf.Min(sprites.Count, audioClips.Count),
             texts.Count);
-        
-        for (int i = 0; i < totalToGenerate; i++)
-        {
-            GenerateUIPrefab();
-        }
+
+        for (var i = 0; i < totalToGenerate; i++) GenerateUIPrefab();
     }
+
     public void GenerateUIPrefab()
     {
         if (!ValidateUIComponents()) return;
 
-        int index = GetNextIndex();
-        GameObject instance = CreateUIInstance();
+        var index = GetNextIndex();
+        var instance = CreateUIInstance();
         SetupUIImage(instance, index);
         SetupText(instance, index); // 新增文本设置
         SetupButton(instance, index);
     }
+
     private bool ValidateUIComponents()
     {
         if (uiPrefab == null)
@@ -87,25 +82,25 @@ public class UIPrefabGenerator : MonoBehaviour
     private int GetNextIndex()
     {
         // 获取三个列表的最小长度作为最大索引
-        int maxIndex = Mathf.Min(
+        var maxIndex = Mathf.Min(
             Mathf.Min(sprites.Count, audioClips.Count),
             texts.Count);
-        
+
         if (mode == GenerationMode.Sequential)
         {
-            int index = currentIndex % maxIndex;
+            var index = currentIndex % maxIndex;
             currentIndex = (currentIndex + 1) % maxIndex;
             return index;
         }
-        
+
         return Random.Range(0, maxIndex);
     }
 
     private GameObject CreateUIInstance()
     {
-        GameObject instance = Instantiate(uiPrefab, parentPanel);
-        RectTransform rt = instance.GetComponent<RectTransform>();
-        
+        var instance = Instantiate(uiPrefab, parentPanel);
+        var rt = instance.GetComponent<RectTransform>();
+
         // 设置UI位置和锚点
         rt.anchoredPosition = spawnPosition;
         rt.localScale = Vector3.one;
@@ -115,27 +110,23 @@ public class UIPrefabGenerator : MonoBehaviour
     private void SetupUIImage(GameObject instance, int index)
     {
         // 方法1：按名称查找子物体
-        Transform child = instance.transform.Find("底片"); // 替换为你的子物体名称
+        var child = instance.transform.Find("底片"); // 替换为你的子物体名称
         if (child == null)
         {
             Debug.LogError("未找到子物体: ChildWithImage");
             return;
         }
 
-        Image img = child.GetComponent<Image>();
+        var img = child.GetComponent<Image>();
         if (img != null)
-        {
             img.sprite = sprites[index];
-        }
         else
-        {
             Debug.LogError("子物体上未找到Image组件");
-        }
     }
-    
+
     private void SetupButton(GameObject instance, int index)
     {
-        Button btn = instance.GetComponent<Button>();
+        var btn = instance.GetComponent<Button>();
         if (btn != null)
         {
             // 动态绑定点击事件
@@ -151,14 +142,14 @@ public class UIPrefabGenerator : MonoBehaviour
     private void SetupText(GameObject instance, int index)
     {
         // 方法1：按名称查找TMP子物体（根据你的预制体结构修改名称）
-        Transform textChild = instance.transform.Find("发音");
+        var textChild = instance.transform.Find("发音");
         if (textChild == null)
         {
             Debug.LogError("未找到TMP子物体: TextTMP");
             return;
         }
 
-        TMP_Text tmpComponent = textChild.GetComponent<TMP_Text>();
+        var tmpComponent = textChild.GetComponent<TMP_Text>();
         if (tmpComponent != null)
         {
             // 安全检查索引范围
@@ -178,25 +169,21 @@ public class UIPrefabGenerator : MonoBehaviour
         }
     }
 
-    
+
     private void OnButtonClick(int index)
     {
         // 点击时播放对应音频
         PlayAudio(index);
-    
+
         // 可以添加其他点击反馈逻辑
         Debug.Log($"Button {index} clicked!");
     }
-    
+
     private void PlayAudio(int index)
     {
         if (audioPlayer != null)
-        {
             audioPlayer.PlayOneShot(audioClips[index]);
-        }
         else
-        {
             Debug.LogWarning("AudioPlayer is not assigned");
-        }
     }
 }

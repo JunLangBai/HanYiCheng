@@ -1,19 +1,18 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _levelNameText;
-    
-    public LevelData LevelData { get; set; }
-    
+
     private Button _button;
-    
+
     private Image _image;
-    
+
+    public LevelData LevelData { get; set; }
+
     public Color ReturnColor { get; set; }
 
     private void Awake()

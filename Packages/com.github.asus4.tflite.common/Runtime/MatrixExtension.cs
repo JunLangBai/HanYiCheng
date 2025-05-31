@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TensorFlowLite
 {
-    [System.Obsolete("MatrixExtension is obsolete, use Unity.Mathematics package instead")]
+    [Obsolete("MatrixExtension is obsolete, use Unity.Mathematics package instead")]
     public static class MatrixExtension
     {
         // https://forum.unity.com/threads/how-to-assign-matrix4x4-to-transform.121966/

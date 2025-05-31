@@ -1,25 +1,23 @@
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectMngr : MonoBehaviour
 {
     public static LevelSelectMngr Instance;
-    
-    [Header("References")]
-    public Transform LevelParent;
+
+    [Header("References")] public Transform LevelParent;
+
     public GameObject LevelButtonPrefab;
     public TextMeshProUGUI AreaHeaderText;
     public AreaData CurrentArea;
 
-    [Header("Progress")]
-    public HashSet<string> UnlockedLevelIDs = new HashSet<string>();
-    
-    private List<GameObject> _buttonObjects = new List<GameObject>();
-    
+    private readonly List<GameObject> _buttonObjects = new();
+
+    [Header("Progress")] public HashSet<string> UnlockedLevelIDs = new();
+
     private void Awake()
     {
         if (Instance == null)
@@ -58,19 +56,15 @@ public class LevelSelectMngr : MonoBehaviour
         }
 
         // 2. 加载存档数据（复用 ISUnlockedByDefault 字段）
-        GameData savedData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        var savedData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         if (savedData != null)
-        {
             foreach (var savedLevel in savedData.levels)
-            {
                 // 关键修改：只要存档中标记为 true 就解锁
                 if (savedLevel.ISUnlockedByDefault && !UnlockedLevelIDs.Contains(savedLevel.LevelID))
                 {
                     UnlockedLevelIDs.Add(savedLevel.LevelID);
                     Debug.Log($"存档解锁: {savedLevel.LevelID}");
                 }
-            }
-        }
 
         // 3. 保底机制
         if (UnlockedLevelIDs.Count == 0 && CurrentArea.Levels.Count > 0)
@@ -83,9 +77,8 @@ public class LevelSelectMngr : MonoBehaviour
     private void CleanOldButtons()
     {
         foreach (var button in _buttonObjects)
-        {
-            if (button != null) Destroy(button);
-        }
+            if (button != null)
+                Destroy(button);
         _buttonObjects.Clear();
     }
 
@@ -93,14 +86,14 @@ public class LevelSelectMngr : MonoBehaviour
     {
         foreach (var levelData in CurrentArea.Levels)
         {
-            GameObject buttonObj = Instantiate(LevelButtonPrefab, LevelParent);
+            var buttonObj = Instantiate(LevelButtonPrefab, LevelParent);
             _buttonObjects.Add(buttonObj);
-            
-            LevelButton levelButton = buttonObj.GetComponent<LevelButton>();
-            bool isUnlocked = UnlockedLevelIDs.Contains(levelData.LevelID);
-            
+
+            var levelButton = buttonObj.GetComponent<LevelButton>();
+            var isUnlocked = UnlockedLevelIDs.Contains(levelData.LevelID);
+
             levelButton.Setup(levelData, isUnlocked);
-            
+
             // 设置按钮名称用于调试
             buttonObj.name = $"Button_{levelData.LevelID}";
         }
@@ -108,11 +101,11 @@ public class LevelSelectMngr : MonoBehaviour
 
     public void UnlockNextLevel(string completedLevelID)
     {
-        int currentIndex = CurrentArea.Levels.FindIndex(l => l.LevelID == completedLevelID);
+        var currentIndex = CurrentArea.Levels.FindIndex(l => l.LevelID == completedLevelID);
         if (currentIndex == -1 || currentIndex + 1 >= CurrentArea.Levels.Count) return;
 
-        LevelData nextLevel = CurrentArea.Levels[currentIndex + 1];
-    
+        var nextLevel = CurrentArea.Levels[currentIndex + 1];
+
         // 更新内存中的解锁状态
         if (!UnlockedLevelIDs.Contains(nextLevel.LevelID))
         {
@@ -123,66 +116,56 @@ public class LevelSelectMngr : MonoBehaviour
         // 直接调用保存
         SaveProgress();
     }
+
     private void UpdateButtonState(LevelData levelData)
     {
-        var buttonObj = _buttonObjects.FirstOrDefault(b => 
-            b != null && 
+        var buttonObj = _buttonObjects.FirstOrDefault(b =>
+            b != null &&
             b.name.EndsWith(levelData.LevelID));
-        
-        if (buttonObj != null)
-        {
-            buttonObj.GetComponent<LevelButton>().Unlock();
-        }
+
+        if (buttonObj != null) buttonObj.GetComponent<LevelButton>().Unlock();
     }
 
     public void SaveProgress()
     {
         // 加载现有存档或创建新存档
-        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         if (gameData == null)
-        {
             gameData = new GameData
             {
-                placementClear = false,  // 默认值
+                placementClear = false, // 默认值
                 tutorialClear = false,
                 volume = 1.0f,
                 username = "",
                 profilePictureIndex = 0
             };
-        }
 
         // 更新当前区域关卡状态
         foreach (var level in CurrentArea.Levels)
         {
-            bool isUnlocked = UnlockedLevelIDs.Contains(level.LevelID);
+            var isUnlocked = UnlockedLevelIDs.Contains(level.LevelID);
             var targetLevel = gameData.levels.FirstOrDefault(l => l.LevelID == level.LevelID);
 
             if (targetLevel != null)
-            {
                 targetLevel.ISUnlockedByDefault = isUnlocked;
-            }
             else
-            {
                 gameData.levels.Add(new LevelDataJson(level)
                 {
                     ISUnlockedByDefault = isUnlocked
                 });
-            }
         }
 
         // 保留其他配置字段
         JsonFileManager.SaveToJson(gameData, "GameData.json");
-    
+
         Debug.Log("进度保存完成，保留字段状态: " +
                   $"placementClear={gameData.placementClear}, " +
                   $"tutorialClear={gameData.tutorialClear}");
     }
+
     private void UpdateAreaHeader()
     {
-        if (AreaHeaderText != null)
-        {
-            AreaHeaderText.text = CurrentArea.AreaName;
-        }
+        if (AreaHeaderText != null) AreaHeaderText.text = CurrentArea.AreaName;
     }
 
     public void ReturnToMainUI()

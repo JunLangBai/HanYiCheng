@@ -4,12 +4,12 @@ using UnityEngine;
 namespace TensorFlowLite
 {
     /// <summary>
-    /// Extension methods for InterpreterOptions
+    ///     Extension methods for InterpreterOptions
     /// </summary>
     public static class InterpreterOptionsExtension
     {
         /// <summary>
-        /// Find the best delegate and add to options.
+        ///     Find the best delegate and add to options.
         /// </summary>
         /// <param name="options">An interpreter options</param>
         /// <param name="delegateType">A desired delegate type</param>
@@ -36,6 +36,7 @@ namespace TensorFlowLite
                     {
                         Debug.LogError("NNAPI is only supported on Android");
                     }
+
                     break;
                 case TfLiteDelegateType.GPU:
                     options.AddGpuDelegate();

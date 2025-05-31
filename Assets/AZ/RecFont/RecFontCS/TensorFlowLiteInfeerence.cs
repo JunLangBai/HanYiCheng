@@ -1,41 +1,38 @@
-using UnityEngine;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.IO;
 using System;
 using System.Diagnostics;
-using System.Text;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PythonScriptRunner : MonoBehaviour
 {
+    private static readonly HttpClient client = new();
     public string pythonScriptPath = "/AZ/RecFont/server.py";
     public string imagePath = "/AZ/RecFont/temp.jpg";
     public string pythonOutput = "";
-    
-    
-    private static readonly HttpClient client = new HttpClient();
 
     public async Task<string> RunPythonServerInference(string imagePath)
     {
         try
         {
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            byte[] imgData = File.ReadAllBytes(imagePath);
+            var form = new MultipartFormDataContent();
+            var imgData = File.ReadAllBytes(imagePath);
             form.Add(new ByteArrayContent(imgData), "image", "temp.jpg");
 
-            HttpResponseMessage response = await client.PostAsync("http://127.0.0.1:5000/predict", form);
-            string result = await response.Content.ReadAsStringAsync();
+            var response = await client.PostAsync("http://127.0.0.1:5000/predict", form);
+            var result = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                var json = JsonUtility.FromJson<LabelResult>("{\"label\":" + result.Split(':')[1].Replace('}', ' ').Trim() + "}");
+                var json = JsonUtility.FromJson<LabelResult>("{\"label\":" +
+                                                             result.Split(':')[1].Replace('}', ' ').Trim() + "}");
                 return json.label;
             }
-            else
-            {
-                // UnityEngine.Debug.LogError("Python服务器返回失败: " + result);
-                return "识别失败";
-            }
+
+            // UnityEngine.Debug.LogError("Python服务器返回失败: " + result);
+            return "识别失败";
         }
         catch (Exception e)
         {
@@ -44,44 +41,44 @@ public class PythonScriptRunner : MonoBehaviour
         }
     }
 
-    [Serializable]
-    public class LabelResult
-    {
-        public string label;
-    }
-    
-    
+
     public string RunPythonScript()
     {
-        string pythonExecutable = "/StreamingAssets/Fonts/python.exe";
-        string arguments = $"{pythonScriptPath} {imagePath}";
+        var pythonExecutable = "/StreamingAssets/Fonts/python.exe";
+        var arguments = $"{pythonScriptPath} {imagePath}";
 
-        ProcessStartInfo startInfo = new ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = pythonExecutable,
             Arguments = arguments,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
-            CreateNoWindow = true,
+            CreateNoWindow = true
         };
 
         try
         {
-            UnityEngine.Debug.Log("即将启动Python脚本...");
-            UnityEngine.Debug.Log($"命令: {pythonExecutable} {arguments}");
+            Debug.Log("即将启动Python脚本...");
+            Debug.Log($"命令: {pythonExecutable} {arguments}");
 
-            using (Process process = Process.Start(startInfo))
+            using (var process = Process.Start(startInfo))
             {
-                pythonOutput = process.StandardOutput.ReadToEnd();  
+                pythonOutput = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
-            UnityEngine.Debug.LogError("运行Python脚本时发生异常:\n" + ex.Message);
+            Debug.LogError("运行Python脚本时发生异常:\n" + ex.Message);
         }
 
         return pythonOutput;
+    }
+
+    [Serializable]
+    public class LabelResult
+    {
+        public string label;
     }
 }

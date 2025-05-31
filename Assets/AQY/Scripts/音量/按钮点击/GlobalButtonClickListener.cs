@@ -6,10 +6,10 @@ public class GlobalButtonClickListener : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
+        var clickedObject = eventData.pointerCurrentRaycast.gameObject;
         if (clickedObject != null)
         {
-            Button btn = clickedObject.GetComponentInParent<Button>();
+            var btn = clickedObject.GetComponentInParent<Button>();
             if (btn != null && btn.interactable) // 确保按钮可交互
             {
                 Debug.Log("Clicked Button");

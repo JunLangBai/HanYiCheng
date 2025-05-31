@@ -27,7 +27,7 @@ namespace TensorFlowLite
 
         public static IEnumerable<float> Softmax(this IEnumerable<float> arr)
         {
-            float max = arr.Max();
+            var max = arr.Max();
             var expArr = arr.Select(n => Mathf.Exp(n - max));
             var sum = expArr.Sum();
             return expArr.Select(n => n / sum);
@@ -35,7 +35,7 @@ namespace TensorFlowLite
 
         public static IEnumerable<double> Softmax(this IEnumerable<double> arr)
         {
-            double max = arr.Max();
+            var max = arr.Max();
             var expArr = arr.Select(n => Math.Exp(n - max));
             var sum = expArr.Sum();
             return expArr.Select(n => n / sum);

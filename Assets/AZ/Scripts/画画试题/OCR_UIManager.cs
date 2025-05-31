@@ -1,12 +1,15 @@
 // OCR_UIManager.cs
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class OCR_UIManager : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TextMeshProUGUI questionText;
+    public static OCR_UIManager Instance;
+
+    [Header("UI Elements")] public TextMeshProUGUI questionText;
+
     public Image questionImage;
     public TextMeshProUGUI progressText;
     public TextMeshProUGUI resultText;
@@ -15,26 +18,23 @@ public class OCR_UIManager : MonoBehaviour
     public RectTransform summaryContent;
     public GameObject summaryItemPrefab;
     public TextMeshProUGUI finalScoreText;
-    
-    [Header("Drawing Components")]
-    public DrawingBoard drawingBoard;
-    
-    public static OCR_UIManager Instance;
 
-    void Awake()
+    [Header("Drawing Components")] public DrawingBoard drawingBoard;
+
+    private void Awake()
     {
         Instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         InitializeUI();
         LoadQuestion(OCRQuestionManager.Instance.GetCurrentQuestion());
-        
+
         nextButton.onClick.AddListener(OnNextQuestionClicked);
     }
 
-    void InitializeUI()
+    private void InitializeUI()
     {
         nextButton.gameObject.SetActive(false);
         summaryPanel.SetActive(false);
@@ -48,7 +48,7 @@ public class OCR_UIManager : MonoBehaviour
         ClearDrawingBoard();
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
-        
+
         // 设置题目内容
         questionText.text = question.questionText;
         questionImage.sprite = question.referenceImage;
@@ -59,24 +59,19 @@ public class OCR_UIManager : MonoBehaviour
 
     private void ClearDrawingBoard()
     {
- if (drawingBoard != null)
-            {
-                drawingBoard.ClearCanvas();
-            }
-            else
-            {
-                Debug.LogError("画板组件未赋值！");
-            }
-        
+        if (drawingBoard != null)
+            drawingBoard.ClearCanvas();
+        else
+            Debug.LogError("画板组件未赋值！");
     }
 
-    void UpdateProgress()
+    private void UpdateProgress()
     {
-        int current = OCRQuestionManager.Instance.currentQuestionIndex + 1;
-        int total = OCRQuestionManager.Instance.questionData.questions.Count;
+        var current = OCRQuestionManager.Instance.currentQuestionIndex + 1;
+        var total = OCRQuestionManager.Instance.questionData.questions.Count;
         progressText.text = $"进度: {current}/{total}";
     }
-    
+
 
     public void OnRecognitionComplete(bool success, string result)
     {
@@ -86,22 +81,18 @@ public class OCR_UIManager : MonoBehaviour
             return;
         }
 
-        OCRQuestion currentQuestion = OCRQuestionManager.Instance.GetCurrentQuestion();
-        bool isCorrect = OCRQuestionManager.Instance.ValidateAnswer(result, currentQuestion.correctAnswer);
+        var currentQuestion = OCRQuestionManager.Instance.GetCurrentQuestion();
+        var isCorrect = OCRQuestionManager.Instance.ValidateAnswer(result, currentQuestion.correctAnswer);
 
         if (isCorrect)
         {
             resultText.text = $"正确！正确答案：{currentQuestion.correctAnswer}";
             OCRQuestionManager.Instance.SubmitOCRResult(result);
-            
+
             if (OCRQuestionManager.Instance.HasNextQuestion())
-            {
                 nextButton.gameObject.SetActive(true);
-            }
             else
-            {
                 ShowSummary();
-            }
         }
         else
         {
@@ -110,43 +101,16 @@ public class OCR_UIManager : MonoBehaviour
         }
     }
 
-    void OnNextQuestionClicked()
+    private void OnNextQuestionClicked()
     {
         OCRQuestionManager.Instance.MoveToNextQuestion();
         LoadQuestion(OCRQuestionManager.Instance.GetCurrentQuestion());
     }
-    
 
-    void ShowSummary()
+
+    private void ShowSummary()
     {
         summaryPanel.SetActive(true);
-        foreach (var question in OCRQuestionManager.Instance.GetWrongQuestions())
-        {
-            var item = Instantiate(summaryItemPrefab, summaryContent);
-            item.GetComponent<TextMeshProUGUI>().text = 
-                $"题目: {question.questionText}\n" +
-                $"正确答案: {question.correctAnswer}\n" +
-                $"你的答案: {OCRQuestionManager.Instance.GetLastOCRResult()}";
-        }
-
-        CalculateFinalScore();
     }
-
-    void CalculateFinalScore()
-    {
-        int total = OCRQuestionManager.Instance.questionData.questions.Count;
-        int correct = total - OCRQuestionManager.Instance.GetWrongQuestions().Count;
-        float score = (float)correct / total;
-
-        string grade = score switch
-        {
-            >= 0.9f => "A+",
-            >= 0.8f => "A",
-            >= 0.7f => "B",
-            >= 0.6f => "C",
-            _ => "D"
-        };
-
-        finalScoreText.text = $"最终成绩: {grade} ({correct}/{total})";
-    }
+    
 }

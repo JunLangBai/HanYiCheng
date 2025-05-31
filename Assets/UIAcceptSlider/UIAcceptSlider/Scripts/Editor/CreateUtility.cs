@@ -4,47 +4,58 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-namespace AcceptSlider {
-	public static class CreateUtility {
-		private const string CANVAS_PREFAB_NAME_IN_RESOURCES = "Canvas";
-		public static void CreateUIElement(string path) {
-			var selectedObject = Selection.activeGameObject;
 
-			if (selectedObject != null) {
-				var hasCanvasIsParent = selectedObject.GetComponentInParent<Canvas>();
-				//If has parent use he, or create new canvas, and use new parent canvas
-				var parent = hasCanvasIsParent ? selectedObject.transform : CreateAndPlace(CANVAS_PREFAB_NAME_IN_RESOURCES, selectedObject.transform).transform;
+namespace AcceptSlider
+{
+    public static class CreateUtility
+    {
+        private const string CANVAS_PREFAB_NAME_IN_RESOURCES = "Canvas";
 
-				CreateAndPlace(path, parent);
-			}
-			else {
-				var canvas = CreateAndPlace(CANVAS_PREFAB_NAME_IN_RESOURCES);
-				CreateAndPlace(path, canvas.transform);
-			}
-		}
+        public static void CreateUIElement(string path)
+        {
+            var selectedObject = Selection.activeGameObject;
 
-		private static GameObject CreateAndPlace(string path, Transform parent = null) {
-			var gameObject = Object.Instantiate(Resources.Load(path), parent) as GameObject;
-			if (gameObject == null)
-				throw new Exception($"Object {path} not found in Resources");
-			gameObject.name = path;
-			Place(gameObject);
-			return gameObject;
-		}
+            if (selectedObject != null)
+            {
+                var hasCanvasIsParent = selectedObject.GetComponentInParent<Canvas>();
+                //If has parent use he, or create new canvas, and use new parent canvas
+                var parent = hasCanvasIsParent
+                    ? selectedObject.transform
+                    : CreateAndPlace(CANVAS_PREFAB_NAME_IN_RESOURCES, selectedObject.transform).transform;
 
-		private static void Place(GameObject gameObject) {
-		//	SceneView lastView = SceneView.lastActiveSceneView;
+                CreateAndPlace(path, parent);
+            }
+            else
+            {
+                var canvas = CreateAndPlace(CANVAS_PREFAB_NAME_IN_RESOURCES);
+                CreateAndPlace(path, canvas.transform);
+            }
+        }
 
-		//	gameObject.transform.position = /*lastView ? lastView.pivot : */Vector3.zero;
+        private static GameObject CreateAndPlace(string path, Transform parent = null)
+        {
+            var gameObject = Object.Instantiate(Resources.Load(path), parent) as GameObject;
+            if (gameObject == null)
+                throw new Exception($"Object {path} not found in Resources");
+            gameObject.name = path;
+            Place(gameObject);
+            return gameObject;
+        }
 
-			StageUtility.PlaceGameObjectInCurrentStage(gameObject);
-			GameObjectUtility.EnsureUniqueNameForSibling(gameObject);
+        private static void Place(GameObject gameObject)
+        {
+            //	SceneView lastView = SceneView.lastActiveSceneView;
 
-			Undo.RegisterCreatedObjectUndo(gameObject, $"Create object: {gameObject.name}");
-			Selection.activeGameObject = gameObject;
+            //	gameObject.transform.position = /*lastView ? lastView.pivot : */Vector3.zero;
 
-			if (!EditorApplication.isPlaying)
-				EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-		}
-	}
+            StageUtility.PlaceGameObjectInCurrentStage(gameObject);
+            GameObjectUtility.EnsureUniqueNameForSibling(gameObject);
+
+            Undo.RegisterCreatedObjectUndo(gameObject, $"Create object: {gameObject.name}");
+            Selection.activeGameObject = gameObject;
+
+            if (!EditorApplication.isPlaying)
+                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        }
+    }
 }

@@ -1,18 +1,19 @@
 // OCRQuestionManager.cs
-using UnityEngine;
+
 using System.Collections.Generic;
+using UnityEngine;
 
 public class OCRQuestionManager : MonoBehaviour
 {
     public static OCRQuestionManager Instance;
     public OCRQuestionData questionData;
 
-    [Header("不要动")]
-    public int currentQuestionIndex;
-    private List<OCRQuestion> wrongQuestions = new List<OCRQuestion>();
-    private string lastOCRResult;
+    [Header("不要动")] public int currentQuestionIndex;
 
-    void Awake()
+    private string lastOCRResult;
+    private readonly List<OCRQuestion> wrongQuestions = new();
+
+    private void Awake()
     {
         Instance = this;
         if (questionData == null)
@@ -26,6 +27,7 @@ public class OCRQuestionManager : MonoBehaviour
             Debug.LogError("题目列表为空！");
             return;
         }
+
         currentQuestionIndex = 0;
     }
 
@@ -42,7 +44,7 @@ public class OCRQuestionManager : MonoBehaviour
             Debug.LogError($"无效的题目索引：{currentQuestionIndex}，总题数：{questionData.questions.Count}");
             return null;
         }
-        
+
         return questionData.questions[currentQuestionIndex];
     }
 
@@ -50,13 +52,13 @@ public class OCRQuestionManager : MonoBehaviour
     {
         lastOCRResult = result;
         var current = GetCurrentQuestion();
-        
+
         if (ValidateAnswer(result, current.correctAnswer))
         {
             MoveToNextQuestion();
             return;
         }
-        
+
         wrongQuestions.Add(current);
     }
 
@@ -68,10 +70,7 @@ public class OCRQuestionManager : MonoBehaviour
 
     public void MoveToNextQuestion()
     {
-        if (currentQuestionIndex < questionData.questions.Count - 1)
-        {
-            currentQuestionIndex++;
-        }
+        if (currentQuestionIndex < questionData.questions.Count - 1) currentQuestionIndex++;
     }
 
     public bool IsLastQuestion()

@@ -1,17 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace TensorFlowLite
 {
     /// <summary>
-    /// A custom attribute that enables to select webcam name from the popup.
+    ///     A custom attribute that enables to select webcam name from the popup.
     /// </summary>
     [CustomPropertyDrawer(typeof(DeviceName), true)]
     public sealed class DeviceNameDrawer : PropertyDrawer
     {
-        string[] displayNames = null;
-        int selectedIndex = -1;
+        private string[] displayNames;
+        private int selectedIndex = -1;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -30,7 +31,7 @@ namespace TensorFlowLite
                 {
                     DeviceName.DeviceType.WebCam => WebCamTexture.devices.Select(device => device.name).ToArray(),
                     DeviceName.DeviceType.Microphone => Microphone.devices,
-                    _ => throw new System.NotImplementedException(),
+                    _ => throw new NotImplementedException()
                 };
             }
 
@@ -46,13 +47,10 @@ namespace TensorFlowLite
 
         private static int FindSelectedIndex(string[] displayNames, string value)
         {
-            for (int i = 0; i < displayNames.Length; i++)
-            {
+            for (var i = 0; i < displayNames.Length; i++)
                 if (displayNames[i] == value)
-                {
                     return i;
-                }
-            }
+
             return 0;
         }
     }

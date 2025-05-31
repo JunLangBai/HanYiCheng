@@ -5,26 +5,32 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class GameData
 {
-    public DateTime LastLoginUTC; // 使用UTC时间存储
-    public int LoginStreak;       // 连续登录天数
+    public int LoginStreak; // 连续登录天数
+
     //是否经过摸底
-    public bool placementClear = false;
+    public bool placementClear;
+
     //是否经过教程
-    public bool tutorialClear = false;
+    public bool tutorialClear;
+
     //关卡数据
-    public List<LevelDataJson> levels = new List<LevelDataJson>();
+    public List<LevelDataJson> levels = new();
+
     //音量大小
     public float volume = 1;
+
     //用户名
     public string username;
+
     //头像下标
-    public int  profilePictureIndex;
+    public int profilePictureIndex;
+    public DateTime LastLoginUTC; // 使用UTC时间存储
 }
 
-[System.Serializable]
+[Serializable]
 public class LevelDataJson
 {
     public string LevelID;
@@ -33,7 +39,7 @@ public class LevelDataJson
     public string LevelName;
 
     // 无参构造函数（用于 JSON 反序列化）
-    public LevelDataJson() 
+    public LevelDataJson()
     {
         // 空构造函数
     }
@@ -48,7 +54,8 @@ public class LevelDataJson
         LevelName = level.LevelName ?? string.Empty;
     }
 }
-[System.Serializable]
+
+[Serializable]
 public class AreaDataJson
 {
     public string AreaName;
@@ -120,7 +127,7 @@ public static class JsonFileManager
         Debug.Log($"Loaded JSON from: {filePath}");
         return data;
     }
-    
+
     public static class AreaDataConverter
     {
         // 将 AreaData 转换为 GameData
@@ -129,7 +136,7 @@ public static class JsonFileManager
             var gameData = new GameData
             {
                 placementClear = false, // 可以根据需要设置
-                tutorialClear = false,  // 可以根据需要设置
+                tutorialClear = false, // 可以根据需要设置
                 levels = areaData.Levels.Select(level => new LevelDataJson(level)).ToList()
             };
 
@@ -147,7 +154,8 @@ public static class JsonFileManager
                 if (level != null)
                 {
                     level.ISUnlockedByDefault = jsonLevel.ISUnlockedByDefault;
-                    Debug.Log($"Updated LevelID: {jsonLevel.LevelID}, ISUnlockedByDefault: {jsonLevel.ISUnlockedByDefault}");
+                    Debug.Log(
+                        $"Updated LevelID: {jsonLevel.LevelID}, ISUnlockedByDefault: {jsonLevel.ISUnlockedByDefault}");
                 }
                 else
                 {
@@ -156,5 +164,4 @@ public static class JsonFileManager
             }
         }
     }
-
 }

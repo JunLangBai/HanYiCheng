@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-using  Rokid.UXR;
+
 public class RKButtonCheck : MonoBehaviour
 {
     private RKButtonCheck Instance;
-    
+
     // 在Awake方法中初始化单例
     private void Awake()
     {
@@ -27,17 +25,14 @@ public class RKButtonCheck : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton(KeyCode.Joystick1Button2.ToString()))
-        {
-            ExitGame();
-        }
+        if (Input.GetButton(KeyCode.Joystick1Button2.ToString())) ExitGame();
     }
-    
+
     public void ExitGame()
     {
         // 如果是在编辑器中运行，使用 UnityEditor 的功能退出播放模式
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
 #else
             // 在发布的应用中，退出游戏
             Application.Quit();
