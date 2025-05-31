@@ -28,7 +28,7 @@ MonoBehaviour:
     correctAnswerIndex: 1
   - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
     image: {fileID: 21300000, guid: 51c13afa7e24c3147a19df25fd4435f6, type: 3}
-    questionAudio: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 21e17ba47b3a1c94899f538853cca412, type: 3}
     options:
     - text: wo
       audioClip: {fileID: 8300000, guid: 6c24d21ae16a51b4e8c871feeec6e204, type: 3}

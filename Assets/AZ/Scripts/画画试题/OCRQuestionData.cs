@@ -15,5 +15,6 @@ public class OCRQuestion
 {
     public string questionText;
     public Sprite referenceImage;
+    public AudioClip questionAudio;
     public string correctAnswer; // OCR期望匹配的正确文本
 }

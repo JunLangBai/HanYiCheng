@@ -15,11 +15,10 @@ public class OCR_UIManager : MonoBehaviour
     public TextMeshProUGUI resultText;
     public Button nextButton;
     public GameObject summaryPanel;
-    public RectTransform summaryContent;
-    public GameObject summaryItemPrefab;
-    public TextMeshProUGUI finalScoreText;
-
+    public TextMeshProUGUI totalScoreText;
     [Header("Drawing Components")] public DrawingBoard drawingBoard;
+    
+    [Header("Audio")] public AudioSource audioSource;
 
     private void Awake()
     {
@@ -28,6 +27,7 @@ public class OCR_UIManager : MonoBehaviour
 
     private void Start()
     {
+        questionImage.gameObject.GetComponent<Button>().onClick.AddListener(OnQuestionButtonClicked);
         InitializeUI();
         LoadQuestion(OCRQuestionManager.Instance.GetCurrentQuestion());
 
@@ -52,6 +52,7 @@ public class OCR_UIManager : MonoBehaviour
         // 设置题目内容
         questionText.text = question.questionText;
         questionImage.sprite = question.referenceImage;
+        totalScoreText.text = question.correctAnswer;
 
         // 更新进度
         UpdateProgress();
@@ -106,8 +107,23 @@ public class OCR_UIManager : MonoBehaviour
         OCRQuestionManager.Instance.MoveToNextQuestion();
         LoadQuestion(OCRQuestionManager.Instance.GetCurrentQuestion());
     }
+    
+    public void OnQuestionButtonClicked()
+    {
+        PlayAudio(OCRQuestionManager.Instance.GetCurrentQuestion().questionAudio);
+    }
 
+    public void PlayAudio(AudioClip clip)
+    {
+        if (clip == null) return;
 
+        // 停止当前音频并播放新音频
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    
     private void ShowSummary()
     {
         summaryPanel.SetActive(true);

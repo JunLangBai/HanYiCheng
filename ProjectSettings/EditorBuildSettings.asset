@@ -47,12 +47,6 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-7.unity"
     guid: 5d7cc95e373fb9c47a7983b33c35675e
-  - enabled: 0
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-8.unity"
-    guid: 5a2d494e976d6e847919491c17b90156
-  - enabled: 0
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-9.unity"
-    guid: 117aabdb82682df49886ead3f990383a
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-3.unity"
     guid: a7a00eee83e535542940dd07cd6e2786
