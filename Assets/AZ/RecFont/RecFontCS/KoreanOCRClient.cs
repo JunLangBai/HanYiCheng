@@ -9,6 +9,9 @@ using TMPro;
 public class KoreanOCRClient : MonoBehaviour
 {
     
+    // 在KoreanOCRClient类中添加
+    public static KoreanOCRClient Instance;
+    
     [Header("画板组件")]
     public DrawingBoard drawingBoard;
     [Header("UI 组件")]
@@ -27,7 +30,13 @@ public class KoreanOCRClient : MonoBehaviour
     
     private bool isRecognizing = false; // 识别状态标志
     private Coroutine currentRecognitionCoroutine; // 当前识别协程
-    
+
+    private void Awake()
+    {
+        // 在Awake方法中添加
+        Instance = this;
+    }
+
     void Start()
     {
         // 绑定清除按钮事件
@@ -43,7 +52,7 @@ public class KoreanOCRClient : MonoBehaviour
         }
         
         // 初始化状态
-        UpdateResult("就绪");
+        UpdateResult("识别结果是：");
         
         // 如果有测试图片，加载到RawImage
         if (testTexture != null && targetRawImage != null)
@@ -158,6 +167,10 @@ public class KoreanOCRClient : MonoBehaviour
                 {
                     UpdateResult($"识别结果是: {response.label}");
                     Debug.Log($"OCR识别结果: {response.label}");
+                    if (OCR_UIManager.Instance)
+                    {
+                        OCR_UIManager.Instance.OnRecognitionComplete(true, response.label);
+                    }
                     return true; // 成功
                 }
                 else if (!string.IsNullOrEmpty(response.error))
