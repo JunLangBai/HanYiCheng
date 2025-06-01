@@ -1,137 +1,183 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class TutorialMgr : MonoBehaviour, IPointerDownHandler
+public class TutorialMgr : MonoBehaviour
 {
-    [Header("教程")] public CanvasGroup[] tutorial; // 假设这里有 4 张图片（索引 0-3）
-
+    [Header("教程步骤")] 
+    public CanvasGroup[] tutorialSteps; // 四个教程步骤
     public string targetSceneName = "MainUI";
-    public float fadeDuration = 1f; // 渐变持续时间
+    public float fadeDuration = 0.5f;
 
-    [Header("文本")] public string[] tutorialText;
+    [Header("文本内容")] 
+    public string[] tutorialTexts;
+    public TextMeshProUGUI[] dialogTexts;
+    
+    private int currentStep = -1; // 当前步骤索引（-1表示未开始）
+    private bool isLoadingScene;
+    private bool isTransitioning;
 
-    public TextMeshProUGUI[] dialogText;
-    private int currentIndex = -1; // 当前图片的索引，初始化为 -1 表示尚未开始
-    private int currentStep = -1;
+    private void Awake()
+    {
+        
+    }
 
     private void Start()
     {
-        // 初始化图片透明度
-        for (var i = 0; i < tutorial.Length; i++)
+        // 确保所有步骤初始隐藏
+        for (int i = 0; i < tutorialSteps.Length; i++)
         {
-            tutorial[i].alpha = 0;
-            tutorial[i].interactable = false;
-            tutorial[i].blocksRaycasts = false;
+            SetStepVisible(i, false, true);
         }
+        
+        // 绑定按钮事件
+        GetComponent<Button>().onClick.AddListener(AdvanceTutorial);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void AdvanceTutorial()
     {
-        Debug.Log("点击触发");
-        AudioManager.Instance.PlayButtonSound();
-        if (currentIndex < tutorial.Length - 1) // 确保还有下一张图片可以显示
+        if (isLoadingScene || isTransitioning) return;
+        
+        PlayButtonSound();
+        
+        if (currentStep < tutorialSteps.Length - 1)
         {
             ShowNextStep();
-            ShowNextImage();
         }
         else
         {
-            Debug.Log("已经到达最后一张图片！");
             EndTutorial();
         }
     }
 
-    // 下一张图片按钮
-    public void ShowNextImage()
+    private void ShowNextStep()
     {
-        // 更新当前索引
-        currentIndex++;
-
-        // 检查是否可以继续前进
-        if (currentIndex >= tutorial.Length)
+        int previousStep = currentStep;
+        currentStep++;
+        
+        // 更新按钮文本（如果是最后一步）
+        if (currentStep == tutorialSteps.Length - 1)
         {
-            Debug.Log("已经到达最后一张图片！");
-            currentIndex--; // 回退索引以避免越界
-            return;
+            GetComponentInChildren<TextMeshProUGUI>().text = "完成";
         }
-
-        var fromIndex = currentIndex - 1; // 当前显示的图片索引
-        var toIndex = currentIndex; // 下一张图片索引
-
-        StartCoroutine(FadeOutIn(fromIndex, toIndex));
+        
+        StartCoroutine(TransitionSteps(previousStep, currentStep));
+        UpdateDialog(currentStep);
     }
 
-    // 淡出当前图片，淡入下一张图片
-    private IEnumerator FadeOutIn(int fromIndex, int toIndex)
+    private IEnumerator TransitionSteps(int hideIndex, int showIndex)
     {
-        var timer = 0f;
+        isTransitioning = true;
+        float timer = 0f;
 
-        // 渐渐淡出当前图片并淡入下一张图片
+        // 准备新步骤
+        if (showIndex >= 0)
+        {
+            SetStepVisible(showIndex, true, false);
+            tutorialSteps[showIndex].alpha = 0;
+        }
+
         while (timer < fadeDuration)
         {
-            var alpha = timer / fadeDuration;
+            float progress = timer / fadeDuration;
 
-            // 淡出上一张图片
-            if (fromIndex >= 0 && fromIndex < tutorial.Length) tutorial[fromIndex].alpha = 1 - alpha; // 渐渐变为透明
+            // 淡出旧步骤
+            if (hideIndex >= 0)
+            {
+                tutorialSteps[hideIndex].alpha = 1 - progress;
+            }
 
-            // 淡入下一张图片
-            if (toIndex >= 0 && toIndex < tutorial.Length) tutorial[toIndex].alpha = alpha; // 渐渐变为可见
+            // 淡入新步骤
+            if (showIndex >= 0)
+            {
+                tutorialSteps[showIndex].alpha = progress;
+            }
 
-            timer += Time.unscaledDeltaTime; // 使用 Time.unscaledDeltaTime 不受暂停影响
+            timer += Time.deltaTime;
             yield return null;
         }
 
-        // 确保最终状态正确
-        if (fromIndex >= 0 && fromIndex < tutorial.Length) tutorial[fromIndex].alpha = 0;
-
-        if (toIndex >= 0 && toIndex < tutorial.Length) tutorial[toIndex].alpha = 1;
+        // 完成状态设置
+        if (hideIndex >= 0)
+        {
+            SetStepVisible(hideIndex, false, true);
+        }
+        
+        if (showIndex >= 0)
+        {
+            tutorialSteps[showIndex].alpha = 1;
+        }
+        
+        isTransitioning = false;
     }
 
-    public void ShowNextStep()
+    private void SetStepVisible(int index, bool visible, bool immediate)
     {
-        currentStep++;
-
-        if (currentStep >= tutorialText.Length)
+        if (index < 0 || index >= tutorialSteps.Length) return;
+        
+        CanvasGroup step = tutorialSteps[index];
+        step.blocksRaycasts = visible;
+        step.interactable = visible;
+        
+        if (immediate)
         {
-            EndTutorial();
-            return;
+            step.alpha = visible ? 1 : 0;
         }
+    }
 
-        UpdateDialog();
+    private void UpdateDialog(int stepIndex)
+    {
+        if (stepIndex < 0 || stepIndex >= tutorialTexts.Length) return;
+        
+        // 隐藏所有对话框文本
+        foreach (var text in dialogTexts)
+        {
+            if (text != null) text.text = "";
+        }
+        
+        // 显示当前步骤的文本
+        if (stepIndex < dialogTexts.Length && dialogTexts[stepIndex] != null)
+        {
+            dialogTexts[stepIndex].text = tutorialTexts[stepIndex];
+        }
+    }
+
+    private void PlayButtonSound()
+    {
+        // 简化的音频播放逻辑
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            audioManager.PlayButtonSound();
+        }
     }
 
     private void EndTutorial()
     {
-        Debug.Log("教程结束");
-        var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
+        isLoadingScene = true;
+        
+        // 保存进度
+        GameData gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         gameData.tutorialClear = true;
-        // 保存修改后的数据
         JsonFileManager.SaveToJson(gameData, "GameData.json");
-        // 可以在这里添加结束逻辑，例如隐藏所有 UI 或跳转到主菜单
-        StartCoroutine(LoadSceneDirectly());
+        
+        // 加载场景
+        StartCoroutine(LoadTargetScene());
     }
 
-    private IEnumerator LoadSceneDirectly()
+    private IEnumerator LoadTargetScene()
     {
-        // 直接异步加载场景
-        var asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
         asyncLoad.allowSceneActivation = false;
 
-        // 等待加载进度完成（保留最后的激活权限）
-        while (!asyncLoad.isDone)
+        // 等待加载完成
+        while (asyncLoad.progress < 0.9f)
         {
-            if (asyncLoad.progress >= 0.9f) asyncLoad.allowSceneActivation = true;
             yield return null;
         }
-    }
-
-    private void UpdateDialog()
-    {
-        if (currentStep < 0 || currentStep >= tutorialText.Length || currentStep >= dialogText.Length) return;
-
-        dialogText[currentStep].text = tutorialText[currentStep];
+        
+        asyncLoad.allowSceneActivation = true;
     }
 }

@@ -7,47 +7,41 @@ public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 {
     private Canvas canvas;
     private bool isDragging;
-    private RectTransform rectTransform;
+    private RectTransform canvasRectTransform;
+    private Camera mainCamera;
+    private Plane dragPlane;
+    private Vector3 initialCanvasPosition;
+    private Vector3 initialPointerPosition;
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        canvasRectTransform = canvas.GetComponent<RectTransform>();
+        mainCamera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         isDragging = true;
+        
+        // 创建拖拽平面（基于Canvas的朝向）
+        dragPlane = new Plane(canvasRectTransform.forward, canvasRectTransform.position);
+        
+        // 记录初始位置
+        initialCanvasPosition = canvasRectTransform.position;
+        initialPointerPosition = GetPointerWorldPosition(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        var delta = eventData.delta / canvas.scaleFactor;
-        var newPosition = rectTransform.anchoredPosition + delta;
+        if (!isDragging) return;
 
-        var canvasRectTransform = canvas.GetComponent<RectTransform>();
-        var canvasRect = canvasRectTransform.rect;
-        var elementRect = rectTransform.rect;
-
-        var parentWidth = canvasRect.width;
-        var parentHeight = canvasRect.height;
-        var elementWidth = elementRect.width;
-        var elementHeight = elementRect.height;
-        var pivot = rectTransform.pivot;
-
-        // 计算X轴的边界限制
-        var minX = -parentWidth / 2f + elementWidth * pivot.x;
-        var maxX = parentWidth / 2f - elementWidth * (1f - pivot.x);
-
-        // 计算Y轴的边界限制
-        var minY = -parentHeight / 2f + elementHeight * pivot.y;
-        var maxY = parentHeight / 2f - elementHeight * (1f - pivot.y);
-
-        // 应用限制
-        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-
-        rectTransform.anchoredPosition = newPosition;
+        // 获取当前指针的世界位置
+        Vector3 currentPointerPosition = GetPointerWorldPosition(eventData);
+        
+        // 计算偏移量并更新Canvas位置
+        Vector3 offset = currentPointerPosition - initialPointerPosition;
+        canvasRectTransform.position = initialCanvasPosition + offset;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -59,5 +53,26 @@ public class DragHandle : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     {
         if (!isDragging) Debug.Log("Button Clicked!");
         // 点击处理逻辑
+    }
+
+    /// <summary>
+    /// 获取指针在拖拽平面上的世界坐标
+    /// </summary>
+    private Vector3 GetPointerWorldPosition(PointerEventData eventData)
+    {
+        // 创建射线
+        Ray ray = eventData.pressEventCamera == null ? 
+            Camera.main.ScreenPointToRay(eventData.position) : 
+            eventData.pressEventCamera.ScreenPointToRay(eventData.position);
+        
+        // 获取射线与平面的交点
+        float enter;
+        if (dragPlane.Raycast(ray, out enter))
+        {
+            return ray.GetPoint(enter);
+        }
+        
+        // 如果射线未命中平面，返回默认值
+        return Vector3.zero;
     }
 }

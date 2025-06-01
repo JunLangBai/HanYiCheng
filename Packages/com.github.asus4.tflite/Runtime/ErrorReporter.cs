@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using Debug = UnityEngine.Debug;
 using TfLiteInterpreterOptions = System.IntPtr;
+using System;
 
 namespace TensorFlowLite
 {
