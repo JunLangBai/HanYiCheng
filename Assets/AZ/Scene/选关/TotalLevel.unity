@@ -1399,6 +1399,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u8FD4\u56DE\u6309\u94AE"
       objectReference: {fileID: 0}
+    - target: {fileID: 6648205005366945979, guid: 17a07ed26f11b764ab3d837478fcde9e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648205005366945979, guid: 17a07ed26f11b764ab3d837478fcde9e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648205005366945979, guid: 17a07ed26f11b764ab3d837478fcde9e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.96862745
+      objectReference: {fileID: 0}
     - target: {fileID: 8071873977973457690, guid: 17a07ed26f11b764ab3d837478fcde9e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

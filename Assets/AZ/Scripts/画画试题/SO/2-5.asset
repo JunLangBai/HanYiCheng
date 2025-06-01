@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d747a2b72f6c91b4ab94264bf06b214d, type: 3}
+  m_Name: 2-5
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 90f28802993c24946997253f9ed2b24c, type: 3}
+    correctAnswer: "\uC65C"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 88dad9d0430526e4dbb1d87c7a0a006b, type: 3}
+    correctAnswer: "\uACFC"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 0ae7ccad43042004ba7e6b4c7d6dd690, type: 3}
+    correctAnswer: "\uC678"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 043eeea1080b4ac49a9a4c4f19a4fd4d, type: 3}
+    correctAnswer: "\uBB88"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: ae203b1c1c24ecb40bfa47e6c0cd2d34, type: 3}
+    correctAnswer: "\uC234"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: a8e0ecc741c880743993a573268a5bc7, type: 3}
+    correctAnswer: "\uD654"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 0148163f5f3e5694fb832a15cc9da020, type: 3}
+    correctAnswer: "\uCDE8"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: cc9a988712634d341b32e924a4ffb032, type: 3}
+    correctAnswer: "\uCDB0"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: dcdfd803900141148bdb1b5289ca67af, type: 3}
+    correctAnswer: "\uBD48"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 427830a795cb2f847a519f8aca142513, type: 3}
+    correctAnswer: "\uC918"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: e0ef62bd715d7074eb1078dae168e177, type: 3}
+    correctAnswer: "\uC950"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 695950c8aa0182047b48e3074edbfac9, type: 3}
+    correctAnswer: "\uC88C"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 1575d003c50ed954286e1db7135449a2, type: 3}
+    correctAnswer: "\uC758"
+  - questionText: "\u5982\u679C\u5143\u97F3\u50CF\u534A\u5305\u56F4\u7ED3\u6784\u4E00\u6837\u5305\u4F4F\u4E86\u8F85\u97F3\uFF0C\u6BD4\u5982\u3158,\u315A,\u315F,\u315E,\u315D,\u8F85\u97F3\u5199\u5728\u5DE6\u4E0A\uFF0C\u5143\u97F3\u534A\u5305\u4F4F\u5B83"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 23a117d1f2c5f74459ff39d30a3a3e9f, type: 3}
+    correctAnswer: "\uD76C"
