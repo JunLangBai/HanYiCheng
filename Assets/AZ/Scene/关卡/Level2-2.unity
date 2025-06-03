@@ -242,11 +242,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!20 &167163366 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6045076911616643428, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
-  m_PrefabInstance: {fileID: 1511833510}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &243494579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,6 +1602,7 @@ GameObject:
   - component: {fileID: 1041442272}
   - component: {fileID: 1041442274}
   - component: {fileID: 1041442273}
+  - component: {fileID: 1041442275}
   m_Layer: 0
   m_Name: gewImage
   m_TagString: Untagged
@@ -1668,6 +1664,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041442271}
   m_CullTransparentMesh: 1
+--- !u!114 &1041442275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041442271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingImage: {fileID: 1041442273}
+  brushSize: 5
 --- !u!1 &1163723214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,7 +2784,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1685839293}
-  - component: {fileID: 1685839292}
   - component: {fileID: 1685839291}
   m_Layer: 0
   m_Name: GameObj
@@ -2795,7 +2804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50907cd0b9c7458489607150ad456ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawingBoard: {fileID: 1685839292}
+  drawingBoard: {fileID: 1041442275}
   targetRawImage: {fileID: 1041442273}
   recognizeButton: {fileID: 1807276155}
   resultText: {fileID: 1387268155}
@@ -2803,22 +2812,6 @@ MonoBehaviour:
   serverURL: http://110.40.170.159:6666/predict
   timeoutSeconds: 15
   testTexture: {fileID: 0}
---- !u!114 &1685839292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685839290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingImage: {fileID: 1041442273}
-  drawingTexture: {fileID: 0}
-  brushSize: 5
-  uiCamera: {fileID: 167163366}
 --- !u!4 &1685839293
 Transform:
   m_ObjectHideFlags: 0
@@ -3127,7 +3120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: LevelSelection1
+  SceneName: LevelSelection2
 --- !u!114 &1933119780
 MonoBehaviour:
   m_ObjectHideFlags: 0

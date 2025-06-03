@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,15 @@ public class OCRFinishLevel : MonoBehaviour
         // 标记当前关卡为完成
         MarkLevelCompleted(currentLevelID);
 
-        SceneManager.LoadScene("LevelSelection1");
+        // 匹配连续的数字部分
+        Match match = Regex.Match(LevelSelectMngr.Instance.CurrentArea.ToString(), @"\d+");
+        
+        if (match.Success)
+        {
+            string numberPart = match.Value;  // 获取数字字符串 "2"
+            int number = int.Parse(numberPart); // 转换为整数
+            SceneManager.LoadScene("LevelSelection" + number);
+        }
     }
 
     private void MarkLevelCompleted(string levelID)
