@@ -1285,6 +1285,7 @@ GameObject:
   - component: {fileID: 596880342}
   - component: {fileID: 596880341}
   - component: {fileID: 596880340}
+  - component: {fileID: 596880343}
   m_Layer: 0
   m_Name: RawImage
   m_TagString: Untagged
@@ -1346,6 +1347,22 @@ RectTransform:
   m_AnchoredPosition: {x: -125.71997, y: -5.2999725}
   m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &596880343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596880339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingImage: {fileID: 596880340}
+  drawingTexture: {fileID: 0}
+  brushSize: 5
+  uiCamera: {fileID: 1866320994}
 --- !u!224 &641455322 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1233148307795227410, guid: 3c20833d81e354626b8365b459274912, type: 3}
@@ -1360,7 +1377,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 676025769}
-  - component: {fileID: 676025768}
   - component: {fileID: 676025767}
   m_Layer: 0
   m_Name: GameObj
@@ -1381,7 +1397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50907cd0b9c7458489607150ad456ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawingBoard: {fileID: 676025768}
+  drawingBoard: {fileID: 596880343}
   targetRawImage: {fileID: 596880340}
   recognizeButton: {fileID: 1710758778}
   resultText: {fileID: 18161626}
@@ -1389,22 +1405,6 @@ MonoBehaviour:
   serverURL: http://110.40.170.159:6666/predict
   timeoutSeconds: 15
   testTexture: {fileID: 0}
---- !u!114 &676025768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676025766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingImage: {fileID: 596880340}
-  drawingTexture: {fileID: 0}
-  brushSize: 5
-  uiCamera: {fileID: 1866320994}
 --- !u!4 &676025769
 Transform:
   m_ObjectHideFlags: 0
@@ -3411,7 +3411,7 @@ MonoBehaviour:
   nextButton: {fileID: 164718828}
   summaryPanel: {fileID: 259171432}
   totalScoreText: {fileID: 911979592}
-  drawingBoard: {fileID: 676025768}
+  drawingBoard: {fileID: 0}
   audioSource: {fileID: 1738501902}
 --- !u!1001 &1743006536
 PrefabInstance:

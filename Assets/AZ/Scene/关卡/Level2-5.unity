@@ -1105,7 +1105,7 @@ MonoBehaviour:
   nextButton: {fileID: 1804677681}
   summaryPanel: {fileID: 400987931}
   totalScoreText: {fileID: 1313717987}
-  drawingBoard: {fileID: 1331046128}
+  drawingBoard: {fileID: 0}
   audioSource: {fileID: 669045236}
 --- !u!114 &669045238
 MonoBehaviour:
@@ -2690,7 +2690,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1331046130}
-  - component: {fileID: 1331046128}
   - component: {fileID: 1331046129}
   m_Layer: 0
   m_Name: GameObj
@@ -2699,22 +2698,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1331046128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331046127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingImage: {fileID: 2146548156}
-  drawingTexture: {fileID: 0}
-  brushSize: 5
-  uiCamera: {fileID: 846838514}
 --- !u!114 &1331046129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2727,7 +2710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50907cd0b9c7458489607150ad456ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawingBoard: {fileID: 1331046128}
+  drawingBoard: {fileID: 2146548158}
   targetRawImage: {fileID: 2146548156}
   recognizeButton: {fileID: 727221456}
   resultText: {fileID: 1806600685}
@@ -3466,6 +3449,7 @@ GameObject:
   - component: {fileID: 2146548155}
   - component: {fileID: 2146548157}
   - component: {fileID: 2146548156}
+  - component: {fileID: 2146548158}
   m_Layer: 0
   m_Name: RawImage
   m_TagString: Untagged
@@ -3527,6 +3511,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146548154}
   m_CullTransparentMesh: 1
+--- !u!114 &2146548158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146548154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7e096740b22e04b8bdfd0c546cf746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingImage: {fileID: 2146548156}
+  drawingTexture: {fileID: 0}
+  brushSize: 5
+  uiCamera: {fileID: 846838514}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
