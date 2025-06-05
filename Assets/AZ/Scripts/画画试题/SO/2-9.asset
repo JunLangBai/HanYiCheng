@@ -12,4 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d747a2b72f6c91b4ab94264bf06b214d, type: 3}
   m_Name: 2-9
   m_EditorClassIdentifier: 
-  questions: []
+  questions:
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3137\u505A\u6536\u97F3\uFF0C\u53D1d\u97F3\u7684\u5077\u61D2\u97F3\uFF0C\u4E0E\u4E4B\u76F8\u540C\u7684\u6709\uFF1A\u314C,\u314A,\u314E,\u3148,\u3146,\u3145,\u3148"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 135ad48526922074b8c1038e4e6421e7, type: 3}
+    correctAnswer: "\uB2EB"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3137\u505A\u6536\u97F3\uFF0C\u53D1d\u97F3\u7684\u5077\u61D2\u97F3\uFF0C\u4E0E\u4E4B\u76F8\u540C\u7684\u6709\uFF1A\u314C,\u314A,\u314E,\u3148,\u3146,\u3145,\u3148"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 21f6f5ca7576dab4c952691f0d0abb60, type: 3}
+    correctAnswer: "\uBB3B"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3137\u505A\u6536\u97F3\uFF0C\u53D1d\u97F3\u7684\u5077\u61D2\u97F3\uFF0C\u4E0E\u4E4B\u76F8\u540C\u7684\u6709\uFF1A\u314C,\u314A,\u314E,\u3148,\u3146,\u3145,\u3148"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: fa279e6ccc20005468ff39887d1bded1, type: 3}
+    correctAnswer: "\uB09F"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3137\u505A\u6536\u97F3\uFF0C\u53D1d\u97F3\u7684\u5077\u61D2\u97F3\uFF0C\u4E0E\u4E4B\u76F8\u540C\u7684\u6709\uFF1A\u314C,\u314A,\u314E,\u3148,\u3146,\u3145,\u3148"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 310bfd9706fda81459e61414b3270706, type: 3}
+    correctAnswer: "\uC0B3"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3137\u505A\u6536\u97F3\uFF0C\u53D1d\u97F3\u7684\u5077\u61D2\u97F3\uFF0C\u4E0E\u4E4B\u76F8\u540C\u7684\u6709\uFF1A\u314C,\u314A,\u314E,\u3148,\u3146,\u3145,\u3148"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: e639d72ac3d31a94ab4f3af052f26199, type: 3}
+    correctAnswer: "\uC797"

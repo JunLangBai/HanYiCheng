@@ -12,4 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d747a2b72f6c91b4ab94264bf06b214d, type: 3}
   m_Name: 2-7
   m_EditorClassIdentifier: 
-  questions: []
+  questions:
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 840effa551d6304449dd0de6e86bb2f6, type: 3}
+    correctAnswer: "\uC628"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 9398b851a42f70044aabc95cb36abde6, type: 3}
+    correctAnswer: "\uCC9C"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 969d63d320d2fb24db45782e708c1a58, type: 3}
+    correctAnswer: "\uB9CC"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: aa04b30a07c796245860ccf0b0ebceba, type: 3}
+    correctAnswer: "\uBCC0"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 7e6cf198800015f47bfde043b6181bac, type: 3}
+    correctAnswer: "\uAD00"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: a7ebcf4513c39e940b3248870b808bd4, type: 3}
+    correctAnswer: "\uCD98"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 7651276ad84b63f4f8712c5e035205db, type: 3}
+    correctAnswer: "\uC6D0"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3134\u505A\u6536\u97F3\uFF0C\u53D1n\u97F3\uFF0C\u53D1\u524D\u9F3B\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: a7543776c60c6b54aa20c4e1dda6b5e4, type: 3}
+    correctAnswer: "\uC0B0"
