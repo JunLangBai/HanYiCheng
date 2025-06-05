@@ -39,8 +39,14 @@ EditorBuildSettings:
     path: "Assets/AZ/Scene/\u70B9\u8BFB\u673A/\u6559\u5B66\u573A\u666F/Reader6.unity"
     guid: 8ebb09e07c636654b899ddf89e303255
   - enabled: 1
+    path: "Assets/AZ/Scene/\u9009\u5173/TotalLevel.unity"
+    guid: bb7b60188324283469413c79cbb49120
+  - enabled: 1
     path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection1.unity"
     guid: bff045eda088b48478736343c974cd63
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection2.unity"
+    guid: 58751ba0c3225f747ab141f029872cad
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-1.unity"
     guid: 96d1a94b856abd845a94e1372c2040bd
@@ -78,12 +84,6 @@ EditorBuildSettings:
     path: "Assets/AZ/Scene/\u5173\u5361/Level2-1.unity"
     guid: f13623e3317e20c4b88a05cb0db52bf3
   - enabled: 1
-    path: "Assets/AZ/Scene/\u9009\u5173/LevelSelection2.unity"
-    guid: 58751ba0c3225f747ab141f029872cad
-  - enabled: 1
-    path: "Assets/AZ/Scene/\u9009\u5173/TotalLevel.unity"
-    guid: bb7b60188324283469413c79cbb49120
-  - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level2-2.unity"
     guid: f7e9f1f1cf3a6154f9243301410381d5
   - enabled: 1
@@ -95,6 +95,36 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level2-5.unity"
     guid: f0868e23bfa65504eb7f7a9e1b17b793
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-6.unity"
+    guid: da0dd4ad8d7de9940848d5825dd62f54
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-7.unity"
+    guid: af69254480a57944f831ee135a4a1bef
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-8.unity"
+    guid: 072cac093d320db4f8f9a1d505a3ca9f
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-9.unity"
+    guid: 7812d28a6d12d8d46bbb211f57d3c4b5
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-10.unity"
+    guid: ba9c3299613ff244e9202eff9c650a48
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-11.unity"
+    guid: ea2639cf6a4293749a820539f4099a9f
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-12.unity"
+    guid: 5a0a1cce4c3cd014fbcbb99bb940eb17
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-13.unity"
+    guid: bf580392e476aa74cb985ba5f43f6202
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-14.unity"
+    guid: d57cc6211c7937646a12c36fc2a4b7a0
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level2-15.unity"
+    guid: 47238cd831774a84ab2984997df88947
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c0a2b93895e435b4cbdec5019eaea835, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c7b655f3f2581c0418299acd52c2893e, type: 2}

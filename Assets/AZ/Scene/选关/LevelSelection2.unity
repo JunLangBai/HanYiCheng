@@ -174,7 +174,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 2
-    m_Bottom: 1
+    m_Bottom: 2
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
