@@ -12,4 +12,9 @@ public class TotalLevelSelection : MonoBehaviour
     {
         SceneManager.LoadScene("LevelSelection2");
     }
+    
+      public void LevelSelection3()
+        {
+            SceneManager.LoadScene("LevelSelection3");
+        }
 }
