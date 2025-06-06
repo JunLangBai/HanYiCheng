@@ -12,8 +12,6 @@ public class MatchingQuestionData : ScriptableObject
 public class MatchingQuestion
 {
     public string questionText;
-    public AudioClip questionAudio;
-    public Sprite referenceImage;
     public List<MatchPair> correctPairs;
 }
 
@@ -21,5 +19,7 @@ public class MatchingQuestion
 public class MatchPair
 {
     public string questionID;
+    public string questionText;
     public string answerID;
+    public string answerText;
 }
