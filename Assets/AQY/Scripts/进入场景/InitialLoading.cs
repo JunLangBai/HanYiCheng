@@ -6,6 +6,7 @@ public class InitialLoading : MonoBehaviour
     public float time;
     public float musicTime;
     public AudioSource audio;
+    public AudioClip audioClip;
     
     private void Start()
     {
@@ -29,6 +30,7 @@ public class InitialLoading : MonoBehaviour
 
     private void SoundLoading()
     {
+        audio.clip = audioClip;
         audio.Play();
     }
 
