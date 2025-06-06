@@ -1,185 +1,248 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class MatchingGame_Horizontal : MonoBehaviour
+public class PronunciationMatchingGame : MonoBehaviour
 {
-    [System.Serializable]
-    public class MatchPair
-    {
-        public string korean;   // 韩文
-        public string pinyin;   // 拼音
-    }
-
-    [Header("配对设置")]
-    public MatchPair[] correctPairs;
+    [Header("UI 引用")]
+    public Transform pronunciationQ;  // 上方的按钮容器
+    public Transform pronunciationA;  // 下方的按钮容器
+    public Button completeButton;      // 完成按钮
+    
+    [Header("颜色设置")]
     public Color normalColor = Color.white;
     public Color selectedColor = Color.blue;
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
-    public float resetDelay = 0.8f;
-    public GameObject rowPrefab; // 水平行预制体
+    public float resetDelay = 0.5f;   // 错误配对的延迟重置时间
 
-    [Header("UI引用")]
-    public Transform rowsContainer; // 行容器
-    public Button checkButton;
+    // 正确答案列表（在Inspector中设置）
+    public List<MatchPair> correctPairs = new List<MatchPair>();
+    
+    [System.Serializable]
+    public class MatchPair
+    {
+        public string questionID;  // 匹配上方的ID
+        public string answerID;    // 匹配下方的ID
+    }
 
-    private int selectedRowIndex = -1;
-    private Button selectedKoreanBtn;
-    private Button selectedPinyinBtn;
-
+    private Dictionary<Button, string> buttonIDs = new Dictionary<Button, string>();
+    private Button selectedQButton; // 当前选中的上方按钮
+    private Button selectedAButton; // 当前选中的下方按钮
+    
     void Start()
     {
-        InitializeHorizontalRows();
-        checkButton.onClick.AddListener(CheckResults);
-    }
-
-    void InitializeHorizontalRows()
-    {
-        // 清除已有内容
-        foreach (Transform child in rowsContainer)
+        // 初始化按钮点击事件
+        InitializeButtons();
+        
+        // 完成按钮事件
+        if (completeButton != null)
         {
-            Destroy(child.gameObject);
-        }
-
-        // 创建水平行
-        for (int i = 0; i < correctPairs.Length; i++)
-        {
-            // 创建一行
-            GameObject row = Instantiate(rowPrefab, rowsContainer);
-            row.name = $"Row_{i}";
-            
-            // 获取按钮引用
-            Button koreanBtn = row.transform.Find("KoreanButton").GetComponent<Button>();
-            Button pinyinBtn = row.transform.Find("PinyinButton").GetComponent<Button>();
-            
-            // 设置文本
-            koreanBtn.GetComponentInChildren<Text>().text = correctPairs[i].korean;
-            pinyinBtn.GetComponentInChildren<Text>().text = correctPairs[i].pinyin;
-            
-            // 添加点击事件
-            int index = i; // 闭包变量
-            koreanBtn.onClick.AddListener(() => OnKoreanButtonClick(index, koreanBtn));
-            pinyinBtn.onClick.AddListener(() => OnPinyinButtonClick(index, pinyinBtn));
-            
-            // 重置颜色
-            ResetButtonColor(koreanBtn);
-            ResetButtonColor(pinyinBtn);
-        }
-    }
-
-    void OnKoreanButtonClick(int rowIndex, Button btn)
-    {
-        // 取消之前的选择
-        if (selectedKoreanBtn != null)
-        {
-            ResetButtonColor(selectedKoreanBtn);
+            completeButton.onClick.AddListener(CheckAllMatches);
         }
         
-        // 选择当前韩文按钮
-        SetButtonColor(btn, selectedColor);
-        selectedRowIndex = rowIndex;
-        selectedKoreanBtn = btn;
-        
-        // 如果有拼音选择，立即检查
-        if (selectedPinyinBtn != null)
-        {
-            CheckPair();
-        }
+        // 重置所有按钮颜色
+        ResetAllButtons();
     }
 
-    void OnPinyinButtonClick(int rowIndex, Button btn)
+    void InitializeButtons()
     {
-        // 取消之前的选择
-        if (selectedPinyinBtn != null)
+        // 添加上方按钮的事件
+        foreach (Transform child in pronunciationQ)
         {
-            ResetButtonColor(selectedPinyinBtn);
-        }
-        
-        // 选择当前拼音按钮
-        SetButtonColor(btn, selectedColor);
-        selectedRowIndex = rowIndex;
-        selectedPinyinBtn = btn;
-        
-        // 如果有韩文选择，立即检查
-        if (selectedKoreanBtn != null)
-        {
-            CheckPair();
-        }
-    }
-
-    void CheckPair()
-    {
-        if (selectedRowIndex == -1 || selectedKoreanBtn == null || selectedPinyinBtn == null)
-            return;
-        
-        int currentIndex = selectedRowIndex;
-        
-        if (selectedKoreanBtn.GetComponentInChildren<Text>().text == correctPairs[currentIndex].korean &&
-            selectedPinyinBtn.GetComponentInChildren<Text>().text == correctPairs[currentIndex].pinyin)
-        {
-            // 配对正确
-            SetButtonColor(selectedKoreanBtn, correctColor);
-            SetButtonColor(selectedPinyinBtn, correctColor);
-            
-            // 禁用正确配对的按钮
-            selectedKoreanBtn.interactable = false;
-            selectedPinyinBtn.interactable = false;
-            
-            // 重置选择状态
-            ClearSelection();
-        }
-        else
-        {
-            // 配对错误
-            SetButtonColor(selectedKoreanBtn, wrongColor);
-            SetButtonColor(selectedPinyinBtn, wrongColor);
-            
-            // 保存引用用于重置
-            Button tempKorean = selectedKoreanBtn;
-            Button tempPinyin = selectedPinyinBtn;
-            
-            // 重置选择状态
-            ClearSelection();
-            
-            // 延迟后重置颜色
-            StartCoroutine(ResetWrongPairAfterDelay(tempKorean, tempPinyin));
-        }
-    }
-
-    void ClearSelection()
-    {
-        selectedRowIndex = -1;
-        selectedKoreanBtn = null;
-        selectedPinyinBtn = null;
-    }
-
-    System.Collections.IEnumerator ResetWrongPairAfterDelay(Button koreanBtn, Button pinyinBtn)
-    {
-        yield return new WaitForSeconds(resetDelay);
-        
-        ResetButtonColor(koreanBtn);
-        ResetButtonColor(pinyinBtn);
-    }
-
-    void CheckResults()
-    {
-        // 检查所有配对是否完成
-        int completedPairs = 0;
-        foreach (Transform row in rowsContainer)
-        {
-            Button koreanBtn = row.Find("KoreanButton").GetComponent<Button>();
-            Button pinyinBtn = row.Find("PinyinButton").GetComponent<Button>();
-            
-            if (!koreanBtn.interactable && !pinyinBtn.interactable)
+            Button btn = child.GetComponent<Button>();
+            if (btn != null)
             {
-                completedPairs++;
+                // 使用按钮名字作为ID（需在编辑器中设置）
+                buttonIDs[btn] = btn.name;
+                btn.onClick.AddListener(() => OnQButtonClick(btn));
             }
         }
         
-        Debug.Log($"完成配对: {completedPairs}/{correctPairs.Length}");
+        // 添加下方按钮的事件
+        foreach (Transform child in pronunciationA)
+        {
+            Button btn = child.GetComponent<Button>();
+            if (btn != null)
+            {
+                // 使用按钮名字作为ID（需在编辑器中设置）
+                buttonIDs[btn] = btn.name;
+                btn.onClick.AddListener(() => OnAButtonClick(btn));
+            }
+        }
     }
 
-    // 辅助函数
-    void SetButtonColor(Button btn, Color color) => btn.image.color = color;
-    void ResetButtonColor(Button btn) => btn.image.color = normalColor;
+    void OnQButtonClick(Button clickedButton)
+    {
+        // 如果点击了已选中的按钮，则取消选择
+        if (selectedQButton == clickedButton)
+        {
+            SetButtonColor(clickedButton, normalColor);
+            selectedQButton = null;
+            return;
+        }
+        
+        // 取消之前选中的按钮
+        if (selectedQButton != null)
+        {
+            SetButtonColor(selectedQButton, normalColor);
+        }
+        
+        // 选中新按钮
+        SetButtonColor(clickedButton, selectedColor);
+        selectedQButton = clickedButton;
+        
+        // 如果有配对的A按钮，检查匹配
+        if (selectedAButton != null)
+        {
+            CheckPairMatch();
+        }
+    }
+
+    void OnAButtonClick(Button clickedButton)
+    {
+        // 如果点击了已选中的按钮，则取消选择
+        if (selectedAButton == clickedButton)
+        {
+            SetButtonColor(clickedButton, normalColor);
+            selectedAButton = null;
+            return;
+        }
+        
+        // 取消之前选中的按钮
+        if (selectedAButton != null)
+        {
+            SetButtonColor(selectedAButton, normalColor);
+        }
+        
+        // 选中新按钮
+        SetButtonColor(clickedButton, selectedColor);
+        selectedAButton = clickedButton;
+        
+        // 如果有配对的Q按钮，检查匹配
+        if (selectedQButton != null)
+        {
+            CheckPairMatch();
+        }
+    }
+
+    void CheckPairMatch()
+    {
+        if (selectedQButton == null || selectedAButton == null) return;
+        
+        string qID = buttonIDs[selectedQButton];
+        string aID = buttonIDs[selectedAButton];
+        
+        bool isMatch = false;
+        
+        // 检查是否是正确配对
+        foreach (var pair in correctPairs)
+        {
+            if (pair.questionID == qID && pair.answerID == aID)
+            {
+                isMatch = true;
+                break;
+            }
+        }
+        
+        if (isMatch)
+        {
+            // 匹配正确
+            SetButtonColor(selectedQButton, correctColor);
+            SetButtonColor(selectedAButton, correctColor);
+            
+            // 禁用已匹配的按钮
+            selectedQButton.interactable = false;
+            selectedAButton.interactable = false;
+            
+            // 清除选择状态
+            selectedQButton = null;
+            selectedAButton = null;
+            
+            // 检查是否全部完成
+            CheckAllMatches();
+        }
+        else
+        {
+            // 匹配错误
+            SetButtonColor(selectedQButton, wrongColor);
+            SetButtonColor(selectedAButton, wrongColor);
+            
+            // 保存当前选择用于延迟重置
+            Button tempQ = selectedQButton;
+            Button tempA = selectedAButton;
+            
+            // 清除选择状态
+            selectedQButton = null;
+            selectedAButton = null;
+            
+            // 延迟重置按钮颜色
+            StartCoroutine(ResetButtonAfterDelay(tempQ, tempA));
+        }
+    }
+
+    System.Collections.IEnumerator ResetButtonAfterDelay(Button qBtn, Button aBtn)
+    {
+        yield return new WaitForSeconds(resetDelay);
+        
+        if (qBtn != null)
+        {
+            SetButtonColor(qBtn, normalColor);
+        }
+        if (aBtn != null)
+        {
+            SetButtonColor(aBtn, normalColor);
+        }
+    }
+
+    void CheckAllMatches()
+    {
+        bool allMatched = true;
+        
+        // 检查是否所有按钮都已被匹配
+        foreach (var pair in correctPairs)
+        {
+            bool pairMatched = false;
+            
+            // 找到对应的按钮
+            foreach (var btn in buttonIDs)
+            {
+                if (btn.Value == pair.questionID && !btn.Key.interactable)
+                {
+                    pairMatched = true;
+                    break;
+                }
+            }
+            
+            if (!pairMatched)
+            {
+                allMatched = false;
+                break;
+            }
+        }
+        
+        // 如果全部完成
+        if (allMatched)
+        {
+            Debug.Log("所有配对已完成！");
+            // 这里可以触发下一题或完成逻辑
+        }
+    }
+
+    void SetButtonColor(Button button, Color color)
+    {
+        // 确保按钮有Image组件
+        if (button != null && button.image != null)
+        {
+            button.image.color = color;
+        }
+    }
+
+    void ResetAllButtons()
+    {
+        foreach (var btn in buttonIDs)
+        {
+            SetButtonColor(btn.Key, normalColor);
+        }
+    }
 }
