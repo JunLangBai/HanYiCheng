@@ -9,11 +9,10 @@ public class Matching_UIManager : MonoBehaviour
 
     [Header("UI 元素")]
     public TextMeshProUGUI questionText;
-    public Image questionImage;
     public TextMeshProUGUI progressText;
     public TextMeshProUGUI resultText;
     public Button nextButton;
-    public AudioSource audioSource;
+    public CanvasGroup summaryPanel;
 
     [Header("按钮容器")]
     public Transform questionArea;
@@ -38,6 +37,7 @@ public class Matching_UIManager : MonoBehaviour
     {
         nextButton.onClick.AddListener(OnNextQuestionClicked);
         LoadQuestion(MatchingQuestionManager.Instance.GetCurrentQuestion());
+        summaryPanel.gameObject.SetActive(false);
     }
 
     public void LoadQuestion(MatchingQuestion question)
@@ -45,7 +45,6 @@ public class Matching_UIManager : MonoBehaviour
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
         questionText.text = question.questionText;
-        questionImage.sprite = question.referenceImage;
         correctPairs = question.correctPairs;
 
         idMap.Clear();
@@ -57,19 +56,42 @@ public class Matching_UIManager : MonoBehaviour
 
     private void InitButtons(Transform area, bool isQuestionSide)
     {
+        List<string> usedIDs = new();
         foreach (Transform t in area)
         {
             var btn = t.GetComponent<Button>();
-            if (!btn) continue;
+            var txt = btn.GetComponentInChildren<TextMeshProUGUI>();
+            if (!btn || !txt) continue;
 
-            idMap[btn] = btn.name;
             btn.image.color = normalColor;
             btn.interactable = true;
             btn.onClick.RemoveAllListeners();
+
+            MatchPair pair = null;
+
             if (isQuestionSide)
-                btn.onClick.AddListener(() => OnQClick(btn));
+            {
+                // 找到一个未使用的 questionID
+                pair = correctPairs.Find(p => !usedIDs.Contains(p.questionID));
+                if (pair != null)
+                {
+                    txt.text = pair.questionText;
+                    idMap[btn] = pair.questionID;
+                    usedIDs.Add(pair.questionID);
+                    btn.onClick.AddListener(() => OnQClick(btn));
+                }
+            }
             else
-                btn.onClick.AddListener(() => OnAClick(btn));
+            {
+                pair = correctPairs.Find(p => !usedIDs.Contains(p.answerID));
+                if (pair != null)
+                {
+                    txt.text = pair.answerText;
+                    idMap[btn] = pair.answerID;
+                    usedIDs.Add(pair.answerID);
+                    btn.onClick.AddListener(() => OnAClick(btn));
+                }
+            }
         }
     }
 
@@ -127,6 +149,8 @@ public class Matching_UIManager : MonoBehaviour
                 resultText.text = "全部匹配成功！";
                 if (MatchingQuestionManager.Instance.HasNextQuestion())
                     nextButton.gameObject.SetActive(true);
+                else
+                    ShowSummary();
             }
         }
         else
@@ -136,6 +160,11 @@ public class Matching_UIManager : MonoBehaviour
             StartCoroutine(ResetAfterDelay(selectedQ, selectedA));
             selectedQ = selectedA = null;
         }
+    }
+
+    private void ShowSummary()
+    {
+        summaryPanel.gameObject.SetActive(true);
     }
 
     private System.Collections.IEnumerator ResetAfterDelay(Button q, Button a)
@@ -166,13 +195,5 @@ public class Matching_UIManager : MonoBehaviour
         var idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
         var total = MatchingQuestionManager.Instance.questionData.questions.Count;
         progressText.text = $"进度: {idx}/{total}";
-    }
-
-    public void PlayAudio(AudioClip clip)
-    {
-        if (!clip) return;
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
     }
 }
