@@ -2010,7 +2010,8 @@ MonoBehaviour:
   summaryPanel: {fileID: 1680363565}
   questionArea: {fileID: 964439157}
   answerArea: {fileID: 1107972377}
-  buttonPrefab: {fileID: 446996447168804201, guid: 528cd36bed35ff74da7ddef0e3b94b00, type: 3}
+  questionButtonPrefab: {fileID: 446996447168804201, guid: 528cd36bed35ff74da7ddef0e3b94b00, type: 3}
+  answerButtonPrefab: {fileID: 446996447168804201, guid: 528cd36bed35ff74da7ddef0e3b94b00, type: 3}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0, g: 1, b: 1, a: 1}
   correctColor: {r: 0, g: 1, b: 0, a: 1}
