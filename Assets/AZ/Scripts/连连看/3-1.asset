@@ -14,18 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questions:
   - questionText: "\u8FDE\u8FDE\u770B"
-    questionAudio: {fileID: 0}
-    referenceImage: {fileID: 0}
     correctPairs:
     - questionID: 1
-      questionText: 12
+      questionText: "\u4F60\u597D"
       answerID: 4
-      answerText: 345
+      answerText: "\uC548\uB155\uD558\uC138\uC694"
+      pairAudioClip: {fileID: 8300000, guid: d24f3a9de60f71f4fb2fc4d3aa426835, type: 3}
     - questionID: 2
       questionText: 546
       answerID: 5
       answerText: 789
+      pairAudioClip: {fileID: 0}
     - questionID: 3
       questionText: 1
       answerID: 6
       answerText: 2
+      pairAudioClip: {fileID: 0}
