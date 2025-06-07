@@ -19,3 +19,4 @@ MonoBehaviour:
   - "10\u5206\u949F/\u5929"
   - "15\u5206\u949F/\u5929"
   - "30\u5206\u949F/\u5929"
+  buttonAudioClip: {fileID: 8300000, guid: e077350e146700545834c4a2988675a9, type: 3}

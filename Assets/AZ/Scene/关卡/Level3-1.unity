@@ -2016,6 +2016,7 @@ MonoBehaviour:
   selectedColor: {r: 0.9294118, g: 0.7137255, b: 0.3647059, a: 1}
   correctColor: {r: 0, g: 1, b: 0, a: 1}
   wrongColor: {r: 1, g: 0, b: 0, a: 1}
+  audioSource: {fileID: 1252027306}
 --- !u!1 &1270797822
 GameObject:
   m_ObjectHideFlags: 0

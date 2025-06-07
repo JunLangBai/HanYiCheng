@@ -19,3 +19,4 @@ MonoBehaviour:
   - "\u6211\u77E5\u9053\u4E00\u4E9B\u5E38\u7528\u8BCD\u6C47"
   - "\u6211\u53EA\u80FD\u8FDB\u884C\u57FA\u7840\u5BF9\u8BDD"
   - "\u6211\u80FD\u8BA8\u8BBA\u5F88\u591A\u8BDD\u9898"
+  buttonAudioClip: {fileID: 8300000, guid: 336c9dfdfc8ab1248a9e4efdaa66e668, type: 3}

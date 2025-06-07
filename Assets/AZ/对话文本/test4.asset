@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: test4
   m_EditorClassIdentifier: 
   content: "\u51C6\u5907\u597D\u4E86\u5417\uFF1F"
-  stopText: 1
+  onlyText: 1
   buttonTexts: []
+  buttonAudioClip: {fileID: 8300000, guid: 7dd737b2188ad4a4c91ddcf5ad027915, type: 3}

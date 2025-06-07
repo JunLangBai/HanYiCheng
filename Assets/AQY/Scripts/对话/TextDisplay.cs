@@ -76,6 +76,7 @@ public class TextDisplay : MonoBehaviour
     {
         var current = dialogueSequence[_currentDialogueIndex];
 
+        // 根据onlyText选择文本控件
         if (current.onlyText == false)
         {
             dialogueText = PlacementMgr.instance.optionText;
@@ -86,6 +87,9 @@ public class TextDisplay : MonoBehaviour
             dialogueText = PlacementMgr.instance.onlyText;
             dialogueText.text = current.content;
         }
+
+        // 播放当前对话的声音，先停止旧音频
+        PlayAudio(current.buttonAudioClip ?? defaultClickClip);
 
         ClearButtonContainer();
 
@@ -127,11 +131,13 @@ public class TextDisplay : MonoBehaviour
 
         button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
 
-        button.GetComponent<Button>().onClick.AddListener(() =>
+        var btnComponent = button.GetComponent<Button>();
+        btnComponent.onClick.RemoveAllListeners();
+        btnComponent.onClick.AddListener(() =>
         {
+            // 点击按钮时不再播放音效，避免冲突
             if (!_awaitingChoice)
             {
-                PlayAudio(currentChat.buttonAudioClip ?? defaultClickClip);
                 GlobalTutorialsManager.instance.canNextText = true;
                 ProceedToNextDialogue();
             }
@@ -157,9 +163,10 @@ public class TextDisplay : MonoBehaviour
             textComponent.text = btnText;
 
             var btnComponent = button.GetComponent<Button>();
+            btnComponent.onClick.RemoveAllListeners();
             btnComponent.onClick.AddListener(() =>
             {
-                PlayAudio(currentChat.buttonAudioClip ?? defaultClickClip);
+                // 按钮点击时不播放音效，避免和文本音效冲突
                 HandleButtonClick(btnText);
             });
         }
@@ -190,6 +197,7 @@ public class TextDisplay : MonoBehaviour
         var button = Instantiate(buttonPrefab, buttonContainer);
         button.GetComponentInChildren<TextMeshProUGUI>().text = "开始冒险";
         var btnComponent = button.GetComponent<Button>();
+        btnComponent.onClick.RemoveAllListeners();
         btnComponent.onClick.AddListener(SceneLoaded);
     }
 
@@ -198,13 +206,12 @@ public class TextDisplay : MonoBehaviour
         var gameData = JsonFileManager.LoadFromJson<GameData>("GameData.json");
         gameData.placementClear = true;
         JsonFileManager.SaveToJson(gameData, "GameData.json");
-        
+
         SceneManager.LoadScene(endSceneName);
     }
 
     private IEnumerator FadeInOutSequence()
     {
-
         yield return StartCoroutine(Fade(0f, 1f));
 
         if (delayBetweenFades > 0f)
@@ -242,7 +249,7 @@ public class TextDisplay : MonoBehaviour
     {
         if (clip != null && audioSource != null)
         {
-            audioSource.Stop();
+            audioSource.Stop(); // 先停止当前播放的音频，防止叠加
             audioSource.clip = clip;
             audioSource.Play();
         }

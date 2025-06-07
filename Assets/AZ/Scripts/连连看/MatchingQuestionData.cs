@@ -23,5 +23,5 @@ public class MatchPair
     public string answerID;
     public string answerText;
 
-    public AudioClip pairAudioClip;  // ✅ 配置音效：只供右侧按钮使用
+    public AudioClip answerAudioClip;  // ✅ 配置音效：只供右侧按钮使用
 }

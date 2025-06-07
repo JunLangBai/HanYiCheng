@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;  // 用于打乱顺序
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,9 +30,15 @@ public class Matching_UIManager : MonoBehaviour
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
 
+    [Header("音效组件")]
+    public AudioSource audioSource; // 唯一音频播放器
+
     private Button selectedQ, selectedA;
     private Dictionary<Button, string> idMap = new();
     private List<MatchPair> correctPairs;
+
+    // 反向查找：answerID => AudioClip
+    private Dictionary<string, AudioClip> answerAudioClips = new();
 
     private void Awake()
     {
@@ -52,6 +58,14 @@ public class Matching_UIManager : MonoBehaviour
         nextButton.gameObject.SetActive(false);
         questionText.text = question.questionText;
         correctPairs = question.correctPairs;
+
+        // 构建answerID->AudioClip映射，方便播放
+        answerAudioClips.Clear();
+        foreach (var pair in correctPairs)
+        {
+            if (pair.answerAudioClip != null)
+                answerAudioClips[pair.answerID] = pair.answerAudioClip;
+        }
 
         // 清理旧按钮
         ClearButtons(questionArea);
@@ -75,7 +89,6 @@ public class Matching_UIManager : MonoBehaviour
 
     private void CreateButtons(Transform area, List<MatchPair> pairs, bool isQuestionSide)
     {
-        // 先复制一份列表并随机打乱顺序
         List<MatchPair> listToUse = pairs.OrderBy(x => Random.value).ToList();
 
         foreach (var pair in listToUse)
@@ -92,6 +105,7 @@ public class Matching_UIManager : MonoBehaviour
                 txt.text = pair.questionText;
                 idMap[btn] = pair.questionID;
                 btn.onClick.AddListener(() => OnQClick(btn));
+                // 题目按钮无音效，不播放
             }
             else
             {
@@ -116,6 +130,8 @@ public class Matching_UIManager : MonoBehaviour
             btn.image.color = selectedColor;
         }
 
+        // 题目按钮无音效，故这里不播放
+
         if (selectedA) TryMatch();
     }
 
@@ -133,9 +149,17 @@ public class Matching_UIManager : MonoBehaviour
             btn.image.color = selectedColor;
         }
 
+        // 播放音效（如果有），播放前先停止当前音效，做到打断效果
+        string answerID = idMap[btn];
+        if (answerAudioClips.TryGetValue(answerID, out var clip) && clip != null)
+        {
+            audioSource.Stop();    // 停止当前正在播放的音效
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
+
         if (selectedQ) TryMatch();
     }
-
     private void TryMatch()
     {
         string qID = idMap[selectedQ];
