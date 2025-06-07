@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cbcb036d169ae449b13370c8a40143c, type: 3}
-  m_Name: Area3
+  m_Script: {fileID: 11500000, guid: cb1824d2972ede7478b1f0275ad86ab2, type: 3}
+  m_Name: 3-1
   m_EditorClassIdentifier: 
-  AreaName: "\u7B2C\u4E09\u7AE0"
-  Levels:
-  - {fileID: 11400000, guid: 59308950292802641a479d3626a75915, type: 2}
+  LevelID: 3-1
+  ISUnlockedByDefault: 1
+  Scene:
+    m_SceneAsset: {fileID: 102900000, guid: a8ccc0668eb21434cb51de6efcc6016e, type: 3}
+    m_SceneName: Level3-1
+  LevelName: 1

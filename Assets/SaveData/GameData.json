@@ -68,6 +68,12 @@
       "ISUnlockedByDefault": true,
       "Scene": "Level2-4",
       "LevelName": "4"
+    },
+    {
+      "LevelID": "3-1",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level3-1",
+      "LevelName": "1"
     }
   ],
   "volume": 0.279043823,

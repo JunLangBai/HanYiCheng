@@ -1594,11 +1594,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
---- !u!20 &846838514 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6045076911616643428, guid: bc7bf2e56b74d4038af31f75d0b2d024, type: 3}
-  m_PrefabInstance: {fileID: 846838513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &874951280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,7 +1867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1233148308800772758, guid: 3c20833d81e354626b8365b459274912, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3524,9 +3519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawingImage: {fileID: 2146548156}
-  drawingTexture: {fileID: 0}
   brushSize: 5
-  uiCamera: {fileID: 846838514}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
