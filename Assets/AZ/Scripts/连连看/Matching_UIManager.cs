@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Matching_UIManager : MonoBehaviour
 {
@@ -15,10 +14,9 @@ public class Matching_UIManager : MonoBehaviour
     public Button nextButton;
     public CanvasGroup summaryPanel;
 
-    [Header("按钮容器 & 预制体")]
-    public Transform questionArea;    // 上排容器
-    public Transform answerArea;      // 下排容器
-    public Button buttonPrefab;       // 挂上你的 Button 预制体
+    [Header("按钮容器")]
+    public Transform questionArea;
+    public Transform answerArea;
 
     [Header("颜色设置")]
     public Color normalColor = Color.white;
@@ -30,69 +28,86 @@ public class Matching_UIManager : MonoBehaviour
     private Dictionary<Button, string> idMap = new();
     private List<MatchPair> correctPairs;
 
+    private Dictionary<string, AudioClip> answerIdToClipMap = new();
+    private AudioSource audioSource;
+
     private void Awake()
     {
         Instance = this;
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void Start()
     {
         nextButton.onClick.AddListener(OnNextQuestionClicked);
-        summaryPanel.gameObject.SetActive(false);
         LoadQuestion(MatchingQuestionManager.Instance.GetCurrentQuestion());
+        summaryPanel.gameObject.SetActive(false);
     }
 
     public void LoadQuestion(MatchingQuestion question)
     {
-        // 重置 UI
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
         questionText.text = question.questionText;
         correctPairs = question.correctPairs;
 
-        // 清空旧按钮
-        foreach (Transform t in questionArea) Destroy(t.gameObject);
-        foreach (Transform t in answerArea) Destroy(t.gameObject);
         idMap.Clear();
-        selectedQ = selectedA = null;
-
-        // 动态生成按钮并随机打乱显示顺序
-        // 1. 收集所有 questionText 和 answerText
-        var questionList = new List<(string id, string text)>();
-        var answerList   = new List<(string id, string text)>();
-        foreach (var p in correctPairs)
-        {
-            questionList.Add((p.questionID, p.questionText));
-            answerList.Add((p.answerID, p.answerText));
-        }
-        Shuffle(questionList);
-        Shuffle(answerList);
-
-        // 2. 在容器中实例化
-        foreach (var (id, text) in questionList)
-        {
-            var btn = Instantiate(buttonPrefab, questionArea);
-            btn.image.color = normalColor;
-            btn.interactable = true;
-            var label = btn.GetComponentInChildren<TextMeshProUGUI>();
-            label.text = text;
-            idMap[btn] = id;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => OnQClick(btn));
-        }
-        foreach (var (id, text) in answerList)
-        {
-            var btn = Instantiate(buttonPrefab, answerArea);
-            btn.image.color = normalColor;
-            btn.interactable = true;
-            var label = btn.GetComponentInChildren<TextMeshProUGUI>();
-            label.text = text;
-            idMap[btn] = id;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => OnAClick(btn));
-        }
-
+        BuildAudioMap(correctPairs);
+        InitButtons(questionArea, true);
+        InitButtons(answerArea, false);
         UpdateProgress();
+    }
+
+    private void BuildAudioMap(List<MatchPair> pairs)
+    {
+        answerIdToClipMap.Clear();
+        foreach (var pair in pairs)
+        {
+            if (!string.IsNullOrEmpty(pair.answerID) && pair.pairAudioClip != null)
+            {
+                answerIdToClipMap[pair.answerID] = pair.pairAudioClip;
+            }
+        }
+    }
+
+    private void InitButtons(Transform area, bool isQuestionSide)
+    {
+        List<string> usedIDs = new();
+        foreach (Transform t in area)
+        {
+            var btn = t.GetComponent<Button>();
+            var txt = btn.GetComponentInChildren<TextMeshProUGUI>();
+            if (!btn || !txt) continue;
+
+            btn.image.color = normalColor;
+            btn.interactable = true;
+            btn.onClick.RemoveAllListeners();
+
+            MatchPair pair = null;
+
+            if (isQuestionSide)
+            {
+                pair = correctPairs.Find(p => !usedIDs.Contains(p.questionID));
+                if (pair != null)
+                {
+                    txt.text = pair.questionText;
+                    idMap[btn] = pair.questionID;
+                    usedIDs.Add(pair.questionID);
+                    btn.onClick.AddListener(() => OnQClick(btn));
+                }
+            }
+            else
+            {
+                pair = correctPairs.Find(p => !usedIDs.Contains(p.answerID));
+                if (pair != null)
+                {
+                    txt.text = pair.answerText;
+                    idMap[btn] = pair.answerID;
+                    usedIDs.Add(pair.answerID);
+                    btn.onClick.AddListener(() => OnAClick(btn));
+                }
+            }
+        }
     }
 
     private void OnQClick(Button btn)
@@ -108,6 +123,7 @@ public class Matching_UIManager : MonoBehaviour
             selectedQ = btn;
             btn.image.color = selectedColor;
         }
+
         if (selectedA) TryMatch();
     }
 
@@ -123,15 +139,27 @@ public class Matching_UIManager : MonoBehaviour
             if (selectedA) selectedA.image.color = normalColor;
             selectedA = btn;
             btn.image.color = selectedColor;
+
+            PlayAnswerAudio(idMap[btn]); // ✅ 播放音效
         }
+
         if (selectedQ) TryMatch();
+    }
+
+    private void PlayAnswerAudio(string answerID)
+    {
+        if (answerIdToClipMap.TryGetValue(answerID, out var clip))
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 
     private void TryMatch()
     {
         string qID = idMap[selectedQ];
         string aID = idMap[selectedA];
-        bool matched = correctPairs.Exists(p => p.questionID == qID && p.answerID == aID);
+
+        bool matched = correctPairs.Exists(pair => pair.questionID == qID && pair.answerID == aID);
 
         if (matched)
         {
@@ -159,6 +187,11 @@ public class Matching_UIManager : MonoBehaviour
         }
     }
 
+    private void ShowSummary()
+    {
+        summaryPanel.gameObject.SetActive(true);
+    }
+
     private System.Collections.IEnumerator ResetAfterDelay(Button q, Button a)
     {
         yield return new WaitForSeconds(0.5f);
@@ -168,9 +201,11 @@ public class Matching_UIManager : MonoBehaviour
 
     private bool AllMatched()
     {
-        foreach (var kv in idMap)
-            if (kv.Key.interactable)
-                return false;
+        foreach (var btn in idMap.Keys)
+        {
+            if (btn.interactable) return false;
+        }
+
         return true;
     }
 
@@ -180,25 +215,10 @@ public class Matching_UIManager : MonoBehaviour
         LoadQuestion(MatchingQuestionManager.Instance.GetCurrentQuestion());
     }
 
-    private void ShowSummary()
-    {
-        summaryPanel.gameObject.SetActive(true);
-    }
-
     private void UpdateProgress()
     {
-        int idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
-        int total = MatchingQuestionManager.Instance.questionData.questions.Count;
+        var idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
+        var total = MatchingQuestionManager.Instance.questionData.questions.Count;
         progressText.text = $"进度: {idx}/{total}";
-    }
-
-    // Fisher–Yates shuffle
-    private void Shuffle<T>(List<T> list)
-    {
-        for (int i = list.Count - 1; i > 0; i--)
-        {
-            int r = Random.Range(0, i + 1);
-            (list[i], list[r]) = (list[r], list[i]);
-        }
     }
 }
