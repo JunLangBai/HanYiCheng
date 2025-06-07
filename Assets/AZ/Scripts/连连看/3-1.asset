@@ -21,12 +21,63 @@ MonoBehaviour:
       answerText: "\uC548\uB155\uD558\uC138\uC694"
       pairAudioClip: {fileID: 8300000, guid: d24f3a9de60f71f4fb2fc4d3aa426835, type: 3}
     - questionID: 2
-      questionText: 546
+      questionText: "\u518D\u89C1\uFF08\u957F\u8F88\u79BB\u5F00\u65F6\uFF09"
       answerID: 5
-      answerText: 789
-      pairAudioClip: {fileID: 0}
+      answerText: "\uC548\uB155\uD788 \uAC00\uC138\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 3ff6dea7cc27ecd428b80ea145d0bf6f, type: 3}
     - questionID: 3
-      questionText: 1
+      questionText: "\u518D\u89C1\uFF08\u81EA\u5DF1\u79BB\u5F00\u957F\u8F88\u65F6\uFF09"
       answerID: 6
-      answerText: 2
-      pairAudioClip: {fileID: 0}
+      answerText: "\uC548\uB155\uD788 \uACC4\uC138\uC694"
+      pairAudioClip: {fileID: 8300000, guid: be6b05e2a40141141b21ed6330ea09cc, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u665A\u5B89\uFF08\u8DDF\u957F\u8F88\uFF09"
+      answerID: 4
+      answerText: "\uC548\uB155\uD788 \uC8FC\uBB34\uC138\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 235ade372b036a849b2e9e6f44ca47e8, type: 3}
+    - questionID: 2
+      questionText: "\u8C22\u8C22"
+      answerID: 5
+      answerText: "\uAC10\uC0AC\uD569\uB2C8\uB2E4"
+      pairAudioClip: {fileID: 8300000, guid: 3de54874dd36ba447a25f99808c3c36f, type: 3}
+    - questionID: 3
+      questionText: "\u5BF9\u4E0D\u8D77"
+      answerID: 6
+      answerText: "\uBBF8\uC548\uD569\uB2C8\uB2E4"
+      pairAudioClip: {fileID: 8300000, guid: e7fa7447e63723c40b3167a6dad5ac26, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6CA1\u5173\u7CFB"
+      answerID: 4
+      answerText: "\uAD1C\uCC2E\uC544\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 56bfc38eb1f6f2a41b28acfffead414b, type: 3}
+    - questionID: 2
+      questionText: "\u662F\u7684"
+      answerID: 5
+      answerText: "\uB124"
+      pairAudioClip: {fileID: 8300000, guid: ee2509743d1fe95478a5d3ca2c919ee8, type: 3}
+    - questionID: 3
+      questionText: "\u4E0D\u662F\u7684"
+      answerID: 6
+      answerText: "\uC544\uB2C8\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 28892c3bb1cd73946a76c40841b19a73, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6CA1\u5173\u7CFB"
+      answerID: 4
+      answerText: "\uAD1C\uCC2E\uC544\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 56bfc38eb1f6f2a41b28acfffead414b, type: 3}
+    - questionID: 2
+      questionText: "\u662F\u7684"
+      answerID: 5
+      answerText: "\uB124"
+      pairAudioClip: {fileID: 8300000, guid: ee2509743d1fe95478a5d3ca2c919ee8, type: 3}
+    - questionID: 3
+      questionText: "\u4E0D\u662F\u7684"
+      answerID: 6
+      answerText: "\uC544\uB2C8\uC694"
+      pairAudioClip: {fileID: 8300000, guid: 28892c3bb1cd73946a76c40841b19a73, type: 3}
