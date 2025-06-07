@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;  // 用于打乱顺序
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +20,10 @@ public class Matching_UIManager : MonoBehaviour
     public Transform questionArea;
     public Transform answerArea;
 
+    [Header("按钮预制体")]
+    public Button questionButtonPrefab;
+    public Button answerButtonPrefab;
+
     [Header("颜色设置")]
     public Color normalColor = Color.white;
     public Color selectedColor = Color.cyan;
@@ -28,20 +34,16 @@ public class Matching_UIManager : MonoBehaviour
     private Dictionary<Button, string> idMap = new();
     private List<MatchPair> correctPairs;
 
-    private Dictionary<string, AudioClip> answerIdToClipMap = new();
-    private AudioSource audioSource;
-
     private void Awake()
     {
         Instance = this;
-        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void Start()
     {
         nextButton.onClick.AddListener(OnNextQuestionClicked);
-        LoadQuestion(MatchingQuestionManager.Instance.GetCurrentQuestion());
         summaryPanel.gameObject.SetActive(false);
+        LoadQuestion(MatchingQuestionManager.Instance.GetCurrentQuestion());
     }
 
     public void LoadQuestion(MatchingQuestion question)
@@ -51,61 +53,51 @@ public class Matching_UIManager : MonoBehaviour
         questionText.text = question.questionText;
         correctPairs = question.correctPairs;
 
+        // 清理旧按钮
+        ClearButtons(questionArea);
+        ClearButtons(answerArea);
+
         idMap.Clear();
-        BuildAudioMap(correctPairs);
-        InitButtons(questionArea, true);
-        InitButtons(answerArea, false);
+
+        CreateButtons(questionArea, correctPairs, true);
+        CreateButtons(answerArea, correctPairs, false);
+
         UpdateProgress();
     }
 
-    private void BuildAudioMap(List<MatchPair> pairs)
+    private void ClearButtons(Transform area)
     {
-        answerIdToClipMap.Clear();
-        foreach (var pair in pairs)
+        for (int i = area.childCount - 1; i >= 0; i--)
         {
-            if (!string.IsNullOrEmpty(pair.answerID) && pair.pairAudioClip != null)
-            {
-                answerIdToClipMap[pair.answerID] = pair.pairAudioClip;
-            }
+            Destroy(area.GetChild(i).gameObject);
         }
     }
 
-    private void InitButtons(Transform area, bool isQuestionSide)
+    private void CreateButtons(Transform area, List<MatchPair> pairs, bool isQuestionSide)
     {
-        List<string> usedIDs = new();
-        foreach (Transform t in area)
+        // 先复制一份列表并随机打乱顺序
+        List<MatchPair> listToUse = pairs.OrderBy(x => Random.value).ToList();
+
+        foreach (var pair in listToUse)
         {
-            var btn = t.GetComponent<Button>();
-            var txt = btn.GetComponentInChildren<TextMeshProUGUI>();
-            if (!btn || !txt) continue;
+            Button btn = Instantiate(isQuestionSide ? questionButtonPrefab : answerButtonPrefab, area);
+            TextMeshProUGUI txt = btn.GetComponentInChildren<TextMeshProUGUI>();
 
             btn.image.color = normalColor;
             btn.interactable = true;
             btn.onClick.RemoveAllListeners();
 
-            MatchPair pair = null;
-
             if (isQuestionSide)
             {
-                pair = correctPairs.Find(p => !usedIDs.Contains(p.questionID));
-                if (pair != null)
-                {
-                    txt.text = pair.questionText;
-                    idMap[btn] = pair.questionID;
-                    usedIDs.Add(pair.questionID);
-                    btn.onClick.AddListener(() => OnQClick(btn));
-                }
+                txt.text = pair.questionText;
+                idMap[btn] = pair.questionID;
+                btn.onClick.AddListener(() => OnQClick(btn));
             }
             else
             {
-                pair = correctPairs.Find(p => !usedIDs.Contains(p.answerID));
-                if (pair != null)
-                {
-                    txt.text = pair.answerText;
-                    idMap[btn] = pair.answerID;
-                    usedIDs.Add(pair.answerID);
-                    btn.onClick.AddListener(() => OnAClick(btn));
-                }
+                txt.text = pair.answerText;
+                idMap[btn] = pair.answerID;
+                btn.onClick.AddListener(() => OnAClick(btn));
             }
         }
     }
@@ -139,19 +131,9 @@ public class Matching_UIManager : MonoBehaviour
             if (selectedA) selectedA.image.color = normalColor;
             selectedA = btn;
             btn.image.color = selectedColor;
-
-            PlayAnswerAudio(idMap[btn]); // ✅ 播放音效
         }
 
         if (selectedQ) TryMatch();
-    }
-
-    private void PlayAnswerAudio(string answerID)
-    {
-        if (answerIdToClipMap.TryGetValue(answerID, out var clip))
-        {
-            audioSource.PlayOneShot(clip);
-        }
     }
 
     private void TryMatch()
@@ -192,7 +174,7 @@ public class Matching_UIManager : MonoBehaviour
         summaryPanel.gameObject.SetActive(true);
     }
 
-    private System.Collections.IEnumerator ResetAfterDelay(Button q, Button a)
+    private IEnumerator ResetAfterDelay(Button q, Button a)
     {
         yield return new WaitForSeconds(0.5f);
         q.image.color = normalColor;
@@ -205,7 +187,6 @@ public class Matching_UIManager : MonoBehaviour
         {
             if (btn.interactable) return false;
         }
-
         return true;
     }
 
@@ -217,8 +198,8 @@ public class Matching_UIManager : MonoBehaviour
 
     private void UpdateProgress()
     {
-        var idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
-        var total = MatchingQuestionManager.Instance.questionData.questions.Count;
+        int idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
+        int total = MatchingQuestionManager.Instance.questionData.questions.Count;
         progressText.text = $"进度: {idx}/{total}";
     }
 }
