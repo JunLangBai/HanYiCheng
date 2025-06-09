@@ -1411,6 +1411,7 @@ GameObject:
   - component: {fileID: 608741786}
   - component: {fileID: 608741785}
   - component: {fileID: 608741787}
+  - component: {fileID: 608741788}
   m_Layer: 0
   m_Name: Image (3)
   m_TagString: Untagged
@@ -1519,7 +1520,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 608741785}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 608741788}
+        m_TargetAssemblyTypeName: ScenesLoaderMgr, Assembly-CSharp
+        m_MethodName: BackScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &608741788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608741783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: MockTalk
 --- !u!1 &619898719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2898,7 +2924,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0877a1116c0ab642af83f17fd98f570, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c72f41e83b785ec43adb5d5908fadf6f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
