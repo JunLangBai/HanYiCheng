@@ -74,6 +74,42 @@
       "ISUnlockedByDefault": true,
       "Scene": "Level3-1",
       "LevelName": "1"
+    },
+    {
+      "LevelID": "3-2",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level3-2",
+      "LevelName": "2"
+    },
+    {
+      "LevelID": "3-3",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level3-3",
+      "LevelName": "3"
+    },
+    {
+      "LevelID": "3-4",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level3-4",
+      "LevelName": "4"
+    },
+    {
+      "LevelID": "3-5",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level3-5",
+      "LevelName": "5"
+    },
+    {
+      "LevelID": "3-6",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level3-6",
+      "LevelName": "6"
+    },
+    {
+      "LevelID": "3-7",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level3-7",
+      "LevelName": "7"
     }
   ],
   "volume": 0.279043823,

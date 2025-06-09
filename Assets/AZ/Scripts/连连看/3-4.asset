@@ -12,4 +12,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd2cdbb83e9d6774b955e5a94bf761e5, type: 3}
   m_Name: 3-4
   m_EditorClassIdentifier: 
-  questions: []
+  questions:
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u5B66\u751F"
+      answerID: 4
+      answerText: "\uD559\uC0DD"
+      answerAudioClip: {fileID: 8300000, guid: 817b776dfa8500142899704b7e91765f, type: 3}
+    - questionID: 2
+      questionText: "\u8001\u5E08"
+      answerID: 5
+      answerText: "\uC120\uC0DD\uB2D8"
+      answerAudioClip: {fileID: 8300000, guid: 99a19cbf785d84649b8f7e0e82e9369b, type: 3}
+    - questionID: 3
+      questionText: "\u804C\u5458"
+      answerID: 6
+      answerText: "\uC9C1\uC6D0"
+      answerAudioClip: {fileID: 8300000, guid: 765171c3376a68040a46a0ca5d865aa5, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6211\u662F\u5B66\u751F"
+      answerID: 4
+      answerText: "\uC800\uB294 \uD559\uC0DD\uC785\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 4a7ec9f843050cb40a7ee62636782b6b, type: 3}
+    - questionID: 2
+      questionText: "\u8001\u5E08\u597D"
+      answerID: 5
+      answerText: "\uC120\uC0DD\uB2D8 \uC548\uB155\uD558\uC138\uC694"
+      answerAudioClip: {fileID: 8300000, guid: d8c4f641a91df5c4990e0d807a7991d5, type: 3}
+    - questionID: 3
+      questionText: "\u8F9B\u82E6\u4E86"
+      answerID: 6
+      answerText: "\uC218\uACE0\uD558\uC14C\uC2B5\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: d8c4f641a91df5c4990e0d807a7991d5, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6211\u662F\u5B66\u751F"
+      answerID: 4
+      answerText: "\uC800\uB294 \uD559\uC0DD\uC785\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 4a7ec9f843050cb40a7ee62636782b6b, type: 3}
+    - questionID: 2
+      questionText: "\u8001\u5E08\u597D"
+      answerID: 5
+      answerText: "\uC120\uC0DD\uB2D8 \uC548\uB155\uD558\uC138\uC694"
+      answerAudioClip: {fileID: 8300000, guid: d8c4f641a91df5c4990e0d807a7991d5, type: 3}
+    - questionID: 3
+      questionText: "\u8F9B\u82E6\u4E86"
+      answerID: 6
+      answerText: "\u8BF7\u591A\u5173\u7167"
+      answerAudioClip: {fileID: 8300000, guid: bcf16bec09ddf5b4e97e890c5cfd85a4, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6211\u662F\u97E9\u8BED\u8001\u5E08"
+      answerID: 4
+      answerText: "\uC800\uB294 \uD55C\uAD6D\uC5B4 \uC120\uC0DD\uB2D8\uC785\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 23ecab9992963cd4fb8abe3a5d744ad1, type: 3}
+    - questionID: 2
+      questionText: "\u533B\u751F"
+      answerID: 5
+      answerText: "\uC758\uC0AC\u200B"
+      answerAudioClip: {fileID: 8300000, guid: 0d170bce8456cab42902652379da8f07, type: 3}
+    - questionID: 3
+      questionText: "\u8F9B\u82E6\u4E86"
+      answerID: 6
+      answerText: "\uC218\uACE0\uD558\uC14C\uC2B5\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: f6dbd3b1dee2d244f95c3c476708c30d, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u6211\u662F\u97E9\u8BED\u8001\u5E08"
+      answerID: 4
+      answerText: "\uC800\uB294 \uD55C\uAD6D\uC5B4 \uC120\uC0DD\uB2D8\uC785\uB2C8\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 23ecab9992963cd4fb8abe3a5d744ad1, type: 3}
+    - questionID: 2
+      questionText: "\u6211\u662F\u533B\u751F"
+      answerID: 5
+      answerText: "\uC800\uB294 \uC758\uC0AC\uC608\uC694"
+      answerAudioClip: {fileID: 8300000, guid: fa707128aee45c5439c50f937004b688, type: 3}
+    - questionID: 3
+      questionText: "\u62A4\u58EB"
+      answerID: 6
+      answerText: "\uAC04\uD638\uC0AC"
+      answerAudioClip: {fileID: 8300000, guid: 37aef5aeb41720d478ef415deeb4d16b, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u804C\u4E1A"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u53A8\u5E08"
+      answerID: 4
+      answerText: "\uC694\uB9AC\uC0AC\u200B"
+      answerAudioClip: {fileID: 8300000, guid: ed67f0a34f400204f9bd9d1473557a19, type: 3}
+    - questionID: 2
+      questionText: "\u8B66\u5BDF"
+      answerID: 5
+      answerText: "\uACBD\uCC30"
+      answerAudioClip: {fileID: 8300000, guid: 2056efaada68b7d46a5d1c22a2892d01, type: 3}
+    - questionID: 3
+      questionText: "\u8BBE\u8BA1\u5E08"
+      answerID: 6
+      answerText: "\uB514\uC790\uC774\uB108\u200B"
+      answerAudioClip: {fileID: 8300000, guid: 4ff63736f7505c94fbf84cddaccc436b, type: 3}

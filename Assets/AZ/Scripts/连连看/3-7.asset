@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2cdbb83e9d6774b955e5a94bf761e5, type: 3}
+  m_Name: 3-7
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u52A8\u8BCD"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u505A"
+      answerID: 4
+      answerText: "\uD558\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: da5a68c88995ccd41bcec8de74f87910, type: 3}
+    - questionID: 2
+      questionText: "\u5403"
+      answerID: 5
+      answerText: "\uBA39\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: b2749222821b20b47b8faffd1f651ccd, type: 3}
+    - questionID: 3
+      questionText: "\u53BB"
+      answerID: 6
+      answerText: "\uAC00\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 7e05c63f793d44947b0ef44495531aba, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u52A8\u8BCD"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u770B"
+      answerID: 4
+      answerText: "\uBCF4\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: cc7b50a7419ebbc47b8558eaa438c676, type: 3}
+    - questionID: 2
+      questionText: "\u7ED9"
+      answerID: 5
+      answerText: "\uC8FC\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: ba8f109bfed49d9489f0a082c12693c2, type: 3}
+    - questionID: 3
+      questionText: "\u95EE"
+      answerID: 6
+      answerText: "\uBB3C\uC5B4\uBCF4\uB2E4"
+      answerAudioClip: {fileID: 8300000, guid: 92869a27b6fc2214c94c88ba15ddd51c, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u52A8\u8BCD"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u505A\u4F5C\u4E1A"
+      answerID: 4
+      answerText: "\uC219\uC81C \uD574\uC694"
+      answerAudioClip: {fileID: 8300000, guid: 0787a2a34a289604e8e04a77fcd9f9cd, type: 3}
+    - questionID: 2
+      questionText: "\u5403\u5348\u996D\u4E86\u5417"
+      answerID: 5
+      answerText: "\uC810\uC2EC \uBA39\uC5C8\uC5B4\uC694?"
+      answerAudioClip: {fileID: 8300000, guid: 89de1df3875c58f4dbe5e0f365943b0b, type: 3}
+    - questionID: 3
+      questionText: "\u53BB\u5B66\u6821"
+      answerID: 6
+      answerText: "\uD559\uAD50 \uAC00\uC694"
+      answerAudioClip: {fileID: 8300000, guid: 28da7b09250b63643b5961903209d6a3, type: 3}
+  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u52A8\u8BCD"
+    correctPairs:
+    - questionID: 1
+      questionText: "\u8981\u770B\u7535\u5F71\u5417"
+      answerID: 4
+      answerText: "\uC601\uD654 \uBCFC\uB798\uC694?"
+      answerAudioClip: {fileID: 8300000, guid: 128567d4ace60e4409bc1a0d42afe370, type: 3}
+    - questionID: 2
+      questionText: "\u5403\u5348\u996D\u4E86\u5417"
+      answerID: 5
+      answerText: "\uC810\uC2EC \uBA39\uC5C8\uC5B4\uC694?"
+      answerAudioClip: {fileID: 8300000, guid: 89de1df3875c58f4dbe5e0f365943b0b, type: 3}
+    - questionID: 3
+      questionText: "\u5403\u665A\u996D\u4E86\u5417\uFF1F"
+      answerID: 6
+      answerText: "\uC800\uB141 \uBA39\uC5C8\uC5B4\uC694?"
+      answerAudioClip: {fileID: 8300000, guid: 3ce9e06ee5dac394881aa0641b9a6532, type: 3}
