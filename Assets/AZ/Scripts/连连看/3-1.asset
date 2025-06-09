@@ -30,23 +30,6 @@ MonoBehaviour:
       answerID: 6
       answerText: "\uC548\uB155\uD788 \uACC4\uC138\uC694"
       answerAudioClip: {fileID: 8300000, guid: be6b05e2a40141141b21ed6330ea09cc, type: 3}
-  - questionText: "\u8FDE\u8FDE\u770B"
-    correctPairs:
-    - questionID: "\u8FDE\u8FDE\u770B\uFF1A\u6253\u62DB\u547C"
-      questionText: "\u665A\u5B89\uFF08\u8DDF\u957F\u8F88\uFF09"
-      answerID: 4
-      answerText: "\uC548\uB155\uD788 \uC8FC\uBB34\uC138\uC694"
-      answerAudioClip: {fileID: 8300000, guid: 235ade372b036a849b2e9e6f44ca47e8, type: 3}
-    - questionID: 2
-      questionText: "\u8C22\u8C22"
-      answerID: 5
-      answerText: "\uAC10\uC0AC\uD569\uB2C8\uB2E4"
-      answerAudioClip: {fileID: 8300000, guid: 3de54874dd36ba447a25f99808c3c36f, type: 3}
-    - questionID: 3
-      questionText: "\u5BF9\u4E0D\u8D77"
-      answerID: 6
-      answerText: "\uBBF8\uC548\uD569\uB2C8\uB2E4"
-      answerAudioClip: {fileID: 8300000, guid: e7fa7447e63723c40b3167a6dad5ac26, type: 3}
   - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u6253\u62DB\u547C"
     correctPairs:
     - questionID: 1

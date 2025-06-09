@@ -64,20 +64,3 @@ MonoBehaviour:
       answerID: 6
       answerText: "\uB108\uB294"
       answerAudioClip: {fileID: 8300000, guid: a37d5f666599c5d48ac77c0127eafd89, type: 3}
-  - questionText: "\u8FDE\u8FDE\u770B\uFF1A\u6253\u62DB\u547C"
-    correctPairs:
-    - questionID: 1
-      questionText: "\u6211\u4EEC"
-      answerID: 4
-      answerText: "\uC6B0\uB9AC"
-      answerAudioClip: {fileID: 8300000, guid: e33ee8bdc775ee94a8d39bd9502702ef, type: 3}
-    - questionID: 2
-      questionText: "\u6211\u662F"
-      answerID: 5
-      answerText: "\uB098\uB294"
-      answerAudioClip: {fileID: 8300000, guid: b545af3b4fadc1448a800c4bb552573b, type: 3}
-    - questionID: 3
-      questionText: "\u4F60\u662F"
-      answerID: 6
-      answerText: "\uB108\uB294"
-      answerAudioClip: {fileID: 8300000, guid: a37d5f666599c5d48ac77c0127eafd89, type: 3}

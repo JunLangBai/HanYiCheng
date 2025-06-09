@@ -131,6 +131,30 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level3-1.unity"
     guid: a8ccc0668eb21434cb51de6efcc6016e
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-2.unity"
+    guid: 25e2f4e91d857c54592c9abd3353c62f
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-3.unity"
+    guid: 67ea7671220e65f4e9eea40d5b180ce5
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-4.unity"
+    guid: 7a192ab895b65f44dbc652ef99b98fde
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-5.unity"
+    guid: 167f598df6ec4b541b3c882af2b839fb
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-6.unity"
+    guid: f421d7f16b2861843b344c00c6955c34
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-7.unity"
+    guid: 5474f4baafffce24c8666ad61b2c0d1d
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-8.unity"
+    guid: 5cb071c2789b3794f955dcf9616a03e7
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5173\u5361/Level3-9.unity"
+    guid: b428aadb1e636a14eab6c727be448b94
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c0a2b93895e435b4cbdec5019eaea835, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c7b655f3f2581c0418299acd52c2893e, type: 2}
