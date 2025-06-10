@@ -683,7 +683,7 @@ namespace DialogueEditor
                         // If there was no valid speech node (due to no conditions being met) this becomes a None button type
                         if (next == null)
                         {
-                            uiOption.SetupButton(UIConversationButton.eButtonType.End, null, endFont: m_conversation.EndConversationFont);
+                            // uiOption.SetupButton(UIConversationButton.eButtonType.End, null, endFont: m_conversation.EndConversationFont);
                         }
                         // Else, valid speech node found
                         else
@@ -694,8 +694,8 @@ namespace DialogueEditor
                     }
                     else if (m_currentSpeech.ConnectionType == Connection.eConnectionType.None)
                     {
-                        UIConversationButton uiOption = CreateButton();
-                        uiOption.SetupButton(UIConversationButton.eButtonType.End, null, endFont: m_conversation.EndConversationFont);
+                        // UIConversationButton uiOption = CreateButton();
+                        // uiOption.SetupButton(UIConversationButton.eButtonType.End, null, endFont: m_conversation.EndConversationFont);
                     }
                 }
 
