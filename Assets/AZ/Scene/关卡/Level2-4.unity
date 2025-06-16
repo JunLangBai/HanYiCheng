@@ -3409,7 +3409,7 @@ MonoBehaviour:
   nextButton: {fileID: 164718828}
   summaryPanel: {fileID: 259171432}
   totalScoreText: {fileID: 911979592}
-  drawingBoard: {fileID: 0}
+  drawingBoard: {fileID: 596880343}
   audioSource: {fileID: 1738501902}
 --- !u!1001 &1743006536
 PrefabInstance:

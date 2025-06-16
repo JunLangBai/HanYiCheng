@@ -104,7 +104,6 @@ public class OCR_UIManager : MonoBehaviour
 
     private void OnNextQuestionClicked()
     {
-        OCRQuestionManager.Instance.MoveToNextQuestion();
         LoadQuestion(OCRQuestionManager.Instance.GetCurrentQuestion());
     }
     

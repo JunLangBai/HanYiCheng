@@ -2376,7 +2376,7 @@ MonoBehaviour:
   nextButton: {fileID: 725839034}
   summaryPanel: {fileID: 568445671}
   totalScoreText: {fileID: 1670140223}
-  drawingBoard: {fileID: 0}
+  drawingBoard: {fileID: 1149926413}
   audioSource: {fileID: 1363636427}
 --- !u!114 &1363636429
 MonoBehaviour:
