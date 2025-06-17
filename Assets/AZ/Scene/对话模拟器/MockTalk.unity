@@ -467,6 +467,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConversationManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3900108755196472086, guid: d9fa78e8c3c4f2b4b8f7f77ca8426cca, type: 3}
+      propertyPath: ScrollText
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3900108755196472086, guid: d9fa78e8c3c4f2b4b8f7f77ca8426cca, type: 3}
+      propertyPath: OptionImageSliced
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3900108755196472086, guid: d9fa78e8c3c4f2b4b8f7f77ca8426cca, type: 3}
+      propertyPath: BackgroundImageSliced
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3900108755196472087, guid: d9fa78e8c3c4f2b4b8f7f77ca8426cca, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4709,15 +4721,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4729,7 +4741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.9
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 1583283845248004000, guid: 34fe47b21c821ca49b99c8a55b57b017, type: 3}
       propertyPath: m_LocalRotation.w
