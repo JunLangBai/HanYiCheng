@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1824d2972ede7478b1f0275ad86ab2, type: 3}
   m_Name: 3-8
   m_EditorClassIdentifier: 
-  LevelID: "\u6570\u5B57"
+  LevelID: 3-8
   ISUnlockedByDefault: 0
   Scene:
     m_SceneAsset: {fileID: 102900000, guid: 5cb071c2789b3794f955dcf9616a03e7, type: 3}
