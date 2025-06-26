@@ -1615,7 +1615,7 @@ MonoBehaviour:
   - '[eu]'
   - '[i]'
   - '[ae]'
-  - '[yae]'
+  - '[e]'
   - '[ng]'
   audioPlayer: {fileID: 9219426737329813219}
   mode: 0

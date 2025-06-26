@@ -2321,50 +2321,47 @@ MonoBehaviour:
   parentPanel: {fileID: 9094900901758976111}
   uiPrefab: {fileID: 6229463596383864700, guid: be11d93b0af4922449bba70fea30ea6f, type: 3}
   sprites:
-  - {fileID: 21300000, guid: 6cd519426fc39364682e4d46d7eb22a3, type: 3}
-  - {fileID: 21300000, guid: 29b4ab9d2a27cb64b825ef2f90e67f9d, type: 3}
-  - {fileID: 21300000, guid: 67e8a5170ac197f43a3cafa264513bae, type: 3}
-  - {fileID: 21300000, guid: 5b5f066749d6e0c47a6f9860a72f4bed, type: 3}
-  - {fileID: 21300000, guid: 0118f9a99dd573e42877c80a5b885902, type: 3}
-  - {fileID: 21300000, guid: 8066b41ad2a2fc54ab0a0b42d62d49d1, type: 3}
-  - {fileID: 21300000, guid: e4850ee2cee96c243b885383259ae894, type: 3}
-  - {fileID: 21300000, guid: 3265b965b3c94e441977b46ed1dd3e9f, type: 3}
-  - {fileID: 21300000, guid: 42a784569e5fe15478f8d72c938e95b6, type: 3}
-  - {fileID: 21300000, guid: 1c2a563bc62796c4eb706ea5cd5f2fd6, type: 3}
-  - {fileID: 21300000, guid: b6291b3069fe40c428a6e52137e8e826, type: 3}
-  - {fileID: 21300000, guid: f0d9c5e0968c5354581b5d5bc70b17ba, type: 3}
-  - {fileID: 21300000, guid: 73a935a68c2d692498342ad641117b39, type: 3}
-  - {fileID: 21300000, guid: 08347c6bd1bbce24db4cc41a446e82a9, type: 3}
+  - {fileID: 21300000, guid: 8cb8761e8faab264ea94f9d3461a343a, type: 3}
+  - {fileID: 21300000, guid: faa11d8e39d2e40498265f2977ffe212, type: 3}
+  - {fileID: 21300000, guid: 56889ed68966ed445bd4bf48f0f57ce7, type: 3}
+  - {fileID: 21300000, guid: 1bd79c5529e347a4ba1273f88b213b9f, type: 3}
+  - {fileID: 21300000, guid: 4b3dd90871a3fbc4e8c0609e08e5535f, type: 3}
+  - {fileID: 21300000, guid: bb1454b0e12f0d1449ba3f83cea69599, type: 3}
+  - {fileID: 21300000, guid: 62f9c904aaff34d4288ee5f69427bae1, type: 3}
+  - {fileID: 21300000, guid: 9c74473bc8b9b8f4fab92cf3b4d3c843, type: 3}
+  - {fileID: 21300000, guid: 51c13afa7e24c3147a19df25fd4435f6, type: 3}
+  - {fileID: 21300000, guid: 3f7c1cdfe0291c9498d1716f692c92d2, type: 3}
+  - {fileID: 21300000, guid: f4435774c194a9e4e9cebbb1596405b7, type: 3}
+  - {fileID: 21300000, guid: a031b9954dca33c4dab04e30458507ca, type: 3}
+  - {fileID: 21300000, guid: 62ce660ecafc4aa4fa5b35ec100d51b6, type: 3}
   audioClips:
-  - {fileID: 8300000, guid: 22fe4bae801e3b04a981790cf03698da, type: 3}
-  - {fileID: 8300000, guid: 2c1af64273b6ca74d94c233eeeb2c0e7, type: 3}
-  - {fileID: 8300000, guid: ec89eca1b2be7ab449aa9d496b5ffc91, type: 3}
-  - {fileID: 8300000, guid: 29984815d0c97854bb44c0f98fde091f, type: 3}
-  - {fileID: 8300000, guid: d55ae908c815dbc4baea291efb6d9243, type: 3}
-  - {fileID: 8300000, guid: 92a94c1e2742d0d42bec8adf4c54ebdd, type: 3}
-  - {fileID: 8300000, guid: 53f3b410d82b85049a3712b44461bf93, type: 3}
-  - {fileID: 8300000, guid: 5b3bffa5690891343972d6dc825fe273, type: 3}
-  - {fileID: 8300000, guid: cdee14f47b463ce4785cad32ef64777a, type: 3}
-  - {fileID: 8300000, guid: b6dc50b35b1e50d4bb496db4d2e19e54, type: 3}
-  - {fileID: 8300000, guid: 0bae70b16f92d7e42aa43903a8e03b17, type: 3}
-  - {fileID: 8300000, guid: 700fcba270e527d45868ac416750c877, type: 3}
-  - {fileID: 8300000, guid: 6c17aa94fafae0c408db1c7fdf4a3f9c, type: 3}
-  - {fileID: 8300000, guid: fe92e8f278f6bc44db33ec676c0f03b3, type: 3}
+  - {fileID: 8300000, guid: d2c09e33bff3c724abe1fefb1c28cfea, type: 3}
+  - {fileID: 8300000, guid: fd67f9c8c1d923f4abf21fb20a890e8c, type: 3}
+  - {fileID: 8300000, guid: b40f3351023114e409ee88651749e1d7, type: 3}
+  - {fileID: 8300000, guid: d02e5cb95fa5b8045b54eef8e4ce7963, type: 3}
+  - {fileID: 8300000, guid: 41f60cb7d9c2b634d9b7b52667b1ec6c, type: 3}
+  - {fileID: 8300000, guid: e0908a9f0711a7741b1e35c8987eabf3, type: 3}
+  - {fileID: 8300000, guid: 21e17ba47b3a1c94899f538853cca412, type: 3}
+  - {fileID: 8300000, guid: c5856a68c34862d47a2a232c5db0b2d1, type: 3}
+  - {fileID: 8300000, guid: 6c24d21ae16a51b4e8c871feeec6e204, type: 3}
+  - {fileID: 8300000, guid: f4663b814a7142141a15cb99f1cd7930, type: 3}
+  - {fileID: 8300000, guid: c93c63a53d2cc2e469b85dcdc015e86e, type: 3}
+  - {fileID: 8300000, guid: 2387ab235dc97c244a150f7a0a9f1d61, type: 3}
+  - {fileID: 8300000, guid: 70efd5f6962c10e47aab07fbc2020c3d, type: 3}
   texts:
-  - '[g]'
-  - '[n]'
-  - '[d]'
-  - '[r]'
-  - '[m]'
-  - '[b]'
-  - '[s]'
-  - '[ng]'
-  - '[j]'
-  - '[ch]'
-  - '[k]'
-  - '[t]'
-  - '[p]'
-  - '[h]'
+  - '[ya]'
+  - '[yeo]'
+  - '[yo]'
+  - '[yu]'
+  - '[yae]'
+  - '[ye]'
+  - '[wa]'
+  - '[wae]'
+  - '[wo]'
+  - '[we]'
+  - '[ui]'
+  - '[oe]'
+  - '[wi]'
   audioPlayer: {fileID: 9219426737329813219}
   mode: 0
   spawnPosition: {x: 0, y: 0}
