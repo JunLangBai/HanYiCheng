@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb84fb354b301664fb2b12a98f1e03e1, type: 3}
   m_Name: test2
   m_EditorClassIdentifier: 
-  content: "\u6B22\u8FCE\u6765\u5230\u795E\u79D8\u7684\u65B0\u4E16\u754C\uFF01"
+  content: "\u8BB0\u5F97\u5B8C\u6210\u6240\u6709\u7684\u6478\u5E95\u548C\u6559\u7A0B\u54E6\uFF0C\u5982\u679C\u6CA1\u80FD\u5B8C\u6210\u4E0B\u6B21\u8FD8\u4F1A\u518D\u6B21\u63D0\u793A\u7684\uFF01"
   onlyText: 1
   buttonTexts: []
-  buttonAudioClip: {fileID: 8300000, guid: be315dca1c15c7e4cb0ef16bd4a0d4a9, type: 3}
+  buttonAudioClip: {fileID: 8300000, guid: 72fa8eac33c962d4290a495b755f5a2a, type: 3}

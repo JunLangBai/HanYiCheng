@@ -571,7 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u4ECB\u7ECD\u4F60\u81EA\u5DF1"
+  m_text: "\u4ECB\u7ECD\u4F60\u81EA\u5DF1\n\u9009\u62E9\u5339\u914D\u7684\u9009\u9879\u5427\uFF01"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
@@ -598,8 +598,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.3
-  m_fontSizeBase: 0.3
+  m_fontSize: 0.27
+  m_fontSizeBase: 0.27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
