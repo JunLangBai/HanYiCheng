@@ -58,7 +58,7 @@ public class KoreanOCRClient : MonoBehaviour
     }
 
     // 新增清除方法
-    private void ClearDrawingBoard()
+    public void ClearDrawingBoard()
     {
         if (drawingBoard != null)
         {

@@ -28,7 +28,7 @@ MonoBehaviour:
     correctAnswerIndex: 1
   - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
     image: {fileID: 21300000, guid: 51c13afa7e24c3147a19df25fd4435f6, type: 3}
-    questionAudio: {fileID: 8300000, guid: 21e17ba47b3a1c94899f538853cca412, type: 3}
+    questionAudio: {fileID: 0}
     options:
     - text: wo
       audioClip: {fileID: 8300000, guid: 6c24d21ae16a51b4e8c871feeec6e204, type: 3}
@@ -52,18 +52,18 @@ MonoBehaviour:
     - text: wae
       audioClip: {fileID: 0}
     correctAnswerIndex: 3
-  - questionText: "\u8FD9\u4E2A\u600E\u4E48\u8BFB"
-    image: {fileID: 21300000, guid: 62ce660ecafc4aa4fa5b35ec100d51b6, type: 3}
-    questionAudio: {fileID: 0}
+  - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
+    image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}
+    questionAudio: {fileID: 8300000, guid: f4663b814a7142141a15cb99f1cd7930, type: 3}
     options:
-    - text: wo
-      audioClip: {fileID: 8300000, guid: 6c24d21ae16a51b4e8c871feeec6e204, type: 3}
-    - text: we
-      audioClip: {fileID: 8300000, guid: f4663b814a7142141a15cb99f1cd7930, type: 3}
     - text: wi
       audioClip: {fileID: 8300000, guid: 70efd5f6962c10e47aab07fbc2020c3d, type: 3}
     - text: ui
       audioClip: {fileID: 8300000, guid: c93c63a53d2cc2e469b85dcdc015e86e, type: 3}
+    - text: we
+      audioClip: {fileID: 8300000, guid: f4663b814a7142141a15cb99f1cd7930, type: 3}
+    - text: oe
+      audioClip: {fileID: 8300000, guid: 2387ab235dc97c244a150f7a0a9f1d61, type: 3}
     correctAnswerIndex: 2
   - questionText: "\u9009\u62E9\u542C\u5230\u7684\u5185\u5BB9"
     image: {fileID: 21300000, guid: 2fa30f1ae031b98498760b06ce50fb0c, type: 3}

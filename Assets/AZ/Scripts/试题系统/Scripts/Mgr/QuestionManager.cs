@@ -1,5 +1,6 @@
 // GameManager.cs
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,6 +62,14 @@ public class QuestionManager : MonoBehaviour
     {
         currentQuestionIndex++;
         selectedAnswerIndex = -1;
+        try
+        {
+            KoreanOCRClient.Instance.ClearDrawingBoard();
+        }
+        catch
+        {
+            Debug.Log("无画板");
+        }
     }
 
     public bool IsLastQuestion()
