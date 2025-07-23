@@ -588,8 +588,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -674.7031, y: 317.4597}
-  m_SizeDelta: {x: 1.5, y: 1.5}
+  m_AnchoredPosition: {x: -675.9, y: 326.8}
+  m_SizeDelta: {x: 1.3, y: 1.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1053962238
 MonoBehaviour:
@@ -1085,7 +1085,7 @@ MonoBehaviour:
   LevelParent: {fileID: 111658}
   LevelButtonPrefab: {fileID: 438719840388310246, guid: f85c0a3fc35feb2459efa68bb702d236, type: 3}
   AreaHeaderText: {fileID: 1021807213}
-  CurrentArea: {fileID: 11400000, guid: 69d39169b0efdb247ac42c7c467d3fb4, type: 2}
+  CurrentArea: {fileID: 11400000, guid: 96df2f7baedc0a043a23488738347812, type: 2}
 --- !u!1001 &1800672916
 PrefabInstance:
   m_ObjectHideFlags: 0

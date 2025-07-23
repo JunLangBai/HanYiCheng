@@ -14,18 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AreaName: "\u7B2C\u4E8C\u7AE0"
   Levels:
-  - {fileID: 11400000, guid: 9db1e5b46ea8c3740ad7770ca4a5dd40, type: 2}
-  - {fileID: 11400000, guid: 50dda024f87c0c8409969a4b096117f5, type: 2}
-  - {fileID: 11400000, guid: ebc2fe97027bd1a41831a72ccc24d4e0, type: 2}
-  - {fileID: 11400000, guid: d605c4ecf7cc0b544904f42c8127d5de, type: 2}
-  - {fileID: 11400000, guid: d91ce94fb1dcb5748a20f46e087cf80b, type: 2}
-  - {fileID: 11400000, guid: 2af54016b15ed5b409380b45d728390a, type: 2}
-  - {fileID: 11400000, guid: 71ded3c1bf3782c4bb1fac9e804ca9e7, type: 2}
-  - {fileID: 11400000, guid: e754dcf7737e1c74d940188b135ed963, type: 2}
-  - {fileID: 11400000, guid: ad0356d8e711d494ea26cf16b6294aa7, type: 2}
-  - {fileID: 11400000, guid: 89e3343b09564444a89e43d2f7e4469c, type: 2}
-  - {fileID: 11400000, guid: 79135cb7925cbd44dacfa95a895099aa, type: 2}
-  - {fileID: 11400000, guid: 1088b9b470943814d8f47c7f9d662984, type: 2}
-  - {fileID: 11400000, guid: a6cbd095db9e0754dbca5a70442950db, type: 2}
-  - {fileID: 11400000, guid: 33fe9eb11bd978b42bee620a465d1844, type: 2}
-  - {fileID: 11400000, guid: 34a04bda338fde94e876e1d301ef3f78, type: 2}
+  - {fileID: 11400000, guid: e37970701ec341849848e006271c60ad, type: 2}
+  - {fileID: 11400000, guid: c9f4418816b7c01489927c87fe9018cf, type: 2}
+  - {fileID: 11400000, guid: 83bf74335341b084595cb3d3f732f10b, type: 2}
+  - {fileID: 11400000, guid: abecfa14940cedc488a46f2cd76db38e, type: 2}
+  - {fileID: 11400000, guid: ae64a1825d4465a4e8437c425fff70b1, type: 2}
+  - {fileID: 11400000, guid: 0d909ecedf7ed82449279e003af69372, type: 2}
+  - {fileID: 11400000, guid: b0cd701ed19bbf346aaa9224d7e2321d, type: 2}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1824d2972ede7478b1f0275ad86ab2, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  LevelID: 1-3
+  LevelID: 2-3
   ISUnlockedByDefault: 0
   Scene:
-    m_SceneAsset: {fileID: 102900000, guid: a7a00eee83e535542940dd07cd6e2786, type: 3}
-    m_SceneName: Level1-3
+    m_SceneAsset: {fileID: 102900000, guid: b721d32c266d0af4ba22616d18aeb469, type: 3}
+    m_SceneName: Level2-3
   LevelName: 3

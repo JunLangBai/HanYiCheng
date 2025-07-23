@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb1824d2972ede7478b1f0275ad86ab2, type: 3}
-  m_Name: 2-1
+  m_Name: Level4
   m_EditorClassIdentifier: 
-  LevelID: 2-1
-  ISUnlockedByDefault: 1
+  LevelID: 2-4
+  ISUnlockedByDefault: 0
   Scene:
-    m_SceneAsset: {fileID: 102900000, guid: e2d6b39380e318b47b0a747d669df24f, type: 3}
-    m_SceneName: Level2-3
-  LevelName: 1
+    m_SceneAsset: {fileID: 102900000, guid: 761b620a3911f3649bda92405dd8b14a, type: 3}
+    m_SceneName: Level2-4
+  LevelName: 4

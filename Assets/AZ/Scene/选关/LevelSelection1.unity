@@ -288,17 +288,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039235683}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 108.2619, y: 108.2619, z: 108.2619}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1695380161}
+  m_Father: {fileID: 2123078588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.2324996, y: 2.9285002}
-  m_SizeDelta: {x: 1.5, y: 1.5}
+  m_AnchoredPosition: {x: -675.9, y: 326.8}
+  m_SizeDelta: {x: 1.3, y: 1.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039235685
 MonoBehaviour:
@@ -808,7 +808,6 @@ RectTransform:
   - {fileID: 1407951249}
   - {fileID: 236608502}
   - {fileID: 1389040044}
-  - {fileID: 1039235684}
   m_Father: {fileID: 2123078588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -831,7 +830,7 @@ MonoBehaviour:
   LevelParent: {fileID: 1389040044}
   LevelButtonPrefab: {fileID: 438719840388310246, guid: f85c0a3fc35feb2459efa68bb702d236, type: 3}
   AreaHeaderText: {fileID: 1407951250}
-  CurrentArea: {fileID: 11400000, guid: 96df2f7baedc0a043a23488738347812, type: 2}
+  CurrentArea: {fileID: 11400000, guid: 69d39169b0efdb247ac42c7c467d3fb4, type: 2}
 --- !u!1 &1872184540
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +956,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1695380161}
+  - {fileID: 1039235684}
   m_Father: {fileID: 49945236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

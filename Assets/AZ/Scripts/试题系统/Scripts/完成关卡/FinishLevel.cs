@@ -10,7 +10,7 @@ public class FinishLevel : MonoBehaviour
         var currentSceneName = SceneManager.GetActiveScene().name;
         var currentLevelID = currentSceneName.Replace("Level", ""); // 例如场景名 "Level1-1" → ID "1-1"
 
-        if (UIManager.Instance.GetScore() >= 0.8f)
+        if (UIManager.Instance.GetScore() >= 0f)
         {
             Debug.Log($"当前正确率: {UIManager.Instance.GetScore() * 100}%"); // 输出实际正确率
 
