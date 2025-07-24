@@ -1,6 +1,7 @@
 using Rokid.UXR.Interaction;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class FistDetection : MonoBehaviour
 {
@@ -10,9 +11,33 @@ public class FistDetection : MonoBehaviour
     private GestureType prevLeftState = GestureType.None;
     private GestureType prevRightState = GestureType.None;
 
-    [SerializeField] private float zOffset = 0.6f; // 专门用于Z轴偏移
+    [SerializeField] private float defaultZOffset = 0.6f; // 默认偏移量
+    private float currentZOffset; // 当前使用的偏移量
     private GameObject pointableUI; // A物体
     private GameObject cameraRig;   // B物体
+    private bool isMove = true;
+
+    // 需要特殊偏移量的场景列表
+    private List<string> specialScenes = new List<string>
+    {
+        "InitialEnter", // 替换为您的场景名称
+        "MainUI", // 替换为您的场景名称
+        "PlacementUI", // 替换为您的场景名称
+        "Tutorial", // 替换为您的场景名称
+        "ReadAfter",
+        "Reader1",
+        "Reader2",
+        "Reader3",
+        "Reader4",
+        "Reader5",
+        "Reader6"
+    };
+    
+    // 需要特殊偏移量的场景列表
+    private List<string> noneScenes = new List<string>
+    {
+        "MockTalk"
+    };
 
     void Awake()
     {
@@ -25,6 +50,7 @@ public class FistDetection : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
+            currentZOffset = defaultZOffset; // 初始化偏移量
         }
     }
 
@@ -43,7 +69,26 @@ public class FistDetection : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FindSceneObjects();
+        // 检查当前场景是否需要特殊偏移量
+        if (specialScenes.Contains(scene.name))
+        {
+            currentZOffset = 1f;
+            isMove = true;
+            Debug.Log($"进入特殊场景 {scene.name}, 设置偏移量为 1.0");
+            FindSceneObjects();
+        }
+        else if (noneScenes.Contains(scene.name))
+        {
+            isMove = false;
+            Debug.Log("UI不允许被移动");
+        }
+        else
+        {
+            isMove = true;
+            currentZOffset = defaultZOffset;
+            Debug.Log($"进入普通场景 {scene.name}, 设置偏移量为 {defaultZOffset}");
+            FindSceneObjects();
+        }
     }
 
     void FindSceneObjects()
@@ -59,6 +104,12 @@ public class FistDetection : MonoBehaviour
         {
             Debug.LogWarning("RKCameraRig (B物体) 未在场景中找到!");
         }
+
+        // 只在找到两个物体时移动
+        if (pointableUI != null && cameraRig != null && isMove)
+        {
+            MoveAToB();
+        }
     }
 
     void Update()
@@ -73,12 +124,12 @@ public class FistDetection : MonoBehaviour
         
         GestureType currentState = GesEventInput.Instance?.GetGestureType(handType) ?? GestureType.None;
         
-        if (currentState == GestureType.Grip && prevState != GestureType.Grip)
+        if (currentState == GestureType.Grip && prevState != GestureType.Grip && isMove)
         {
-            Debug.Log($"{handType} 握拳手势触发，移动A物体到B物体的Z轴+{zOffset}位置");
+            Debug.Log($"{handType} 握拳手势触发，移动A物体到B物体的Z轴+{currentZOffset}位置");
             MoveAToB();
         }
-        
+
         prevState = currentState;
     }
 
@@ -89,9 +140,9 @@ public class FistDetection : MonoBehaviour
         Quaternion bRotation = cameraRig.transform.rotation;
         
         // 计算A物体的新位置：在B物体的Z轴正方向偏移指定距离
-        Vector3 newPosition = bPosition + bRotation * Vector3.forward * zOffset;
+        Vector3 newPosition = bPosition + bRotation * Vector3.forward * currentZOffset;
         
-        // 设置A物体的位置
+        // 设置位置
         pointableUI.transform.position = newPosition;
         
         // 使A物体朝向B物体（看向B物体）

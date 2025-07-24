@@ -80,6 +80,48 @@
       "ISUnlockedByDefault": false,
       "Scene": "Level1-15",
       "LevelName": "13"
+    },
+    {
+      "LevelID": "2-1",
+      "ISUnlockedByDefault": true,
+      "Scene": "Assets/AZ/Scene/关卡/Level2-1.unity",
+      "LevelName": "动态解锁的关卡"
+    },
+    {
+      "LevelID": "2-2",
+      "ISUnlockedByDefault": true,
+      "Scene": "Level2-2",
+      "LevelName": "2"
+    },
+    {
+      "LevelID": "2-3",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level2-3",
+      "LevelName": "3"
+    },
+    {
+      "LevelID": "2-4",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level2-4",
+      "LevelName": "4"
+    },
+    {
+      "LevelID": "2-5",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level2-5",
+      "LevelName": "5"
+    },
+    {
+      "LevelID": "2-6",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level2-6",
+      "LevelName": "6"
+    },
+    {
+      "LevelID": "2-7",
+      "ISUnlockedByDefault": false,
+      "Scene": "Level2-7",
+      "LevelName": "7"
     }
   ],
   "volume": 1.0,
