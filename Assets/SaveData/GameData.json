@@ -1,5 +1,5 @@
 {
-  "LoginStreak": 0,
+  "LoginStreak": 1,
   "placementClear": true,
   "tutorialClear": true,
   "levels": [
@@ -85,5 +85,5 @@
   "volume": 1.0,
   "username": null,
   "profilePictureIndex": 0,
-  "LastLoginUTC": "0001-01-01T00:00:00"
+  "LastLoginUTC": "2025-07-24T21:23:19.3245382"
 }
