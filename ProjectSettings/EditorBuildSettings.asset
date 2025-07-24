@@ -93,10 +93,10 @@ EditorBuildSettings:
     path: "Assets/AZ/Scene/\u5173\u5361/Level1-2.unity"
     guid: f7e9f1f1cf3a6154f9243301410381d5
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-3.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-1.unity"
     guid: e2d6b39380e318b47b0a747d669df24f
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-4.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-2.unity"
     guid: 35b17baa0fadb2a4290f5d7b875f39a1
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level2-5.unity"
@@ -105,31 +105,31 @@ EditorBuildSettings:
     path: "Assets/AZ/Scene/\u5173\u5361/Level2-6.unity"
     guid: da0dd4ad8d7de9940848d5825dd62f54
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-7.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-5.unity"
     guid: af69254480a57944f831ee135a4a1bef
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-8.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-6.unity"
     guid: 072cac093d320db4f8f9a1d505a3ca9f
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-9.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-7.unity"
     guid: 7812d28a6d12d8d46bbb211f57d3c4b5
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-10.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-8.unity"
     guid: ba9c3299613ff244e9202eff9c650a48
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-11.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-9.unity"
     guid: ea2639cf6a4293749a820539f4099a9f
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-12.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-10.unity"
     guid: 5a0a1cce4c3cd014fbcbb99bb940eb17
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-13.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-11.unity"
     guid: bf580392e476aa74cb985ba5f43f6202
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-14.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-12.unity"
     guid: d57cc6211c7937646a12c36fc2a4b7a0
   - enabled: 1
-    path: "Assets/AZ/Scene/\u5173\u5361/Level1-15.unity"
+    path: "Assets/AZ/Scene/\u5173\u5361/Level1-13.unity"
     guid: 47238cd831774a84ab2984997df88947
   - enabled: 1
     path: "Assets/AZ/Scene/\u5173\u5361/Level3-1.unity"
