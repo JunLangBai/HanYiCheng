@@ -21,6 +21,9 @@ public class GameData
 
     //音量大小
     public float volume = 1;
+    
+    //亮度
+    public float light = 1;
 
     //用户名
     public string username;
