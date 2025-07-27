@@ -3364,7 +3364,7 @@ MonoBehaviour:
   - {fileID: 1728313906}
   - {fileID: 1728313906}
   audioSource: {fileID: 2079811904}
-  startAudioClip: {fileID: 8300000, guid: 5e3eb9c643506c244ba16744813333f2, type: 3}
+  startAudioClip: {fileID: 8300000, guid: 8653efbae75b1aa41859bb0d31e77f87, type: 3}
   stepAudioClips:
   - {fileID: 8300000, guid: 072dd1bdc644499458f36c5779389524, type: 3}
   - {fileID: 8300000, guid: 1e6581ca0cc66494dbc7080deb57fb3a, type: 3}
