@@ -122,6 +122,12 @@
       "ISUnlockedByDefault": false,
       "Scene": "Level2-7",
       "LevelName": "7"
+    },
+    {
+      "LevelID": "元",
+      "ISUnlockedByDefault": true,
+      "Scene": "Assets/AZ/Scene/点读机/教学场景/元.unity",
+      "LevelName": "动态解锁的关卡"
     }
   ],
   "volume": 1.0,
