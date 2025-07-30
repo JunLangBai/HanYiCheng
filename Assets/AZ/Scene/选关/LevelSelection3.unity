@@ -571,7 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u4ECB\u7ECD\u4F60\u81EA\u5DF1\n\u9009\u62E9\u5339\u914D\u7684\u9009\u9879\u5427\uFF01"
+  m_text: "\u9009\u62E9\u5339\u914D\u7684\u9009\u9879\u5427\uFF01"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
   m_sharedMaterial: {fileID: 6280683387203250435, guid: 31c4ef44f0d00ec4f8b32ee5a53a1c1a, type: 2}
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d57555386f5fa479f785a297cf0dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelParent: {fileID: 0}
+  LevelParent: {fileID: 985903563}
   LevelButtonPrefab: {fileID: 438719840388310246, guid: f85c0a3fc35feb2459efa68bb702d236, type: 3}
   AreaHeaderText: {fileID: 1525952563}
   CurrentArea: {fileID: 11400000, guid: 1850638fc6c720249912ae4fb43cc752, type: 2}
