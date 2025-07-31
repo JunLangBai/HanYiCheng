@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 290394488}
   - component: {fileID: 290394487}
   - component: {fileID: 290394486}
-  - component: {fileID: 290394485}
+  - component: {fileID: 290394489}
   m_Layer: 0
   m_Name: "\u5B8C\u6210\u5B66\u4E60"
   m_TagString: Untagged
@@ -296,18 +296,6 @@ RectTransform:
   m_AnchoredPosition: {x: 554.3999, y: -324.5}
   m_SizeDelta: {x: 248.5, y: 71}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &290394485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290394483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c38d0fcaa8b6ca4bad766c5b8836b67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &290394486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,9 +340,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 290394485}
-        m_TargetAssemblyTypeName: FinishLevel, Assembly-CSharp
-        m_MethodName: Finish
+      - m_Target: {fileID: 290394489}
+        m_TargetAssemblyTypeName: ScenesLoaderMgr, Assembly-CSharp
+        m_MethodName: BackScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -402,6 +390,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290394483}
   m_CullTransparentMesh: 1
+--- !u!114 &290394489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290394483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b548fb822aad19448fc9e028f2b5202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: ReadAfter
 --- !u!1 &292109724
 GameObject:
   m_ObjectHideFlags: 0
