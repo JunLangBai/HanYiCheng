@@ -32,7 +32,8 @@ public class OptionButton : MonoBehaviour
         highlight.color = state switch
         {
             OptionState.Correct => Color.green,
-            OptionState.Wrong => Color.red,
+            OptionState.Wrong => Color.red, 
+            OptionState.CorrectSelected => Color.green,
             _ => Color.clear
         };
     }
