@@ -19,6 +19,12 @@ public class BounceFadeInMoveSimultaneous : MonoBehaviour
 
     void Start()
     {
+        // 设置目标帧率为60FPS（AR眼镜推荐60-90FPS）
+        Application.targetFrameRate = 120;
+    
+        // 确保关闭垂直同步
+        QualitySettings.vSyncCount = 1;
+        
         // 初始化位置和透明度
         imageRect.anchoredPosition = startRect.anchoredPosition;
         canvasGroup.alpha = 0f;

@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710aeab028fc4dc4b89e522ccd96daa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zOffset: 0.6
+  defaultZOffset: 0.6
 --- !u!1001 &1679606181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -492,7 +492,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5313082040637620679, guid: 0a990a71acdd079478b38316d4267f80, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

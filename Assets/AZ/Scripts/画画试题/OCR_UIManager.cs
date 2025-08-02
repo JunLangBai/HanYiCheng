@@ -19,6 +19,8 @@ public class OCR_UIManager : MonoBehaviour
     [Header("Drawing Components")] public DrawingBoard drawingBoard;
     
     [Header("Audio")] public AudioSource audioSource;
+    
+    [Header("FX")] public ParticleSystem particleSystem;
 
     private void Awake()
     {
@@ -91,12 +93,17 @@ public class OCR_UIManager : MonoBehaviour
             OCRQuestionManager.Instance.SubmitOCRResult(result);
 
             if (OCRQuestionManager.Instance.HasNextQuestion())
+            {
                 nextButton.gameObject.SetActive(true);
+                PlayeFX();
+            }
+                
             else
                 ShowSummary();
         }
         else
         {
+            FindObjectOfType<ScreenShake>().ShakeScreen();
             resultText.text = $"错误，请重试\n识别结果：{result}";
             OCRQuestionManager.Instance.SubmitOCRResult(result);
         }
@@ -127,5 +134,9 @@ public class OCR_UIManager : MonoBehaviour
     {
         summaryPanel.SetActive(true);
     }
-    
+
+    public void PlayeFX()
+    {
+        particleSystem.Play();
+    }
 }

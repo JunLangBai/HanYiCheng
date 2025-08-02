@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     // ========== 音频相关 ==========
     [Header("Audio")] public AudioSource audioSource; // 通用音频播放组件
 
+    [Header("FX")] public ParticleSystem particleSystem;
+    
     // ========== 运行时变量 ==========
     private readonly List<OptionButton> currentOptions = new(); // 当前显示的选项按钮
     private bool isShowingResult; // 是否处于显示答案结果的状态
@@ -124,16 +126,37 @@ public class UIManager : MonoBehaviour
     /// <param name="correctIndex">正确答案的索引</param>
     public void ShowAnswerResult(int correctIndex)
     {
+        bool isCorrect = false;
+    
         foreach (var option in currentOptions)
-            // 设置选项状态颜色：
-            // - 正确答案显示绿色
-            // - 用户选择的错误答案显示红色
-            // - 其他选项保持默认
-            option.SetState(option.Index == correctIndex ? OptionState.Correct :
-                option.Index == QuestionManager.Instance.selectedAnswerIndex ? OptionState.Wrong :
-                OptionState.Normal);
-    }
+        {
+            // 判断用户是否答对
+            if (option.Index == QuestionManager.Instance.selectedAnswerIndex && 
+                option.Index == correctIndex)
+            {
+                isCorrect = true;
+                option.SetState(OptionState.CorrectSelected); // 新增的枚举状态
+            }
+            else
+            {
+                // 其他选项状态保持不变
+                option.SetState(
+                    option.Index == correctIndex ? OptionState.Correct :
+                    option.Index == QuestionManager.Instance.selectedAnswerIndex ? OptionState.Wrong :
+                    OptionState.Normal);
+            }
+        }
 
+        // 如果答对就播放特效
+        if (isCorrect)
+        {
+            PlayeFX();
+        }
+        else
+        {
+            FindObjectOfType<ScreenShake>().ShakeScreen();
+        }
+    }
     /// <summary>
     ///     显示错题总结面板
     /// </summary>
@@ -234,5 +257,10 @@ public class UIManager : MonoBehaviour
         var correctCount = totalQuestions - QuestionManager.Instance.GetWrongQuestions().Count;
         score = (float)correctCount / totalQuestions;
         return score;
+    }
+    
+    public void PlayeFX()
+    {
+        particleSystem.Play();
     }
 }

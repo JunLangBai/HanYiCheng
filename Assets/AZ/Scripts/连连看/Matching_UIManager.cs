@@ -39,6 +39,8 @@ public class Matching_UIManager : MonoBehaviour
 
     // 反向查找：answerID => AudioClip
     private Dictionary<string, AudioClip> answerAudioClips = new();
+    
+    [Header("FX")] public ParticleSystem particleSystem;
 
     private void Awake()
     {
@@ -179,7 +181,10 @@ public class Matching_UIManager : MonoBehaviour
             {
                 resultText.text = "全部匹配成功！";
                 if (MatchingQuestionManager.Instance.HasNextQuestion())
+                {
                     nextButton.gameObject.SetActive(true);
+                    PlayeFX();
+                }
                 else
                     ShowSummary();
             }
@@ -188,6 +193,7 @@ public class Matching_UIManager : MonoBehaviour
         {
             selectedQ.image.color = wrongColor;
             selectedA.image.color = wrongColor;
+            FindObjectOfType<ScreenShake>().ShakeScreen();
             StartCoroutine(ResetAfterDelay(selectedQ, selectedA));
             selectedQ = selectedA = null;
         }
@@ -225,5 +231,10 @@ public class Matching_UIManager : MonoBehaviour
         int idx = MatchingQuestionManager.Instance.currentQuestionIndex + 1;
         int total = MatchingQuestionManager.Instance.questionData.questions.Count;
         progressText.text = $"进度: {idx}/{total}";
+    }
+    
+    public void PlayeFX()
+    {
+        particleSystem.Play();
     }
 }

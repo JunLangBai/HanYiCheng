@@ -42,5 +42,6 @@ public enum OptionState
 {
     Normal,
     Correct,
-    Wrong
+    Wrong,
+    CorrectSelected // 新增：用户选择的正确答案
 }

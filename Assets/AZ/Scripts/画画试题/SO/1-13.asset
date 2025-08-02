@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d747a2b72f6c91b4ab94264bf06b214d, type: 3}
+  m_Name: 1-13
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3139\u3142\u5728\u5E95\u4E0B\u505A\u6536\u97F3\uFF0C\u53D1\u3142\u7684\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 59d246a2fd97e294b8146ea995509fb7, type: 3}
+    correctAnswer: "\uC9E7"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3139\u314C\u5728\u5E95\u4E0B\u505A\u6536\u97F3\uFF0C\u53D1\u3142\u7684\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 8748a577d0c8bba47a4dd09631aa864c, type: 3}
+    correctAnswer: "\uD565"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3139\u314C\u5728\u5E95\u4E0B\u505A\u6536\u97F3\uFF0C\u53D1\u3142\u7684\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: f094836d46c0f7346b4f06d00388ffe3, type: 3}
+    correctAnswer: "\uD6D1"
+  - questionText: "\u63A5\u4E0B\u6765\u5B66\u4E00\u4E0B\u5355\u6536\u97F3\uFF1A\u3139\u314E\u5728\u5E95\u4E0B\u505A\u6536\u97F3\uFF0C\u53D1\u3142\u7684\u97F3"
+    referenceImage: {fileID: 0}
+    questionAudio: {fileID: 8300000, guid: 7123bd10c7d43414888c7b7c7a7fe5d8, type: 3}
+    correctAnswer: "\uC783"

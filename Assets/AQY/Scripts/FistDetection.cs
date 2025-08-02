@@ -72,7 +72,7 @@ public class FistDetection : MonoBehaviour
         // 检查当前场景是否需要特殊偏移量
         if (specialScenes.Contains(scene.name))
         {
-            currentZOffset = 1f;
+            currentZOffset = 0.8f;
             isMove = true;
             Debug.Log($"进入特殊场景 {scene.name}, 设置偏移量为 1.0");
             FindSceneObjects();

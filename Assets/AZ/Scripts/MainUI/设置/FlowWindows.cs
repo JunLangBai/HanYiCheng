@@ -11,9 +11,7 @@ public class FlowWindows : MonoBehaviour
 
     [SerializeField] private float fadeDuration = 0.3f;
 
-
     private Coroutine currentFade;
-
     private Image image;
     private readonly Color normalColor = new(0.372549f, 0.372549f, 0.372549f, 1f);
     private readonly Color pressedColor = new(0f, 0f, 0f, 1f);
@@ -50,5 +48,8 @@ public class FlowWindows : MonoBehaviour
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
+        
+        // 确保渐变结束时精确设置目标透明度
+        settingsPanel.alpha = targetAlpha;
     }
 }
