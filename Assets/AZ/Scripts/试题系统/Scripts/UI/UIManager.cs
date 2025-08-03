@@ -186,6 +186,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ShowSummary()
     {
+        RemoveChildren(modelTransform);
+        
         summaryPanel.SetActive(true);
         // 遍历所有错题生成总结项
         foreach (var question in QuestionManager.Instance.GetWrongQuestions())

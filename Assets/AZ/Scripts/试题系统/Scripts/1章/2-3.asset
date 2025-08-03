@@ -15,6 +15,7 @@ MonoBehaviour:
   questions:
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u6587\u5177"
     image: {fileID: 21300000, guid: d96aec81dcf43084790a0ee9f8e20def, type: 3}
+    model: {fileID: 8248792270079206436, guid: b7e1905e8a7f46c48a569269765beff9, type: 3}
     questionAudio: {fileID: 8300000, guid: 59f8ac705587e4743913e7556a99db11, type: 3}
     options:
     - text: "\uB178\uD2B8(\u7B14\u8BB0\u672C)"
@@ -28,6 +29,7 @@ MonoBehaviour:
     correctAnswerIndex: 0
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u6587\u5177"
     image: {fileID: 21300000, guid: 435c9c19abe1fde4abb269b9a4043ab1, type: 3}
+    model: {fileID: 8461300532914769135, guid: c64972750184f0740a9633ee03af1cf3, type: 3}
     questionAudio: {fileID: 8300000, guid: 762ffc2923c4daa498bc630b25d26951, type: 3}
     options:
     - text: "\uC9C0\uC6B0\uAC1C(\u6A61\u76AE)"
@@ -41,6 +43,7 @@ MonoBehaviour:
     correctAnswerIndex: 3
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u6587\u5177"
     image: {fileID: 21300000, guid: 6a3d643f7ea1c934fa45083d532e3242, type: 3}
+    model: {fileID: 1747095546772186820, guid: 37b8974310018a64786f0f7960a78527, type: 3}
     questionAudio: {fileID: 8300000, guid: 052a7365e6f623944bd2208f602b1e3a, type: 3}
     options:
     - text: "\uB178\uD2B8(\u7B14\u8BB0\u672C)"
@@ -54,6 +57,7 @@ MonoBehaviour:
     correctAnswerIndex: 1
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u6587\u5177"
     image: {fileID: 21300000, guid: dd9900db6ff228d41a1146f3600772dc, type: 3}
+    model: {fileID: 1231030206329439851, guid: b997e06bb62ea804bb720783f28e12e7, type: 3}
     questionAudio: {fileID: 8300000, guid: 93a8d987c88844b439caa22e67a51854, type: 3}
     options:
     - text: "\uC9C0\uC6B0\uAC1C(\u6A61\u76AE)"

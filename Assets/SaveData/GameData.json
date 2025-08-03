@@ -17,13 +17,13 @@
     },
     {
       "LevelID": "2-3",
-      "ISUnlockedByDefault": false,
+      "ISUnlockedByDefault": true,
       "Scene": "Level2-3",
       "LevelName": "3"
     },
     {
       "LevelID": "2-4",
-      "ISUnlockedByDefault": false,
+      "ISUnlockedByDefault": true,
       "Scene": "Level2-4",
       "LevelName": "4"
     },
@@ -35,7 +35,7 @@
     },
     {
       "LevelID": "2-6",
-      "ISUnlockedByDefault": false,
+      "ISUnlockedByDefault": true,
       "Scene": "Level2-6",
       "LevelName": "6"
     },

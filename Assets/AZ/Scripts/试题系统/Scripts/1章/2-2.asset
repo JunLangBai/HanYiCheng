@@ -29,7 +29,7 @@ MonoBehaviour:
     correctAnswerIndex: 1
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u573A\u6240"
     image: {fileID: 21300000, guid: 30028482031c7d4408457951ad6c14a2, type: 3}
-    model: {fileID: 0}
+    model: {fileID: 5652460332396068694, guid: b80b53a18be5f47489f1c9d15272dd7a, type: 3}
     questionAudio: {fileID: 8300000, guid: 2e449d3722a343145be944ae56016383, type: 3}
     options:
     - text: "\uD559\uAD50 (\u5B66\u6821)"
@@ -43,7 +43,7 @@ MonoBehaviour:
     correctAnswerIndex: 3
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u573A\u6240"
     image: {fileID: 21300000, guid: 24409e9c62b15c8479cc4a0f891968dd, type: 3}
-    model: {fileID: 0}
+    model: {fileID: 5253857745473911552, guid: a955566323692e54bbf71a071dc9bc7d, type: 3}
     questionAudio: {fileID: 8300000, guid: da74e66db969a8344841b1527641b749, type: 3}
     options:
     - text: "\uC740\uD589 (\u94F6\u884C)"
@@ -56,16 +56,16 @@ MonoBehaviour:
       audioClip: {fileID: 8300000, guid: 3eec6f11d3c429b45b0990eb0be4a6ee, type: 3}
     correctAnswerIndex: 1
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u573A\u6240"
-    image: {fileID: 21300000, guid: aa897ee546425924eb68187c43db1234, type: 3}
-    model: {fileID: 0}
-    questionAudio: {fileID: 8300000, guid: 3eec6f11d3c429b45b0990eb0be4a6ee, type: 3}
+    image: {fileID: 21300000, guid: 863569e9172083f44b2ba951f8fa30ca, type: 3}
+    model: {fileID: 5148758907397153778, guid: 537920e2cb21ff04499be8c9b49f02ef, type: 3}
+    questionAudio: {fileID: 8300000, guid: 80c9e7d568ecff94c951b8e90c70fbae, type: 3}
     options:
-    - text: "\uC2DD\uB2F9 (\u9910\u5385)"
-      audioClip: {fileID: 8300000, guid: 3eec6f11d3c429b45b0990eb0be4a6ee, type: 3}
+    - text: "\uC740\uD589 (\u94F6\u884C)"
+      audioClip: {fileID: 8300000, guid: 80c9e7d568ecff94c951b8e90c70fbae, type: 3}
     - text: "\uC288\uD37C\uB9C8\uCF13 (\u8D85\u5E02)"
       audioClip: {fileID: 8300000, guid: 255100c8f5858bc45b2a7f323c731e72, type: 3}
     - text: "\uBCD1\uC6D0 (\u533B\u9662)"
       audioClip: {fileID: 8300000, guid: da74e66db969a8344841b1527641b749, type: 3}
-    - text: "\uC740\uD589 (\u94F6\u884C)"
-      audioClip: {fileID: 8300000, guid: 80c9e7d568ecff94c951b8e90c70fbae, type: 3}
+    - text: "\uC2DD\uB2F9 (\u9910\u5385)"
+      audioClip: {fileID: 8300000, guid: 3eec6f11d3c429b45b0990eb0be4a6ee, type: 3}
     correctAnswerIndex: 0
