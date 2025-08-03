@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     public GameObject summaryItemPrefab; // 错题项预制体
     public TextMeshProUGUI scoreText; //评分（躺赢狗）
 
+
+    [SerializeField] private Transform modelTransform;
+
     // ========== 音频相关 ==========
     [Header("Audio")] public AudioSource audioSource; // 通用音频播放组件
 
@@ -68,6 +71,8 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        RemoveChildren(modelTransform);
+        
         if (question.questionText != null)
             // 设置题目文本
             questionText.text = question.questionText;
@@ -78,6 +83,15 @@ public class UIManager : MonoBehaviour
             imagePanel.sprite = question.image;
         else
             Debug.Log("null image");
+        if(question.model != null)
+        {
+            var newModel = Instantiate(question.model, modelTransform, false);
+        }
+        else
+        {
+            Debug.Log("null model");
+        }
+
 
         // 清理旧选项
         ClearOptions();
@@ -113,6 +127,16 @@ public class UIManager : MonoBehaviour
         nowChose.text = "当前选择:";
     }
 
+    void RemoveChildren(Transform parent)
+    {
+        // 从后往前删除，避免索引变化导致的问题
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            // 销毁子物体
+            Destroy(parent.GetChild(i).gameObject);
+        }
+    }
+    
     private void UpdateProgress()
     {
         var current = QuestionManager.Instance.currentQuestionIndex + 1;

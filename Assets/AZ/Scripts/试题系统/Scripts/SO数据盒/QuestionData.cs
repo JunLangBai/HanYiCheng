@@ -15,6 +15,7 @@ public class Question
 {
     public string questionText;
     public Sprite image;
+    public GameObject model;
     public AudioClip questionAudio;
     public List<Option> options;
     public int correctAnswerIndex;
