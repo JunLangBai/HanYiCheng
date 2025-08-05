@@ -15,7 +15,7 @@ MonoBehaviour:
   questions:
   - questionText: "\u9009\u62E9\u4E0E\u56FE\u7247\u5BF9\u5E94\u7684\u573A\u6240"
     image: {fileID: 21300000, guid: ba1007e1064e7684389369d36f0773ba, type: 3}
-    model: {fileID: 8472101058039171623, guid: befadc5b979d574428d0db46358fb71f, type: 3}
+    model: {fileID: 1295220564887911823, guid: 8bf27f8a5975e1f4e9160e979cfcb02b, type: 3}
     questionAudio: {fileID: 8300000, guid: 7a211f9ffd9f2694bb2c5bb4b9df3283, type: 3}
     options:
     - text: "\uC740\uD589 (\u94F6\u884C)"

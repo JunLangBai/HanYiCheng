@@ -35,66 +35,12 @@
     },
     {
       "LevelID": "2-6",
-      "ISUnlockedByDefault": true,
+      "ISUnlockedByDefault": false,
       "Scene": "Level2-6",
       "LevelName": "6"
-    },
-    {
-      "LevelID": "3-1",
-      "ISUnlockedByDefault": true,
-      "Scene": "Level3-1",
-      "LevelName": "1"
-    },
-    {
-      "LevelID": "3-2",
-      "ISUnlockedByDefault": true,
-      "Scene": "Level3-2",
-      "LevelName": "2"
-    },
-    {
-      "LevelID": "3-3",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-3",
-      "LevelName": "3"
-    },
-    {
-      "LevelID": "3-4",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-4",
-      "LevelName": "4"
-    },
-    {
-      "LevelID": "3-5",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-5",
-      "LevelName": "5"
-    },
-    {
-      "LevelID": "3-6",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-6",
-      "LevelName": "6"
-    },
-    {
-      "LevelID": "3-7",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-7",
-      "LevelName": "7"
-    },
-    {
-      "LevelID": "3-8",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-8",
-      "LevelName": "8"
-    },
-    {
-      "LevelID": "3-9",
-      "ISUnlockedByDefault": false,
-      "Scene": "Level3-9",
-      "LevelName": "9"
     }
   ],
-  "volume": 0.962587535,
+  "volume": 1.0,
   "light": 0.0,
   "username": null,
   "profilePictureIndex": 0,

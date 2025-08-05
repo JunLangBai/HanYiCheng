@@ -108,7 +108,6 @@ GameObject:
   - component: {fileID: 5282790052029584901}
   - component: {fileID: 717663038261910309}
   - component: {fileID: 7526462792672427517}
-  - component: {fileID: 5803888354572315378}
   m_Layer: 0
   m_Name: Hospital
   m_TagString: Untagged
@@ -194,28 +193,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5803888354572315378
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6140884443963002647}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 44bfb99e17f0b5a4ebfcdecba2921495, type: 3}
 --- !u!1 &9171290855534700090
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +204,6 @@ GameObject:
   - component: {fileID: 8402342138999131284}
   - component: {fileID: 2637759316018010176}
   - component: {fileID: 8566190579007453398}
-  - component: {fileID: 5895082738195919333}
   m_Layer: 0
   m_Name: Hospital_sign
   m_TagString: Untagged
@@ -300,25 +276,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5895082738195919333
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171290855534700090}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: b39d439f864b73443b752b76f2c3911e, type: 3}

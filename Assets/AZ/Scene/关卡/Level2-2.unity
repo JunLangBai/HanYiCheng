@@ -358,13 +358,13 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67072490}
   m_CullTransparentMesh: 1
---- !u!1001 &95114642
+--- !u!1001 &169505413
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1070665379}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 586929823793113207, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
       propertyPath: m_Name
@@ -372,7 +372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -464
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -380,7 +380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -136
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -415,11 +415,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
---- !u!4 &95114643 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
-  m_PrefabInstance: {fileID: 95114642}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &290394483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,7 +1986,7 @@ MonoBehaviour:
   summaryContent: {fileID: 536830763}
   summaryItemPrefab: {fileID: 852697141229601544, guid: 1cacc68340261fd45bfcb74d4dbd5afb, type: 3}
   scoreText: {fileID: 1219761557}
-  modelTransform: {fileID: 95114643}
+  modelTransform: {fileID: 1520710814}
   audioSource: {fileID: 898386527}
   particleSystem: {fileID: 1131481398}
 --- !u!1 &1070665378
@@ -2030,7 +2025,6 @@ RectTransform:
   m_Children:
   - {fileID: 754739522}
   - {fileID: 1095899485}
-  - {fileID: 95114643}
   m_Father: {fileID: 292109725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2698,6 +2692,11 @@ MonoBehaviour:
   snapping: 0
   preciseReset: 1
   resetSmoothness: 0.1
+--- !u!4 &1520710814 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3540778107791531360, guid: 0ea2525896c36ca4da1551875c1a65a8, type: 3}
+  m_PrefabInstance: {fileID: 169505413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1640919132
 GameObject:
   m_ObjectHideFlags: 0
@@ -2900,3 +2899,4 @@ SceneRoots:
   - {fileID: 1345243369}
   - {fileID: 730334647}
   - {fileID: 1640919134}
+  - {fileID: 169505413}
