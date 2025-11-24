@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/AZ/Scene/InitialEnter.unity
     guid: 105e0061fc4a5424f8592a13fae44978
   - enabled: 1
+    path: Assets/AZ/Scene/Login/Login.unity
+    guid: 95aa19bed1f7548468e8f78f28e11123
+  - enabled: 1
     path: Assets/AZ/Scene/PlacementUI.unity
     guid: c667156ff33e1f9479c878eb2f85e5fd
   - enabled: 1
@@ -146,6 +149,9 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/AZ/Scene/\u5BF9\u8BDD\u6A21\u62DF\u5668/MockTalk.unity"
     guid: 647bda981c9243a4dbe71c8862f6164a
+  - enabled: 1
+    path: "Assets/AZ/Scene/\u5BF9\u8BDD\u6A21\u62DF\u5668/AIChat.unity"
+    guid: 92ddffe9aff6ff74da579d66c76d06fc
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c0a2b93895e435b4cbdec5019eaea835, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 346976bddc7dd0e449eb17dcf72dcaef, type: 2}
