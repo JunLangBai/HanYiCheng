@@ -1,4 +1,4 @@
-# 🌌 Han Yi Cheng (汉仪城)
+# 🌌 Han Yi Cheng (韩易成)
 
 [![Unity](https://img.shields.io/badge/Unity-3D_Built--in-black?logo=unity)](https://unity.com/)
 [![Rokid](https://img.shields.io/badge/Platform-Rokid_AR-blue)](https://rokid.com/)
