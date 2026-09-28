@@ -94,6 +94,12 @@ public static class ResearchSceneBuilder
             capture.clearButton = clearButton;
             capture.finishButton = finishButton;
             capture.statusText = statusText;
+            capture.guidedCollection = true;
+            capture.labelFile = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/AZ/Scene/research/ResearchLabels.txt");
+            capture.promptFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AZ/Font/NanumMyeongjoBold SDF.asset");
+            if (capture.labelFile == null || capture.promptFont == null)
+                throw new InvalidOperationException("ResearchLabels.txt and the Korean prompt font are required.");
+            ResearchLabelCatalog.Parse(capture.labelFile.text);
 
             // Retained background Images must not intercept handwriting.
             foreach (Image image in canvas.GetComponentsInChildren<Image>(true))

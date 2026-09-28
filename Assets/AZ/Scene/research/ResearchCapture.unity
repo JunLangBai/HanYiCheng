@@ -1117,7 +1117,14 @@ MonoBehaviour:
   finishButton: {fileID: 1369692925}
   clearButton: {fileID: 879829049}
   statusText: {fileID: 1076699904}
+  guidedCollection: 1
+  labelFile: {fileID: 4900000, guid: d147a5562c3445a08df860a89110a03a, type: 3}
+  promptFont: {fileID: 11400000, guid: ab0b7ac2393d8ca4f92be168e5925761, type: 2}
+  collectionCharacters:
+  startCharacter:
+  advanceAfterSave: 0
   participantId: anonymous
+  sessionId: S01
   groundTruthLabel: 
   clearAfterSave: 1
   uploadAfterSave: 0

@@ -1,31 +1,43 @@
-# 研究场景 ↔ 云端模型接口约定（待部署）
+# ResearchCapture 云端推理接口（2026-09-28）
 
-云服务器尚未配置。本场景的 `ResearchCapture` 组件已留有 `uploadAfterSave`（默认关闭）、`serverUrl`（默认空白）和 `timeoutSeconds`。以后在 Unity Inspector 中选择画板 `RawImage`，填完整的 HTTPS 推理地址（例如 `https://你的域名/predict`），再开启上传即可；无需改变场景的绘制和本地保存逻辑。Android 包仍需重新构建并安装，以带入 Inspector 配置。
+服务器包在训练项目的deployment/tencent-baota/server；完整中文说明见deployment/tencent-baota/部署使用说明_中文.md。已准备代码与本地测试，不代表腾讯云服务器已部署。
+
+## 配置
+
+在云端运行setup_server.py生成两个私有文件：server_config.json留在服务器；research_server.json下载到客户端。后者放在Application.persistentDataPath/research/research_server.json，不要放入Assets、StreamingAssets或Git。
+
+电脑：Tools > Research > Open Server Config Folder打开目录，复制文件后重新Play。
+
+Android当前包名com.DefaultCompany.HanYiCheng，通常为/storage/emulated/0/Android/data/com.DefaultCompany.HanYiCheng/files/research/research_server.json。以运行时日志输出路径为准。替换地址/令牌后重启应用，无需为配置单独重打包；首次升级脚本仍需重新构建APK。
+
+配置包含server_url、api_token、upload_after_save、allow_http_for_testing、timeout_seconds。不存在或无效则关闭上传，仅保留本地采集。Bearer令牌应随机生成、可撤销，不能填宝塔密码或腾讯云SecretKey；设备上仍可能被提取，不能视为不可泄露的长期密钥。令牌轮换后更新双方配置并重启服务/客户端。
+
+IP临时测试地址：http://110.40.170.159:8080/predict。必须限制防火墙来源IP，仅使用假数据/非参与者测试图片。HTTP会明文传输令牌与图片；正式测试先配HTTPS，换新令牌，并关闭HTTP例外。客户端不跟随重定向，不关闭TLS证书验证。
 
 ## 请求
 
-`POST <serverUrl>`，`multipart/form-data`：
-
-| 字段 | 内容 |
-| --- | --- |
-| `image` | 采集后已本地保存的同一张 64×64 JPEG；文件名形如 `hangul_20260924T170828979Z_24517967.jpg`，MIME 为 `image/jpeg` |
-
-画板显示为白底黑笔，但发送的图像已经转换成**黑底亮笔画**。JPEG 的 RGB 通道承载同一灰度值；模型端读为 1 通道即可。服务器应按最终训练模型的输入张量和标签映射预处理，不能直接套用旧 `Assets/AZ/RecFont/server.py` 的无条件反相和旧模型输入。不要在服务端把这些图片当作普通白纸黑字再次反相。
+- POST /predict，Authorization: Bearer <研究接口令牌>。
+- multipart/form-data，仅一个image文件字段；64×64 JPEG，灰度或RGB等通道。
+- 请求体上限256KiB。服务端按训练代码解码为灰度，除255，以边缘均值自动统一极性。Unity已经黑底亮笔画，所以通常不会反相。
+- 不上传参与者、target_label、target_class_id或本地原始文件名；不能把标准答案提供给识别服务。
 
 ## 响应
 
-成功时返回 HTTP 2xx、UTF-8 JSON，例如：
+成功JSON含label、class_id（0—2349）、confidence、top5、inference_ms、preprocess_ms、server_processing_ms、model_version、model_sha256、labels_sha256、request_id、polarity_inverted。
 
-```json
-{"label":"가","confidence":0.97,"inference_ms":18.4,"model_version":"jamo-v1"}
-```
+confidence是2350类logits经过softmax后的分数，不是经过概率校准的“正确率”。模型是闭集分类器，不保证识别词表外韩文、乱码或非韩文；空白拒绝不等于具备通用异常检测能力。
 
-`label` 为必需字段，Unity 会在场景里显示它。其余字段可选，Unity 会把完整原始响应写入 `Samples/server_responses.csv`，便于论文统计。服务器错误建议返回非 2xx 和 `{"error":"..."}`；Unity 会显示“上传失败”，但已保存的本地图片不会丢失。
+错误：400图片/字段不合法；401令牌错误；413太大；415请求类型错误；503正在推理（单并发）；500内部推理错误。统一JSON含error和request_id。/health可无令牌访问，仅返回status=ok，不返回模型或敏感配置。
 
-`server_responses.csv` 的 `elapsed_ms` 是 Unity 从发送到收到响应的端到端时间，**不等于**纯模型推理时间。若要报告服务端推理时延，应由服务器额外返回 `inference_ms`，并说明测量边界。正式测试时，还应把 `samples.csv` 的人工真值标签与返回的 `label` 对齐。
+## 数据与时延
 
-## 上线前检查
+服务不将上传图片/参与者资料落盘，默认不输出预测标签或令牌到应用日志。反向代理关闭访问日志、关闭请求缓冲且限制图片体积；云厂商/现有WAF的日志与存储策略需要部署者另行确认。
 
-1. 在服务器上部署最终选定的模型及其对应标签顺序，先用已知样本检查输入极性、输出标签和 JSON 格式。
-2. 配好 HTTPS、访问控制、日志保留和参与者数据处理规则；不要把私密 API 密钥直接写进 Unity 客户端。
-3. 在 Rokid 的 Android 构建中核对网络权限，用一张测试图片验证请求、响应和时延记录。当前仅完成 Unity 编辑器中的本地采集测试，未声称远程推理已验证。
+Unity仍把图片存本地Samples，标注写samples_guided_v2.csv；响应原文、HTTP状态和请求往返时间写server_responses.csv，以filename关联。participants.csv保留人员编号。真实标签须人工核验；不使用预测结果作为真值。
+
+- inference_ms：预热后的单次模型前向及输出同步，不包含图像解码/网络/排队。
+- preprocess_ms：服务器解码、标准化和输入检查。
+- server_processing_ms：应用进入predict后至组装结果，含multipart解析等，不含Nginx、网络、序列化响应及队列等待。
+- elapsed_ms：Unity发送到收到响应的往返时间，不含发送前画板编码/保存与接收后显示。
+
+服务器公网端口和HTTPS尚需用户按中文指南配置。2核2GB只用1个worker、单次推理并发；真实云服务器延迟/内存尚未实测，不能引用本地耗时作为云端结果。

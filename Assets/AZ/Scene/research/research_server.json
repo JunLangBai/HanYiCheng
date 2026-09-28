@@ -1,0 +1,7 @@
+{
+  "server_url": "http://110.40.170.159:8080/predict",
+  "api_token": "aXmNWPDS3Q2FkLZW4gIqenWH4SKWjlWzwZnZtCJ6uvg",
+  "upload_after_save": true,
+  "allow_http_for_testing": true,
+  "timeout_seconds": 30
+}
