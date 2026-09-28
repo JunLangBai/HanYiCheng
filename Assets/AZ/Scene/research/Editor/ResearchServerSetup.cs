@@ -4,6 +4,15 @@ using UnityEngine;
 
 public static class ResearchServerSetup
 {
+    [MenuItem("Tools/Research/Open Samples Folder")]
+    public static void OpenSamplesFolder()
+    {
+        string folder = ResearchStoragePaths.CurrentEditorSamplesDirectory;
+        Directory.CreateDirectory(folder);
+        EditorUtility.RevealInFinder(folder);
+        Debug.Log("Research samples directory: " + folder);
+    }
+
     [MenuItem("Tools/Research/Open Server Config Folder")]
     public static void OpenConfigFolder()
     {

@@ -61,7 +61,20 @@ ResearchLabels.txt由模型训练目录中的labels/2350-common-hangul.txt复制
 - 当Guided Collection关闭时，兼容旧的groundTruthLabel字段作为自由书写目标；留空时文件名标为unlabeled，对应记录的label_status也为unlabeled。它不构成可直接计算准确率的标注数据。
 - 新CSV如果已有不匹配的表头，会拒绝追加；旧数据不会自动转换或覆盖。只追加完成的新记录，不因切换目标改写历史记录。
 
-Unity 编辑器中保存到 `Assets/AZ/Scene/research/Samples`。Android APK 内的 `Assets` 不可写，所以 Rokid 设备上保存到 `Application.persistentDataPath/research/Samples`，通常是 `/storage/emulated/0/Android/data/com.DefaultCompany.HanYiCheng/files/research/Samples`（以实际包名为准）。可用 `adb pull` 把设备上的整个 `Samples` 文件夹复制到电脑，再放入此目录。请在构建 Android 包时手动把 `ResearchCapture.unity` 加到 Build Settings；本工作没有修改原应用的 Build Settings。
+Unity 编辑器中，保存目录为 `ResearchCapture.cs` 所在文件夹下的 `Samples`。例如整个research位于 `Assets/AQY/Scene/research` 时，图片、参与者登记、样本清单和服务器响应都写入 `Assets/AQY/Scene/research/Samples`；不再依赖AZ、盘符或电脑用户名。进入Play时Console会打印实际目录，菜单 `Tools > Research > Open Samples Folder` 可直接打开它。
+
+Android APK 内的 `Assets` 不可写，所以 Rokid 设备继续使用 `Application.persistentDataPath/research/Samples`，通常是 `/storage/emulated/0/Android/data/com.DefaultCompany.HanYiCheng/files/research/Samples`（以实际包名为准）。不改变应用标识、不清除应用数据时，更新APK仍能读取原记录。可用 `adb pull` 备份设备上的整个 `Samples`。构建前在Build Settings核对实际移动后的研究场景引用。
+
+## 移动research文件夹和两台电脑协作（2026-09-29）
+
+1. 先停止Play并保存场景，备份整个research。建议在Unity的Project窗口内移动整个research到当前项目Assets下的目标文件夹；不要只移动场景或脚本。移动操作会保留.meta；用资源管理器操作时须同时移动文件、子目录及其.meta。不能移出Assets后仍指望Unity加载这个场景。
+2. 连同Samples中的全部图片、participants.csv、samples_guided_v2.csv、server_responses.csv以及旧samples.csv一起移动。旧CSV保存的是图片文件名，不是AZ绝对路径，因此整体移动后仍能匹配原图片。没有数据转换、重新编号或自动合并；已有记录继续读入，新记录继续追加。
+3. 等Unity导入编译完成，打开移动后的ResearchCapture.unity。用Open Samples Folder确认新位置，进入Play核对参与者人数；旧人继续采集使用“继续上次”或原编号，不要重新登记。无需执行Build Capture Scene；该菜单会重新生成场景。
+4. 同一个Unity项目里只保留一份research脚本。AZ与AQY各复制一套完整C#脚本会导致类型重复，移动支持不等于支持重复安装。两个人在各自电脑的独立项目副本内，可以放到不同位置。
+5. 两台电脑各自读取本机research_server.json；路径仍由Tools > Research > Open Server Config Folder打开。这个私密连接配置不是采集输出，不跟随Assets移动；原来的配置无需修改，第二台电脑需要单独配置。不要把Token提交Git。
+6. 文件夹可移动不等于Git会自动合并采集记录。两台电脑各自导出完整Samples到不同采集批次目录，例如PC_A/Samples、PC_B/Samples；P001只在各自记录中唯一，汇总时用“批次/设备+参与者编号”区分，并识别共同复制的旧样本，不能直接覆盖同名CSV。若两人把同一文件夹在Git中移动到不同位置，合并时仍可能产生移动冲突，应约定仓库最终目录。
+
+定位路径失败时程序会禁用保存并输出错误，不会偷偷退回旧AZ目录。上述移动应在停止Play时进行；上传请求尚未完成时不要移动目录。
 
 ## 可选服务器测试
 

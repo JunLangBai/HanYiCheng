@@ -42,7 +42,7 @@ public static class ResearchCaptureValidation
         if (Directory.Exists(output)) throw new IOException("Use a new test directory; existing files are never replaced.");
         string assets = Path.GetFullPath(Application.dataPath).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
         if (output.StartsWith(assets, StringComparison.OrdinalIgnoreCase)) throw new IOException("Test output must be outside Assets.");
-        Scene scene = EditorSceneManager.OpenScene("Assets/AZ/Scene/research/ResearchCapture.unity", OpenSceneMode.Additive);
+        Scene scene = EditorSceneManager.OpenScene(ResearchStoragePaths.EditorAssetPath("ResearchCapture.unity"), OpenSceneMode.Additive);
         try
         {
             ResearchCapture capture = null;
@@ -51,6 +51,7 @@ public static class ResearchCaptureValidation
             Require(capture != null && capture.labelFile != null && capture.promptFont != null, "serialized scene references");
             Require(capture.guidedCollection && !capture.uploadAfterSave, "safe scene defaults");
             Call(capture, "Awake");
+            Require(capture.OutputDirectory == ResearchStoragePaths.CurrentEditorSamplesDirectory, "samples directory follows capture script");
             // Never send test dots to a live endpoint even if a private config exists.
             capture.uploadAfterSave = false;
             Set(capture, "outputDirectory", output);

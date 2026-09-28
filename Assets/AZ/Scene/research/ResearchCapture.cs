@@ -112,6 +112,7 @@ public sealed class ResearchCapture : MonoBehaviour,
     public string ActiveParticipantId { get { return activeParticipantId; } }
     public int CurrentParticipantSampleCount { get { return participants != null ? participants.CountFor(activeParticipantId) : 0; } }
     public int SampledParticipantCount { get { return participants != null ? participants.SampledParticipantCount : 0; } }
+    public string OutputDirectory { get { return outputDirectory; } }
 
     private void Awake()
     {
@@ -125,13 +126,25 @@ public sealed class ResearchCapture : MonoBehaviour,
         drawingImage.raycastTarget = true;
         ClearBoard();
 
+        try
+        {
 #if UNITY_EDITOR
-        outputDirectory = Path.Combine(Application.dataPath, "AZ", "Scene", "research", "Samples");
+            outputDirectory = ResearchStoragePaths.EditorSamplesDirectory(this);
 #else
-        // Assets is read-only inside an Android APK. This is the equivalent
-        // writable folder on the Rokid/Android device.
-        outputDirectory = Path.Combine(Application.persistentDataPath, "research", "Samples");
+            // Android APK assets are read-only. Preserve the existing device
+            // directory so an updated APK can continue using its old records.
+            outputDirectory = ResearchStoragePaths.PlayerSamplesDirectory(Application.persistentDataPath);
 #endif
+            Debug.Log("Research samples directory: " + outputDirectory, this);
+        }
+        catch (Exception error)
+        {
+            if (finishButton != null) finishButton.interactable = false;
+            SetStatus("无法定位采集目录，请检查控制台");
+            Debug.LogError("Research storage configuration error: " + error.Message, this);
+            enabled = false;
+            return;
+        }
         if (finishButton != null) finishButton.onClick.AddListener(SaveSample);
         if (clearButton != null) clearButton.onClick.AddListener(ClearBoard);
         InitializeTargets();

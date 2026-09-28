@@ -14,16 +14,22 @@ using UnityEngine.UI;
 /// </summary>
 public static class ResearchSceneBuilder
 {
-    private const string SourcePath = "Assets/AZ/Scene/关卡/Level1-1.unity";
-    private const string TargetPath = "Assets/AZ/Scene/research/ResearchCapture.unity";
+    // These are Unity asset identities; their locations can change with .meta intact.
+    private const string SourceSceneGuid = "e2d6b39380e318b47b0a747d669df24f";
+    private const string PromptFontGuid = "ab0b7ac2393d8ca4f92be168e5925761";
 
     [MenuItem("Tools/Research/Build Capture Scene")]
     public static void Build()
     {
-        Scene source = SceneManager.GetSceneByPath(SourcePath);
+        string sourcePath = AssetDatabase.GUIDToAssetPath(SourceSceneGuid);
+        string targetPath = ResearchStoragePaths.EditorAssetPath("ResearchCapture.unity");
+        string fontPath = AssetDatabase.GUIDToAssetPath(PromptFontGuid);
+        if (string.IsNullOrEmpty(sourcePath) || string.IsNullOrEmpty(fontPath))
+            throw new InvalidOperationException("The original Level1-1 scene and Korean font are required to rebuild. Preserve their .meta files when moving them. The existing research scene does not need rebuilding.");
+        Scene source = SceneManager.GetSceneByPath(sourcePath);
         bool openedSource = !source.isLoaded;
         if (openedSource)
-            source = EditorSceneManager.OpenScene(SourcePath, OpenSceneMode.Additive);
+            source = EditorSceneManager.OpenScene(sourcePath, OpenSceneMode.Additive);
 
         Scene target = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
         try
@@ -95,8 +101,8 @@ public static class ResearchSceneBuilder
             capture.finishButton = finishButton;
             capture.statusText = statusText;
             capture.guidedCollection = true;
-            capture.labelFile = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/AZ/Scene/research/ResearchLabels.txt");
-            capture.promptFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AZ/Font/NanumMyeongjoBold SDF.asset");
+            capture.labelFile = AssetDatabase.LoadAssetAtPath<TextAsset>(ResearchStoragePaths.EditorAssetPath("ResearchLabels.txt"));
+            capture.promptFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(fontPath);
             if (capture.labelFile == null || capture.promptFont == null)
                 throw new InvalidOperationException("ResearchLabels.txt and the Korean prompt font are required.");
             ResearchLabelCatalog.Parse(capture.labelFile.text);
@@ -106,10 +112,10 @@ public static class ResearchSceneBuilder
                 if (image.GetComponent<Button>() == null) image.raycastTarget = false;
 
             EditorSceneManager.MarkSceneDirty(target);
-            if (!EditorSceneManager.SaveScene(target, TargetPath))
-                throw new InvalidOperationException("Unity could not save " + TargetPath);
+            if (!EditorSceneManager.SaveScene(target, targetPath))
+                throw new InvalidOperationException("Unity could not save " + targetPath);
             AssetDatabase.Refresh();
-            Debug.Log("Research scene created: " + TargetPath);
+            Debug.Log("Research scene created: " + targetPath);
         }
         catch
         {
