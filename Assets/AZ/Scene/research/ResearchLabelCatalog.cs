@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -39,6 +40,33 @@ public static class ResearchLabelCatalog
             byte[] digest = sha.ComputeHash(Encoding.UTF8.GetBytes(string.Join("\n", labels)));
             return BitConverter.ToString(digest).Replace("-", "").ToLowerInvariant();
         }
+    }
+
+    // The UI uses a 1-based number in the full vocabulary. Model IDs and CSVs
+    // remain 0-based, even when the active collection plan is a reordered subset.
+    public static bool TryResolveCharacterNumber(string input, int[] collectionIds, out int position, out string error)
+    {
+        position = -1;
+        int number;
+        if (!int.TryParse((input ?? "").Trim(), NumberStyles.None, CultureInfo.InvariantCulture, out number) ||
+            number < 1 || number > ClassCount)
+        {
+            error = "请输入 1–" + ClassCount + " 的整数序号";
+            return false;
+        }
+        if (collectionIds == null || collectionIds.Length == 0)
+        {
+            error = "采集字表尚未就绪";
+            return false;
+        }
+        position = Array.IndexOf(collectionIds, number - 1);
+        if (position < 0)
+        {
+            error = "该字不在当前采集字表中";
+            return false;
+        }
+        error = "";
+        return true;
     }
 
     public static int[] BuildPlan(string[] labels, string characters)
