@@ -69,6 +69,7 @@ public static class ResearchCaptureValidation
             capture.BeginNewParticipant();
             capture.NextTarget();
             Require(capture.CurrentTargetId == 0, "confirmation dialog blocks background navigation");
+            Require(!capture.JumpToCharacterNumber("201") && capture.CurrentTargetId == 0, "confirmation dialog blocks numeric jump");
             capture.ConfirmNewParticipant();
             capture.ConfirmNewParticipant();
             Require(capture.ActiveParticipantId == "P001" && capture.finishButton.interactable, "confirmed participant enables save; double confirm is harmless");
@@ -80,8 +81,19 @@ public static class ResearchCaptureValidation
             Transform panel = capture.transform.parent;
             TMP_Text target = panel.Find("ResearchTargetCharacter").GetComponent<TMP_Text>();
             Require(target.text == "가" && target.font.HasCharacter((int)'가'), "visible Hangul prompt");
+            TMP_InputField number = panel.Find("ResearchTargetNumberInput").GetComponent<TMP_InputField>();
+            Require(number.text == "1" && number.lineType == TMP_InputField.LineType.SingleLine, "number field starts at vocabulary number one");
+            number.text = "201";
+            panel.Find("ResearchJumpTarget").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+            Require(capture.CurrentTargetId == 200 && target.text == ResearchLabelCatalog.Parse(capture.labelFile.text)[200], "button jumps to vocabulary position 201 / ID 200");
+            number.text = "2350";
+            number.onSubmit.Invoke(number.text);
+            Require(capture.CurrentTargetId == 2349 && target.text == "힝", "Enter-submit jumps to last class");
+            Require(!capture.JumpToCharacterNumber("2351") && capture.CurrentTargetId == 2349, "out-of-range input leaves target unchanged");
+            Require(!capture.JumpToCharacterNumber("") && capture.CurrentTargetId == 2349, "empty input leaves target unchanged");
+            Require(capture.JumpToCharacterNumber("1") && target.text == "가", "jump back to first class");
             float boardRight = capture.drawingImage.rectTransform.anchoredPosition.x + capture.drawingImage.rectTransform.rect.width / 2;
-            foreach (string name in new[] { "ResearchTargetHeading", "ResearchTargetCharacter", "ResearchTargetInfo", "ResearchPreviousTarget", "ResearchNextTarget" })
+            foreach (string name in new[] { "ResearchTargetHeading", "ResearchTargetCharacter", "ResearchTargetInfo", "ResearchPreviousTarget", "ResearchNextTarget", "ResearchJumpHint", "ResearchTargetNumberInput", "ResearchJumpTarget" })
             {
                 RectTransform rect = panel.Find(name).GetComponent<RectTransform>();
                 Require(rect.anchoredPosition.x - rect.rect.width / 2 > boardRight, "prompt outside board: " + name);
@@ -99,9 +111,14 @@ public static class ResearchCaptureValidation
             Set(capture, "targetPosition", 0);
             Call(capture, "UpdateTargetUI");
             Require(capture.CurrentTargetId == 2210 && target.text == "한", "subset uses model ID");
+            Require(number.text == "2211", "number field shows vocabulary number, not subset position");
+            Require(!capture.JumpToCharacterNumber("201") && capture.CurrentTargetId == 2210, "jump cannot leave configured collection subset");
+            Require(capture.JumpToCharacterNumber("153") && capture.CurrentTargetId == 152, "subset jump resolves global number");
+            Require(capture.JumpToCharacterNumber("2211") && capture.CurrentTargetId == 2210, "subset jump back before save");
             Ink(capture);
             capture.NextTarget();
             Require(capture.CurrentTargetId == 2210, "unsaved ink blocks relabeling");
+            Require(!capture.JumpToCharacterNumber("153") && capture.CurrentTargetId == 2210, "numeric jump cannot relabel unsaved ink");
             // Inspector edits mid-stroke cannot relabel the active sample.
             capture.participantId = "P777";
             capture.SaveSample();
@@ -149,7 +166,7 @@ public static class ResearchCaptureValidation
             capture.ConfirmNewParticipant();
             Require(capture.ActiveParticipantId == "P003" && capture.SampledParticipantCount == 2, "restart does not reuse allocated IDs");
             Require(Directory.GetFiles(output, "*.jpg").Length == 4, "only four deliberate saves");
-            File.WriteAllText(Path.Combine(output, "validation.txt"), "PASS: scene bindings, Hangul prompt, UI outside board, navigation, blank prevention, target lock, JPEG save, v2 metadata, repeat/auto-advance, new participant confirm/cancel, participant lock, resume/restart and counts. Test dots are not real handwriting.\n");
+            File.WriteAllText(Path.Combine(output, "validation.txt"), "PASS: scene bindings, Hangul prompt, UI outside board, button/Enter numeric jumps, range/subset checks, navigation, blank prevention, target lock, JPEG save, v2 metadata, repeat/auto-advance, new participant confirm/cancel, participant lock, resume/restart and counts. Test dots are not real handwriting.\n");
             Debug.Log("RESEARCH_GUIDED_CAPTURE_SMOKE_PASS " + output);
         }
         finally

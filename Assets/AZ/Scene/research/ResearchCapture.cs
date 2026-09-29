@@ -95,6 +95,8 @@ public sealed class ResearchCapture : MonoBehaviour,
     private TMP_Text targetInfoText;
     private Button previousTargetButton;
     private Button nextTargetButton;
+    private TMP_InputField targetNumberInput;
+    private Button jumpTargetButton;
     private int initialTargetPosition;
     private ResearchParticipantRegistry participants;
     private string activeParticipantId = "";
@@ -196,12 +198,26 @@ public sealed class ResearchCapture : MonoBehaviour,
         return true;
     }
 
+    private void LateUpdate()
+    {
+        // Rokid 3.0.3's pointer-only module does not send updateSelected, which
+        // TMP needs for physical-keyboard editing. Standard Unity modules do.
+        EventSystem events = EventSystem.current;
+        if (participantDialogOpen || targetNumberInput == null || !targetNumberInput.isFocused ||
+            events == null || events.currentInputModule == null ||
+            events.currentSelectedGameObject != targetNumberInput.gameObject) return;
+        if (events.currentInputModule.GetType().FullName == "Rokid.UXR.Interaction.PointableCanvasModule")
+            targetNumberInput.OnUpdateSelected(new BaseEventData(events));
+    }
+
     private void OnDestroy()
     {
         if (finishButton != null) finishButton.onClick.RemoveListener(SaveSample);
         if (clearButton != null) clearButton.onClick.RemoveListener(ClearBoard);
         if (previousTargetButton != null) previousTargetButton.onClick.RemoveListener(PreviousTarget);
         if (nextTargetButton != null) nextTargetButton.onClick.RemoveListener(NextTarget);
+        if (jumpTargetButton != null) jumpTargetButton.onClick.RemoveListener(JumpToEnteredCharacter);
+        if (targetNumberInput != null) targetNumberInput.onSubmit.RemoveListener(SubmitTargetNumber);
         if (newParticipantButton != null) newParticipantButton.onClick.RemoveListener(BeginNewParticipant);
         if (resumeParticipantButton != null) resumeParticipantButton.onClick.RemoveListener(ResumeLastParticipant);
         if (board != null) ReleaseTexture(board);
@@ -408,17 +424,72 @@ public sealed class ResearchCapture : MonoBehaviour,
         nextTargetButton = CreateButton(parent, "ResearchNextTarget", "下一字", new Vector2(268, -15), uiFont);
         previousTargetButton.onClick.AddListener(PreviousTarget);
         nextTargetButton.onClick.AddListener(NextTarget);
-        if (finishButton != null) Layout(finishButton.GetComponent<RectTransform>(), new Vector2(200, -69), new Vector2(260, 52));
-        if (clearButton != null) Layout(clearButton.GetComponent<RectTransform>(), new Vector2(200, -122), new Vector2(260, 42));
+        TMP_Text jumpHint = CreateText(parent, "ResearchJumpHint", new Vector2(200, -49), new Vector2(270, 22), uiFont, 17);
+        jumpHint.text = "跳到全字表序号（1–2350）";
+        targetNumberInput = CreateNumberInput(parent, uiFont);
+        targetNumberInput.onSubmit.AddListener(SubmitTargetNumber);
+        jumpTargetButton = CreateButton(parent, "ResearchJumpTarget", "跳转", new Vector2(285, -82), uiFont);
+        Layout(jumpTargetButton.GetComponent<RectTransform>(), new Vector2(285, -82), new Vector2(90, 38));
+        Layout(jumpTargetButton.GetComponentInChildren<TMP_Text>().rectTransform, Vector2.zero, new Vector2(84, 34));
+        jumpTargetButton.onClick.AddListener(JumpToEnteredCharacter);
+        if (finishButton != null) Layout(finishButton.GetComponent<RectTransform>(), new Vector2(200, -135), new Vector2(260, 52));
+        if (clearButton != null) Layout(clearButton.GetComponent<RectTransform>(), new Vector2(200, -188), new Vector2(260, 42));
         if (statusText != null)
         {
-            Layout(statusText.rectTransform, new Vector2(200, -170), new Vector2(286, 42));
+            Layout(statusText.rectTransform, new Vector2(200, -236), new Vector2(286, 42));
             statusText.enableAutoSizing = true;
             statusText.fontSizeMin = 13;
             statusText.fontSizeMax = 18;
             statusText.alignment = TextAlignmentOptions.Center;
             statusText.raycastTarget = false;
         }
+    }
+
+    private static TMP_InputField CreateNumberInput(Transform parent, TMP_FontAsset font)
+    {
+        GameObject go = new GameObject("ResearchTargetNumberInput", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        // TMP creates its caret in OnEnable; assign the viewport/text first.
+        go.SetActive(false);
+        go.layer = parent.gameObject.layer;
+        go.transform.SetParent(parent, false);
+        Layout(go.GetComponent<RectTransform>(), new Vector2(151, -82), new Vector2(162, 38));
+        Image background = go.GetComponent<Image>();
+        background.color = Color.white;
+        background.raycastTarget = true;
+
+        GameObject area = new GameObject("Text Area", typeof(RectTransform), typeof(RectMask2D));
+        area.layer = go.layer;
+        area.transform.SetParent(go.transform, false);
+        RectTransform viewport = area.GetComponent<RectTransform>();
+        viewport.anchorMin = Vector2.zero;
+        viewport.anchorMax = Vector2.one;
+        viewport.offsetMin = new Vector2(8, 2);
+        viewport.offsetMax = new Vector2(-8, -2);
+        TMP_Text text = CreateText(area.transform, "Text", Vector2.zero, Vector2.zero, font, 22);
+        TMP_Text placeholder = CreateText(area.transform, "Placeholder", Vector2.zero, Vector2.zero, font, 18);
+        foreach (TMP_Text label in new[] { text, placeholder })
+        {
+            label.rectTransform.anchorMin = Vector2.zero;
+            label.rectTransform.anchorMax = Vector2.one;
+            label.rectTransform.offsetMin = label.rectTransform.offsetMax = Vector2.zero;
+            label.enableWordWrapping = false;
+            label.richText = false;
+            label.alignment = TextAlignmentOptions.MidlineLeft;
+        }
+        placeholder.text = "如 201";
+        placeholder.color = new Color(0.4f, 0.4f, 0.4f, 1);
+        TMP_InputField field = go.AddComponent<TMP_InputField>();
+        field.targetGraphic = background;
+        field.textViewport = viewport;
+        field.textComponent = (TextMeshProUGUI)text;
+        field.placeholder = placeholder;
+        field.contentType = TMP_InputField.ContentType.IntegerNumber;
+        field.lineType = TMP_InputField.LineType.SingleLine;
+        field.keyboardType = TouchScreenKeyboardType.NumberPad;
+        field.onFocusSelectAll = true;
+        field.navigation = new Navigation { mode = Navigation.Mode.None };
+        go.SetActive(true);
+        return field;
     }
 
     private static void Layout(RectTransform rect, Vector2 position, Vector2 size)
@@ -467,14 +538,45 @@ public sealed class ResearchCapture : MonoBehaviour,
         if (!guidedCollection || !vocabularyReady) return;
         if (targetCharacterText != null) targetCharacterText.text = CurrentTargetCharacter;
         if (targetInfoText != null)
-            targetInfoText.text = "ID " + CurrentTargetId + "  |  U+" + ((int)CurrentTargetCharacter[0]).ToString("X4") +
-                "\n" + (targetPosition + 1) + " / " + collectionIds.Length;
+            targetInfoText.text = "第 " + (CurrentTargetId + 1) + " 字  |  ID " + CurrentTargetId +
+                "\n采集列表 " + (targetPosition + 1) + " / " + collectionIds.Length;
+        if (targetNumberInput != null)
+            targetNumberInput.SetTextWithoutNotify((CurrentTargetId + 1).ToString(CultureInfo.InvariantCulture));
         if (previousTargetButton != null) previousTargetButton.interactable = collectionIds.Length > 1;
         if (nextTargetButton != null) nextTargetButton.interactable = collectionIds.Length > 1;
     }
 
     public void PreviousTarget() { MoveTarget(-1); }
     public void NextTarget() { MoveTarget(1); }
+
+    public void JumpToEnteredCharacter()
+    {
+        if (targetNumberInput != null) JumpToCharacterNumber(targetNumberInput.text);
+    }
+
+    private void SubmitTargetNumber(string value) { JumpToCharacterNumber(value); }
+
+    public bool JumpToCharacterNumber(string value)
+    {
+        if (!guidedCollection || !vocabularyReady || participantDialogOpen) return false;
+        if (hasInk)
+        {
+            SetStatus("请先保存或清除，再跳转");
+            return false;
+        }
+        int position;
+        string error;
+        if (!ResearchLabelCatalog.TryResolveCharacterNumber(value, collectionIds, out position, out error))
+        {
+            SetStatus(error);
+            return false;
+        }
+        targetPosition = position;
+        UpdateTargetUI();
+        if (targetNumberInput != null) targetNumberInput.DeactivateInputField();
+        SetStatus("已跳到第 " + (CurrentTargetId + 1) + " 字，请按提示书写");
+        return true;
+    }
 
     private void MoveTarget(int direction)
     {
